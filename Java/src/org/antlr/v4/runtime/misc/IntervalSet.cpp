@@ -1,0 +1,572 @@
+﻿#include "IntervalSet.h"
+#include "Java/src/org/antlr/v4/runtime/Token.h"
+#include "Java/src/org/antlr/v4/runtime/misc/MurmurHash.h"
+
+namespace org {
+    namespace antlr {
+        namespace v4 {
+            namespace runtime {
+                namespace misc {
+                    using org::antlr::v4::runtime::Lexer;
+                    using org::antlr::v4::runtime::Token;
+IntervalSet *const IntervalSet::COMPLETE_CHAR_SET = IntervalSet::of(0, org::antlr::v4::runtime::Lexer::MAX_CHAR_VALUE);
+IntervalSet *const IntervalSet::EMPTY_SET = new IntervalSet();
+
+                    IntervalSet::IntervalSet(std::vector<Interval*> &intervals) {
+                        InitializeInstanceFields();
+                        this->intervals = intervals;
+                    }
+
+//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
+                    IntervalSet::IntervalSet(IntervalSet *set) {
+                        addAll(set);
+                    }
+
+//JAVA TO C++ CONVERTER TODO TASK: Use 'va_start', 'va_arg', and 'va_end' to access the parameter array within this method:
+//ORIGINAL LINE: public IntervalSet(int... els)
+                    IntervalSet::IntervalSet(...) {
+                        InitializeInstanceFields();
+                        if (els == nullptr) {
+                            intervals = VectorHelper::VectorWithReservedSize<Interval*>(2); // most sets are 1 or 2 elements
+                        } else {
+                            intervals = std::vector<Interval*>(els::length);
+                            for (int e : els) {
+                                add(e);
+                            }
+                        }
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::of(int a) {
+                        IntervalSet *s = new IntervalSet();
+                        s->add(a);
+                        return s;
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::of(int a, int b) {
+                        IntervalSet *s = new IntervalSet();
+                        s->add(a,b);
+                        return s;
+                    }
+
+                    void IntervalSet::clear() {
+                        if (readonly) {
+                            throw IllegalStateException(L"can't alter readonly IntervalSet");
+                        }
+                        intervals.clear();
+                    }
+
+                    void IntervalSet::add(int el) {
+                        if (readonly) {
+                            throw IllegalStateException(L"can't alter readonly IntervalSet");
+                        }
+                        add(el,el);
+                    }
+
+                    void IntervalSet::add(int a, int b) {
+                        add(Interval::of(a, b));
+                    }
+
+                    void IntervalSet::add(Interval *addition) {
+                        if (readonly) {
+                            throw IllegalStateException(L"can't alter readonly IntervalSet");
+                        }
+                        //System.out.println("add "+addition+" to "+intervals.toString());
+                        if (addition->b < addition->a) {
+                            return;
+                        }
+                        // find position in list
+                        // Use iterators as we modify list in place
+                        for (std::vector<Interval*>::const_iterator iter = intervals.begin(); iter != intervals.end(); ++iter) {
+                            Interval *r = *iter;
+                            if (addition->equals(r)) {
+                                return;
+                            }
+                            if (addition->adjacent(r) || !addition->disjoint(r)) {
+                                // next to each other, make a single larger interval
+                                Interval *bigger = addition->union_Renamed(r);
+                                (*iter)->set(bigger);
+                                // make sure we didn't just create an interval that
+                                // should be merged with next interval in list
+                                while ((*iter)->hasNext()) {
+                                    Interval *next = *iter;
+                                    if (!bigger->adjacent(next) && bigger->disjoint(next)) {
+                                        break;
+                                    }
+
+                                    // if we bump up against or overlap next, merge
+                                    (*iter)->remove(); // remove this one
+                                    (*iter)->previous(); // move backwards to what we just set
+                                    (*iter)->set(bigger->union_Renamed(next)); // set to 3 merged ones
+                                    *iter; // first call to next after previous duplicates the result
+                                }
+                                return;
+                            }
+                            if (addition->startsBeforeDisjoint(r)) {
+                                // insert before r
+                                (*iter)->previous();
+                                (*iter)->add(addition);
+                                return;
+                            }
+                            // if disjoint and after r, a future iteration will handle it
+                        }
+                        // ok, must be after last interval (and disjoint from last interval)
+                        // just add it
+                        intervals.push_back(addition);
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::or(IntervalSet sets[]) {
+                        IntervalSet *r = new IntervalSet();
+                        for (auto s : sets) {
+                            r->addAll(s);
+                        }
+                        return r;
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::addAll(IntSet *set) {
+                        if (set == nullptr) {
+                            return this;
+                        }
+                        if (!(dynamic_cast<IntervalSet*>(set) != nullptr)) {
+                            throw IllegalArgumentException(std::wstring(L"can't add non IntSet (") + set->getClass()->getName() + std::wstring(L") to IntervalSet"));
+                        }
+                        IntervalSet *other = static_cast<IntervalSet*>(set);
+                        // walk set and add each interval
+                        int n = other->intervals.size();
+                        for (int i = 0; i < n; i++) {
+                            Interval *I = other->intervals[i];
+                            this->add(I->a,I->b);
+                        }
+                        return this;
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::complement(int minElement, int maxElement) {
+                        return this->complement(IntervalSet::of(minElement,maxElement));
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::complement(IntSet *vocabulary) {
+                        if (vocabulary == nullptr) {
+                            return nullptr; // nothing in common with null set
+                        }
+                        if (!(dynamic_cast<IntervalSet*>(vocabulary) != nullptr)) {
+                            throw IllegalArgumentException(std::wstring(L"can't complement with non IntervalSet (") + vocabulary->getClass()->getName() + std::wstring(L")"));
+                        }
+                        IntervalSet *vocabularyIS = (static_cast<IntervalSet*>(vocabulary));
+                        int maxElement = vocabularyIS->getMaxElement();
+
+                        IntervalSet *compl = new IntervalSet();
+                        int n = intervals.size();
+                        if (n == 0) {
+                            return compl;
+                        }
+                        Interval *first = intervals[0];
+                        // add a range from 0 to first.a constrained to vocab
+                        if (first->a > 0) {
+                            IntervalSet *s = IntervalSet::of(0, first->a - 1);
+                            IntervalSet *a = s->and(vocabularyIS);
+                            compl->addAll(a);
+                        }
+                        for (int i = 1; i < n; i++) { // from 2nd interval .. nth
+                            Interval *previous = intervals[i - 1];
+                            Interval *current = intervals[i];
+                            IntervalSet *s = IntervalSet::of(previous->b + 1, current->a - 1);
+                            IntervalSet *a = s->and(vocabularyIS);
+                            compl->addAll(a);
+                        }
+                        Interval *last = intervals[n - 1];
+                        // add a range from last.b to maxElement constrained to vocab
+                        if (last->b < maxElement) {
+                            IntervalSet *s = IntervalSet::of(last->b + 1, maxElement);
+                            IntervalSet *a = s->and(vocabularyIS);
+                            compl->addAll(a);
+                        }
+                        return compl;
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::subtract(IntSet *other) {
+                        // assume the whole unicode range here for the complement
+                        // because it doesn't matter.  Anything beyond the max of this' set
+                        // will be ignored since we are doing this & ~other.  The intersection
+                        // will be empty.  The only problem would be when this' set max value
+                        // goes beyond MAX_CHAR_VALUE, but hopefully the constant MAX_CHAR_VALUE
+                        // will prevent this.
+                        return this->and((static_cast<IntervalSet*>(other))->complement(COMPLETE_CHAR_SET));
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::or(IntSet *a) {
+                        IntervalSet *o = new IntervalSet();
+                        o->addAll(this);
+                        o->addAll(a);
+                        return o;
+                    }
+
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::and(IntSet *other) {
+                        if (other == nullptr) { //|| !(other instanceof IntervalSet) ) {
+                            return nullptr; // nothing in common with null set
+                        }
+
+                        std::vector<Interval*> myIntervals = this->intervals;
+                        std::vector<Interval*> theirIntervals = (static_cast<IntervalSet*>(other))->intervals;
+                        IntervalSet *intersection = nullptr;
+                        int mySize = myIntervals.size();
+                        int theirSize = theirIntervals.size();
+                        int i = 0;
+                        int j = 0;
+                        // iterate down both interval lists looking for nondisjoint intervals
+                        while (i < mySize && j < theirSize) {
+                            Interval *mine = myIntervals[i];
+                            Interval *theirs = theirIntervals[j];
+                            //System.out.println("mine="+mine+" and theirs="+theirs);
+                            if (mine->startsBeforeDisjoint(theirs)) {
+                                // move this iterator looking for interval that might overlap
+                                i++;
+                            } else if (theirs->startsBeforeDisjoint(mine)) {
+                                // move other iterator looking for interval that might overlap
+                                j++;
+                            } else if (mine->properlyContains(theirs)) {
+                                // overlap, add intersection, get next theirs
+                                if (intersection == nullptr) {
+                                    intersection = new IntervalSet();
+                                }
+                                intersection->add(mine->intersection(theirs));
+                                j++;
+                            } else if (theirs->properlyContains(mine)) {
+                                // overlap, add intersection, get next mine
+                                if (intersection == nullptr) {
+                                    intersection = new IntervalSet();
+                                }
+                                intersection->add(mine->intersection(theirs));
+                                i++;
+                            } else if (!mine->disjoint(theirs)) {
+                                // overlap, add intersection
+                                if (intersection == nullptr) {
+                                    intersection = new IntervalSet();
+                                }
+                                intersection->add(mine->intersection(theirs));
+                                // Move the iterator of lower range [a..b], but not
+                                // the upper range as it may contain elements that will collide
+                                // with the next iterator. So, if mine=[0..115] and
+                                // theirs=[115..200], then intersection is 115 and move mine
+                                // but not theirs as theirs may collide with the next range
+                                // in thisIter.
+                                // move both iterators to next ranges
+                                if (mine->startsAfterNonDisjoint(theirs)) {
+                                    j++;
+                                } else if (theirs->startsAfterNonDisjoint(mine)) {
+                                    i++;
+                                }
+                            }
+                        }
+                        if (intersection == nullptr) {
+                            return new IntervalSet();
+                        }
+                        return intersection;
+                    }
+
+                    bool IntervalSet::contains(int el) {
+                        int n = intervals.size();
+                        for (int i = 0; i < n; i++) {
+                            Interval *I = intervals[i];
+                            int a = I->a;
+                            int b = I->b;
+                            if (el < a) {
+                                break; // list is sorted and el is before this interval; not here
+                            }
+                            if (el >= a && el <= b) {
+                                return true; // found in this interval
+                            }
+                        }
+                        return false;
+                                        /*
+                                        		for (ListIterator iter = intervals.listIterator(); iter.hasNext();) {
+                                                    Interval I = (Interval) iter.next();
+                                                    if ( el<I.a ) {
+                                                        break; // list is sorted and el is before this interval; not here
+                                                    }
+                                                    if ( el>=I.a && el<=I.b ) {
+                                                        return true; // found in this interval
+                                                    }
+                                                }
+                                                return false;
+                                                */
+                    }
+
+                    bool IntervalSet::isNil() {
+                        return intervals.empty() || intervals.empty();
+                    }
+
+                    int IntervalSet::getSingleElement() {
+                        if (intervals.size() > 0 && intervals.size() == 1) {
+                            Interval *I = intervals[0];
+                            if (I->a == I->b) {
+                                return I->a;
+                            }
+                        }
+                        return Token::INVALID_TYPE;
+                    }
+
+                    int IntervalSet::getMaxElement() {
+                        if (isNil()) {
+                            return Token::INVALID_TYPE;
+                        }
+                        Interval *last = intervals[intervals.size() - 1];
+                        return last->b;
+                    }
+
+                    int IntervalSet::getMinElement() {
+                        if (isNil()) {
+                            return Token::INVALID_TYPE;
+                        }
+                        int n = intervals.size();
+                        for (int i = 0; i < n; i++) {
+                            Interval *I = intervals[i];
+                            int a = I->a;
+                            int b = I->b;
+                            for (int v = a; v <= b; v++) {
+                                if (v >= 0) {
+                                    return v;
+                                }
+                            }
+                        }
+                        return Token::INVALID_TYPE;
+                    }
+
+                    std::vector<Interval*> IntervalSet::getIntervals() {
+                        return intervals;
+                    }
+
+                    int IntervalSet::hashCode() {
+                        int hash = MurmurHash::initialize();
+                        for (auto I : intervals) {
+                            hash = MurmurHash::update(hash, I.a);
+                            hash = MurmurHash::update(hash, I.b);
+                        }
+
+                        hash = MurmurHash::finish(hash, intervals.size() * 2);
+                        return hash;
+                    }
+
+                    bool IntervalSet::equals(void *obj) {
+                        if (obj == nullptr || !(dynamic_cast<IntervalSet*>(obj) != nullptr)) {
+                            return false;
+                        }
+                        IntervalSet *other = static_cast<IntervalSet*>(obj);
+                        return this->intervals.equals(other->intervals);
+                    }
+
+                    std::wstring IntervalSet::toString() {
+                        return toString(false);
+                    }
+
+                    std::wstring IntervalSet::toString(bool elemAreChar) {
+                        StringBuilder *buf = new StringBuilder();
+                        if (this->intervals.empty() || this->intervals.empty()) {
+                            return L"{}";
+                        }
+                        if (this->size() > 1) {
+                            buf->append(L"{");
+                        }
+                        std::vector<Interval*>::const_iterator iter = this->intervals.begin();
+                        while (iter != this->intervals.end()) {
+                            Interval *I = *iter;
+                            int a = I->a;
+                            int b = I->b;
+                            if (a == b) {
+                                if (a == -1) {
+                                    buf->append(L"<EOF>");
+                                } else if (elemAreChar) {
+                                    buf->append(L"'")->append(static_cast<wchar_t>(a))->append(L"'");
+                                } else {
+                                    buf->append(a);
+                                }
+                            } else {
+                                if (elemAreChar) {
+                                    buf->append(L"'")->append(static_cast<wchar_t>(a))->append(L"'..'")->append(static_cast<wchar_t>(b))->append(L"'");
+                                } else {
+                                    buf->append(a)->append(L"..")->append(b);
+                                }
+                            }
+                            if ((*iter)->hasNext()) {
+                                buf->append(L", ");
+                            }
+                            iter++;
+                        }
+                        if (this->size() > 1) {
+                            buf->append(L"}");
+                        }
+//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                        return buf->toString();
+                    }
+
+                    std::wstring IntervalSet::toString(std::wstring tokenNames[]) {
+                        StringBuilder *buf = new StringBuilder();
+                        if (this->intervals.empty() || this->intervals.empty()) {
+                            return L"{}";
+                        }
+                        if (this->size() > 1) {
+                            buf->append(L"{");
+                        }
+                        std::vector<Interval*>::const_iterator iter = this->intervals.begin();
+                        while (iter != this->intervals.end()) {
+                            Interval *I = *iter;
+                            int a = I->a;
+                            int b = I->b;
+                            if (a == b) {
+                                buf->append(elementName(tokenNames, a));
+                            } else {
+                                for (int i = a; i <= b; i++) {
+                                    if (i > a) {
+                                        buf->append(L", ");
+                                    }
+                                    buf->append(elementName(tokenNames, i));
+                                }
+                            }
+                            if ((*iter)->hasNext()) {
+                                buf->append(L", ");
+                            }
+                            iter++;
+                        }
+                        if (this->size() > 1) {
+                            buf->append(L"}");
+                        }
+//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                        return buf->toString();
+                    }
+
+                    std::wstring IntervalSet::elementName(std::wstring tokenNames[], int a) {
+                        if (a == Token::EOF) {
+                            return L"<EOF>";
+                        } else if (a == Token::EPSILON) {
+                            return L"<EPSILON>";
+                        } else {
+                            return tokenNames[a];
+                        }
+
+                    }
+
+                    int IntervalSet::size() {
+                        int n = 0;
+                        int numIntervals = intervals.size();
+                        if (numIntervals == 1) {
+                            Interval *firstInterval = this->intervals[0];
+                            return firstInterval->b - firstInterval->a + 1;
+                        }
+                        for (int i = 0; i < numIntervals; i++) {
+                            Interval *I = intervals[i];
+                            n += (I->b - I->a + 1);
+                        }
+                        return n;
+                    }
+
+                    org::antlr::v4::runtime::misc::IntegerList *IntervalSet::toIntegerList() {
+                        IntegerList *values = new IntegerList(size());
+                        int n = intervals.size();
+                        for (int i = 0; i < n; i++) {
+                            Interval *I = intervals[i];
+                            int a = I->a;
+                            int b = I->b;
+                            for (int v = a; v <= b; v++) {
+                                values->add(v);
+                            }
+                        }
+                        return values;
+                    }
+
+                    std::vector<int> IntervalSet::toList() {
+                        std::vector<int> values = std::vector<int>();
+                        int n = intervals.size();
+                        for (int i = 0; i < n; i++) {
+                            Interval *I = intervals[i];
+                            int a = I->a;
+                            int b = I->b;
+                            for (int v = a; v <= b; v++) {
+                                values.push_back(v);
+                            }
+                        }
+                        return values;
+                    }
+
+                    Set<int> *IntervalSet::toSet() {
+                        Set<int> *s = std::set<int>();
+                        for (auto I : intervals) {
+                            int a = I.a;
+                            int b = I.b;
+                            for (int v = a; v <= b; v++) {
+                                s->add(v);
+                            }
+                        }
+                        return s;
+                    }
+
+                    int IntervalSet::get(int i) {
+                        int n = intervals.size();
+                        int index = 0;
+                        for (int j = 0; j < n; j++) {
+                            Interval *I = intervals[j];
+                            int a = I->a;
+                            int b = I->b;
+                            for (int v = a; v <= b; v++) {
+                                if (index == i) {
+                                    return v;
+                                }
+                                index++;
+                            }
+                        }
+                        return -1;
+                    }
+
+                    int *IntervalSet::toArray() {
+                        return toIntegerList()->toArray();
+                    }
+
+                    void IntervalSet::remove(int el) {
+                        if (readonly) {
+                            throw IllegalStateException(L"can't alter readonly IntervalSet");
+                        }
+                        int n = intervals.size();
+                        for (int i = 0; i < n; i++) {
+                            Interval *I = intervals[i];
+                            int a = I->a;
+                            int b = I->b;
+                            if (el < a) {
+                                break; // list is sorted and el is before this interval; not here
+                            }
+                            // if whole interval x..x, rm
+                            if (el == a && el == b) {
+                                intervals.remove(i);
+                                break;
+                            }
+                            // if on left edge x..b, adjust left
+                            if (el == a) {
+                                I->a++;
+                                break;
+                            }
+                            // if on right edge a..x, adjust right
+                            if (el == b) {
+                                I->b--;
+                                break;
+                            }
+                            // if in middle a..x..b, split interval
+                            if (el > a && el < b) { // found in this interval
+                                int oldb = I->b;
+                                I->b = el - 1; // [a..x-1]
+                                add(el + 1, oldb); // add [x+1..b]
+                            }
+                        }
+                    }
+
+                    bool IntervalSet::isReadonly() {
+                        return readonly;
+                    }
+
+                    void IntervalSet::setReadonly(bool readonly) {
+                        this->readonly = readonly;
+                    }
+
+                    void IntervalSet::InitializeInstanceFields() {
+                        readonly = false;
+                    }
+                }
+            }
+        }
+    }
+}
