@@ -1,10 +1,18 @@
 ﻿#pragma once
 
-#include "Tree.h"
-#include "Java/src/org/antlr/v4/runtime/Parser.h"
-#include "ParseTree.h"
 #include <string>
 #include <vector>
+#include <set>
+
+class Parser;
+class ParserRuleContext;
+class Token;
+class NotNull;
+class Nullable;
+class Utils;
+class TreePostScriptGenerator;
+class Tree;
+class ParseTree;
 
 /*
  * [The "BSD license"]
@@ -41,16 +49,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-
-                    using org::antlr::v4::runtime::Parser;
-                    using org::antlr::v4::runtime::ParserRuleContext;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-                    using org::antlr::v4::runtime::misc::Utils;
-                    using org::antlr::v4::runtime::tree::gui::TreePostScriptGenerator;
-
-
                     /// <summary>
                     /// A set of utility routines useful for all kinds of ANTLR trees. </summary>
                     class Trees {
@@ -60,9 +58,9 @@ namespace org {
 
                         static std::wstring getPS(Tree *t, std::vector<std::wstring> &ruleNames);
 
-                        static void writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName, const std::wstring &fontName, int fontSize) throw(IOException);
+                        static void writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName, const std::wstring &fontName, int fontSize); //throw(IOException);
 
-                        static void writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName) throw(IOException);
+                        static void writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName);// throw(IOException);
 
                         /// <summary>
                         /// Print out a whole tree in LISP form. <seealso cref="#getNodeText"/> is used on the
@@ -98,11 +96,11 @@ namespace org {
                         /// Return a list of all ancestors of this node.  The first node of
                         ///  list is the root and the last is the parent of this node.
                         /// </summary>
-                        static std::vector<? extends Tree> getAncestors(Tree *t);
+                        static std::vector<Tree*> getAncestors(Tree *t);
 
-                        static Collection<ParseTree*> *findAllTokenNodes(ParseTree *t, int ttype);
+                        static std::set<ParseTree*> *findAllTokenNodes(ParseTree *t, int ttype);
 
-                        static Collection<ParseTree*> *findAllRuleNodes(ParseTree *t, int ruleIndex);
+                        static std::set<ParseTree*> *findAllRuleNodes(ParseTree *t, int ruleIndex);
 
                         static std::vector<ParseTree*> findAllNodes(ParseTree *t, int index, bool findTokens);
 

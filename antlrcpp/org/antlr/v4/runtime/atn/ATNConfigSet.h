@@ -1,16 +1,21 @@
 ﻿#pragma once
 
-#include "ATNConfig.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Array2DHashSet.h"
-#include "Java/src/org/antlr/v4/runtime/misc/AbstractEqualityComparator.h"
-#include "PredictionContext.h"
-#include "Java/src/org/antlr/v4/runtime/misc/DoubleKeyMap.h"
-#include "ATNState.h"
-#include "SemanticContext.h"
-#include "ATNSimulator.h"
+//#include "ATNConfig.h"
+#include "Array2DHashSet.h"
+//#include "AbstractEqualityComparator.h"
+//#include "PredictionContext.h"
+//#include "DoubleKeyMap.h"
+//#include "ATNState.h"
+//#include "SemanticContext.h"
+//#include "ATNSimulator.h"
+
 #include <string>
 #include <vector>
 #include <set>
+
+class ATNConfig;
+class AbstractEqualityComparator;
+class PredictionContext;
 
 /*
  * [The "BSD license"]
@@ -47,20 +52,12 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::misc::AbstractEqualityComparator;
-                    using org::antlr::v4::runtime::misc::Array2DHashSet;
-                    using org::antlr::v4::runtime::misc::DoubleKeyMap;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
-
                     /// <summary>
                     /// Specialized <seealso cref="Set"/>{@code <}<seealso cref="ATNConfig"/>{@code >} that can track
                     /// info about the set, with support for combining similar configurations using a
                     /// graph-structured stack.
                     /// </summary>
-                    class ATNConfigSet : public Set<ATNConfig*> {
+                    class ATNConfigSet : public std::set<ATNConfig*> {
                     public:
                         class AbstractConfigHashSet : public Array2DHashSet<ATNConfig*> {
 

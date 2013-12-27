@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "ParseTree.h"
-#include "Java/src/org/antlr/v4/runtime/RuleContext.h"
+class RuleContext;
 
 /*
  * [The "BSD license"]
@@ -39,11 +39,10 @@ namespace org {
             namespace runtime {
                 namespace tree {
 
-                    using org::antlr::v4::runtime::RuleContext;
 
                     class RuleNode : public ParseTree {
                     public:
-                        virtual org::antlr::v4::runtime::RuleContext *getRuleContext() = 0;
+                        virtual RuleContext *getRuleContext() = 0;
                     };
 
                 }

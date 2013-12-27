@@ -1,8 +1,9 @@
 ﻿#pragma once
 
 #include "DFASerializer.h"
-#include "DFA.h"
 #include <string>
+
+class DFA;
 
 /*
  * [The "BSD license"]
@@ -39,9 +40,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace dfa {
-
-                    using org::antlr::v4::runtime::misc::NotNull;
-
                     class LexerDFASerializer : public DFASerializer {
                     public:
                         LexerDFASerializer(DFA *dfa);

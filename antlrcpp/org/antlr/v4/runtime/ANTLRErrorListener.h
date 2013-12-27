@@ -1,10 +1,11 @@
 ﻿#pragma once
 
-#include "RecognitionException.h"
 #include "Recognizer.h"
-#include "Parser.h"
-#include "atn/ATNConfigSet.h"
-#include "dfa/DFA.h"
+class RecognitionException; // TODO fixme
+class Parser;
+class DFA;
+class ATNConfigSet;
+#include <bitset>
 
 /*
  * [The "BSD license"]
@@ -40,18 +41,14 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::atn::ATNConfigSet;
-                using org::antlr::v4::runtime::atn::ParserATNSimulator;
-                using org::antlr::v4::runtime::atn::PredictionMode;
-                using org::antlr::v4::runtime::dfa::DFA;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
-
-
                 /// <summary>
                 /// How to emit recognition errors. </summary>
                 class ANTLRErrorListener {
+#ifdef TODO
+                    work on this number
+#endif
+                    static const int BITSET_SIZE = 1024;
+                    
                     /// <summary>
                     /// Upon syntax error, notify any interested parties. This is not how to
                     /// recover from errors or compute error messages. <seealso cref="ANTLRErrorStrategy"/>
@@ -85,9 +82,12 @@ namespace org {
                     ///        the parser was able to recover in line without exiting the
                     ///        surrounding rule. </param>
                 public:
-                    template<typename T1, typename T1>
-                    virtual void syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) = 0;
-
+#ifdef TODO 
+                OK This one really needs some work, different number of parameters
+                between recognizer and what is here
+                    template<typename T1, typename T2>
+                    void syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) = 0;
+#endif
                     /// <summary>
                     /// This method is called by the parser when a full-context prediction
                     /// results in an ambiguity.
@@ -115,7 +115,7 @@ namespace org {
                     /// <param name="ambigAlts"> the potentially ambiguous alternatives </param>
                     /// <param name="configs"> the ATN configuration set where the ambiguity was
                     /// determined </param>
-                    virtual void reportAmbiguity(Parser *recognizer, org::antlr::v4::runtime::dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, java::util::BitSet *ambigAlts, org::antlr::v4::runtime::atn::ATNConfigSet *configs) = 0;
+                    virtual void reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs) = 0;
 
                     /// <summary>
                     /// This method is called when an SLL conflict occurs and the parser is about
@@ -137,7 +137,7 @@ namespace org {
                     /// represented in {@code configs}. </param>
                     /// <param name="configs"> the ATN configuration set where the SLL conflict was
                     /// detected </param>
-                    virtual void reportAttemptingFullContext(Parser *recognizer, org::antlr::v4::runtime::dfa::DFA *dfa, int startIndex, int stopIndex, java::util::BitSet *conflictingAlts, org::antlr::v4::runtime::atn::ATNConfigSet *configs) = 0;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs) = 0;
 
                     /// <summary>
                     /// This method is called by the parser when a full-context prediction has a
@@ -166,7 +166,7 @@ namespace org {
                     /// <param name="prediction"> the unambiguous result of the full-context prediction </param>
                     /// <param name="configs"> the ATN configuration set where the unambiguous prediction
                     /// was determined </param>
-                    virtual void reportContextSensitivity(Parser *recognizer, org::antlr::v4::runtime::dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, org::antlr::v4::runtime::atn::ATNConfigSet *configs) = 0;
+                    virtual void reportContextSensitivity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet *configs) = 0;
                 };
 
             }

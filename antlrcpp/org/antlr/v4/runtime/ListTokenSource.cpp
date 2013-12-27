@@ -1,5 +1,5 @@
 ﻿#include "ListTokenSource.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Pair.h"
+#include "Pair.h"
 
 namespace org {
     namespace antlr {

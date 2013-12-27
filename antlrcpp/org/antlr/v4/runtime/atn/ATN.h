@@ -1,15 +1,17 @@
 ﻿#pragma once
 
-#include "ATNState.h"
-#include "DecisionState.h"
-#include "RuleStartState.h"
-#include "RuleStopState.h"
-#include "TokensStartState.h"
 #include "ATNType.h"
-#include "Java/src/org/antlr/v4/runtime/RuleContext.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
 #include <string>
 #include <vector>
+#include <map>
+
+class TokensStartState;
+class ATNState;
+class DecisionState;
+class RuleStartState;
+class RuleStopState;
+class IntervalSet;
+class RuleContext;
 
 /*
  * [The "BSD license"]
@@ -47,14 +49,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::ParserRuleContext;
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
-
                     class ATN {
                     public:
                         static const int INVALID_ALT_NUMBER = 0;
@@ -82,8 +76,8 @@ namespace org {
 //ORIGINAL LINE: public RuleStopState[] ruleToStopState;
                         RuleStopState *ruleToStopState;
 
-                        Map<std::wstring, TokensStartState*> *const modeNameToStartState;
-
+                        std::map<std::wstring, TokensStartState*> *const modeNameToStartState;
+                        
                         /// <summary>
                         /// The type of the ATN.
                         /// </summary>

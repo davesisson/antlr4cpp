@@ -1,10 +1,10 @@
 ﻿#pragma once
 
 #include "Transition.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
 #include "ATNState.h"
 #include <string>
 
+class IntervalSet;
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -40,12 +40,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
                     /// <summary>
                     /// A transition containing a set of values. </summary>
                     class SetTransition : public Transition {
@@ -60,7 +54,7 @@ namespace org {
                         virtual IntervalSet *label() override;
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
                     };
 
                 }

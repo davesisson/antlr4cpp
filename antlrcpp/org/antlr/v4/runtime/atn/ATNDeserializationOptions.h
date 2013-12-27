@@ -36,7 +36,7 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::misc::NotNull;
+//                    using org::antlr::v4::runtime::misc::NotNull;
 
                     /// 
                     /// <summary>
@@ -46,7 +46,7 @@ namespace org {
                     private:
                         static ATNDeserializationOptions *const defaultOptions;
 //JAVA TO C++ CONVERTER TODO TASK: Static constructors are not allowed in native C++:
-                        static ATNDeserializationOptions();
+//                        static ATNDeserializationOptions();
 
                         bool readOnly;
                         bool verifyATN;

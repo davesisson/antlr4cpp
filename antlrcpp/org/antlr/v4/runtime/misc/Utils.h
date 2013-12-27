@@ -44,55 +44,55 @@ namespace org {
                     class Utils {
                         // Seriously: why isn't this built in to java? ugh!
                     public:
-                        template<typename T>
-                        static std::wstring join(Iterator<T> *iter, const std::wstring &separator);
-
-                        template<typename T>
-                        static std::wstring join(T array_Renamed[], const std::wstring &separator);
-
-                        static int numNonnull(Object data[]);
-
-                        template<typename T>
-                        static void removeAllElements(Collection<T> *data, T value);
-
-                        static std::wstring escapeWhitespace(const std::wstring &s, bool escapeSpaces);
-
-                        static void writeFile(const std::wstring &fileName, const std::wstring &content) throw(IOException);
-
-                        static void waitForClose(Window *const window) throw(InterruptedException);
-
-                    private:
-                        class ThreadAnonymousInnerClassHelper : public Thread {
-                        private:
-                            Window *window;
-                            auto lock;
-
-                        public:
-                            ThreadAnonymousInnerClassHelper(Window *window, auto lock);
-
-                            virtual void run() override;
-                        };
-
-                    private:
-                        class WindowAdapterAnonymousInnerClassHelper : public WindowAdapter {
-                        private:
-                            Window *window;
-                            auto lock;
-
-                        public:
-                            WindowAdapterAnonymousInnerClassHelper(Window *window, auto lock);
-
-                            virtual void windowClosing(WindowEvent *arg0) override;
-                        };
-
-                        /// <summary>
-                        /// Convert array of strings to string->index map. Useful for
-                        ///  converting rulenames to name->ruleindex map.
-                        /// </summary>
-                    public:
-                        static Map<std::wstring, int> *toMap(std::wstring keys[]);
-
-                        static wchar_t *toCharArray(IntegerList *data);
+//                        template<typename T>
+//                        static std::wstring join(Iterator<T> *iter, const std::wstring &separator);
+//
+//                        template<typename T>
+//                        static std::wstring join(T array_Renamed[], const std::wstring &separator);
+//
+//                        static int numNonnull(Object data[]);
+//
+//                        template<typename T>
+//                        static void removeAllElements(Collection<T> *data, T value);
+//
+//                        static std::wstring escapeWhitespace(const std::wstring &s, bool escapeSpaces);
+//
+//                        static void writeFile(const std::wstring &fileName, const std::wstring &content) throw(IOException);
+//
+//                        static void waitForClose(Window *const window) throw(InterruptedException);
+//
+//                    private:
+//                        class ThreadAnonymousInnerClassHelper : public Thread {
+//                        private:
+//                            Window *window;
+//                            auto lock;
+//
+//                        public:
+//                            ThreadAnonymousInnerClassHelper(Window *window, auto lock);
+//
+//                            virtual void run() override;
+//                        };
+//
+//                    private:
+//                        class WindowAdapterAnonymousInnerClassHelper : public WindowAdapter {
+//                        private:
+//                            Window *window;
+//                            auto lock;
+//
+//                        public:
+//                            WindowAdapterAnonymousInnerClassHelper(Window *window, auto lock);
+//
+//                            virtual void windowClosing(WindowEvent *arg0) override;
+//                        };
+//
+//                        /// <summary>
+//                        /// Convert array of strings to string->index map. Useful for
+//                        ///  converting rulenames to name->ruleindex map.
+//                        /// </summary>
+//                    public:
+//                        static Map<std::wstring, int> *toMap(std::wstring keys[]);
+//
+//                        static wchar_t *toCharArray(IntegerList *data);
                     };
 
                 }

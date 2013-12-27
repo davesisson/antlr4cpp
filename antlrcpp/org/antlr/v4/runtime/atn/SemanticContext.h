@@ -1,10 +1,13 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/Recognizer.h"
-#include "Java/src/org/antlr/v4/runtime/RuleContext.h"
+#include "Recognizer.h"
+#include "SemanticContext.h"
 #include <string>
 #include <vector>
 #include <set>
+
+class RuleContext;
+class PrecedencePredicate;
 
 /*
  * [The "BSD license"]
@@ -42,13 +45,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::Recognizer;
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Utils;
-
-
                     /// <summary>
                     /// A tree structure used to record the semantic context in which
                     ///  an ATN configuration is valid.  It's either a single predicate,
@@ -58,93 +54,15 @@ namespace org {
                     ///  <seealso cref="SemanticContext"/> within the scope of this outer class.
                     /// </summary>
                     class SemanticContext {
-                    public:
-                        class Predicate : public SemanticContext {
-                        public:
-                            const int ruleIndex;
-                               const int predIndex;
-                               const bool isCtxDependent; // e.g., $i ref in pred
-
-                        protected:
-                            Predicate();
-
-                        public:
-                            Predicate(int ruleIndex, int predIndex, bool isCtxDependent);
-
-                            template<typename T1, typename T1>
-                            virtual bool eval(Recognizer<T1> *parser, RuleContext *outerContext) override;
-
-                            virtual int hashCode() override;
-
-                            virtual bool equals(void *obj) override;
-
-                            virtual std::wstring toString() override;
-                        };
-
-                    public:
-                        class PrecedencePredicate : public SemanticContext, public Comparable<PrecedencePredicate*> {
-                        public:
-                            const int precedence;
-
-                        protected:
-                            PrecedencePredicate();
-
-                        public:
-                            PrecedencePredicate(int precedence);
-
-                            template<typename T1, typename T1>
-                            virtual bool eval(Recognizer<T1> *parser, RuleContext *outerContext) override;
-
-                            virtual int compareTo(PrecedencePredicate *o) override;
-
-                            virtual int hashCode() override;
-
-                            virtual bool equals(void *obj) override;
-
-                            virtual std::wstring toString() override;
-                        };
-
-                    public:
-                        class AND : public SemanticContext {
-                        public:
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: @NotNull public final SemanticContext[] opnds;
-                            const SemanticContext *opnds;
-
-                            AND(SemanticContext *a, SemanticContext *b);
-
-                            virtual bool equals(void *obj) override;
-
-                            virtual int hashCode() override;
-
-                            template<typename T1, typename T1>
-                            virtual bool eval(Recognizer<T1> *parser, RuleContext *outerContext) override;
-
-                            virtual std::wstring toString() override;
-                        };
-
-                    public:
-                        class OR : public SemanticContext {
-                        public:
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: @NotNull public final SemanticContext[] opnds;
-                            const SemanticContext *opnds;
-
-                            OR(SemanticContext *a, SemanticContext *b);
-
-                            virtual bool equals(void *obj) override;
-
-                            virtual int hashCode() override;
-
-                            template<typename T1, typename T1>
-                            virtual bool eval(Recognizer<T1> *parser, RuleContext *outerContext) override;
-
-                            virtual std::wstring toString() override;
-                        };
 
                     public:
                         static SemanticContext *const NONE;
-
+                        
+                        class Predicate;
+                        class PrecedencePredicate;
+                        class AND;
+                        class OR;
+                        
                         SemanticContext *parent;
 
                         /// <summary>
@@ -160,19 +78,106 @@ namespace org {
                         /// prediction, so we passed in the outer context here in case of context
                         /// dependent predicate evaluation.
                         /// </summary>
-                        template<typename T1, typename T1>
-                        virtual bool eval(Recognizer<T1> *parser, RuleContext *outerContext) = 0;
-
-                        static SemanticContext *and(SemanticContext *a, SemanticContext *b);
+#ifdef TODO
+                        template<typename T1, typename T2>
+                        bool eval(Recognizer<T1> *parser, RuleContext *outerContext) = 0;
+#endif
+                        static SemanticContext *And(SemanticContext *a, SemanticContext *b);
 
                         /// 
                         ///  <seealso cref= ParserATNSimulator#getPredsForAmbigAlts </seealso>
-                        static SemanticContext *or(SemanticContext *a, SemanticContext *b);
+                        static SemanticContext *Or(SemanticContext *a, SemanticContext *b);
 
                     private:
+#ifdef TODO
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                        template<typename T1> where T1 : SemanticContext
+                        template<typename T1>
                         static std::vector<PrecedencePredicate*> filterPrecedencePredicates(Collection<T1> *collection);
+#endif
+                    };
+                    
+
+                    class SemanticContext::Predicate : public SemanticContext {
+                    public:
+                        const int ruleIndex;
+                        const int predIndex;
+                        const bool isCtxDependent; // e.g., $i ref in pred
+                        
+                    protected:
+                        Predicate();
+                        
+                    public:
+                        Predicate(int ruleIndex, int predIndex, bool isCtxDependent);
+#ifdef TODO
+                        template<typename T1, typename T2>
+                         bool eval(Recognizer<T1> *parser, RuleContext *outerContext) override;
+#endif
+                        
+                        virtual int hashCode() ;
+                        
+                        virtual bool equals(void *obj) ;
+                        
+                        virtual std::wstring toString() ;
+                    };
+                    
+                    class SemanticContext::PrecedencePredicate : public SemanticContext /*, public Comparable<PrecedencePredicate*>*/ {
+                    public:
+                        const int precedence;
+                        
+                    protected:
+                        PrecedencePredicate();
+                        
+                    public:
+                        PrecedencePredicate(int precedence);
+#ifdef TODO
+                        template<typename T1, typename T2>
+                        bool eval(Recognizer<T1> *parser, RuleContext *outerContext);
+#endif
+                        
+                        virtual int compareTo(PrecedencePredicate *o);
+                        
+                        virtual int hashCode();
+                        
+                        virtual bool equals(void *obj);
+                        
+                        virtual std::wstring toString();
+                    };
+                    
+                    class SemanticContext::AND : public SemanticContext {
+                    public:
+                        //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
+                        //ORIGINAL LINE: @NotNull public final SemanticContext[] opnds;
+                        const SemanticContext *opnds;
+                        
+                        AND(SemanticContext *a, SemanticContext *b);
+                        
+                        virtual bool equals(void *obj);
+                        
+                        virtual int hashCode();
+#ifdef TODO
+                        template<typename T1, typename T2>
+                        bool eval(Recognizer<T1> *parser, RuleContext *outerContext);
+#endif
+                        
+                        virtual std::wstring toString();
+                    };
+                    
+                    class SemanticContext::OR : public SemanticContext {
+                    public:
+                        //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
+                        //ORIGINAL LINE: @NotNull public final SemanticContext[] opnds;
+                        const SemanticContext *opnds;
+                        
+                        OR(SemanticContext *a, SemanticContext *b);
+                        
+                        virtual bool equals(void *obj);
+                        
+                        virtual int hashCode();
+#ifdef TODO
+                        template<typename T1, typename T2>
+                        bool eval(Recognizer<T1> *parser, RuleContext *outerContext);
+#endif
+                        virtual std::wstring toString();
                     };
 
                 }

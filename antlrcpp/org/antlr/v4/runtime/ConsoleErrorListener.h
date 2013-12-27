@@ -47,8 +47,8 @@ namespace org {
                 public:
                     static ConsoleErrorListener *const INSTANCE;
 
-                    template<typename T1, typename T1>
-                    virtual void syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) override;
+                    template<typename T1, typename T2>
+                    void syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
 
                 };
 

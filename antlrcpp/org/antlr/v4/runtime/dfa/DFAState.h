@@ -1,9 +1,11 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/atn/SemanticContext.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNConfigSet.h"
 #include <string>
 #include <set>
+
+class ATNConfigSet;
+class SemanticContext;
+
 
 /*
  * [The "BSD license"]
@@ -40,18 +42,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace dfa {
-
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::atn::ATN;
-                    using org::antlr::v4::runtime::atn::ATNConfig;
-                    using org::antlr::v4::runtime::atn::ATNConfigSet;
-                    using org::antlr::v4::runtime::atn::ParserATNSimulator;
-                    using org::antlr::v4::runtime::atn::SemanticContext;
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
-
                     /// <summary>
                     /// A DFA state represents a set of possible ATN configurations.
                     ///  As Aho, Sethi, Ullman p. 117 says "The DFA uses its state
@@ -84,7 +74,7 @@ namespace org {
                             SemanticContext *pred; // never null; at least SemanticContext.NONE
                             int alt;
                             PredPrediction(SemanticContext *pred, int alt);
-                            virtual std::wstring toString() override;
+                            virtual std::wstring toString();
 
                         private:
                             void InitializeInstanceFields();
@@ -152,9 +142,9 @@ namespace org {
                         /// Get the set of all alts mentioned by all ATN configurations in this
                         ///  DFA state.
                         /// </summary>
-                        virtual Set<int> *getAltSet();
+                        virtual std::set<int> *getAltSet();
 
-                        virtual int hashCode() override;
+                        virtual int hashCode() ;
 
                         /// <summary>
                         /// Two <seealso cref="DFAState"/> instances are equal if their ATN configuration sets
@@ -169,9 +159,9 @@ namespace org {
                         /// exists that has this exact set of ATN configurations. The
                         /// <seealso cref="#stateNumber"/> is irrelevant.
                         /// </summary>
-                        virtual bool equals(void *o) override;
+                        virtual bool equals(void *o);
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                     private:
                         void InitializeInstanceFields();

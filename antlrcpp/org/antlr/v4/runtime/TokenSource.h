@@ -4,6 +4,9 @@
 #include "CharStream.h"
 #include "TokenFactory.h"
 
+class Token;
+
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -37,9 +40,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
 
                 /// <summary>
                 /// A source of tokens must provide a sequence of tokens via <seealso cref="#nextToken()"/>
@@ -104,14 +104,14 @@ namespace org {
                     /// </summary>
                     /// <param name="factory"> The <seealso cref="TokenFactory"/> to use for creating tokens. </param>
                     template<typename T1>
-                    virtual void setTokenFactory(TokenFactory<T1> *factory) = 0;
+                    void setTokenFactory(TokenFactory<T1> *factory);
 
                     /// <summary>
                     /// Gets the <seealso cref="TokenFactory"/> this token source is currently using for
                     /// creating <seealso cref="Token"/> objects from the input.
                     /// </summary>
                     /// <returns> The <seealso cref="TokenFactory"/> currently used by this token source. </returns>
-                    virtual TokenFactory<?> *getTokenFactory() = 0;
+                    virtual TokenFactory<void *> *getTokenFactory() = 0;
                 };
 
             }

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
-#include "PredictionContext.h"
+class PredictionContext;
+#include <map>
 
 /*
  * [The "BSD license"]
@@ -46,7 +47,7 @@ namespace org {
                     /// </summary>
                     class PredictionContextCache {
                     protected:
-                        Map<PredictionContext*, PredictionContext*> *cache;
+                        std::map<PredictionContext*, PredictionContext*> *cache;
 
                         /// <summary>
                         /// Add a context to the cache and return it. If the context already exists,

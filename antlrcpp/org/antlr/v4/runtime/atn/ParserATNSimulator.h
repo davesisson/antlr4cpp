@@ -1,34 +1,40 @@
 ﻿#pragma once
 
 #include "ATNSimulator.h"
-#include "Java/src/org/antlr/v4/runtime/Parser.h"
-#include "Java/src/org/antlr/v4/runtime/dfa/DFA.h"
 #include "PredictionMode.h"
-#include "PredictionContext.h"
-#include "Java/src/org/antlr/v4/runtime/misc/DoubleKeyMap.h"
-#include "Java/src/org/antlr/v4/runtime/TokenStream.h"
-#include "Java/src/org/antlr/v4/runtime/ParserRuleContext.h"
-#include "ATN.h"
-#include "PredictionContextCache.h"
-#include "Java/src/org/antlr/v4/runtime/dfa/DFAState.h"
-#include "DecisionState.h"
-#include "ATNConfigSet.h"
-#include "Java/src/org/antlr/v4/runtime/RuleContext.h"
-#include "ATNState.h"
-#include "Transition.h"
-#include "SemanticContext.h"
-#include "ATNConfig.h"
-#include "ActionTransition.h"
-#include "PrecedencePredicateTransition.h"
-#include "PredicateTransition.h"
-#include "RuleTransition.h"
-#include "Java/src/org/antlr/v4/runtime/NoViableAltException.h"
+#include "DoubleKeyMap.h"
+#include "DFAState.h"
+
 #include <string>
 #include <vector>
 #include <set>
 #include <iostream>
 #include "stringconverter.h"
+#include <bitset>
 
+class CommonTokenStream;
+class IntStream;
+class NoViableAltException;
+class Parser;
+class ParserRuleContext;
+class RuleContext;
+class Token;
+class TokenStream;
+class DFA;
+class DFAState;
+class DoubleKeyMap;
+class Interval;
+class IntervalSet;
+class NotNull;
+class Nullable;
+class ATNConfigSet;
+class SemanticContext;
+class ATNConfig;
+class ActionTransition;
+class PrecedencePredicateTransition;
+class PredicateTransition;
+class RuleTransition;
+class DecisionState;
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -64,24 +70,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::CommonTokenStream;
-                    using org::antlr::v4::runtime::IntStream;
-                    using org::antlr::v4::runtime::NoViableAltException;
-                    using org::antlr::v4::runtime::Parser;
-                    using org::antlr::v4::runtime::ParserRuleContext;
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::TokenStream;
-                    using org::antlr::v4::runtime::dfa::DFA;
-                    using org::antlr::v4::runtime::dfa::DFAState;
-                    using org::antlr::v4::runtime::misc::DoubleKeyMap;
-                    using org::antlr::v4::runtime::misc::Interval;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
-
                     /// <summary>
                     /// The embodiment of the adaptive LL(*), ALL(*), parsing strategy.
                     /// 
@@ -285,7 +273,10 @@ namespace org {
                         static const bool debug_list_atn_decisions = false;
                         static const bool dfa_debug = false;
                         static const bool retry_debug = false;
-
+#ifdef TODO
+                        Do something smarter here
+#endif
+                        static const int BITSET_SIZE = 1024;
                     protected:
                         Parser *const parser;
 
@@ -309,7 +300,7 @@ namespace org {
                         ///  also be examined during cache lookup.
                         /// </summary>
                     protected:
-                        DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache;
+                        misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache;
 
                         // LAME globals to avoid parameters!!!!! I need these down deep in predTransition
                         TokenStream *_input;
@@ -419,9 +410,9 @@ namespace org {
 
                         virtual ATNState *getReachableTarget(Transition *trans, int ttype);
 
-                        virtual SemanticContext *getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts);
+                        virtual SemanticContext *getPredsForAmbigAlts(std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs, int nalts);
 
-                        virtual DFAState::PredPrediction *getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]);
+                        virtual DFAState::PredPrediction *getPredicatePredictions(std::bitset<BITSET_SIZE> *ambigAlts, SemanticContext altToPred[]);
 
                         virtual int getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs);
 
@@ -432,7 +423,7 @@ namespace org {
                         ///  then we stop at the first predicate that evaluates to true. This
                         ///  includes pairs with null predicates.
                         /// </summary>
-                        virtual BitSet *evalSemanticContext(DFAState::PredPrediction predPredictions[], ParserRuleContext *outerContext, bool complete);
+                        virtual std::bitset<BITSET_SIZE> *evalSemanticContext(DFAState::PredPrediction predPredictions[], ParserRuleContext *outerContext, bool complete);
 
 
                         /* TODO: If we are doing predicates, there is no point in pursuing
@@ -442,13 +433,13 @@ namespace org {
                         	 ambig detection thought :(
                         	  */
 
-                        virtual void closure(ATNConfig *config, ATNConfigSet *configs, Set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx);
+                        virtual void closure(ATNConfig *config, ATNConfigSet *configs, std::set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx);
 
-                        virtual void closureCheckingStopState(ATNConfig *config, ATNConfigSet *configs, Set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth);
+                        virtual void closureCheckingStopState(ATNConfig *config, ATNConfigSet *configs, std::set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth);
 
                         /// <summary>
                         /// Do the actual work of walking epsilon edges </summary>
-                        virtual void closure_(ATNConfig *config, ATNConfigSet *configs, Set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth);
+                        virtual void closure_(ATNConfig *config, ATNConfigSet *configs, std::set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth);
 
                     public:
                         virtual std::wstring getRuleName(int index);
@@ -466,7 +457,7 @@ namespace org {
 
                         virtual ATNConfig *ruleTransition(ATNConfig *config, RuleTransition *t);
 
-                        virtual BitSet *getConflictingAlts(ATNConfigSet *configs);
+                        virtual std::bitset<BITSET_SIZE> *getConflictingAlts(ATNConfigSet *configs);
 
                         /// <summary>
                         /// Sam pointed out a problem with the previous definition, v3, of
@@ -505,7 +496,7 @@ namespace org {
                         /// that we still need to pursue.
                         /// </summary>
 
-                        virtual BitSet *getConflictingAltsOrUniqueAlt(ATNConfigSet *configs);
+                        virtual std::bitset<BITSET_SIZE> *getConflictingAltsOrUniqueAlt(ATNConfigSet *configs);
 
                     public:
                         virtual std::wstring getTokenName(int t);
@@ -561,13 +552,13 @@ namespace org {
                         /// state was not already present. </returns>
                         virtual DFAState *addDFAState(DFA *dfa, DFAState *D);
 
-                        virtual void reportAttemptingFullContext(DFA *dfa, BitSet *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex);
+                        virtual void reportAttemptingFullContext(DFA *dfa, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex);
 
                         virtual void reportContextSensitivity(DFA *dfa, int prediction, ATNConfigSet *configs, int startIndex, int stopIndex);
 
                         /// <summary>
                         /// If context sensitive parsing, we know it's ambiguity not conflict </summary>
-                        virtual void reportAmbiguity(DFA *dfa, DFAState *D, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, ATNConfigSet *configs);
+                        virtual void reportAmbiguity(DFA *dfa, DFAState *D, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs);
 
                     public:
                         void setPredictionMode(PredictionMode mode);

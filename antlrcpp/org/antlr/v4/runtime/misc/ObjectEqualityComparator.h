@@ -43,7 +43,7 @@ namespace org {
                     /// 
                     /// @author Sam Harwell
                     /// </summary>
-                    class ObjectEqualityComparator final : public AbstractEqualityComparator<void*> {
+                    class ObjectEqualityComparator : public AbstractEqualityComparator<void*> {
                     public:
                         static ObjectEqualityComparator *const INSTANCE;
 
@@ -53,7 +53,7 @@ namespace org {
                         /// This implementation returns
                         /// {@code obj.}<seealso cref="Object#hashCode hashCode()"/>.
                         /// </summary>
-                        int hashCode(void *obj) override;
+                        int hashCode(void *obj);
 
                         /// <summary>
                         /// {@inheritDoc}
@@ -64,7 +64,7 @@ namespace org {
                         /// this method returns the result of
                         /// {@code a.}<seealso cref="Object#equals equals"/>{@code (b)}.
                         /// </summary>
-                        bool equals(void *a, void *b) override;
+                        bool equals(void *a, void *b);
 
                     };
 

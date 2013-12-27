@@ -1,18 +1,13 @@
 ﻿#pragma once
 
 #include "ATNSimulator.h"
-#include "Java/src/org/antlr/v4/runtime/dfa/DFAState.h"
-#include "Java/src/org/antlr/v4/runtime/Lexer.h"
-#include "Java/src/org/antlr/v4/runtime/dfa/DFA.h"
-#include "ATN.h"
-#include "PredictionContextCache.h"
-#include "Java/src/org/antlr/v4/runtime/CharStream.h"
-#include "ATNConfigSet.h"
-#include "ATNState.h"
-#include "Transition.h"
-#include "LexerATNConfig.h"
 #include <string>
 #include <iostream>
+
+class Lexer;
+class SimState;
+class LexerATNConfig;
+class DFA;
 
 /*
  * [The "BSD license"]
@@ -49,18 +44,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::CharStream;
-                    using org::antlr::v4::runtime::IntStream;
-                    using org::antlr::v4::runtime::Lexer;
-                    using org::antlr::v4::runtime::LexerNoViableAltException;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::dfa::DFA;
-                    using org::antlr::v4::runtime::dfa::DFAState;
-                    using org::antlr::v4::runtime::misc::Interval;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
 
                     /// <summary>
                     /// "dup" of ParserInterpreter </summary>

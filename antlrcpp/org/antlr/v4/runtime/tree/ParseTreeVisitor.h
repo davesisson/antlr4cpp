@@ -1,9 +1,5 @@
 ﻿#pragma once
 
-#include "ParseTree.h"
-#include "RuleNode.h"
-#include "TerminalNode.h"
-#include "ErrorNode.h"
 
 /*
  * [The "BSD license"]
@@ -40,9 +36,10 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-
-                    using org::antlr::v4::runtime::misc::NotNull;
-
+                    class ParseTree;
+                    class RuleNode;
+                    class TerminalNode;
+                    class ErrorNode;
                     /// <summary>
                     /// This interface defines the basic notion of a parse tree visitor. Generated
                     /// visitors implement this interface and the {@code XVisitor} interface for

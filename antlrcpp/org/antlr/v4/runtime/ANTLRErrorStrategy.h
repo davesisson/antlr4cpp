@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "Parser.h"
-#include "Token.h"
-#include "RecognitionException.h"
+class Parser;
+class Token;
+class RecognitionException;
 
 /*
  * [The "BSD license"]
@@ -38,8 +38,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::NotNull;
 
                 /// <summary>
                 /// The interface for defining strategies to deal with syntax errors encountered

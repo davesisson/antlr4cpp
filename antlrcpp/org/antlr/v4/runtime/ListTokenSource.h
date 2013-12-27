@@ -12,7 +12,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::misc::NotNull;
+//                using org::antlr::v4::runtime::misc::NotNull;
                 using org::antlr::v4::runtime::misc::Pair;
 
 
@@ -31,7 +31,7 @@ namespace org {
                 protected:
 //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
 //ORIGINAL LINE: protected final java.util.List<? extends Token> tokens;
-                    const std::vector<? extends Token> tokens;
+                    const std::vector<void *> tokens;
 
                     /// <summary>
                     /// The name of the input source. If this value is {@code null}, a call to
@@ -62,7 +62,7 @@ namespace org {
                 private:
 //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
 //ORIGINAL LINE: private TokenFactory<?> _factory = CommonTokenFactory.DEFAULT;
-                    TokenFactory<?> *_factory;
+                    TokenFactory<void *> *_factory;
 
                     /// <summary>
                     /// Constructs a new <seealso cref="ListTokenSource"/> instance from the specified
@@ -73,7 +73,7 @@ namespace org {
                     /// <exception cref="NullPointerException"> if {@code tokens} is {@code null} </exception>
                 public:
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T1> where T1 : Token
+                    template<typename T1> //where T1 : Token
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     ListTokenSource(std::vector<T1> tokens); //this(tokens, nullptr);
 
@@ -90,7 +90,7 @@ namespace org {
                     /// </param>
                     /// <exception cref="NullPointerException"> if {@code tokens} is {@code null} </exception>
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T1> where T1 : Token
+                    template<typename T1> //where T1 : Token
                     ListTokenSource(std::vector<T1> tokens, const std::wstring &sourceName);
 
                     /// <summary>
@@ -122,12 +122,12 @@ namespace org {
                     /// @inheritDoc
                     /// </summary>
                     template<typename T1>
-                    virtual void setTokenFactory(TokenFactory<T1> *factory) override;
+                    void setTokenFactory(TokenFactory<T1> *factory);
 
                     /// <summary>
                     /// @inheritDoc
                     /// </summary>
-                    virtual TokenFactory<?> *getTokenFactory() override;
+                    virtual TokenFactory<void *> *getTokenFactory();
 
                 private:
                     void InitializeInstanceFields();

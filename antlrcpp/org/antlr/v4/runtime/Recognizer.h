@@ -1,17 +1,23 @@
 ﻿#pragma once
 
-#include "ANTLRErrorListener.h"
-#include "ConsoleErrorListener.h"
-#include "misc/Utils.h"
-#include "Token.h"
-#include "atn/ATN.h"
-#include "RecognitionException.h"
-#include "ProxyErrorListener.h"
-#include "RuleContext.h"
-#include "IntStream.h"
 #include "TokenFactory.h"
+#include "ATNSimulator.h"
+
+class ConsoleErrorListener;
+class Utils;
+class Token;
+class ATN;
+class RecognitionException;
+class ProxyErrorListener;
+class RuleContext;
+class IntStream;
+class ATNInterpreter;
+class ANTLRErrorListener;
+
 #include <string>
 #include <vector>
+#include <map>
+#include <list>
 
 /*
  * [The "BSD license"]
@@ -48,35 +54,24 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::atn::ATN;
-                using org::antlr::v4::runtime::atn::ATNSimulator;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
-                using org::antlr::v4::runtime::misc::Utils;
-
-
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                template<typename Symbol, typename ATNInterpreter> where ATNInterpreter : org.antlr.v4.runtime.atn.ATNSimulator
+                template<typename Symbol, typename ATNInterpreter>
                 class Recognizer {
                 public:
-                    static const int EOF = -1;
+                    static const int FIXME_EOF = -1;
 
                 private:
 //JAVA TO C++ CONVERTER TODO TASK: Native C++ only allows initialization of static const integral fields in their declarations:
-                    static Map<std::wstring[] , Map<std::wstring, int>*> *const tokenTypeMapCache = new WeakHashMap<std::wstring[] , Map<std::wstring, int>*>();
+                    static std::map<std::wstring[] , std::map<std::wstring, int>*> *const tokenTypeMapCache;
 //JAVA TO C++ CONVERTER TODO TASK: Native C++ only allows initialization of static const integral fields in their declarations:
-                    static Map<std::wstring[] , Map<std::wstring, int>*> *const ruleIndexMapCache = new WeakHashMap<std::wstring[] , Map<std::wstring, int>*>();
+                    static std::map<std::wstring[] , std::map<std::wstring, int>*> *const ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;
 
                 private:
-                    class CopyOnWriteArrayListAnonymousInnerClassHelper : public CopyOnWriteArrayList<ANTLRErrorListener*> {
+                    class CopyOnWriteArrayListAnonymousInnerClassHelper : public std::list<ANTLRErrorListener*> {
                     public:
                         CopyOnWriteArrayListAnonymousInnerClassHelper();
-
-                        {
-                            add(ConsoleErrorListener::INSTANCE);
-                        }
                     };
 
                 protected:
@@ -100,60 +95,16 @@ namespace org {
                     /// <p/>
                     /// Used for XPath and tree pattern compilation.
                     /// </summary>
-                    virtual Map<std::wstring, int> *getTokenTypeMap() {
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: String[] tokenNames = getTokenNames();
-                        std::wstring *tokenNames = getTokenNames();
-                        if (tokenNames == nullptr) {
-                            throw UnsupportedOperationException(L"The current recognizer does not provide a list of token names.");
-                        }
-
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                        synchronized(tokenTypeMapCache) {
-                            Map<std::wstring, int> *result = tokenTypeMapCache->get(tokenNames);
-                            if (result == nullptr) {
-                                result = Utils::toMap(tokenNames);
-                                result->put(L"EOF", Token::EOF);
-                                result = Collections::unmodifiableMap(result);
-                                tokenTypeMapCache->put(tokenNames, result);
-                            }
-
-                            return result;
-                        }
-                    }
+                    virtual std::map<std::wstring, int> *getTokenTypeMap();
 
                     /// <summary>
                     /// Get a map from rule names to rule indexes.
                     /// <p/>
                     /// Used for XPath and tree pattern compilation.
                     /// </summary>
-                    virtual Map<std::wstring, int> *getRuleIndexMap() {
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: String[] ruleNames = getRuleNames();
-                        std::wstring *ruleNames = getRuleNames();
-                        if (ruleNames == nullptr) {
-                            throw UnsupportedOperationException(L"The current recognizer does not provide a list of rule names.");
-                        }
+                    virtual std::map<std::wstring, int> *getRuleIndexMap();
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                        synchronized(ruleIndexMapCache) {
-                            Map<std::wstring, int> *result = ruleIndexMapCache->get(ruleNames);
-                            if (result == nullptr) {
-                                result = Collections::unmodifiableMap(Utils::toMap(ruleNames));
-                                ruleIndexMapCache->put(ruleNames, result);
-                            }
-
-                            return result;
-                        }
-                    }
-
-                    virtual int getTokenType(const std::wstring &tokenName) {
-                        int ttype = getTokenTypeMap()->get(tokenName);
-                        if (ttype != nullptr) {
-                            return ttype;
-                        }
-                        return Token::INVALID_TYPE;
-                    }
+                    virtual int getTokenType(const std::wstring &tokenName);
 
                     /// <summary>
                     /// If this recognizer was generated, it will have a serialized ATN
@@ -163,7 +114,7 @@ namespace org {
                     /// created the interpreter from it.
                     /// </summary>
                     virtual std::wstring getSerializedATN() {
-                        throw UnsupportedOperationException(L"there is no serialized ATN");
+                        throw L"there is no serialized ATN";
                     }
 
                     /// <summary>
@@ -197,11 +148,7 @@ namespace org {
 
                     /// <summary>
                     /// What is the error header, normally line/character position information? </summary>
-                    virtual std::wstring getErrorHeader(RecognitionException *e) {
-                        int line = e->getOffendingToken()->getLine();
-                        int charPositionInLine = e->getOffendingToken()->getCharPositionInLine();
-                        return std::wstring(L"line ") + line + std::wstring(L":") + charPositionInLine;
-                    }
+                    virtual std::wstring getErrorHeader(RecognitionException *e);
 
                     /// <summary>
                     /// How should a token be displayed in an error message? The default
@@ -212,68 +159,30 @@ namespace org {
                     ///  your token objects because you don't have to go modify your lexer
                     ///  so that it creates a new Java type.
                     /// </summary>
-                    virtual std::wstring getTokenErrorDisplay(Token *t) {
-                        if (t == nullptr) {
-                            return L"<no token>";
-                        }
-                        std::wstring s = t->getText();
-                        if (s == L"") {
-                            if (t->getType() == Token::EOF) {
-                                s = L"<EOF>";
-                            } else {
-                                s = std::wstring(L"<") + t->getType() + std::wstring(L">");
-                            }
-                        }
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                        s = s.replace(L"\n",L"\\n");
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                        s = s.replace(L"\r",L"\\r");
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                        s = s.replace(L"\t",L"\\t");
-                        return std::wstring(L"'") + s + std::wstring(L"'");
-                    }
+                    virtual std::wstring getTokenErrorDisplay(Token *t);
 
                     /// <exception cref="NullPointerException"> if {@code listener} is {@code null}. </exception>
-                    virtual void addErrorListener(ANTLRErrorListener *listener) {
-                        if (listener == nullptr) {
-                            throw NullPointerException(L"listener cannot be null.");
-                        }
+                    virtual void addErrorListener(ANTLRErrorListener *listener);
 
-                        _listeners->add(listener);
-                    }
+                    virtual void removeErrorListener(ANTLRErrorListener *listener);
 
-                    virtual void removeErrorListener(ANTLRErrorListener *listener) {
-                        _listeners->remove(listener);
-                    }
+                    virtual void removeErrorListeners();
 
-                    virtual void removeErrorListeners() {
-                        _listeners->clear();
-                    }
-
-                    virtual std::vector<? extends ANTLRErrorListener> getErrorListeners() {
+                    virtual std::vector<ANTLRErrorListener *> getErrorListeners() {
                         return _listeners;
                     }
 
-                    virtual ANTLRErrorListener *getErrorListenerDispatch() {
-                        return new ProxyErrorListener(getErrorListeners());
-                    }
+                    virtual ANTLRErrorListener *getErrorListenerDispatch();
 
                     // subclass needs to override these if there are sempreds or actions
                     // that the ATN interp needs to execute
-                    virtual bool sempred(RuleContext *_localctx, int ruleIndex, int actionIndex) {
-                        return true;
-                    }
+                    virtual bool sempred(RuleContext *_localctx, int ruleIndex, int actionIndex);
 
-                    virtual bool precpred(RuleContext *localctx, int precedence) {
-                        return true;
-                    }
+                    virtual bool precpred(RuleContext *localctx, int precedence);
 
-                    virtual void action(RuleContext *_localctx, int ruleIndex, int actionIndex) {
-                    }
+                    virtual void action(RuleContext *_localctx, int ruleIndex, int actionIndex);
 
-                    int getState() {
-                        return _stateNumber;
-                    }
+                    int getState();
 
                     /// <summary>
                     /// Indicate that the recognizer has changed internal state that is
@@ -283,30 +192,22 @@ namespace org {
                     ///  invoking rules. Combine this and we have complete ATN
                     ///  configuration information.
                     /// </summary>
-                    void setState(int atnState) {
-                //		System.err.println("setState "+atnState);
-                        _stateNumber = atnState;
-                //		if ( traceATNStates ) _ctx.trace(atnState);
-                    }
+                    void setState(int atnState);
 
                     virtual IntStream *getInputStream() = 0;
 
                     virtual void setInputStream(IntStream *input) = 0;
 
-                    virtual TokenFactory<?> *getTokenFactory() = 0;
+                    virtual TokenFactory<void *> *getTokenFactory() = 0;
 
                     template<typename T1>
-                    virtual void setTokenFactory(TokenFactory<T1> *input) = 0;
+                    void setTokenFactory(TokenFactory<T1> *input);
 
                 private:
-                    void InitializeInstanceFields() {
-                        _stateNumber = -1;
-                    }
+                    void InitializeInstanceFields();
 
 public:
-                    Recognizer() {
-                        InitializeInstanceFields();
-                    }
+                    Recognizer();
                 };
 
             }

@@ -1,10 +1,11 @@
 ﻿#pragma once
 
-#include "DFA.h"
-#include "DFAState.h"
 #include <string>
 #include <vector>
 #include "stringconverter.h"
+
+class DFA;
+class DFAState;
 
 /*
  * [The "BSD license"]
@@ -41,11 +42,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace dfa {
-
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
-
                     /// <summary>
                     /// A DFA walker that knows how to dump them to serialized strings. </summary>
                     class DFASerializer {
@@ -57,7 +53,7 @@ namespace org {
 
                         DFASerializer(DFA *dfa, std::wstring tokenNames[]);
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                     protected:
                         virtual std::wstring getEdgeLabel(int i);

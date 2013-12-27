@@ -1,10 +1,13 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/tree/ParseTree.h"
-#include "ParseTreePatternMatcher.h"
-#include "ParseTreeMatch.h"
 #include <string>
 #include <vector>
+
+class ParseTree;
+class ParseTreePatternMatcher;
+class ParseTreeMatch;
+
+
 
 /*
  * [The "BSD license"]
@@ -42,12 +45,6 @@ namespace org {
             namespace runtime {
                 namespace tree {
                     namespace pattern {
-
-                        using org::antlr::v4::runtime::misc::NotNull;
-                        using org::antlr::v4::runtime::tree::ParseTree;
-                        using org::antlr::v4::runtime::tree::xpath::XPath;
-
-
                         /// <summary>
                         /// A pattern like {@code <ID> = <expr>;} converted to a <seealso cref="ParseTree"/> by
                         /// <seealso cref="ParseTreePatternMatcher#compile(String, int)"/>.

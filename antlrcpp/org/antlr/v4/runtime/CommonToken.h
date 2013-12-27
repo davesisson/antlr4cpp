@@ -42,11 +42,11 @@ namespace org {
             namespace runtime {
 
                 using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
+//                using org::antlr::v4::runtime::misc::NotNull;
                 using org::antlr::v4::runtime::misc::Pair;
 
 
-                class CommonToken : public WritableToken, public Serializable {
+                class CommonToken : public WritableToken/*, public Serializable*/ {
                 protected:
                     static Pair<TokenSource*, CharStream*> *const EMPTY_SOURCE;
 
@@ -127,7 +127,7 @@ namespace org {
 
                     virtual CharStream *getInputStream() override;
 
-                    virtual std::wstring toString() override;
+                    virtual std::wstring toString() ;
 
                 private:
                     void InitializeInstanceFields();

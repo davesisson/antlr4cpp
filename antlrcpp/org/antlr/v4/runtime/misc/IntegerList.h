@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include <string>
+#include <limits.h>
+#include <set>
 
 /*
  * [The "BSD license"]
@@ -50,7 +52,7 @@ namespace org {
                         static int *EMPTY_DATA;
 
                         static const int INITIAL_SIZE = 4;
-                        static const int MAX_ARRAY_SIZE = int::MAX_VALUE - 8;
+                        static const int MAX_ARRAY_SIZE = INT32_MAX - 8;//int::MAX_VALUE - 8;
 
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: @NotNull private int[] _data;
@@ -66,7 +68,7 @@ namespace org {
                         IntegerList(IntegerList *list);
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                        IntegerList(Collection<int> *list); //this(list.size());
+                        IntegerList(std::set<int> *list); //this(list.size());
 
                         void add(int value);
 
@@ -74,7 +76,7 @@ namespace org {
 
                         void addAll(IntegerList *list);
 
-                        void addAll(Collection<int> *list);
+                        void addAll(std::set<int> *list);
 
                         int get(int index);
 
@@ -117,7 +119,7 @@ namespace org {
                         /// </summary>
                         /// <param name="o"> the object to be compared for equality with this list </param>
                         /// <returns> {@code true} if the specified object is equal to this list </returns>
-                        virtual bool equals(void *o) override;
+                        virtual bool equals(void *o);
 
                         /// <summary>
                         /// Returns the hash code value for this list.
@@ -127,12 +129,12 @@ namespace org {
                         /// method.
                         /// </summary>
                         /// <returns> the hash code value for this list </returns>
-                        virtual int hashCode() override;
+                        virtual int hashCode();
 
                         /// <summary>
                         /// Returns a string representation of this list.
                         /// </summary>
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                         int binarySearch(int key);
 

@@ -1,5 +1,6 @@
 ﻿#pragma once
-
+#include <vector>
+#include <string>
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -57,11 +58,11 @@ namespace org {
                         /// Return the intersection of this set with the argument, creating
                         ///  a new set.
                         /// </summary>
-                        virtual IntSet *and(IntSet *a) = 0;
+                        virtual IntSet *And(IntSet *a) = 0;
 
                         virtual IntSet *complement(IntSet *elements) = 0;
 
-                        virtual IntSet *or(IntSet *a) = 0;
+                        virtual IntSet *Or(IntSet *a) = 0;
 
                         virtual IntSet *subtract(IntSet *a) = 0;
 
@@ -73,7 +74,7 @@ namespace org {
 
                         virtual bool isNil() = 0;
 
-                        virtual bool equals(void *obj); override = 0;
+                        virtual bool equals(void *obj);
 
                         virtual int getSingleElement() = 0;
 
@@ -85,7 +86,7 @@ namespace org {
 
                         virtual std::vector<int> toList() = 0;
 
-                        virtual std::wstring toString(); override = 0;
+                        virtual std::wstring toString(); 
                     };
 
                 }

@@ -1,18 +1,31 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/Lexer.h"
-#include "Java/src/org/antlr/v4/runtime/Parser.h"
-#include "Java/src/org/antlr/v4/runtime/tree/ParseTree.h"
-#include "ParseTreePattern.h"
-#include "ParseTreeMatch.h"
-#include "Java/src/org/antlr/v4/runtime/misc/MultiMap.h"
-#include "RuleTagToken.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "Chunk.h"
+#include "MultiMap.h"
+
 #include <string>
 #include <vector>
 #include <cctype>
 #include <stdexcept>
+
+class ANTLRInputStream;
+class CommonTokenStream;
+class Lexer;
+class ListTokenSource;
+class Parser;
+class ParserInterpreter;
+class ParserRuleContext;
+class Token;
+class ATN;
+class Chunk;
+class MultiMap;
+class NotNull;
+class Nullable;
+class ParseTree;
+class RuleNode;
+class TerminalNode;
+class ParseTreePattern;
+class ParseTreeMatch;
+class RuleTagToken;
 
 /*
  * [The "BSD license"]
@@ -50,23 +63,6 @@ namespace org {
             namespace runtime {
                 namespace tree {
                     namespace pattern {
-
-                        using org::antlr::v4::runtime::ANTLRInputStream;
-                        using org::antlr::v4::runtime::CommonTokenStream;
-                        using org::antlr::v4::runtime::Lexer;
-                        using org::antlr::v4::runtime::ListTokenSource;
-                        using org::antlr::v4::runtime::Parser;
-                        using org::antlr::v4::runtime::ParserInterpreter;
-                        using org::antlr::v4::runtime::ParserRuleContext;
-                        using org::antlr::v4::runtime::Token;
-                        using org::antlr::v4::runtime::atn::ATN;
-                        using org::antlr::v4::runtime::misc::MultiMap;
-                        using org::antlr::v4::runtime::misc::NotNull;
-                        using org::antlr::v4::runtime::misc::Nullable;
-                        using org::antlr::v4::runtime::tree::ParseTree;
-                        using org::antlr::v4::runtime::tree::RuleNode;
-                        using org::antlr::v4::runtime::tree::TerminalNode;
-
 
                         /// <summary>
                         /// A tree pattern matching mechanism for ANTLR <seealso cref="ParseTree"/>s.
@@ -223,14 +219,16 @@ namespace org {
                             /// was successful. The specific node returned depends on the matching
                             /// algorithm used by the implementation, and may be overridden. </returns>
                         protected:
+#ifdef TODO
+                            // I don't know why this is failing to compile
                             virtual ParseTree *matchImpl(ParseTree *tree, ParseTree *patternTree, MultiMap<std::wstring, ParseTree*> *labels);
-
+#endif
                             /// <summary>
                             /// Is {@code t} {@code (expr <expr>)} subtree? </summary>
                             virtual RuleTagToken *getRuleTagToken(ParseTree *t);
 
                         public:
-                            virtual std::vector<? extends Token> tokenize(const std::wstring &pattern);
+                            virtual std::vector<void *> tokenize(const std::wstring &pattern);
 
                             /// <summary>
                             /// Split {@code <ID> = <e:expr> ;} into 4 chunks for tokenizing by <seealso cref="#tokenize"/>. </summary>

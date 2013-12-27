@@ -1,8 +1,10 @@
 ﻿#pragma once
 
-#include "CharStream.h"
-#include "TokenSource.h"
-#include "misc/Pair.h"
+#include "Pair.h"
+#include <string>
+
+class CharStream;
+class TokenSource;
 
 /*
  * [The "BSD license"]
@@ -38,9 +40,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Pair;
+                class TokenSource;
 
                 /// <summary>
                 /// The default mechanism for creating tokens. It's used by default in Lexer and
@@ -48,7 +48,7 @@ namespace org {
                 ///  of a new factory means that it notifies it's token source and error strategy.
                 /// </summary>
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                template<typename Symbol> where Symbol : Token
+                template<typename Symbol> //where Symbol : Token
                 class TokenFactory {
                     /// <summary>
                     /// This is the method used to create tokens in the lexer and in the
@@ -56,7 +56,7 @@ namespace org {
                     ///  are wiped to -1 in the text override is set in the CommonToken.
                     /// </summary>
                 public:
-                    virtual Symbol *create(org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) = 0;
+                    virtual Symbol *create(misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) = 0;
 
                     /// <summary>
                     /// Generically useful </summary>

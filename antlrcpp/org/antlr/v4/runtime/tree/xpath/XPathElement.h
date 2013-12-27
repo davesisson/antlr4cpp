@@ -1,7 +1,9 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/tree/ParseTree.h"
 #include <string>
+#include <set>
+
+class ParseTree;
 
 namespace org {
     namespace antlr {
@@ -10,7 +12,6 @@ namespace org {
                 namespace tree {
                     namespace xpath {
 
-                        using org::antlr::v4::runtime::tree::ParseTree;
 
 
                         class XPathElement {
@@ -27,9 +28,9 @@ namespace org {
 
                             /// <summary>
                             /// Given tree rooted at t return all nodes matched by this path element </summary>
-                            virtual Collection<ParseTree*> *evaluate(ParseTree *t) = 0;
+                            virtual std::set<ParseTree*> *evaluate(ParseTree *t) = 0;
 
-                            virtual std::wstring toString() override;
+                            virtual std::wstring toString();
 
                         private:
                             void InitializeInstanceFields();

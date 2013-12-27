@@ -1,5 +1,5 @@
 ﻿#include "CommonTokenFactory.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
+#include "Interval.h"
 
 namespace org {
     namespace antlr {

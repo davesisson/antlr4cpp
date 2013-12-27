@@ -1,16 +1,20 @@
 ﻿#pragma once
 
-#include "EmptyPredictionContext.h"
-#include "Java/src/org/antlr/v4/runtime/RuleContext.h"
-#include "ATN.h"
-#include "Java/src/org/antlr/v4/runtime/misc/DoubleKeyMap.h"
-#include "SingletonPredictionContext.h"
-#include "ArrayPredictionContext.h"
-#include "PredictionContextCache.h"
-#include "Java/src/org/antlr/v4/runtime/Recognizer.h"
+
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <limits.h>
+#include "DoubleKeyMap.h"
+#include "Recognizer.h"
+
+class ATN;
+class Recognizer;
+class RuleContext;
+class EmptyPredictionContext;
+class SingletonPredictionContext;
+class ArrayPredictionContext;
+class PredictionContextCache;
 
 /*
  * [The "BSD license"]
@@ -48,13 +52,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::Recognizer;
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::misc::DoubleKeyMap;
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
 
                     class PredictionContext {
                         /// <summary>
@@ -69,7 +66,7 @@ namespace org {
                         /// doesn't mean wildcard: {@code $ + x = [$,x]}. Here,
                         /// {@code $} = <seealso cref="#EMPTY_RETURN_STATE"/>.
                         /// </summary>
-                        static const int EMPTY_RETURN_STATE = int::MAX_VALUE;
+                        static const int EMPTY_RETURN_STATE = INT16_MAX;
 
                     private:
                         static const int INITIAL_HASH = 1;
@@ -123,20 +120,20 @@ namespace org {
 
                         virtual bool hasEmptyPath();
 
-                        virtual int hashCode() override final;
+                        virtual int hashCode()  final;
 
-                        virtual bool equals(void *obj) = 0; override override;
+                        virtual bool equals(void *obj) = 0;
 
                     protected:
                         static int calculateEmptyHashCode();
 
                         static int calculateHashCode(PredictionContext *parent, int returnState);
 
-                        static int calculateHashCode(PredictionContext parents[], int returnStates[]);
+                        static int calculateHashCode(PredictionContext *parents[], int returnStates[]);
 
                         // dispatch
                     public:
-                        static PredictionContext *merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
+                        static PredictionContext *merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
 
                         /// <summary>
                         /// Merge two <seealso cref="SingletonPredictionContext"/> instances.
@@ -172,7 +169,7 @@ namespace org {
                         /// <param name="rootIsWildcard"> {@code true} if this is a local-context merge,
                         /// otherwise false to indicate a full-context merge </param>
                         /// <param name="mergeCache"> </param>
-                        static PredictionContext *mergeSingletons(SingletonPredictionContext *a, SingletonPredictionContext *b, bool rootIsWildcard, DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
+                        static PredictionContext *mergeSingletons(SingletonPredictionContext *a, SingletonPredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
 
                         /// <summary>
                         /// Handle case where at least one of {@code a} or {@code b} is
@@ -254,29 +251,31 @@ namespace org {
                         /// <seealso cref="SingletonPredictionContext"/>.<br/>
                         /// <embed src="images/ArrayMerge_EqualTop.svg" type="image/svg+xml"/>
                         /// </summary>
-                        static PredictionContext *mergeArrays(ArrayPredictionContext *a, ArrayPredictionContext *b, bool rootIsWildcard, DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
+                        static PredictionContext *mergeArrays(ArrayPredictionContext *a, ArrayPredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
 
                         /// <summary>
                         /// Make pass over all <em>M</em> {@code parents}; merge any {@code equals()}
                         /// ones.
                         /// </summary>
                     protected:
-                        static void combineCommonParents(PredictionContext parents[]);
+                        static void combineCommonParents(PredictionContext *parents[]);
 
                     public:
                         static std::wstring toDOTString(PredictionContext *context);
 
                     private:
+#ifdef TODO
                         class ComparatorAnonymousInnerClassHelper : public Comparator<PredictionContext*> {
+
                         public:
                             ComparatorAnonymousInnerClassHelper();
 
                             virtual int compare(PredictionContext *o1, PredictionContext *o2);
                         };
-
+#endif
                         // From Sam
                     public:
-                        static PredictionContext *getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, IdentityHashMap<PredictionContext*, PredictionContext*> *visited);
+                        static PredictionContext *getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, std::map<PredictionContext*, PredictionContext*> *visited);
 
                     //	// extra structures, but cut/paste/morphed works, so leave it.
                     //	// seems to do a breadth-first walk
@@ -303,17 +302,18 @@ namespace org {
                         // ter's recursive version of Sam's getAllNodes()
                         static std::vector<PredictionContext*> getAllContextNodes(PredictionContext *context);
 
-                        static void getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, Map<PredictionContext*, PredictionContext*> *visited);
+                        static void getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, std::map<PredictionContext*, PredictionContext*> *visited);
+#ifdef TODO
+                        template<typename T1, typename T2>
+                        std::wstring toString(Recognizer<T1> *recog);
 
-                        template<typename T1, typename T1>
-                        virtual std::wstring toString(Recognizer<T1> *recog);
-
-                        template<typename T1, typename T1>
-                        virtual std::wstring *toStrings(Recognizer<T1> *recognizer, int currentState);
+                        template<typename T1, typename T2>
+                        std::wstring *toStrings(Recognizer<T1> *recognizer, int currentState);
 
                         // FROM SAM
-                        template<typename T1, typename T1>
-                        virtual std::wstring *toStrings(Recognizer<T1> *recognizer, PredictionContext *stop, int currentState);
+                        template<typename T1, typename T2>
+                        std::wstring *toStrings(Recognizer<T1> *recognizer, PredictionContext *stop, int currentState);
+#endif
                     };
 
                 }

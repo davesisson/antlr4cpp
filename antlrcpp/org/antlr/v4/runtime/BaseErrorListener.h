@@ -1,12 +1,19 @@
 ﻿#pragma once
 
 #include "ANTLRErrorListener.h"
-#include "RecognitionException.h"
-#include "Recognizer.h"
-#include "Parser.h"
-#include "atn/ATNConfigSet.h"
-#include "dfa/DFA.h"
+//#include "RecognitionException.h"
+//#include "Recognizer.h"
+//#include "Parser.h"
+//#include "atn/ATNConfigSet.h"
+//#include "dfa/DFA.h"
 #include <string>
+#include <bitset>
+
+class Recognizer;
+class RecognitionException; // TODO fixme
+class Parser;
+class DFA;
+class ATNConfigSet;
 
 /*
  * [The "BSD license"]
@@ -41,24 +48,24 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::atn::ATNConfigSet;
-                using org::antlr::v4::runtime::dfa::DFA;
-
-
                 /// <summary>
                 /// @author Sam Harwell
                 /// </summary>
                 class BaseErrorListener : public ANTLRErrorListener {
+#ifdef TODO
+                    work on this number
+#endif
+                    static const int BITSET_SIZE = 1024;
+                    
                 public:
-                    template<typename T1, typename T1>
-                    virtual void syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) override;
+                    template<typename T1, typename T2>
+                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
 
-                    virtual void reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs) override;
 
-                    virtual void reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, ATNConfigSet *configs) override;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs);
 
-                    virtual void reportContextSensitivity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet *configs) override;
+                    virtual void reportContextSensitivity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet *configs);
                 };
 
             }

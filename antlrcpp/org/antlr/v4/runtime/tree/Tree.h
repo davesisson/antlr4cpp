@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <string>
 
 /*
  * [The "BSD license"]
@@ -35,11 +36,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::Token;
-
-
                     /// <summary>
                     /// The basic notion of a tree has a parent, a payload, and a list of children.
                     ///  It is the most abstract interface for all the trees used by ANTLR.

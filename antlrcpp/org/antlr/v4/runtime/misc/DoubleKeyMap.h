@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#include <map>
+#include <set>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -45,63 +48,27 @@ namespace org {
                     template<typename Key1, typename Key2, typename Value>
                     class DoubleKeyMap {
                     public:
-                        Map<Key1, Map<Key2, Value>*> *data;
+                        std::map<Key1, std::map<Key2, Value>*> *data;
+                        virtual Value put(Key1 k1, Key2 k2, Value v);
 
-                        virtual Value put(Key1 k1, Key2 k2, Value v) {
-                            Map<Key2, Value> *data2 = data->get(k1);
-                            Value prev = nullptr;
-                            if (data2 == nullptr) {
-                                data2 = new LinkedHashMap<Key2, Value>();
-                                data->put(k1, data2);
-                            } else {
-                                prev = data2->get(k2);
-                            }
-                            data2->put(k2, v);
-                            return prev;
-                        }
+                        virtual Value get(Key1 k1, Key2 k2);
 
-                        virtual Value get(Key1 k1, Key2 k2) {
-                            Map<Key2, Value> *data2 = data->get(k1);
-                            if (data2 == nullptr) {
-                                return nullptr;
-                            }
-                            return data2->get(k2);
-                        }
-
-                        virtual Map<Key2, Value> *get(Key1 k1) {
-                            return data->get(k1);
-                        }
+                        virtual std::map<Key2, Value> *get(Key1 k1);
 
                         /// <summary>
                         /// Get all values associated with primary key </summary>
-                        virtual Collection<Value> *values(Key1 k1) {
-                            Map<Key2, Value> *data2 = data->get(k1);
-                            if (data2 == nullptr) {
-                                return nullptr;
-                            }
-                            return data2->values();
-                        }
+                        virtual std::set<Value> *values(Key1 k1) ;
 
                         /// <summary>
                         /// get all primary keys </summary>
-                        virtual Set<Key1> *keySet() {
-                            return data->keySet();
-                        }
+                        virtual std::set<Key1> *keySet();
 
                         /// <summary>
                         /// get all secondary keys associated with a primary key </summary>
-                        virtual Set<Key2> *keySet(Key1 k1) {
-                            Map<Key2, Value> *data2 = data->get(k1);
-                            if (data2 == nullptr) {
-                                return nullptr;
-                            }
-                            return data2->keySet();
-                        }
+                        virtual std::set<Key2> *keySet(Key1 k1);
 
                     private:
-                        void InitializeInstanceFields() {
-                            data = new java::util::LinkedHashMap<Key1, java::util::Map<Key2, Value>*>();
-                        }
+                        void InitializeInstanceFields();
 
 public:
                         DoubleKeyMap() {

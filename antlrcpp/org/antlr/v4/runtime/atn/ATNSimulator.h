@@ -1,14 +1,15 @@
 ﻿#pragma once
-
-#include "Java/src/org/antlr/v4/runtime/dfa/DFAState.h"
-#include "ATN.h"
-#include "PredictionContextCache.h"
-#include "PredictionContext.h"
-#include "Transition.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
-#include "ATNState.h"
 #include <string>
 #include <vector>
+
+class ATN;
+class UUID;
+class DFAState;
+class PredictionContextCache;
+class PredictionContext;
+class IntervalSet;
+class Transition;
+class ATNState;
 
 /*
  * [The "BSD license"]
@@ -45,18 +46,12 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::dfa::DFAState;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-
-
                     class ATNSimulator {
                         /// @deprecated Use <seealso cref="ATNDeserializer#SERIALIZED_VERSION"/> instead. 
                     public:
                         static const int SERIALIZED_VERSION;
 //JAVA TO C++ CONVERTER TODO TASK: Static constructors are not allowed in native C++:
-                        static ATNSimulator();
+                        ATNSimulator();
 
                         /// <summary>
                         /// This is the current serialized UUID. </summary>

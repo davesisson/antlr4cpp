@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "ParseTree.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
+#include "Token.h"
 
 /*
  * [The "BSD license"]

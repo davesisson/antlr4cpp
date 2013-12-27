@@ -1,9 +1,13 @@
 ﻿#pragma once
 
-#include "DFAState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/DecisionState.h"
 #include <string>
 #include <vector>
+#include <map>
+
+class DecisionState;
+class NotNull;
+class Nullable;
+class DFAState;
 
 /*
  * [The "BSD license"]
@@ -40,9 +44,6 @@ namespace org {
             namespace runtime {
                 namespace dfa {
 
-                    using org::antlr::v4::runtime::atn::DecisionState;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
 
 
                     class DFA {
@@ -51,7 +52,7 @@ namespace org {
                         ///  (<seealso cref="Set"/> only allows you to see if it's there).
                         /// </summary>
                     public:
-                        Map<DFAState*, DFAState*> *const states;
+                        std::map<DFAState*, DFAState*> *const states;
                         DFAState *s0;
 
                         const int decision;
@@ -71,6 +72,7 @@ namespace org {
                         virtual std::vector<DFAState*> getStates();
 
                     private:
+#ifdef TODO
                         class ComparatorAnonymousInnerClassHelper : public Comparator<DFAState*> {
                         private:
                             DFA *const outerInstance;
@@ -80,9 +82,9 @@ namespace org {
 
                             virtual int compare(DFAState *o1, DFAState *o2);
                         };
-
+#endif
                     public:
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                         virtual std::wstring toString(std::wstring tokenNames[]);
 

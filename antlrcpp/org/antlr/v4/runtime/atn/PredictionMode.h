@@ -36,12 +36,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::misc::AbstractEqualityComparator;
-                    using org::antlr::v4::runtime::misc::FlexibleHashMap;
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-
-
                     enum class PredictionMode {
                         /// <summary>
                         /// Do only local context prediction (SLL style) and using
@@ -68,10 +62,11 @@ namespace org {
                         /// </summary>
                         LL_EXACT_AMBIG_DETECTION
 
+#ifdef TODO
                         /// <summary>
                         /// A Map that uses just the state and the stack context as the key. </summary>
 //JAVA TO C++ CONVERTER TODO TASK: The following line could not be converted:
-                        static class AltAndContextMap extends org.antlr.v4.runtime.misc.FlexibleHashMap<ATNConfig,java.util.BitSet> {
+                        static class AltAndContextMap extends FlexibleHashMap<ATNConfig,java.util.BitSet> {
 //JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
 //                            public AltAndContextMap()
                     //        {
@@ -110,7 +105,9 @@ namespace org {
                     //                return false;
                     //            return a.state.stateNumber==b.state.stateNumber && a.context.equals(b.context);
                     //        }
+
                         }
+#endif
 
                         /// <summary>
                         /// Computes the SLL prediction termination condition.

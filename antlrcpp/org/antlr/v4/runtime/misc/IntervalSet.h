@@ -1,12 +1,14 @@
 ﻿#pragma once
 
 #include "IntSet.h"
-#include "Interval.h"
-#include "IntegerList.h"
+
 #include <string>
 #include <vector>
 #include <set>
 #include "vectorhelper.h"
+
+class Interval;
+class IntegerList;
 
 /*
  * [The "BSD license"]
@@ -42,9 +44,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-
-                    using org::antlr::v4::runtime::Lexer;
-                    using org::antlr::v4::runtime::Token;
 
 
                     /// <summary>
@@ -117,7 +116,7 @@ namespace org {
                         /// <summary>
                         /// combine all sets in the array returned the or'd value </summary>
                     public:
-                        static IntervalSet *or(IntervalSet sets[]);
+                        static IntervalSet *Or(IntervalSet sets[]);
 
                         virtual IntervalSet *addAll(IntSet *set) override;
 
@@ -140,7 +139,7 @@ namespace org {
                         /// </summary>
                         virtual IntervalSet *subtract(IntSet *other) override;
 
-                        virtual IntervalSet *or(IntSet *a) override;
+                        virtual IntervalSet *Or(IntSet *a) override;
 
                         /// <summary>
                         /// Return a new set with the intersection of this set with other.  Because
@@ -148,7 +147,7 @@ namespace org {
                         ///  just walk them together.  This is roughly O(min(n,m)) for interval
                         ///  list lengths n and m.
                         /// </summary>
-                        virtual IntervalSet *and(IntSet *other) override;
+                        virtual IntervalSet *And(IntSet *other) override;
 
                         /// <summary>
                         /// Is el in any range of this set? </summary>
@@ -172,7 +171,7 @@ namespace org {
                         /// Return a list of Interval objects. </summary>
                         virtual std::vector<Interval*> getIntervals();
 
-                        virtual int hashCode() override;
+                        virtual int hashCode();
 
                         /// <summary>
                         /// Are two IntervalSets equal?  Because all intervals are sorted
@@ -198,8 +197,8 @@ namespace org {
 
                         virtual std::vector<int> toList() override;
 
-                        virtual Set<int> *toSet();
-
+                        virtual std::set<int> *toSet();
+                        
                         /// <summary>
                         /// Get the ith element of ordered set.  Used only by RandomPhrase so
                         ///  don't bother to implement if you're not doing that for a new

@@ -1,7 +1,9 @@
 ﻿#pragma once
 
-#include "Pair.h"
+#include <map>
 #include <vector>
+#include <list>
+#include "Pair.h"
 
 /*
  * [The "BSD license"]
@@ -38,29 +40,16 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-
-
+#ifdef TODO
+                    This used to derive from LinkedHashMap
+                    http://stackoverflow.com/questions/2889777/difference-between-hashmap-linkedhashmap-and-sortedmap-in-java
+#endif
                     template<typename K, typename V>
-                    class MultiMap : public LinkedHashMap<K, std::vector<V>> {
+                    class MultiMap : public std::map<K, std::vector<V>> {
                     public:
-                        virtual void map(K key, V value) {
-                            std::vector<V> elementsForKey = get(key);
-                            if (elementsForKey.empty()) {
-                                elementsForKey = std::vector<V>();
-                                LinkedHashMap<K, List<V>>::put(key, elementsForKey);
-                            }
-                            elementsForKey.push_back(value);
-                        }
+                        virtual void map(K key, V value);
 
-                        virtual std::vector<Pair<K, V>*> getPairs() {
-                            std::vector<Pair<K, V>*> pairs = std::vector<Pair<K, V>*>();
-                            for (K key : keySet()) {
-                                for (V value : get(key)) {
-                                    pairs.push_back(new Pair<K, V>(key, value));
-                                }
-                            }
-                            return pairs;
-                        }
+                        virtual std::vector<Pair<K, V>*> getPairs();
                     };
 
                 }

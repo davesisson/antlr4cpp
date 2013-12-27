@@ -37,7 +37,8 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
+                class TokenSource;
+                
                 /// <summary>
                 /// A token has properties: text, type, line, character position in the line
                 ///  (so we can ignore tabs), token channel, index, and source from which
@@ -55,7 +56,7 @@ namespace org {
 
                     static const int MIN_USER_TOKEN_TYPE = 1;
 
-                    static const int EOF = IntStream.EOF;
+//                    static const int EOF = IntStream.EOF;
 
                     /// <summary>
                     /// All tokens go to the parser (unless skip() is called in that rule)

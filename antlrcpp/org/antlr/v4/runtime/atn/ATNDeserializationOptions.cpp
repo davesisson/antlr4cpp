@@ -5,19 +5,19 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::misc::NotNull;
+//                    using org::antlr::v4::runtime::misc::NotNull;
 
 //JAVA TO C++ CONVERTER TODO TASK: Static constructors are not allowed in native C++:
                     ATNDeserializationOptions::ATNDeserializationOptions() {
-                        defaultOptions = new ATNDeserializationOptions();
+//                        defaultOptions = new ATNDeserializationOptions();
                         defaultOptions->makeReadOnly();
                     }
 
-                    ATNDeserializationOptions::ATNDeserializationOptions() {
-                        InitializeInstanceFields();
-                        this->verifyATN = true;
-                        this->generateRuleBypassTransitions = false;
-                    }
+//                    ATNDeserializationOptions::ATNDeserializationOptions() {
+//                        InitializeInstanceFields();
+//                        this->verifyATN = true;
+//                        this->generateRuleBypassTransitions = false;
+//                    }
 
                     ATNDeserializationOptions::ATNDeserializationOptions(ATNDeserializationOptions *options) {
                         InitializeInstanceFields();
@@ -57,7 +57,7 @@ namespace org {
 
                     void ATNDeserializationOptions::throwIfReadOnly() {
                         if (isReadOnly()) {
-                            throw IllegalStateException(L"The object is read only.");
+                            throw L"The object is read only.";
                         }
                     }
 

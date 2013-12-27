@@ -43,7 +43,7 @@ namespace org {
                     class TokensStartState final : public DecisionState {
 
                     public:
-                        virtual int getStateType() override;
+                        virtual int getStateType();
                     };
 
                 }

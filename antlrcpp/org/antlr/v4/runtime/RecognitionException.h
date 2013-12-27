@@ -1,13 +1,13 @@
 ﻿#pragma once
 
 #include "Recognizer.h"
-#include "RuleContext.h"
-#include "IntStream.h"
-#include "Token.h"
-#include "ParserRuleContext.h"
-#include "misc/IntervalSet.h"
 #include <string>
 #include <stdexcept>
+
+class ParserRuleContext;
+class RuleContext;
+class IntStream;
+
 
 /*
  * [The "BSD license"]
@@ -43,10 +43,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::atn::DecisionState;
-                using org::antlr::v4::runtime::misc::IntervalSet;
-                using org::antlr::v4::runtime::misc::Nullable;
-
                 /// <summary>
                 /// The root of the ANTLR exception hierarchy. In general, ANTLR tracks just
                 ///  3 kinds of errors: prediction errors, failed predicate errors, and
@@ -54,13 +50,13 @@ namespace org {
                 ///  in the input, where it is in the ATN, the rule invocation stack,
                 ///  and what kind of problem occurred.
                 /// </summary>
-                class RecognitionException : public std::exception {
+                class RecognitionException  {
                     /// <summary>
                     /// The <seealso cref="Recognizer"/> where this exception originated. </summary>
                 private:
 //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
 //ORIGINAL LINE: @Nullable private final Recognizer<?, ?> recognizer;
-                    Recognizer<?, ?> *const recognizer;
+                    Recognizer<void*, void*> *const recognizer;
 
                     RuleContext *const ctx;
 
@@ -76,11 +72,11 @@ namespace org {
                     int offendingState;
 
                 public:
-                    template<typename T1, typename T1>
-                    RecognitionException(Recognizer<T1> *recognizer, IntStream *input, ParserRuleContext *ctx);
+                    template<typename T1, typename T2>
+                    RecognitionException(Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx);
 
-                    template<typename T1, typename T1>
-                    RecognitionException(const std::wstring &message, Recognizer<T1> *recognizer, IntStream *input, ParserRuleContext *ctx);
+                    template<typename T1, typename T2>
+                    RecognitionException(const std::wstring &message, Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx);
 
                     /// <summary>
                     /// Get the ATN state number the parser was in at the time the error
@@ -141,7 +137,7 @@ namespace org {
                     /// <returns> The recognizer where this exception occurred, or {@code null} if
                     /// the recognizer is not available. </returns>
                 public:
-                    virtual Recognizer<?, ?> *getRecognizer();
+                    virtual Recognizer<void*, void*> *getRecognizer();
 
                 private:
                     void InitializeInstanceFields();

@@ -1,11 +1,13 @@
 ﻿#pragma once
 
-#include "ATN.h"
-#include "Transition.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
 #include <string>
 #include <vector>
 #include "stringconverter.h"
+#include <list>
+
+class ATN;
+class Transition;
+class IntervalSet;
 
 /*
  * [The "BSD license"]
@@ -42,8 +44,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::misc::IntervalSet;
 
 
                     /// <summary>
@@ -131,7 +131,7 @@ namespace org {
 
                         /// <summary>
                         /// Which ATN are we in? </summary>
-                           ATN *atn;
+                        ATN *atn = nullptr;
 
                         int stateNumber;
 
@@ -149,12 +149,12 @@ namespace org {
                     public:
                         IntervalSet *nextTokenWithinRule;
 
-                        virtual int hashCode() override;
-                        virtual bool equals(void *o) override;
+                        virtual int hashCode();
+                        virtual bool equals(void *o);
 
                         virtual bool isNonGreedyExitState();
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                         virtual Transition *getTransitions();
 
@@ -180,9 +180,9 @@ namespace org {
                         void InitializeInstanceFields();
 
 public:
-                        ATNState() : transitions(new java.util.ArrayList<Transition>(INITIAL_NUM_TRANSITIONS)) {
-                            InitializeInstanceFields();
-                        }
+//                        ATNState() : transitions(new std::list<Transition*>()) {
+//                            InitializeInstanceFields();
+//                        }
                     };
 
                 }

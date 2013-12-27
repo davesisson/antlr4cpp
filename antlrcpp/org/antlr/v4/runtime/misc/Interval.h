@@ -72,9 +72,9 @@ namespace org {
                         /// </summary>
                         virtual int length();
 
-                        virtual bool equals(void *o) override;
+                        virtual bool equals(void *o);
 
-                        virtual int hashCode() override;
+                        virtual int hashCode();
 
                         /// <summary>
                         /// Does this start completely before other? Disjoint </summary>
@@ -122,7 +122,7 @@ namespace org {
                         /// </summary>
                         virtual Interval *differenceNotProperlyContained(Interval *other);
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                     private:
                         void InitializeInstanceFields();

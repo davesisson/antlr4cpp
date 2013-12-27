@@ -1,9 +1,5 @@
 ﻿#pragma once
 
-#include "TerminalNode.h"
-#include "ErrorNode.h"
-#include "Java/src/org/antlr/v4/runtime/ParserRuleContext.h"
-
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -39,16 +35,16 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-
-                    using org::antlr::v4::runtime::ParserRuleContext;
-                    using org::antlr::v4::runtime::misc::NotNull;
-
+                    class ParserRuleContext;
+                    class TerminalNode;
+                    class ErrorNode;
+                    
                     class ParseTreeListener {
                     public:
                         virtual void visitTerminal(TerminalNode *node) = 0;
                         virtual void visitErrorNode(ErrorNode *node) = 0;
-                        virtual void enterEveryRule(org::antlr::v4::runtime::ParserRuleContext *ctx) = 0;
-                        virtual void exitEveryRule(org::antlr::v4::runtime::ParserRuleContext *ctx) = 0;
+                        virtual void enterEveryRule(ParserRuleContext *ctx) = 0;
+                        virtual void exitEveryRule(ParserRuleContext *ctx) = 0;
                     };
 
                 }

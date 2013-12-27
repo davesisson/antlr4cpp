@@ -44,7 +44,7 @@ namespace org {
                         RuleStopState *stopState;
                         bool isPrecedenceRule;
 
-                        virtual int getStateType() override;
+                        virtual int getStateType();
 
                     private:
                         void InitializeInstanceFields();

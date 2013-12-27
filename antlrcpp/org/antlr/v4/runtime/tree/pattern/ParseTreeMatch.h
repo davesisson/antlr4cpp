@@ -1,10 +1,15 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/tree/ParseTree.h"
-#include "ParseTreePattern.h"
-#include "Java/src/org/antlr/v4/runtime/misc/MultiMap.h"
+
+#include "MultiMap.h"
 #include <string>
 #include <vector>
+
+class ParseTree;
+class ParseTreePattern;
+class MultiMap;
+class NotNull;
+class Nullable;
 
 /*
  * [The "BSD license"]
@@ -42,13 +47,6 @@ namespace org {
             namespace runtime {
                 namespace tree {
                     namespace pattern {
-
-                        using org::antlr::v4::runtime::misc::MultiMap;
-                        using org::antlr::v4::runtime::misc::NotNull;
-                        using org::antlr::v4::runtime::misc::Nullable;
-                        using org::antlr::v4::runtime::tree::ParseTree;
-
-
                         /// <summary>
                         /// Represents the result of matching a <seealso cref="ParseTree"/> against a tree pattern.
                         /// </summary>
@@ -67,7 +65,7 @@ namespace org {
                             /// <summary>
                             /// This is the backing field for <seealso cref="#getLabels()"/>.
                             /// </summary>
-                            MultiMap<std::wstring, ParseTree*> *const labels;
+                            misc::MultiMap<std::wstring, ParseTree*> *const labels;
 
                             /// <summary>
                             /// This is the backing field for <seealso cref="#getMismatchedNode()"/>.
@@ -89,7 +87,7 @@ namespace org {
                             /// <exception cref="IllegalArgumentException"> if {@code pattern} is {@code null} </exception>
                             /// <exception cref="IllegalArgumentException"> if {@code labels} is {@code null} </exception>
                         public:
-                            ParseTreeMatch(ParseTree *tree, ParseTreePattern *pattern, MultiMap<std::wstring, ParseTree*> *labels, ParseTree *mismatchedNode);
+                            ParseTreeMatch(ParseTree *tree, ParseTreePattern *pattern, misc::MultiMap<std::wstring, ParseTree*> *labels, ParseTree *mismatchedNode);
 
                             /// <summary>
                             /// Get the last node associated with a specific {@code label}.
@@ -141,7 +139,7 @@ namespace org {
                             /// </summary>
                             /// <returns> A mapping from labels to parse tree nodes. If the parse tree
                             /// pattern did not contain any rule or token tags, this map will be empty. </returns>
-                            virtual MultiMap<std::wstring, ParseTree*> *getLabels();
+                            virtual misc::MultiMap<std::wstring, ParseTree*> *getLabels();
 
                             /// <summary>
                             /// Get the node at which we first detected a mismatch.
@@ -172,7 +170,7 @@ namespace org {
                             /// <summary>
                             /// {@inheritDoc}
                             /// </summary>
-                            virtual std::wstring toString() override;
+                            virtual std::wstring toString();
                         };
 
                     }

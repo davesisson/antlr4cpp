@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <string>
 
 /*
  * [The "BSD license"]
@@ -35,7 +36,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::misc::NotNull;
+//                using org::antlr::v4::runtime::misc::NotNull;
 
                 /// <summary>
                 /// A simple stream of symbols whose values are represented as integers. This
@@ -59,7 +60,8 @@ namespace org {
                     /// reached.
                     /// </summary>
                 public:
-                    static const int EOF = -1;
+//                    Conflict with OS X
+                    static const int _EOF = -1;
 
                     /// <summary>
                     /// The value returned by <seealso cref="#getSourceName"/> when the actual name of the

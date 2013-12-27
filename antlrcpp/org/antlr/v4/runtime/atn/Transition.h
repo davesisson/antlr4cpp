@@ -1,9 +1,11 @@
 ﻿#pragma once
 
 #include "ATNState.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
 #include <string>
 #include <vector>
+#include <map>
+
+class IntervalSet;
 
 /*
  * [The "BSD license"]
@@ -40,12 +42,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
-
                     /// <summary>
                     /// An ATN transition between any two ATN states.  Subclasses define
                     ///  atom, set, epsilon, action, predicate, rule transitions.
@@ -76,7 +72,7 @@ namespace org {
 
                         static const std::vector<std::wstring> serializationNames;
 
-                        static Map<Class*, int> *const serializationTypes;
+                        static std::map<Transition *, int> *const serializationTypes;
 
                         /// <summary>
                         /// The target of this transition. </summary>

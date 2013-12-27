@@ -2,7 +2,10 @@
 
 #include "SyntaxTree.h"
 #include "ParseTreeVisitor.h"
-#include "Java/src/org/antlr/v4/runtime/Parser.h"
+
+
+class Parser;
+
 
 /*
  * [The "BSD license"]
@@ -40,10 +43,6 @@ namespace org {
             namespace runtime {
                 namespace tree {
 
-                    using org::antlr::v4::runtime::Parser;
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::Token;
-
                     /// <summary>
                     /// An interface to access the tree of <seealso cref="RuleContext"/> objects created
                     ///  during a parse that makes the data structure look like a simple parse tree.
@@ -55,14 +54,13 @@ namespace org {
                     class ParseTree : public SyntaxTree {
                         // the following methods narrow the return type; they are not additional methods
                     public:
-                        virtual ParseTree *getParent(); override = 0;
-                        virtual ParseTree *getChild(int i); override = 0;
+                        virtual ParseTree *getParent() override = 0;
+                        virtual ParseTree *getChild(int i) override = 0;
 
                         /// <summary>
                         /// The <seealso cref="ParseTreeVisitor"/> needs a double dispatch method. </summary>
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                        template<typename T, typename T1> where T1 : T
-                        virtual T *accept(ParseTreeVisitor<T1> *visitor) = 0;
+                        template<typename T, typename T1>
+                        T *accept(ParseTreeVisitor<T1> *visitor);
 
                         /// <summary>
                         /// Return the combined text of all leaf nodes. Does not get any
@@ -75,7 +73,7 @@ namespace org {
                         /// Specialize toStringTree so that it can print out more information
                         /// 	based upon the parser.
                         /// </summary>
-                        virtual std::wstring toStringTree(org::antlr::v4::runtime::Parser *parser) = 0;
+                        virtual std::wstring toStringTree(Parser *parser) = 0;
                     };
 
                 }

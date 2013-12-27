@@ -1,10 +1,14 @@
 ﻿#pragma once
 
-#include "ATNState.h"
-#include "PredictionContext.h"
-#include "SemanticContext.h"
-#include "Java/src/org/antlr/v4/runtime/Recognizer.h"
+//#include "ATNState.h"
+//#include "PredictionContext.h"
+//#include "SemanticContext.h"
 #include <string>
+
+class Recognizer;
+class SemanticContext;
+class PredictionContext;
+class ATNState;
 
 /*
  * [The "BSD license"]
@@ -41,11 +45,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::Recognizer;
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
 
                     /// <summary>
                     /// A tuple: (ATN state, predicted alt, syntactic, semantic context).
@@ -113,17 +112,17 @@ namespace org {
                         ///  the same state, they predict the same alternative, and
                         ///  syntactic/semantic contexts are the same.
                         /// </summary>
-                        virtual bool equals(void *o) override;
+                        virtual bool equals(void *o);
 
                         virtual bool equals(ATNConfig *other);
 
-                        virtual int hashCode() override;
+                        virtual int hashCode();
 
-                        virtual std::wstring toString() override;
-
-                        template<typename T1, typename T1>
+                        virtual std::wstring toString();
+#ifdef TODO
+                        template<typename T1, typename T2>
                         virtual std::wstring toString(Recognizer<T1> *recog, bool showAlt);
-
+#endif
                     private:
                         void InitializeInstanceFields();
                     };
