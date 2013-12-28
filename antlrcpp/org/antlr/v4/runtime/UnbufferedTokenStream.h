@@ -1,11 +1,12 @@
 ﻿#pragma once
 
 #include "TokenStream.h"
-#include "TokenSource.h"
-#include "Token.h"
-#include "RuleContext.h"
-#include "misc/Interval.h"
-#include "WritableToken.h"
+//#include "TokenSource.h"
+//#include "Token.h"
+//#include "RuleContext.h"
+//#include "misc/Interval.h"
+//#include "WritableToken.h"
+
 #include <string>
 
 /*
@@ -43,12 +44,9 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
-
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                template<typename T> where T : Token
+                template<typename T>
                 class UnbufferedTokenStream : public TokenStream {
                 protected:
                     TokenSource *tokenSource;
@@ -108,83 +106,25 @@ namespace org {
 
                 public:
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    UnbufferedTokenStream(TokenSource *tokenSource) { //this(tokenSource, 256);
-                    }
+                    UnbufferedTokenStream(TokenSource *tokenSource);
 
-                    UnbufferedTokenStream(TokenSource *tokenSource, int bufferSize) {
-                        InitializeInstanceFields();
-                        this->tokenSource = tokenSource;
-                        tokens = new Token[bufferSize];
-                        n = 0;
-                        fill(1); // prime the pump
-                    }
+                    UnbufferedTokenStream(TokenSource *tokenSource, int bufferSize);
 
-                    virtual Token *get(int i) override { // get absolute index
-                        int bufferStartIndex = getBufferStartIndex();
-                        if (i < bufferStartIndex || i >= bufferStartIndex + n) {
-                            throw IndexOutOfBoundsException(std::wstring(L"get(") + i + std::wstring(L") outside buffer: ") + bufferStartIndex + std::wstring(L"..") + (bufferStartIndex + n));
-                        }
-                        return tokens[i - bufferStartIndex];
-                    }
+                    virtual Token *get(int i) override;
 
-                    virtual Token *LT(int i) override {
-                        if (i == -1) {
-                            return lastToken;
-                        }
+                    virtual Token *LT(int i) override ;
 
-                        sync(i);
-                        int index = p + i - 1;
-                        if (index < 0) {
-                            throw IndexOutOfBoundsException(std::wstring(L"LT(") + i + std::wstring(L") gives negative index"));
-                        }
+                    virtual int LA(int i) override ;
 
-                        if (index >= n) {
-                            assert(n > 0 && tokens[n - 1]->getType() == Token::EOF);
-                            return tokens[n - 1];
-                        }
+                    virtual TokenSource *getTokenSource() override;
 
-                        return tokens[index];
-                    }
+                    virtual std::wstring getText() override ;
 
-                    virtual int LA(int i) override {
-                        return LT(i)->getType();
-                    }
+                    virtual std::wstring getText(RuleContext *ctx) override;
 
-                    virtual TokenSource *getTokenSource() override {
-                        return tokenSource;
-                    }
+                    virtual std::wstring getText(Token *start, Token *stop) override;
 
-                    virtual std::wstring getText() override {
-                        return L"";
-                    }
-
-                    virtual std::wstring getText(RuleContext *ctx) override {
-                        return getText(ctx->getSourceInterval());
-                    }
-
-                    virtual std::wstring getText(Token *start, Token *stop) override {
-                        return getText(Interval::of(start->getTokenIndex(), stop->getTokenIndex()));
-                    }
-
-                    virtual void consume() override {
-                        if (LA(1) == Token::EOF) {
-                            throw IllegalStateException(L"cannot consume EOF");
-                        }
-
-                        // buf always has at least tokens[p==0] in this method due to ctor
-                        lastToken = tokens[p]; // track last token for LT(-1)
-
-                        // if we're at last token and no markers, opportunity to flush buffer
-                        if (p == n - 1 && numMarkers == 0) {
-                            n = 0;
-                            p = -1; // p++ will leave this at 0
-                            lastTokenBufferStart = lastToken;
-                        }
-
-                        p++;
-                        currentTokenIndex++;
-                        sync(1);
-                    }
+                    virtual void consume() override;
 
                     /// <summary>
                     /// Make sure we have 'need' elements from current position <seealso cref="#p p"/>. Last valid
@@ -192,42 +132,16 @@ namespace org {
                     ///  ahead.  If we need 1 element, {@code (p+1-1)==p} must be less than {@code tokens.length}.
                     /// </summary>
                 protected:
-                    virtual void sync(int want) {
-                        int need = (p + want - 1) - n + 1; // how many more elements we need?
-                        if (need > 0) {
-                            fill(need);
-                        }
-                    }
+                    virtual void sync(int want);
 
                     /// <summary>
                     /// Add {@code n} elements to the buffer. Returns the number of tokens
                     /// actually added to the buffer. If the return value is less than {@code n},
                     /// then EOF was reached before {@code n} tokens could be added.
                     /// </summary>
-                    virtual int fill(int n) {
-                        for (int i = 0; i < n; i++) {
-                            if (this->n > 0 && tokens[this->n - 1]->getType() == Token::EOF) {
-                                return i;
-                            }
+                    virtual int fill(int n);
 
-                            Token *t = tokenSource->nextToken();
-                            add(t);
-                        }
-
-                        return n;
-                    }
-
-                    virtual void add(Token *t) {
-                        if (n >= tokens->length) {
-                            tokens = Arrays::copyOf(tokens, tokens->length * 2);
-                        }
-
-                        if (dynamic_cast<WritableToken*>(t) != nullptr) {
-                            (static_cast<WritableToken*>(t))->setTokenIndex(getBufferStartIndex() + n);
-                        }
-
-                        tokens[n++] = t;
-                    }
+                    virtual void add(Token *t);
 
                     /// <summary>
                     /// Return a marker that we can release later.
@@ -237,110 +151,25 @@ namespace org {
                     /// {@code release()} is called in the wrong order.
                     /// </summary>
                 public:
-                    virtual int mark() override {
-                        if (numMarkers == 0) {
-                            lastTokenBufferStart = lastToken;
-                        }
+                    virtual int mark() override;
 
-                        int mark = -numMarkers - 1;
-                        numMarkers++;
-                        return mark;
-                    }
+                    virtual void release(int marker) override;
 
-                    virtual void release(int marker) override {
-                        int expectedMark = -numMarkers;
-                        if (marker != expectedMark) {
-                            throw IllegalStateException(L"release() called with an invalid marker.");
-                        }
+                    virtual int index() override;
 
-                        numMarkers--;
-                        if (numMarkers == 0) { // can we release buffer?
-                            if (p > 0) {
-                                // Copy tokens[p]..tokens[n-1] to tokens[0]..tokens[(n-1)-p], reset ptrs
-                                // p is last valid token; move nothing if p==n as we have no valid char
-                                System::arraycopy(tokens, p, tokens, 0, n - p); // shift n-p tokens from p to 0
-                                n = n - p;
-                                p = 0;
-                            }
+                    virtual void seek(int index) override;
 
-                            lastTokenBufferStart = lastToken;
-                        }
-                    }
+                    virtual int size() override;
 
-                    virtual int index() override {
-                        return currentTokenIndex;
-                    }
+                    virtual std::wstring getSourceName() override;
 
-                    virtual void seek(int index) override { // seek to absolute index
-                        if (index == currentTokenIndex) {
-                            return;
-                        }
-
-                        if (index > currentTokenIndex) {
-                            sync(index - currentTokenIndex);
-                            index = std::min(index, getBufferStartIndex() + n - 1);
-                        }
-
-                        int bufferStartIndex = getBufferStartIndex();
-                        int i = index - bufferStartIndex;
-                        if (i < 0) {
-                            throw IllegalArgumentException(std::wstring(L"cannot seek to negative index ") + index);
-                        } else if (i >= n) {
-                            throw UnsupportedOperationException(std::wstring(L"seek to index outside buffer: ") + index + std::wstring(L" not in ") + bufferStartIndex + std::wstring(L"..") + (bufferStartIndex + n));
-                        }
-
-                        p = i;
-                        currentTokenIndex = index;
-                        if (p == 0) {
-                            lastToken = lastTokenBufferStart;
-                        } else {
-                            lastToken = tokens[p - 1];
-                        }
-                    }
-
-                    virtual int size() override {
-                        throw UnsupportedOperationException(L"Unbuffered stream cannot know its size");
-                    }
-
-                    virtual std::wstring getSourceName() override {
-                        return tokenSource->getSourceName();
-                    }
-
-                    virtual std::wstring getText(Interval *interval) override {
-                        int bufferStartIndex = getBufferStartIndex();
-                        int bufferStopIndex = bufferStartIndex + tokens->length - 1;
-
-                        int start = interval->a;
-                        int stop = interval->b;
-                        if (start < bufferStartIndex || stop > bufferStopIndex) {
-                            throw UnsupportedOperationException(std::wstring(L"interval ") + interval + std::wstring(L" not in token buffer window: ") + bufferStartIndex + std::wstring(L"..") + bufferStopIndex);
-                        }
-
-                        int a = start - bufferStartIndex;
-                        int b = stop - bufferStartIndex;
-
-                        StringBuilder *buf = new StringBuilder();
-                        for (int i = a; i <= b; i++) {
-                            Token *t = tokens[i];
-                            buf->append(t->getText());
-                        }
-
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                        return buf->toString();
-                    }
+                    virtual std::wstring getText(Interval *interval) ;
 
                 protected:
-                    int getBufferStartIndex() {
-                        return currentTokenIndex - p;
-                    }
+                    int getBufferStartIndex();
 
                 private:
-                    void InitializeInstanceFields() {
-                        n = 0;
-                        p = 0;
-                        numMarkers = 0;
-                        currentTokenIndex = 0;
-                    }
+                    void InitializeInstanceFields();
                 };
 
             }

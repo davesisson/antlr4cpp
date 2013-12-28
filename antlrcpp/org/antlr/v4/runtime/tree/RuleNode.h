@@ -2,7 +2,7 @@
 
 #include "ParseTree.h"
 
-class RuleContext;
+
 
 /*
  * [The "BSD license"]
@@ -38,12 +38,13 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                class RuleContext;
+                
                 namespace tree {
-
 
                     class RuleNode : public ParseTree {
                     public:
-                        virtual RuleContext *getRuleContext() = 0;
+                        virtual runtime::RuleContext *getRuleContext() = 0;
                     };
 
                 }

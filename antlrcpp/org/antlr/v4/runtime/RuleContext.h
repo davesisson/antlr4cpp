@@ -4,9 +4,9 @@
 //#include "ParserRuleContext.h"
 //#include "misc/Interval.h"
 //#include "tree/ParseTree.h"
-//#include "tree/ParseTreeVisitor.h"
+#include "ParseTreeVisitor.h"
 //#include "Parser.h"
-//#include "Recognizer.h"
+#include "Recognizer.h"
 #include <string>
 #include <vector>
 
@@ -17,7 +17,7 @@ class ParseTreeVisitor;
 class RuleNode;
 class Trees;
 class TreeViewer;
-
+class ParserRuleContext;
 
 /*
  * [The "BSD license"]
@@ -73,7 +73,7 @@ namespace org {
                 ///  ParserRuleContext.
                 /// </summary>
                 ///  <seealso cref= ParserRuleContext </seealso>
-                class RuleContext : public RuleNode {
+                class RuleContext : public tree::RuleNode {
                 public:
                     static ParserRuleContext *const EMPTY;
 
@@ -106,7 +106,7 @@ namespace org {
 
                     virtual RuleContext *getRuleContext() override;
                     virtual RuleContext *getParent() override;
-                    virtual RuleContext *getPayload() override;
+                    virtual void *getPayload() override;
                     virtual std::wstring getText() override;
 
                     virtual int getRuleIndex();
@@ -116,37 +116,38 @@ namespace org {
                     virtual int getChildCount() override;
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T, typename T1> where T1 : T
-                    virtual T accept(ParseTreeVisitor<T1> *visitor) override;
+                    template<typename T, typename T1>
+                    T accept(tree::ParseTreeVisitor<T1> *visitor);
 
                     /// <summary>
                     /// Call this method to view a parse tree in a dialog box visually. </summary>
+#ifdef TODO
                     virtual Future<JDialog*> *inspect(Parser *parser);
 
                     virtual Future<JDialog*> *inspect(std::vector<std::wstring> &ruleNames);
-
+#endif
                     /// <summary>
                     /// Save this tree in a postscript file </summary>
-                    virtual void save(Parser *parser, const std::wstring &fileName) throw(IOException, PrintException);
+                    virtual void save(Parser *parser, const std::wstring &fileName);
 
                     /// <summary>
                     /// Save this tree in a postscript file using a particular font name and size </summary>
-                    virtual void save(Parser *parser, const std::wstring &fileName, const std::wstring &fontName, int fontSize) throw(IOException);
+                    virtual void save(Parser *parser, const std::wstring &fileName, const std::wstring &fontName, int fontSize);
 
                     /// <summary>
                     /// Save this tree in a postscript file </summary>
-                    virtual void save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName) throw(IOException, PrintException);
+                    virtual void save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName);
 
                     /// <summary>
                     /// Save this tree in a postscript file using a particular font name and size </summary>
-                    virtual void save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName, const std::wstring &fontName, int fontSize) throw(IOException);
+                    virtual void save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName, const std::wstring &fontName, int fontSize);
 
                     /// <summary>
                     /// Print out a whole tree, not just a node, in LISP format
                     ///  (root child1 .. childN). Print just a node if this is a leaf.
                     ///  We have to know the recognizer so we can get rule names.
                     /// </summary>
-                    virtual std::wstring toStringTree(Parser *recog) override;
+                    virtual std::wstring toStringTree(Parser *recog);
 
                     /// <summary>
                     /// Print out a whole tree, not just a node, in LISP format
@@ -156,16 +157,16 @@ namespace org {
 
                     virtual std::wstring toStringTree() override;
 
-                    virtual std::wstring toString() override;
+                    virtual std::wstring toString();
 
-                    template<typename T1, typename T1>
-                    std::wstring toString(Recognizer<T1> *recog);
+                    template<typename T1, typename T2>
+                    std::wstring toString(Recognizer<T1, T2> *recog);
 
                     std::wstring toString(std::vector<std::wstring> &ruleNames);
 
                     // recog null unless ParserRuleContext, in which case we use subclass toString(...)
-                    template<typename T1, typename T1>
-                    virtual std::wstring toString(Recognizer<T1> *recog, RuleContext *stop);
+                    template<typename T1, typename T2>
+                    std::wstring toString(Recognizer<T1, T2> *recog, RuleContext *stop);
 
                     virtual std::wstring toString(std::vector<std::wstring> &ruleNames, RuleContext *stop);
 
