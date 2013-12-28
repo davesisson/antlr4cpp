@@ -1,20 +1,17 @@
 ﻿#pragma once
 
 #include "TokenSource.h"
-#include "Token.h"
 #include "TokenFactory.h"
 #include "CharStream.h"
 #include <string>
 #include <vector>
 
+class Token;
+
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-//                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Pair;
-
 
                 /// <summary>
                 /// Provides an implementation of <seealso cref="TokenSource"/> as a wrapper around a list

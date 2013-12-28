@@ -301,7 +301,7 @@ namespace org {
                         /// </summary>
                     protected:
                         misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache;
-
+#include "Token.h"
                         // LAME globals to avoid parameters!!!!! I need these down deep in predTransition
                         TokenStream *_input;
                         int _startIndex;

@@ -1,21 +1,22 @@
 ﻿#pragma once
 
-//#include "ATNConfig.h"
+
 #include "Array2DHashSet.h"
-//#include "AbstractEqualityComparator.h"
-//#include "PredictionContext.h"
-//#include "DoubleKeyMap.h"
-//#include "ATNState.h"
-//#include "SemanticContext.h"
-//#include "ATNSimulator.h"
+#include "AbstractEqualityComparator.h"
+#include "DoubleKeyMap.h"
 
 #include <string>
 #include <vector>
 #include <set>
+#include <bitset>
+#include <vector>
 
 class ATNConfig;
 class AbstractEqualityComparator;
 class PredictionContext;
+class SemanticContext;
+class ATNState;
+class ATNSimulator;
 
 /*
  * [The "BSD license"]
@@ -58,27 +59,33 @@ namespace org {
                     /// graph-structured stack.
                     /// </summary>
                     class ATNConfigSet : public std::set<ATNConfig*> {
+#ifdef TODO
+                        Find a good value here
+#endif
+                        static const int BITSET_SIZE  = 1024;
+                        
                     public:
-                        class AbstractConfigHashSet : public Array2DHashSet<ATNConfig*> {
+                        class AbstractConfigHashSet : public misc::Array2DHashSet<ATNConfig*> {
 
                         public:
-                            template<typename T1>
+                            
 //JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
 //ORIGINAL LINE: public AbstractConfigHashSet(org.antlr.v4.runtime.misc.AbstractEqualityComparator<? super ATNConfig> comparator)
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                            AbstractConfigHashSet(AbstractEqualityComparator<T1> *comparator); //this(comparator, 16, 2);
+                            template<typename T1>
+                            AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator); //this(comparator, 16, 2);
 
                             template<typename T1>
 //JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
 //ORIGINAL LINE: public AbstractConfigHashSet(org.antlr.v4.runtime.misc.AbstractEqualityComparator<? super ATNConfig> comparator, int initialCapacity, int initialBucketCapacity)
-                            AbstractConfigHashSet(AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity);
+                            AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity);
 
                         protected:
                             ATNConfig *asElementType(void *o) override;
 
-                            ATNConfig **createBuckets(int capacity) override;
+                            std::vector<std::vector<ATNConfig*>> *createBuckets(int capacity) override;
 
-                            ATNConfig *createBucket(int capacity) override;
+                            std::vector<ATNConfig*> *createBucket(int capacity) override;
 
                         };
                         /// <summary>
@@ -95,7 +102,7 @@ namespace org {
                         };
 
                     public:
-                        class ConfigEqualityComparator final : public AbstractEqualityComparator<ATNConfig*> {
+                        class ConfigEqualityComparator : public misc::AbstractEqualityComparator<ATNConfig*> {
                         public:
                             static ConfigEqualityComparator *const INSTANCE;
 
@@ -103,9 +110,9 @@ namespace org {
                             ConfigEqualityComparator();
 
                         public:
-                            int hashCode(ATNConfig *o) override;
+                            int hashCode(ATNConfig *o);
 
-                            bool equals(ATNConfig *a, ATNConfig *b) override;
+                            bool equals(ATNConfig *a, ATNConfig *b);
                         };
 
                         /// <summary>
@@ -133,7 +140,7 @@ namespace org {
                         // TODO: can we track conflicts as they are added to save scanning configs later?
                         int uniqueAlt;
                     protected:
-                        BitSet *conflictingAlts;
+                        std::bitset<BITSET_SIZE> *conflictingAlts;
 
                         // Used in parser and lexer. In lexer, it indicates we hit a pred
                         // while computing a closure operation.  Don't make a DFA state from this.
@@ -159,7 +166,7 @@ namespace org {
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ATNConfigSet(ATNConfigSet *old); //this(old.fullCtx);
 
-                        virtual bool add(ATNConfig *config) override;
+                        virtual bool add(ATNConfig *config);
 
                         /// <summary>
                         /// Adding a new config means merging contexts with existing configs for
@@ -171,13 +178,13 @@ namespace org {
                         /// This method updates <seealso cref="#dipsIntoOuterContext"/> and
                         /// <seealso cref="#hasSemanticContext"/> when necessary.
                         /// </summary>
-                        virtual bool add(ATNConfig *config, DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
+                        virtual bool add(ATNConfig *config, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
 
                         /// <summary>
                         /// Return a List holding list of configs </summary>
                         virtual std::vector<ATNConfig*> elements();
 
-                        virtual Set<ATNState*> *getStates();
+                        virtual std::set<ATNState*> *getStates();
 
                         virtual std::vector<SemanticContext*> getPredicates();
 
@@ -186,48 +193,48 @@ namespace org {
                         virtual void optimizeConfigs(ATNSimulator *interpreter);
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                        template<typename T1> where T1 : ATNConfig
-                        virtual bool addAll(Collection<T1> *coll) override;
+                        template<typename T1>// where T1 : ATNConfig
+                        bool addAll(std::set<T1> *coll);
 
-                        virtual bool equals(void *o) override;
+                        virtual bool equals(void *o);
 
-                        virtual int hashCode() override;
+                        virtual int hashCode();
 
-                        virtual int size() override;
+                        virtual int size();
 
-                        virtual bool isEmpty() override;
+                        virtual bool isEmpty();
 
-                        virtual bool contains(void *o) override;
+                        virtual bool contains(void *o);
 
                         virtual bool containsFast(ATNConfig *obj);
 
-                        virtual Iterator<ATNConfig*> *iterator() override;
+                        virtual std::iterator<std::forward_iterator_tag, ATNConfig*> *iterator();
 
-                        virtual void clear() override;
+                        virtual void clear();
 
                         virtual bool isReadonly();
 
                         virtual void setReadonly(bool readonly);
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                         // satisfy interface
 
-                        virtual ATNConfig *toArray() override;
+                        virtual ATNConfig *toArray();
 
                         template<typename T>
-                        virtual T *toArray(T a[]) override;
+                        T *toArray(T a[]);
 
-                        virtual bool remove(void *o) override;
-
-                        template<typename T1>
-                        virtual bool containsAll(Collection<T1> *c) override;
+                        virtual bool remove(void *o);
 
                         template<typename T1>
-                        virtual bool retainAll(Collection<T1> *c) override;
+                        bool containsAll(std::set<T1> *c);
 
                         template<typename T1>
-                        virtual bool removeAll(Collection<T1> *c) override;
+                        bool retainAll(std::set<T1> *c);
+
+                        template<typename T1>
+                        bool removeAll(std::set<T1> *c);
 
 
                     private:

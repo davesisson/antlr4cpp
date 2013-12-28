@@ -1,16 +1,23 @@
 ﻿#pragma once
 
 #include "Recognizer.h"
-#include "TokenSource.h"
-#include "atn/LexerATNSimulator.h"
-#include "Token.h"
 #include "CharStream.h"
-#include "misc/Pair.h"
-#include "TokenFactory.h"
-#include "misc/IntegerStack.h"
-#include "IntStream.h"
-#include "LexerNoViableAltException.h"
-#include "RecognitionException.h"
+#include "Pair.h"
+#include "IntegerStack.h"
+
+#include "Token.h"
+//#include "TokenSource.h"
+//#include "atn/LexerATNSimulator.h"
+//#include "IntStream.h"
+//#include "TokenFactory.h"
+//#include "LexerNoViableAltException.h"
+//#include "RecognitionException.h"
+
+class LexerATNSimulator;
+class TokenSource;
+class LexerNoViableAltException;
+class Token;
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -49,13 +56,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::atn::LexerATNSimulator;
-                using org::antlr::v4::runtime::misc::IntegerStack;
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::Pair;
-
-
                 /// <summary>
                 /// A lexer is recognizer that draws input symbols from a character stream.
                 ///  lexer grammars result in a subclass of this object. A Lexer object
@@ -75,13 +75,13 @@ namespace org {
 
                     CharStream *_input;
                 protected:
-                    Pair<TokenSource*, CharStream*> *_tokenFactorySourcePair;
+                    misc::Pair<TokenSource*, CharStream*> *_tokenFactorySourcePair;
 
                     /// <summary>
                     /// How to create token objects </summary>
 //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
 //ORIGINAL LINE: protected TokenFactory<?> _factory = CommonTokenFactory.DEFAULT;
-                    TokenFactory<?> *_factory;
+                    TokenFactory<void*> *_factory;
 
                     /// <summary>
                     /// The goal of all lexer rules/methods is to create a token object.
@@ -124,7 +124,7 @@ namespace org {
                     /// The token type for the current token </summary>
                     int _type;
 
-                    IntegerStack *const _modeStack;
+                    misc::IntegerStack *const _modeStack;
                     int _mode;
 
                     /// <summary>
@@ -143,7 +143,7 @@ namespace org {
                     /// Return a token from this source; i.e., match a token on the char
                     ///  stream.
                     /// </summary>
-                    virtual Token *nextToken() override;
+                    virtual Token *nextToken();
 
                     /// <summary>
                     /// Instruct the lexer to skip creating a token for current lexer rule
@@ -163,13 +163,13 @@ namespace org {
                     virtual int popMode();
 
                     template<typename T1>
-                    virtual void setTokenFactory(TokenFactory<T1> *factory) override;
+                    void setTokenFactory(TokenFactory<T1> *factory);
 
-                    virtual TokenFactory<? extends Token> *getTokenFactory() override;
+                    virtual TokenFactory<void*> *getTokenFactory() override;
 
                     /// <summary>
                     /// Set the char stream and reset the lexer </summary>
-                    virtual void setInputStream(IntStream *input) override;
+                    virtual void setInputStream(IntStream *input);
 
                     virtual std::wstring getSourceName() override;
 
@@ -245,7 +245,7 @@ namespace org {
                     /// Return a list of all Token objects in input char stream.
                     ///  Forces load of all tokens. Does not include EOF token.
                     /// </summary>
-                    virtual std::vector<? extends Token> getAllTokens();
+                    virtual std::vector<void*> getAllTokens();
 
                     virtual void recover(LexerNoViableAltException *e);
 

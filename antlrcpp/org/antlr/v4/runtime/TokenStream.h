@@ -3,7 +3,7 @@
 #include "IntStream.h"
 #include "Token.h"
 #include "TokenSource.h"
-#include "misc/Interval.h"
+#include "Interval.h"
 #include "RuleContext.h"
 
 /*
@@ -40,9 +40,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
 
                 /// <summary>
                 /// An <seealso cref="IntStream"/> whose symbols are <seealso cref="Token"/> instances.

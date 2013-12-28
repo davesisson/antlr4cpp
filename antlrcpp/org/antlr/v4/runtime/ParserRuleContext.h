@@ -1,17 +1,31 @@
 ﻿#pragma once
 
 #include "RuleContext.h"
-#include "tree/ParseTree.h"
-#include "Token.h"
-#include "RecognitionException.h"
-#include "tree/ParseTreeListener.h"
-#include "tree/TerminalNode.h"
-#include "tree/ErrorNode.h"
-#include "misc/Interval.h"
-#include "Parser.h"
+//#include "ParseTree.h"
+//#include "Token.h"
+//#include "RecognitionException.h"
+//#include "ParseTreeListener.h"
+//#include "TerminalNode.h"
+//#include "ErrorNode.h"
+//#include "mInterval.h"
+//#include "Parser.h"
+
 #include <string>
 #include <vector>
 #include <algorithm>
+
+class Interval;
+class Nullable;
+class ErrorNode;
+class ErrorNodeImpl;
+class ParseTree;
+class ParseTreeListener;
+class TerminalNode;
+class TerminalNodeImpl;
+class RuleTagToken;
+class RecognitionException;
+class ParserRuleContext;
+class ParseTree;
 
 /*
  * [The "BSD license"]
@@ -46,18 +60,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::Nullable;
-                using org::antlr::v4::runtime::tree::ErrorNode;
-                using org::antlr::v4::runtime::tree::ErrorNodeImpl;
-                using org::antlr::v4::runtime::tree::ParseTree;
-                using org::antlr::v4::runtime::tree::ParseTreeListener;
-                using org::antlr::v4::runtime::tree::TerminalNode;
-                using org::antlr::v4::runtime::tree::TerminalNodeImpl;
-                using org::antlr::v4::runtime::tree::pattern::RuleTagToken;
-
-
                 /// <summary>
                 /// A rule invocation record for parsing.
                 /// 
@@ -125,7 +127,7 @@ namespace org {
                     ParserRuleContext();
 
                     /// <summary>
-                    /// COPY a ctx (I'm deliberately not using copy constructor) </summary>
+                    /// COPY a ctx (I'm deliberately not copy constructor) </summary>
                     virtual void copyFrom(ParserRuleContext *ctx);
 
                     ParserRuleContext(ParserRuleContext *parent, int invokingStateNumber);
@@ -162,20 +164,20 @@ namespace org {
                     virtual ParseTree *getChild(int i) override;
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T> where T : org.antlr.v4.runtime.tree.ParseTree
-                    virtual T getChild(Class *ctxType, int i);
+                    template<typename T>
+                    T getChild(void *ctxType, int i);
 
                     virtual TerminalNode *getToken(int ttype, int i);
 
                     virtual std::vector<TerminalNode*> getTokens(int ttype);
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T> where T : ParserRuleContext
-                    virtual T getRuleContext(Class *ctxType, int i);
+                    template<typename T>
+                    T getRuleContext(void *ctxType, int i);
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T> where T : ParserRuleContext
-                    virtual std::vector<T> getRuleContexts(Class *ctxType);
+                    template<typename T>
+                    virtual std::vector<T> getRuleContexts(void *ctxType);
 
                     virtual int getChildCount() override;
                     virtual Interval *getSourceInterval() override;

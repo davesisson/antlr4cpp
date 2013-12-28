@@ -1,7 +1,8 @@
 ﻿#pragma once
 
 #include "IntStream.h"
-#include "misc/Interval.h"
+
+class Interval;
 
 /*
  * [The "BSD license"]
@@ -38,8 +39,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::misc::Interval;
-//                using org::antlr::v4::runtime::misc::NotNull;
+
 
                 /// <summary>
                 /// A source of characters for an ANTLR lexer. </summary>
@@ -60,7 +60,7 @@ namespace org {
                     /// <exception cref="UnsupportedOperationException"> if the stream does not support
                     /// getting the text of the specified interval </exception>
                 public:
-                    virtual std::wstring getText(org::antlr::v4::runtime::misc::Interval *interval) = 0;
+                    virtual std::wstring getText(Interval *interval) = 0;
                 };
 
             }

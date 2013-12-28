@@ -1,27 +1,51 @@
 ﻿#pragma once
 
 #include "Recognizer.h"
-#include "Token.h"
-#include "atn/ParserATNSimulator.h"
-#include "tree/ParseTreeListener.h"
-#include "ParserRuleContext.h"
-#include "tree/TerminalNode.h"
-#include "tree/ErrorNode.h"
-#include "atn/ATN.h"
-#include "ANTLRErrorStrategy.h"
+//#include "Token.h"
+//#include "ParserATNSimulator.h"
+#include "ParseTreeListener.h"
+//#include "ParserRuleContext.h"
+//#include "TerminalNode.h"
+//#include "ErrorNode.h"
+//#include "ATN.h"
+//#include "ANTLRErrorStrategy.h"
 #include "TokenStream.h"
-#include "misc/IntegerStack.h"
-#include "RecognitionException.h"
-#include "TokenFactory.h"
-#include "tree/pattern/ParseTreePattern.h"
-#include "Lexer.h"
-#include "IntStream.h"
-#include "RuleContext.h"
-#include "misc/IntervalSet.h"
+//#include "IntegerStack.h"
+//#include "RecognitionException.h"
+//#include "TokenFactory.h"
+//#include "ParseTreePattern.h"
+//#include "Lexer.h"
+//#include "IntStream.h"
+//#include "RuleContext.h"
+//#include "IntervalSet.h"
+
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <map>
+
+class ATN;
+class ATNDeserializationOptions;
+class ATNDeserializer;
+class ATNSimulator;
+class ATNState;
+class ParserATNSimulator;
+class RuleTransition;
+class DFA;
+class IntegerStack;
+class IntervalSet;
+class NotNull;
+class Nullable;
+class ErrorNode;
+class ParseTreeListener;
+class ParseTreeWalker;
+class TerminalNode;
+class ParseTreePattern;
+class ParseTreePatternMatcher;
+class ANTLRErrorStrategy;
+class TokenStream;
+class Lexer;
 
 /*
  * [The "BSD license"]
@@ -57,36 +81,16 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::atn::ATN;
-                using org::antlr::v4::runtime::atn::ATNDeserializationOptions;
-                using org::antlr::v4::runtime::atn::ATNDeserializer;
-                using org::antlr::v4::runtime::atn::ATNSimulator;
-                using org::antlr::v4::runtime::atn::ATNState;
-                using org::antlr::v4::runtime::atn::ParserATNSimulator;
-                using org::antlr::v4::runtime::atn::RuleTransition;
-                using org::antlr::v4::runtime::dfa::DFA;
-                using org::antlr::v4::runtime::misc::IntegerStack;
-                using org::antlr::v4::runtime::misc::IntervalSet;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
-                using org::antlr::v4::runtime::tree::ErrorNode;
-                using org::antlr::v4::runtime::tree::ParseTreeListener;
-                using org::antlr::v4::runtime::tree::ParseTreeWalker;
-                using org::antlr::v4::runtime::tree::TerminalNode;
-                using org::antlr::v4::runtime::tree::pattern::ParseTreePattern;
-                using org::antlr::v4::runtime::tree::pattern::ParseTreePatternMatcher;
-
-
                 /// <summary>
                 /// This is all the parsing support code essentially; most of it is error recovery stuff. </summary>
                 class Parser : public Recognizer<Token*, ParserATNSimulator*> {
                 public:
-                    class TraceListener : public ParseTreeListener {
-                                private:
-                                    Parser *const outerInstance;
+                    class TraceListener : public tree::ParseTreeListener {
+                        private:
+                        Parser *const outerInstance;
 
-                                public:
-                                    TraceListener(Parser *outerInstance);
+                        public:
+                        TraceListener(Parser *outerInstance);
 
                         virtual void enterEveryRule(ParserRuleContext *ctx) override;
 
@@ -98,7 +102,7 @@ namespace org {
                     };
 
                 public:
-                    class TrimToSizeListener : public ParseTreeListener {
+                    class TrimToSizeListener : public tree::ParseTreeListener {
                     public:
                         static TrimToSizeListener *const INSTANCE;
 
@@ -114,7 +118,7 @@ namespace org {
                     /// </summary>
                     /// <seealso cref= ATNDeserializationOptions#isGenerateRuleBypassTransitions() </seealso>
                 private:
-                    static Map<std::wstring, ATN*> *const bypassAltsAtnCache;
+                    static std::map<std::wstring, ATN*> *const bypassAltsAtnCache;
 
                     /// <summary>
                     /// The error handling strategy for the parser. The default value is a new
@@ -324,12 +328,12 @@ namespace org {
                 public:
                     virtual int getNumberOfSyntaxErrors();
 
-                    virtual TokenFactory<?> *getTokenFactory() override;
+                    virtual TokenFactory<void*> *getTokenFactory() override;
 
                     /// <summary>
                     /// Tell our token source and error strategy about a new way to create tokens. </summary>
                     template<typename T1>
-                    virtual void setTokenFactory(TokenFactory<T1> *factory) override;
+                    void setTokenFactory(TokenFactory<T1> *factory);
 
                     /// <summary>
                     /// The ATN with bypass alternatives is expensive to create so we create it

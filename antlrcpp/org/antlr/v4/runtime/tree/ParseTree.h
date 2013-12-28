@@ -3,9 +3,7 @@
 #include "SyntaxTree.h"
 #include "ParseTreeVisitor.h"
 
-
 class Parser;
-
 
 /*
  * [The "BSD license"]

@@ -1,14 +1,23 @@
 ﻿#pragma once
 
-#include "tree/RuleNode.h"
-#include "ParserRuleContext.h"
-#include "misc/Interval.h"
-#include "tree/ParseTree.h"
-#include "tree/ParseTreeVisitor.h"
-#include "Parser.h"
-#include "Recognizer.h"
+#include "RuleNode.h"
+//#include "ParserRuleContext.h"
+//#include "misc/Interval.h"
+//#include "tree/ParseTree.h"
+//#include "tree/ParseTreeVisitor.h"
+//#include "Parser.h"
+//#include "Recognizer.h"
 #include <string>
 #include <vector>
+
+class Interval;
+class Nullable;
+class ParseTree;
+class ParseTreeVisitor;
+class RuleNode;
+class Trees;
+class TreeViewer;
+
 
 /*
  * [The "BSD license"]
@@ -43,15 +52,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::Nullable;
-                using org::antlr::v4::runtime::tree::ParseTree;
-                using org::antlr::v4::runtime::tree::ParseTreeVisitor;
-                using org::antlr::v4::runtime::tree::RuleNode;
-                using org::antlr::v4::runtime::tree::Trees;
-                using org::antlr::v4::runtime::tree::gui::TreeViewer;
-
 
                 /// <summary>
                 /// A rule context is a record of a single rule invocation. It knows

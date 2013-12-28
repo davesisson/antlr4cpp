@@ -3,6 +3,8 @@
 #include "TokenSource.h"
 #include "CharStream.h"
 
+class TokenSource;
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -37,7 +39,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                class TokenSource;
+
                 
                 /// <summary>
                 /// A token has properties: text, type, line, character position in the line

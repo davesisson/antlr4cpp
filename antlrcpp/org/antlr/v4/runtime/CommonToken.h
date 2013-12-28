@@ -2,10 +2,12 @@
 
 #include "WritableToken.h"
 #include "CharStream.h"
-#include "TokenSource.h"
-#include "misc/Pair.h"
+#include "Pair.h"
 #include "Token.h"
 #include <string>
+
+class Interval;
+class TokenSource;
 
 /*
  * [The "BSD license"]
@@ -41,20 +43,15 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::misc::Interval;
-//                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Pair;
-
-
                 class CommonToken : public WritableToken/*, public Serializable*/ {
                 protected:
-                    static Pair<TokenSource*, CharStream*> *const EMPTY_SOURCE;
+                    static misc::Pair<TokenSource*, CharStream*> *const EMPTY_SOURCE;
 
                     int type;
                     int line;
                     int charPositionInLine; // set to invalid position
                     int channel;
-                    Pair<TokenSource*, CharStream*> *source;
+                    misc::Pair<TokenSource*, CharStream*> *source;
 
                     /// <summary>
                     /// We need to be able to change the text once in a while.  If
@@ -79,7 +76,7 @@ namespace org {
                 public:
                     CommonToken(int type);
 
-                    CommonToken(Pair<TokenSource*, CharStream*> *source, int type, int channel, int start, int stop);
+                    CommonToken(misc::Pair<TokenSource*, CharStream*> *source, int type, int channel, int start, int stop);
 
                     CommonToken(int type, const std::wstring &text);
 

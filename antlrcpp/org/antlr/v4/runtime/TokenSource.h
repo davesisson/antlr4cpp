@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "Token.h"
 #include "CharStream.h"
 #include "TokenFactory.h"
 

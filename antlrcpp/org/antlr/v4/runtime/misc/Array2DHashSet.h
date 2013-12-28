@@ -6,6 +6,7 @@
 #include <string>
 #include <set>
 #include <iterator>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -164,7 +165,6 @@ namespace org {
                         template<typename T1>
                         bool containsAll(std::set<T1> *collection);
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                         template<typename T1>
                         bool addAll(std::set<T1> *c) ;
 
@@ -200,14 +200,14 @@ namespace org {
                         /// </summary>
                         /// <param name="capacity"> the length of the array to return </param>
                         /// <returns> the newly constructed array </returns>
-                    virtual T **createBuckets(int capacity);
+                        virtual std::vector<std::vector<T>> * createBuckets(int capacity);
 
                         /// <summary>
                         /// Return an array of {@code T} with length {@code capacity}.
                         /// </summary>
                         /// <param name="capacity"> the length of the array to return </param>
                         /// <returns> the newly constructed array </returns>
-                    virtual T *createBucket(int capacity);
+                        virtual std::vector<T> *createBucket(int capacity);
 
 
                     private:

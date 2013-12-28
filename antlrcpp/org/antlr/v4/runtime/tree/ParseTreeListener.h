@@ -1,5 +1,9 @@
 ﻿#pragma once
 
+class ParserRuleContext;
+class TerminalNode;
+class ErrorNode;
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -35,10 +39,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-                    class ParserRuleContext;
-                    class TerminalNode;
-                    class ErrorNode;
-                    
                     class ParseTreeListener {
                     public:
                         virtual void visitTerminal(TerminalNode *node) = 0;
