@@ -1,8 +1,10 @@
 ﻿#pragma once
 
 #include "CharStream.h"
-#include "misc/Interval.h"
+
 #include <string>
+#include <fstream>
+
 
 /*
  * [The "BSD license"]
@@ -37,10 +39,10 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::Interval;
-
-
+                namespace misc {
+                    class Interval;
+                }
+            
                 /// <summary>
                 /// Vacuum all input from a <seealso cref="Reader"/>/<seealso cref="InputStream"/> and then treat it
                 /// like a {@code char[]} buffer. Can also pass in a <seealso cref="String"/> or
@@ -84,23 +86,23 @@ namespace org {
                     ANTLRInputStream(wchar_t data[], int numberOfActualCharsInArray);
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ANTLRInputStream(Reader *r) throw(IOException); //this(r, INITIAL_BUFFER_SIZE, READ_BUFFER_SIZE);
+                    ANTLRInputStream(std::ifstream *r) ; //this(r, INITIAL_BUFFER_SIZE, READ_BUFFER_SIZE);
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ANTLRInputStream(Reader *r, int initialSize) throw(IOException); //this(r, initialSize, READ_BUFFER_SIZE);
+                    ANTLRInputStream(std::ifstream *r, int initialSize) ; //this(r, initialSize, READ_BUFFER_SIZE);
 
-                    ANTLRInputStream(Reader *r, int initialSize, int readChunkSize) throw(IOException);
-
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ANTLRInputStream(InputStream *input) throw(IOException); //this(new InputStreamReader(input), INITIAL_BUFFER_SIZE);
+                    ANTLRInputStream(std::ifstream *r, int initialSize, int readChunkSize);
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ANTLRInputStream(InputStream *input, int initialSize) throw(IOException); //this(new InputStreamReader(input), initialSize);
+                    ANTLRInputStream(std::iostream *input) ; //this(new InputStreamReader(input), INITIAL_BUFFER_SIZE);
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ANTLRInputStream(InputStream *input, int initialSize, int readChunkSize) throw(IOException); //this(new InputStreamReader(input), initialSize, readChunkSize);
+                    ANTLRInputStream(std::iostream *input, int initialSize); //this(new InputStreamReader(input), initialSize);
 
-                    virtual void load(Reader *r, int size, int readChunkSize) throw(IOException);
+//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
+                    ANTLRInputStream(std::iostream *input, int initialSize, int readChunkSize); //this(new InputStreamReader(input), initialSize, readChunkSize);
+
+                    virtual void load(std::ifstream *r, int size, int readChunkSize);
 
                     /// <summary>
                     /// Reset the stream so that it's in the same state it was
@@ -140,7 +142,7 @@ namespace org {
 
                     virtual std::wstring getSourceName() override;
 
-                    virtual std::wstring toString() override;
+                    virtual std::wstring toString();
 
                 private:
                     void InitializeInstanceFields();

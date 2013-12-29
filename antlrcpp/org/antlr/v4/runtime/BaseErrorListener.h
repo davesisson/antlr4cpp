@@ -1,19 +1,13 @@
 ﻿#pragma once
 
 #include "ANTLRErrorListener.h"
-//#include "RecognitionException.h"
-//#include "Recognizer.h"
-//#include "Parser.h"
-//#include "atn/ATNConfigSet.h"
-//#include "dfa/DFA.h"
-#include <string>
-#include <bitset>
-
 class Recognizer;
 class RecognitionException; // TODO fixme
 class Parser;
-class DFA;
 class ATNConfigSet;
+class DFA;
+#include <string>
+#include <bitset>
 
 /*
  * [The "BSD license"]
@@ -48,6 +42,18 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+#ifdef TODO
+                namespace dfa {
+                    class DFA;
+                }
+                namespace atn {
+                    class ATNConfigSet;
+                }
+                
+                class Recognizer;
+                class RecognitionException; // TODO fixme
+                class Parser;
+#endif
                 /// <summary>
                 /// @author Sam Harwell
                 /// </summary>

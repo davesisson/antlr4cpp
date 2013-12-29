@@ -40,8 +40,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::misc::ParseCancellationException;
-
                 /// <summary>
                 /// Bail out of parser at first syntax error. Do this to use it:
                 ///  <p/>
