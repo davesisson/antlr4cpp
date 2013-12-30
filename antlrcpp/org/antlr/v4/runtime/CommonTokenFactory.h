@@ -7,7 +7,6 @@
 #include "Pair.h"
 #include <string>
 
-class Interval;
 
 /*
  * [The "BSD license"]
@@ -43,7 +42,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
+                
                 class CommonTokenFactory : public TokenFactory<CommonToken*> {
                 public:
                     static TokenFactory<CommonToken*> *const DEFAULT;
@@ -62,12 +61,11 @@ namespace org {
                 public:
                     CommonTokenFactory(bool copyText);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    CommonTokenFactory(); //this(false);
+                    CommonTokenFactory();
 
-                    virtual CommonToken **create(misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) override;
+                    virtual CommonToken *create(misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) override;
 
-                    virtual CommonToken **create(int type, const std::wstring &text) override;
+                    virtual CommonToken *create(int type, const std::wstring &text) override;
                 };
 
             }

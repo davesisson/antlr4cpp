@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include <ios>
 
 /*
  * [The "BSD license"]
@@ -36,7 +37,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-//                using org::antlr::v4::runtime::misc::NotNull;
 
                 /// <summary>
                 /// A simple stream of symbols whose values are represented as integers. This
@@ -61,7 +61,7 @@ namespace org {
                     /// </summary>
                 public:
 //                    Conflict with OS X
-                    static const int _EOF = -1;
+                    static const int _EOF = std::ios::eofbit;
 
                     /// <summary>
                     /// The value returned by <seealso cref="#getSourceName"/> when the actual name of the

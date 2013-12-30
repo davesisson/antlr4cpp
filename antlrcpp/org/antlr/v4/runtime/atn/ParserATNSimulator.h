@@ -23,7 +23,6 @@ class TokenStream;
 class DFA;
 class DFAState;
 class DoubleKeyMap;
-class Interval;
 class IntervalSet;
 class NotNull;
 class Nullable;
@@ -69,6 +68,9 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                namespace misc {
+                    class Interval;
+                }
                 namespace atn {
                     /// <summary>
                     /// The embodiment of the adaptive LL(*), ALL(*), parsing strategy.

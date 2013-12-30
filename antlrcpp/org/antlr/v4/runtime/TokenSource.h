@@ -3,8 +3,6 @@
 #include "CharStream.h"
 #include "TokenFactory.h"
 
-class Token;
-
 
 /*
  * [The "BSD license"]
@@ -35,11 +33,14 @@ class Token;
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
+                class Token;
+                class CommonToken;
+                
                 /// <summary>
                 /// A source of tokens must provide a sequence of tokens via <seealso cref="#nextToken()"/>
                 /// and also must reveal it's source of characters; <seealso cref="CommonToken"/>'s text is
@@ -110,7 +111,7 @@ namespace org {
                     /// creating <seealso cref="Token"/> objects from the input.
                     /// </summary>
                     /// <returns> The <seealso cref="TokenFactory"/> currently used by this token source. </returns>
-                    virtual TokenFactory<void *> *getTokenFactory() = 0;
+                    virtual TokenFactory<CommonToken *> *getTokenFactory() = 0;
                 };
 
             }

@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Tree.h"
-class Interval;
+
 
 /*
  * [The "BSD license"]
@@ -37,6 +37,10 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                namespace misc {
+                    class Interval;
+                }
+                
                 namespace tree {
                     /// <summary>
                     /// A tree that knows about an interval in a token stream
@@ -53,7 +57,7 @@ namespace org {
                         /// If source interval is unknown, this returns <seealso cref="Interval#INVALID"/>.
                         /// </summary>
                     public:
-                        virtual Interval *getSourceInterval() = 0;
+                        virtual misc::Interval *getSourceInterval() = 0;
                     };
 
                 }

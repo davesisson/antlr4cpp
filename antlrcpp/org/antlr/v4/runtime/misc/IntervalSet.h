@@ -7,7 +7,7 @@
 #include <set>
 #include "vectorhelper.h"
 
-class Interval;
+
 class IntegerList;
 
 /*
@@ -45,7 +45,8 @@ namespace org {
             namespace runtime {
                 namespace misc {
 
-
+                    class Interval;
+                    
                     /// <summary>
                     /// A set of integers that relies on ranges being common to do
                     ///  "run-length-encoded" like compression (if you view an IntSet like

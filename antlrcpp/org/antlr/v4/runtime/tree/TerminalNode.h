@@ -37,13 +37,14 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                class Token;
+                
                 namespace tree {
 
-                    using org::antlr::v4::runtime::Token;
 
                     class TerminalNode : public ParseTree {
                     public:
-                        virtual org::antlr::v4::runtime::Token *getSymbol() = 0;
+                        virtual Token *getSymbol() = 0;
                     };
 
                 }

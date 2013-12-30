@@ -1,20 +1,11 @@
 ﻿#pragma once
 
 #include "RuleContext.h"
-//#include "ParseTree.h"
-//#include "Token.h"
-//#include "RecognitionException.h"
-//#include "ParseTreeListener.h"
-//#include "TerminalNode.h"
-//#include "ErrorNode.h"
-//#include "mInterval.h"
-//#include "Parser.h"
 
 #include <string>
 #include <vector>
 #include <algorithm>
 
-class Interval;
 class Nullable;
 class ErrorNode;
 class ErrorNodeImpl;
@@ -60,6 +51,9 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                namespace misc {
+                    class Interval;
+                }
                 /// <summary>
                 /// A rule invocation record for parsing.
                 /// 
@@ -177,7 +171,7 @@ namespace org {
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                     template<typename T>
-                    virtual std::vector<T> getRuleContexts(void *ctxType);
+                    std::vector<T> getRuleContexts(void *ctxType);
 
                     virtual int getChildCount() override;
                     virtual Interval *getSourceInterval() override;

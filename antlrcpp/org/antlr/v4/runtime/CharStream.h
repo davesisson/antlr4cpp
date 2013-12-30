@@ -2,8 +2,6 @@
 
 #include "IntStream.h"
 
-class Interval;
-
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -38,7 +36,9 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
+                namespace misc {
+                    class Interval;
+                }
 
 
                 /// <summary>
@@ -60,7 +60,7 @@ namespace org {
                     /// <exception cref="UnsupportedOperationException"> if the stream does not support
                     /// getting the text of the specified interval </exception>
                 public:
-                    virtual std::wstring getText(Interval *interval) = 0;
+                    virtual std::wstring getText(misc::Interval *interval) = 0;
                 };
 
             }

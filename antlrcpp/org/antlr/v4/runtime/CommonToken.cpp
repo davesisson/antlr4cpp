@@ -1,13 +1,12 @@
 ﻿#include "CommonToken.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
+#include "Interval.h"
+
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Pair;
+
 org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*> *const CommonToken::EMPTY_SOURCE = new org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*>(nullptr, nullptr);
 
                 CommonToken::CommonToken(int type) {
@@ -73,7 +72,7 @@ org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*> *const CommonToke
                     }
                     int n = input->size();
                     if (start < n && stop < n) {
-                        return input->getText(Interval::of(start,stop));
+                        return input->getText(misc::Interval::of(start,stop));
                     } else {
                         return L"<EOF>";
                     }

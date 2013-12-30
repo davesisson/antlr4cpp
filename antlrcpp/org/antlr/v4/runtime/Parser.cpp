@@ -1,36 +1,47 @@
 ﻿#include "Parser.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNSimulator.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNDeserializationOptions.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNDeserializer.h"
-#include "Java/src/org/antlr/v4/runtime/TokenSource.h"
-#include "Java/src/org/antlr/v4/runtime/tree/pattern/ParseTreePatternMatcher.h"
-#include "Java/src/org/antlr/v4/runtime/ANTLRErrorListener.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleTransition.h"
-#include "Java/src/org/antlr/v4/runtime/dfa/DFA.h"
-
+#include "ATNSimulator.h"
+#include "ATNDeserializationOptions.h"
+#include "ATNDeserializer.h"
+#include "TokenSource.h"
+#include "tree/pattern/ParseTreePatternMatcher.h"
+#include "ANTLRErrorListener.h"
+#include "ATNState.h"
+#include "RuleTransition.h"
+#include "DFA.h"
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::atn::ATN;
-                using org::antlr::v4::runtime::atn::ATNDeserializationOptions;
-                using org::antlr::v4::runtime::atn::ATNDeserializer;
-                using org::antlr::v4::runtime::atn::ATNSimulator;
-                using org::antlr::v4::runtime::atn::ATNState;
-                using org::antlr::v4::runtime::atn::ParserATNSimulator;
-                using org::antlr::v4::runtime::atn::RuleTransition;
-                using org::antlr::v4::runtime::dfa::DFA;
-                using org::antlr::v4::runtime::misc::IntegerStack;
-                using org::antlr::v4::runtime::misc::IntervalSet;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
-                using org::antlr::v4::runtime::tree::ErrorNode;
-                using org::antlr::v4::runtime::tree::ParseTreeListener;
-                using org::antlr::v4::runtime::tree::ParseTreeWalker;
-                using org::antlr::v4::runtime::tree::TerminalNode;
-                using org::antlr::v4::runtime::tree::pattern::ParseTreePattern;
-                using org::antlr::v4::runtime::tree::pattern::ParseTreePatternMatcher;
+
 
                 Parser::TraceListener::TraceListener(Parser *outerInstance) : outerInstance(outerInstance) {
                 }

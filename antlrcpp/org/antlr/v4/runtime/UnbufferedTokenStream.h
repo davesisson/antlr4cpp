@@ -1,11 +1,7 @@
 ﻿#pragma once
 
 #include "TokenStream.h"
-//#include "TokenSource.h"
-//#include "Token.h"
-//#include "RuleContext.h"
-//#include "misc/Interval.h"
-//#include "WritableToken.h"
+
 
 #include <string>
 
@@ -163,7 +159,7 @@ namespace org {
 
                     virtual std::wstring getSourceName() override;
 
-                    virtual std::wstring getText(Interval *interval) ;
+                    virtual std::wstring getText(misc::Interval *interval) ;
 
                 protected:
                     int getBufferStartIndex();

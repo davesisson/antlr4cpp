@@ -2,6 +2,7 @@
 
 #include "TokenSource.h"
 #include "CharStream.h"
+#include <iostream>
 
 class TokenSource;
 
@@ -58,7 +59,7 @@ namespace org {
 
                     static const int MIN_USER_TOKEN_TYPE = 1;
 
-//                    static const int EOF = IntStream.EOF;
+                    static const int _EOF = IntStream::_EOF;
 
                     /// <summary>
                     /// All tokens go to the parser (unless skip() is called in that rule)

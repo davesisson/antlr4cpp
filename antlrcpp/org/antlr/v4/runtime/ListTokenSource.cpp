@@ -1,32 +1,58 @@
 ﻿#include "ListTokenSource.h"
 #include "Pair.h"
+#include "Token.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Pair;
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-template<typename T1> where T1 : Token
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
+                template<typename T1>
                 ListTokenSource::ListTokenSource(std::vector<T1> tokens) {
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-template<typename T1> where T1 : Token
+                template<typename T1>
                 ListTokenSource::ListTokenSource(std::vector<T1> tokens, const std::wstring &sourceName) : tokens(tokens), sourceName(sourceName) {
                     InitializeInstanceFields();
                     if (tokens.empty()) {
-                        throw NullPointerException(L"tokens cannot be null");
+                        throw L"tokens cannot be null";
                     }
 
                 }
 
                 int ListTokenSource::getCharPositionInLine() {
                     if (i < tokens.size()) {
-                        return tokens[i]->getCharPositionInLine();
+                        return ((Token*)tokens[i])->getCharPositionInLine();
                     } else if (eofToken != nullptr) {
                         return eofToken->getCharPositionInLine();
                     } else if (tokens.size() > 0) {
@@ -35,9 +61,9 @@ template<typename T1> where T1 : Token
                         Token *lastToken = tokens[tokens.size() - 1];
                         std::wstring tokenText = lastToken->getText();
                         if (tokenText != L"") {
-                            int lastNewLine = tokenText.rfind(L'\n');
+                            int lastNewLine = (int)tokenText.rfind(L'\n');
                             if (lastNewLine >= 0) {
-                                return tokenText.length() - lastNewLine - 1;
+                                return (int)tokenText.length() - lastNewLine - 1;
                             }
                         }
 
@@ -49,26 +75,26 @@ template<typename T1> where T1 : Token
                     return 0;
                 }
 
-                org::antlr::v4::runtime::Token *ListTokenSource::nextToken() {
+                    Token *ListTokenSource::nextToken() {
                     if (i >= tokens.size()) {
                         if (eofToken == nullptr) {
                             int start = -1;
                             if (tokens.size() > 0) {
-                                int previousStop = tokens[tokens.size() - 1]->getStopIndex();
+                                int previousStop = ((Token*)tokens[tokens.size() - 1])->getStopIndex();
                                 if (previousStop != -1) {
                                     start = previousStop + 1;
                                 }
                             }
 
                             int stop = std::max(-1, start - 1);
-                            eofToken = _factory->create(new Pair<TokenSource*, CharStream*>(this, getInputStream()), Token::EOF, L"EOF", Token::DEFAULT_CHANNEL, start, stop, getLine(), getCharPositionInLine());
+                            eofToken = _factory->create(new misc::Pair<TokenSource*, CharStream*>(this, getInputStream()), Token::_EOF, L"EOF", Token::DEFAULT_CHANNEL, start, stop, getLine(), getCharPositionInLine());
                         }
 
                         return eofToken;
                     }
 
                     Token *t = tokens[i];
-                    if (i == tokens.size() - 1 && t->getType() == Token::EOF) {
+                    if (i == tokens.size() - 1 && t->getType() == Token::_EOF) {
                         eofToken = t;
                     }
 
@@ -105,7 +131,7 @@ template<typename T1> where T1 : Token
                     return 1;
                 }
 
-                org::antlr::v4::runtime::CharStream *ListTokenSource::getInputStream() {
+                CharStream *ListTokenSource::getInputStream() {
                     if (i < tokens.size()) {
                         return tokens[i]->getInputStream();
                     } else if (eofToken != nullptr) {
@@ -131,12 +157,12 @@ template<typename T1> where T1 : Token
                     return L"List";
                 }
 
-template<typename T1>
+                template<typename T1>
                 void ListTokenSource::setTokenFactory(TokenFactory<T1> *factory) {
                     this->_factory = factory;
                 }
 
-                org::antlr::v4::runtime::TokenFactory<?> *ListTokenSource::getTokenFactory() {
+                TokenFactory<CommonToken*> *ListTokenSource::getTokenFactory() {
                     return _factory;
                 }
 

@@ -1,5 +1,5 @@
 ﻿#include "ParseTreePattern.h"
-#include "Java/src/org/antlr/v4/runtime/tree/xpath/XPath.h"
+#include "XPath.h"
 
 namespace org {
     namespace antlr {
@@ -7,9 +7,6 @@ namespace org {
             namespace runtime {
                 namespace tree {
                     namespace pattern {
-                        using org::antlr::v4::runtime::misc::NotNull;
-                        using org::antlr::v4::runtime::tree::ParseTree;
-                        using org::antlr::v4::runtime::tree::xpath::XPath;
 
                         ParseTreePattern::ParseTreePattern(ParseTreePatternMatcher *matcher, const std::wstring &pattern, int patternRuleIndex, ParseTree *patternTree) : patternRuleIndex(patternRuleIndex), pattern(pattern), patternTree(patternTree), matcher(matcher) {
                         }

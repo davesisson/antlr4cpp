@@ -1,11 +1,7 @@
 ﻿#pragma once
 
 #include "TerminalNode.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "ParseTree.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
-#include "ParseTreeVisitor.h"
-#include "Java/src/org/antlr/v4/runtime/Parser.h"
+
 #include <string>
 
 /*
@@ -42,12 +38,15 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                namespace misc {
+                    class Interval;
+                }
+                
+                class Token;
+                class ParseTree;
+                class Parser;
+                
                 namespace tree {
-
-                    using org::antlr::v4::runtime::Parser;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::Interval;
-
 
                     class TerminalNodeImpl : public TerminalNode {
                     public:
@@ -59,18 +58,18 @@ namespace org {
                         virtual ParseTree *getChild(int i) override;
                         virtual Token *getSymbol() override;
                         virtual ParseTree *getParent() override;
-                        virtual Token *getPayload() override;
-                        virtual Interval *getSourceInterval() override;
+                        virtual void *getPayload() override; // returns "Token *"
+                        virtual misc::Interval *getSourceInterval() override;
 
                         virtual int getChildCount() override;
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                        template<typename T, typename T1> where T1 : T
-                        virtual T accept(ParseTreeVisitor<T1> *visitor) override;
+                        
+                        template<typename T, typename T1>
+                        T accept(ParseTreeVisitor<T1> *visitor);
 
                         virtual std::wstring getText() override;
                         virtual std::wstring toStringTree(Parser *parser) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                         virtual std::wstring toStringTree() override;
                     };

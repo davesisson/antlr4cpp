@@ -1,23 +1,15 @@
 ﻿#pragma once
 
 #include "RuleNode.h"
-//#include "ParserRuleContext.h"
-//#include "misc/Interval.h"
-//#include "tree/ParseTree.h"
 #include "ParseTreeVisitor.h"
-//#include "Parser.h"
+
 #include "Recognizer.h"
 #include <string>
 #include <vector>
 
-class Interval;
-class Nullable;
-class ParseTree;
-class ParseTreeVisitor;
-class RuleNode;
-class Trees;
-class TreeViewer;
-class ParserRuleContext;
+
+
+
 
 /*
  * [The "BSD license"]
@@ -48,10 +40,22 @@ class ParserRuleContext;
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                
+                namespace misc {
+                    class Interval;
+                    class Nullable;
+                }
+                
+                namespace tree {
+                    class ParseTree;
+                }
+
+                class ParserRuleContext;
 
                 /// <summary>
                 /// A rule context is a record of a single rule invocation. It knows
@@ -102,7 +106,7 @@ namespace org {
 
                     // satisfy the ParseTree / SyntaxTree interface
 
-                    virtual Interval *getSourceInterval() override;
+                    virtual misc::Interval *getSourceInterval() override;
 
                     virtual RuleContext *getRuleContext() override;
                     virtual RuleContext *getParent() override;

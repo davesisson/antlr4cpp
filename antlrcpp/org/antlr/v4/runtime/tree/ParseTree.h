@@ -3,7 +3,7 @@
 #include "SyntaxTree.h"
 #include "ParseTreeVisitor.h"
 
-class Parser;
+
 
 /*
  * [The "BSD license"]
@@ -39,6 +39,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                class Parser;
                 
                 namespace tree {
 

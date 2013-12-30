@@ -1,20 +1,11 @@
 ﻿#include "ParserRuleContext.h"
-#include "Java/src/org/antlr/v4/runtime/tree/TerminalNodeImpl.h"
-#include "Java/src/org/antlr/v4/runtime/tree/ErrorNodeImpl.h"
+#include "TerminalNodeImpl.h"
+#include "ErrorNodeImpl.h"
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::Nullable;
-                using org::antlr::v4::runtime::tree::ErrorNode;
-                using org::antlr::v4::runtime::tree::ErrorNodeImpl;
-                using org::antlr::v4::runtime::tree::ParseTree;
-                using org::antlr::v4::runtime::tree::ParseTreeListener;
-                using org::antlr::v4::runtime::tree::TerminalNode;
-                using org::antlr::v4::runtime::tree::TerminalNodeImpl;
-                using org::antlr::v4::runtime::tree::pattern::RuleTagToken;
 
                 ParserRuleContext::ParserRuleContext() {
                 }

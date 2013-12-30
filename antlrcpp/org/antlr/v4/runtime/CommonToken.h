@@ -6,7 +6,6 @@
 #include "Token.h"
 #include <string>
 
-class Interval;
 class TokenSource;
 
 /*
@@ -43,6 +42,10 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
+                namespace misc {
+                    class Interval;
+                }
+                
                 class CommonToken : public WritableToken/*, public Serializable*/ {
                 protected:
                     static misc::Pair<TokenSource*, CharStream*> *const EMPTY_SOURCE;

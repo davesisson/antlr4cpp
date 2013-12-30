@@ -47,8 +47,8 @@ namespace org {
                 ///  the error handling strategy (to create missing tokens).  Notifying the parser
                 ///  of a new factory means that it notifies it's token source and error strategy.
                 /// </summary>
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                template<typename Symbol> //where Symbol : Token
+
+                template<typename Symbol>
                 class TokenFactory {
                     /// <summary>
                     /// This is the method used to create tokens in the lexer and in the
@@ -56,11 +56,11 @@ namespace org {
                     ///  are wiped to -1 in the text override is set in the CommonToken.
                     /// </summary>
                 public:
-                    virtual Symbol *create(misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) = 0;
+                    virtual Symbol create(misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) = 0;
 
                     /// <summary>
                     /// Generically useful </summary>
-                    virtual Symbol *create(int type, const std::wstring &text) = 0;
+                    virtual Symbol create(int type, const std::wstring &text) = 0;
                 };
 
             }
