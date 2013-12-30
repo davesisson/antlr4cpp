@@ -5,18 +5,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
-class Nullable;
-class ErrorNode;
-class ErrorNodeImpl;
-class ParseTree;
-class ParseTreeListener;
-class TerminalNode;
-class TerminalNodeImpl;
-class RuleTagToken;
-class RecognitionException;
-class ParserRuleContext;
-class ParseTree;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -51,9 +40,8 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                namespace misc {
-                    class Interval;
-                }
+
+
                 /// <summary>
                 /// A rule invocation record for parsing.
                 /// 

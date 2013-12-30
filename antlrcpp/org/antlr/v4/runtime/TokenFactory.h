@@ -2,9 +2,8 @@
 
 #include "Pair.h"
 #include <string>
+#include "Declarations.h"
 
-class CharStream;
-class TokenSource;
 
 /*
  * [The "BSD license"]
@@ -40,7 +39,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                class TokenSource;
 
                 /// <summary>
                 /// The default mechanism for creating tokens. It's used by default in Lexer and

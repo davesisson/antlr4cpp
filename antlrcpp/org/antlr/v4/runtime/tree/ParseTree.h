@@ -2,6 +2,7 @@
 
 #include "SyntaxTree.h"
 #include "ParseTreeVisitor.h"
+#include "Declarations.h"
 
 
 
@@ -39,7 +40,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                class Parser;
                 
                 namespace tree {
 

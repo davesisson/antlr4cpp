@@ -1,9 +1,11 @@
 ﻿#pragma once
 
 #include "XPathElement.h"
+#include "Declarations.h"
 
 #include <string>
 #include <vector>
+#include "set"
 
 /*
  * [The "BSD license"]
@@ -39,7 +41,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                class Parser;
+
                 namespace tree {
                     namespace xpath {
 
@@ -114,13 +116,13 @@ namespace org {
 
 
                         public:
-                            static Collection<ParseTree*> *findAll(ParseTree *tree, const std::wstring &xpath, Parser *parser);
+                            static std::set<ParseTree*> *findAll(ParseTree *tree, const std::wstring &xpath, Parser *parser);
 
                             /// <summary>
                             /// Return a list of all nodes starting at t as root that satisfy the path.
                             ///  The root / is relative to the node passed to evaluate().
                             /// </summary>
-                            virtual Collection<ParseTree*> *evaluate(ParseTree *const t);
+                            virtual std::set<ParseTree*> *evaluate(ParseTree *const t);
 
                         private:
                             class ArrayListAnonymousInnerClassHelper : public std::vector<ParseTree*> {
@@ -131,7 +133,6 @@ namespace org {
 
                             public:
                                 ArrayListAnonymousInnerClassHelper(XPath *outerInstance, ParseTree *t);
-
                                 {
                                     this->add(t);
                                 }

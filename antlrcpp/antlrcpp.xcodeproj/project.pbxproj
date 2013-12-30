@@ -309,6 +309,7 @@
 		3789F4FF1870D1D8003E0A30 /* StringBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringBuilder.h; path = antlrcpp/StringBuilder.h; sourceTree = "<group>"; };
 		3789F5021870E074003E0A30 /* Arrays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Arrays.cpp; path = antlrcpp/Arrays.cpp; sourceTree = "<group>"; };
 		3789F5031870E074003E0A30 /* Arrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Arrays.h; path = antlrcpp/Arrays.h; sourceTree = "<group>"; };
+		3789F5061871AFD8003E0A30 /* Declarations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Declarations.h; path = antlrcpp/Declarations.h; sourceTree = "<group>"; };
 		37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorListener.cpp; sourceTree = "<group>"; };
 		37D1C2C7186A31130041671A /* ANTLRErrorListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANTLRErrorListener.h; sourceTree = "<group>"; };
 		37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorStrategy.cpp; sourceTree = "<group>"; };
@@ -966,6 +967,7 @@
 		37D727A11867AF1E007B6D10 = {
 			isa = PBXGroup;
 			children = (
+				3789F5061871AFD8003E0A30 /* Declarations.h */,
 				3789F5021870E074003E0A30 /* Arrays.cpp */,
 				3789F5031870E074003E0A30 /* Arrays.h */,
 				3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */,

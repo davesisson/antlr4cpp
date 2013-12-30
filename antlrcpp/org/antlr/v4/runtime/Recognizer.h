@@ -3,16 +3,7 @@
 #include "TokenFactory.h"
 #include "ATNSimulator.h"
 
-class ConsoleErrorListener;
-class Utils;
-class Token;
-class ATN;
-class RecognitionException;
-class ProxyErrorListener;
-class RuleContext;
-class IntStream;
-class ATNInterpreter;
-class ANTLRErrorListener;
+#include "Declarations.h"
 
 #include <string>
 #include <vector>

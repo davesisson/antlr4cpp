@@ -2,13 +2,11 @@
 
 #include "RuleNode.h"
 #include "ParseTreeVisitor.h"
-
 #include "Recognizer.h"
+#include "Declarations.h"
+
 #include <string>
 #include <vector>
-
-
-
 
 
 /*
@@ -46,16 +44,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 
-                namespace misc {
-                    class Interval;
-                    class Nullable;
-                }
-                
-                namespace tree {
-                    class ParseTree;
-                }
-
-                class ParserRuleContext;
 
                 /// <summary>
                 /// A rule context is a record of a single rule invocation. It knows

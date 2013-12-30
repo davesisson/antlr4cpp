@@ -1,8 +1,6 @@
 ﻿#pragma once
 
-class ParserRuleContext;
-class TerminalNode;
-class ErrorNode;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -38,6 +36,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                
                 namespace tree {
                     class ParseTreeListener {
                     public:

@@ -11,15 +11,4 @@
 #include "antlrcpp.h"
 #include "antlrcppPriv.h"
 
-void antlrcpp::HelloWorld(const char * s)
-{
-	 antlrcppPriv *theObj = new antlrcppPriv;
-	 theObj->HelloWorldPriv(s);
-	 delete theObj;
-};
-
-void antlrcppPriv::HelloWorldPriv(const char * s) 
-{
-	std::cout << s << std::endl;
-};
 

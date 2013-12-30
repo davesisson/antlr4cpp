@@ -7,14 +7,8 @@
 #include <limits.h>
 #include "DoubleKeyMap.h"
 #include "Recognizer.h"
+#include "Declarations.h"
 
-class ATN;
-class Recognizer;
-class RuleContext;
-class EmptyPredictionContext;
-class SingletonPredictionContext;
-class ArrayPredictionContext;
-class PredictionContextCache;
 
 /*
  * [The "BSD license"]

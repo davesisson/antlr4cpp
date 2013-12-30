@@ -1,51 +1,17 @@
 ﻿#pragma once
 
 #include "Recognizer.h"
-//#include "Token.h"
-//#include "ParserATNSimulator.h"
 #include "ParseTreeListener.h"
-//#include "ParserRuleContext.h"
-//#include "TerminalNode.h"
-//#include "ErrorNode.h"
-//#include "ATN.h"
-//#include "ANTLRErrorStrategy.h"
 #include "TokenStream.h"
-//#include "IntegerStack.h"
-//#include "RecognitionException.h"
-//#include "TokenFactory.h"
-//#include "ParseTreePattern.h"
-//#include "Lexer.h"
-//#include "IntStream.h"
-//#include "RuleContext.h"
-//#include "IntervalSet.h"
+
 
 #include <string>
 #include <vector>
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include "Declarations.h"
 
-class ATN;
-class ATNDeserializationOptions;
-class ATNDeserializer;
-class ATNSimulator;
-class ATNState;
-class ParserATNSimulator;
-class RuleTransition;
-class DFA;
-class IntegerStack;
-class IntervalSet;
-class NotNull;
-class Nullable;
-class ErrorNode;
-class ParseTreeListener;
-class ParseTreeWalker;
-class TerminalNode;
-class ParseTreePattern;
-class ParseTreePatternMatcher;
-class ANTLRErrorStrategy;
-class TokenStream;
-class Lexer;
 
 /*
  * [The "BSD license"]
@@ -82,9 +48,10 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
+                
                 /// <summary>
                 /// This is all the parsing support code essentially; most of it is error recovery stuff. </summary>
-                class Parser : public Recognizer<Token*, ParserATNSimulator*> {
+                class Parser : public Recognizer<Token*, atn::ParserATNSimulator*> {
                 public:
                     class TraceListener : public tree::ParseTreeListener {
                         private:
@@ -95,9 +62,9 @@ namespace org {
 
                         virtual void enterEveryRule(ParserRuleContext *ctx) override;
 
-                        virtual void visitTerminal(TerminalNode *node) override;
+                        virtual void visitTerminal(tree::TerminalNode *node) override;
 
-                        virtual void visitErrorNode(ErrorNode *node) override;
+                        virtual void visitErrorNode(tree::ErrorNode *node) override;
 
                         virtual void exitEveryRule(ParserRuleContext *ctx) override;
                     };
@@ -108,8 +75,8 @@ namespace org {
                         static TrimToSizeListener *const INSTANCE;
 
                         virtual void enterEveryRule(ParserRuleContext *ctx) override;
-                        virtual void visitTerminal(TerminalNode *node) override;
-                        virtual void visitErrorNode(ErrorNode *node) override;
+                        virtual void visitTerminal(tree::TerminalNode *node) override;
+                        virtual void visitErrorNode(tree::ErrorNode *node) override;
                         virtual void exitEveryRule(ParserRuleContext *ctx) override;
                     };
 
@@ -137,7 +104,7 @@ namespace org {
                     /// <seealso cref= #setInputStream </seealso>
                     TokenStream *_input;
 
-                    IntegerStack *const _precedenceStack;
+                    misc::IntegerStack *const _precedenceStack;
 
                     /// <summary>
                     /// The <seealso cref="ParserRuleContext"/> object for the currently executing rule.
@@ -170,7 +137,7 @@ namespace org {
                     /// </summary>
                     /// <seealso cref= #addParseListener </seealso>
                 protected:
-                    std::vector<ParseTreeListener*> _parseListeners;
+                    std::vector<tree::ParseTreeListener*> _parseListeners;
 
                     /// <summary>
                     /// The number of syntax errors reported during parsing. This value is
@@ -202,7 +169,7 @@ namespace org {
                     /// <exception cref="RecognitionException"> if the current input symbol did not match
                     /// {@code ttype} and the error strategy could not recover from the
                     /// mismatched symbol </exception>
-                    virtual Token *match(int ttype) throw(RecognitionException);
+                    virtual Token *match(int ttype);
 
                     /// <summary>
                     /// Match current input symbol as a wildcard. If the symbol type matches
@@ -220,7 +187,7 @@ namespace org {
                     /// <exception cref="RecognitionException"> if the current input symbol did not match
                     /// a wildcard and the error strategy could not recover from the mismatched
                     /// symbol </exception>
-                    virtual Token *matchWildcard() throw(RecognitionException);
+                    virtual Token *matchWildcard();
 
                     /// <summary>
                     /// Track the <seealso cref="ParserRuleContext"/> objects during the parse and hook
@@ -259,7 +226,7 @@ namespace org {
                     /// using the default <seealso cref="Parser.TrimToSizeListener"/> during the parse process. </returns>
                     virtual bool getTrimParseTree();
 
-                    virtual std::vector<ParseTreeListener*> getParseListeners();
+                    virtual std::vector<tree::ParseTreeListener*> getParseListeners();
 
                     /// <summary>
                     /// Registers {@code listener} to receive events during the parsing process.
@@ -289,7 +256,7 @@ namespace org {
                     /// <param name="listener"> the listener to add
                     /// </param>
                     /// <exception cref="NullPointerException"> if {@code} listener is {@code null} </exception>
-                    virtual void addParseListener(ParseTreeListener *listener);
+                    virtual void addParseListener(tree::ParseTreeListener *listener);
 
                     /// <summary>
                     /// Remove {@code listener} from the list of parse listeners.
@@ -300,7 +267,7 @@ namespace org {
                     /// <seealso cref= #addParseListener
                     /// </seealso>
                     /// <param name="listener"> the listener to remove </param>
-                    virtual void removeParseListener(ParseTreeListener *listener);
+                    virtual void removeParseListener(tree::ParseTreeListener *listener);
 
                     /// <summary>
                     /// Remove all parse listeners.
@@ -355,13 +322,13 @@ namespace org {
                     /// String id = m.get("ID");
                     /// </pre>
                     /// </summary>
-                    virtual ParseTreePattern *compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex);
+                    virtual tree::pattern::ParseTreePattern *compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex);
 
                     /// <summary>
                     /// The same as <seealso cref="#compileParseTreePattern(String, int)"/> but specify a
                     /// <seealso cref="Lexer"/> rather than trying to deduce it from this parser.
                     /// </summary>
-                    virtual ParseTreePattern *compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex, Lexer *lexer);
+                    virtual tree::pattern::ParseTreePattern *compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex, Lexer *lexer);
 
                     virtual ANTLRErrorStrategy *getErrorHandler();
 
