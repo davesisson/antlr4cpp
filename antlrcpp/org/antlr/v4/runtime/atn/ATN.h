@@ -5,13 +5,8 @@
 #include <vector>
 #include <map>
 
-class TokensStartState;
-class ATNState;
-class DecisionState;
-class RuleStartState;
-class RuleStopState;
-class IntervalSet;
-class RuleContext;
+#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
@@ -121,14 +116,14 @@ namespace org {
                         ///  the rule surrounding {@code s}. In other words, the set will be
                         ///  restricted to tokens reachable staying within {@code s}'s rule.
                         /// </summary>
-                        virtual IntervalSet *nextTokens(ATNState *s, RuleContext *ctx);
+                        virtual misc::IntervalSet *nextTokens(ATNState *s, RuleContext *ctx);
 
                         /// <summary>
                         /// Compute the set of valid tokens that can occur starting in {@code s} and
                         /// staying in same rule. <seealso cref="Token#EPSILON"/> is in set if we reach end of
                         /// rule.
                         /// </summary>
-                        virtual IntervalSet *nextTokens(ATNState *s);
+                        virtual misc::IntervalSet *nextTokens(ATNState *s);
 
                         virtual void addState(ATNState *state);
 
@@ -158,7 +153,7 @@ namespace org {
                         /// specified state in the specified context. </returns>
                         /// <exception cref="IllegalArgumentException"> if the ATN does not contain a state with
                         /// number {@code stateNumber} </exception>
-                        virtual IntervalSet *getExpectedTokens(int stateNumber, RuleContext *context);
+                        virtual misc::IntervalSet *getExpectedTokens(int stateNumber, RuleContext *context);
                     };
 
                 }

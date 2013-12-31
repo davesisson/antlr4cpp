@@ -189,7 +189,7 @@ namespace org {
 
                     virtual void setInputStream(IntStream *input) = 0;
 
-                    virtual TokenFactory<void *> *getTokenFactory() = 0;
+                    virtual TokenFactory<CommonToken *> *getTokenFactory() = 0;
 
                     template<typename T1>
                     void setTokenFactory(TokenFactory<T1> *input);

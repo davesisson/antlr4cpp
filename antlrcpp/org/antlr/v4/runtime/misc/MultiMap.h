@@ -4,6 +4,7 @@
 #include <vector>
 #include <list>
 #include "Pair.h"
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]

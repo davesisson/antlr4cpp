@@ -3,10 +3,7 @@
 #include <string>
 #include <vector>
 
-class ParseTree;
-class ParseTreePatternMatcher;
-class ParseTreeMatch;
-
+#include "Declarations.h"
 
 
 /*

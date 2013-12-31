@@ -57,7 +57,7 @@ namespace org {
 
                         virtual bool equals(void *o) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString() ;
                     };
 
                 }

@@ -7,8 +7,7 @@
 #include <set>
 #include "vectorhelper.h"
 
-
-class IntegerList;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -39,13 +38,13 @@ class IntegerList;
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace misc {
 
-                    class Interval;
                     
                     /// <summary>
                     /// A set of integers that relies on ranges being common to do

@@ -188,6 +188,11 @@ namespace org {
                             this->outerInstance = outerInstance;
                             this->t = t;
                         }
+                        // Dan - this code erronously shows up in the header file, TODO which one is correct?
+                        XPath::ArrayListAnonymousInnerClassHelper::ArrayListAnonymousInnerClassHelper(XPath *outerInstance, ParseTree *t);
+                        {
+                            this->add(t);
+                        }
                     }
                 }
             }

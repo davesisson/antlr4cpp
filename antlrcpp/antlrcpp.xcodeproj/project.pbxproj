@@ -11,6 +11,8 @@
 		3789F5011870D1D8003E0A30 /* StringBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 3789F4FF1870D1D8003E0A30 /* StringBuilder.h */; };
 		3789F5041870E074003E0A30 /* Arrays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3789F5021870E074003E0A30 /* Arrays.cpp */; };
 		3789F5051870E074003E0A30 /* Arrays.h in Headers */ = {isa = PBXBuildFile; fileRef = 3789F5031870E074003E0A30 /* Arrays.h */; };
+		3789F5091872F5C2003E0A30 /* XPathLexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3789F5071872F5C2003E0A30 /* XPathLexer.cpp */; };
+		3789F50A1872F5C2003E0A30 /* XPathLexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3789F5081872F5C2003E0A30 /* XPathLexer.h */; };
 		37D1C3FB186A31140041671A /* ANTLRErrorListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */; };
 		37D1C3FC186A31140041671A /* ANTLRErrorListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C2C7186A31130041671A /* ANTLRErrorListener.h */; };
 		37D1C3FD186A31140041671A /* ANTLRErrorStrategy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */; };
@@ -310,6 +312,8 @@
 		3789F5021870E074003E0A30 /* Arrays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Arrays.cpp; path = antlrcpp/Arrays.cpp; sourceTree = "<group>"; };
 		3789F5031870E074003E0A30 /* Arrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Arrays.h; path = antlrcpp/Arrays.h; sourceTree = "<group>"; };
 		3789F5061871AFD8003E0A30 /* Declarations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Declarations.h; path = antlrcpp/Declarations.h; sourceTree = "<group>"; };
+		3789F5071872F5C2003E0A30 /* XPathLexer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XPathLexer.cpp; sourceTree = "<group>"; };
+		3789F5081872F5C2003E0A30 /* XPathLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathLexer.h; sourceTree = "<group>"; };
 		37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorListener.cpp; sourceTree = "<group>"; };
 		37D1C2C7186A31130041671A /* ANTLRErrorListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANTLRErrorListener.h; sourceTree = "<group>"; };
 		37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorStrategy.cpp; sourceTree = "<group>"; };
@@ -942,6 +946,8 @@
 		37D1C3E2186A31140041671A /* xpath */ = {
 			isa = PBXGroup;
 			children = (
+				3789F5071872F5C2003E0A30 /* XPathLexer.cpp */,
+				3789F5081872F5C2003E0A30 /* XPathLexer.h */,
 				37D1C3E3186A31140041671A /* XPath.cpp */,
 				37D1C3E4186A31140041671A /* XPath.h */,
 				37D1C3E5186A31140041671A /* XPathElement.cpp */,
@@ -1163,6 +1169,7 @@
 				37D1C518186A31140041671A /* XPathRuleAnywhereElement.h in Headers */,
 				37D1C4AC186A31140041671A /* NotNull.h in Headers */,
 				37D1C528186A31140041671A /* WritableToken.h in Headers */,
+				3789F50A1872F5C2003E0A30 /* XPathLexer.h in Headers */,
 				37D1C40E186A31140041671A /* ATNConfigSet.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1346,6 +1353,7 @@
 				37D1C513186A31140041671A /* XPathElement.cpp in Sources */,
 				37D1C46D186A31140041671A /* CommonTokenStream.cpp in Sources */,
 				3789F5041870E074003E0A30 /* Arrays.cpp in Sources */,
+				3789F5091872F5C2003E0A30 /* XPathLexer.cpp in Sources */,
 				37D1C459186A31140041671A /* StarLoopEntryState.cpp in Sources */,
 				37D1C45D186A31140041671A /* Transition.cpp in Sources */,
 				37D1C3FD186A31140041671A /* ANTLRErrorStrategy.cpp in Sources */,

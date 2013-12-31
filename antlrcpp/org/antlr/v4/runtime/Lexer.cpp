@@ -1,15 +1,11 @@
 ﻿#include "Lexer.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
-#include "Java/src/org/antlr/v4/runtime/ANTLRErrorListener.h"
+
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::atn::LexerATNSimulator;
-                using org::antlr::v4::runtime::misc::IntegerStack;
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::Pair;
+
 
                 Lexer::Lexer() : _modeStack(new org::antlr::v4::runtime::misc::IntegerStack()) {
                     InitializeInstanceFields();

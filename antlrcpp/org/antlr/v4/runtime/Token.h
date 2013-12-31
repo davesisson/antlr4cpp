@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include "TokenSource.h"
+
 #include "CharStream.h"
 #include <iostream>
+#include "Declarations.h"
 
-class TokenSource;
 
 /*
  * [The "BSD license"]

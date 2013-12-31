@@ -5,9 +5,7 @@
 #include "stringconverter.h"
 #include <list>
 
-class ATN;
-class Transition;
-class IntervalSet;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -147,7 +145,7 @@ namespace org {
                         /// <summary>
                         /// Used to cache lookahead during parsing, not used during construction </summary>
                     public:
-                        IntervalSet *nextTokenWithinRule;
+                        misc::IntervalSet *nextTokenWithinRule;
 
                         virtual int hashCode();
                         virtual bool equals(void *o);

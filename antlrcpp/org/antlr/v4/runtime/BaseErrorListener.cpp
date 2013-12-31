@@ -1,5 +1,6 @@
 ﻿#include "BaseErrorListener.h"
 #include "Recognizer.h"
+#include <bitset>
 
 /*
  * [The "BSD license"]
@@ -37,13 +38,13 @@ namespace org {
             namespace runtime {
 
                 template<typename T1, typename T2>
-                void BaseErrorListener::syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {
+                void BaseErrorListener::syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {
                 }
 
-                void BaseErrorListener::reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, ATNConfigSet *configs) {
+                void BaseErrorListener::reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs) {
                 }
 
-                void BaseErrorListener::reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, ATNConfigSet *configs) {
+                void BaseErrorListener::reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs) {
                 }
 
                 void BaseErrorListener::reportContextSensitivity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet *configs) {

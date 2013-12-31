@@ -5,11 +5,7 @@
 #include <string>
 #include <vector>
 
-class ParseTree;
-class ParseTreePattern;
-class MultiMap;
-class NotNull;
-class Nullable;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]

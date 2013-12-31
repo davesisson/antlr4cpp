@@ -2,7 +2,7 @@
 
 #include "CharStream.h"
 #include "TokenFactory.h"
-
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -38,8 +38,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                class Token;
-                class CommonToken;
                 
                 /// <summary>
                 /// A source of tokens must provide a sequence of tokens via <seealso cref="#nextToken()"/>

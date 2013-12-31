@@ -1,7 +1,7 @@
 ﻿#include "ATN.h"
-#include "Java/src/org/antlr/v4/runtime/atn/LL1Analyzer.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleTransition.h"
+#include "LL1Analyzer.h"
+#include "Token.h"
+#include "RuleTransition.h"
 
 namespace org {
     namespace antlr {

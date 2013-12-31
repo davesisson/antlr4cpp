@@ -2,8 +2,7 @@
 
 #include "ErrorNode.h"
 #include "TerminalNodeImpl.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "ParseTreeVisitor.h"
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -41,7 +40,6 @@ namespace org {
             namespace runtime {
                 namespace tree {
 
-                    using org::antlr::v4::runtime::Token;
 
                     /// <summary>
                     /// Represents a token that was consumed during resynchronization
@@ -55,8 +53,8 @@ namespace org {
                         ErrorNodeImpl(Token *token);
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                        template<typename T, typename T1> where T1 : T
-                        virtual T accept(ParseTreeVisitor<T1> *visitor) override;
+                        template<typename T, typename T1> //where T1 : T
+                        T accept(ParseTreeVisitor<T1> *visitor);
                     };
 
                 }

@@ -1,10 +1,12 @@
 ﻿#pragma once
 
 #include "Transition.h"
-#include "ATNState.h"
+
+#include "Declarations.h"
+
 #include <string>
 
-class IntervalSet;
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -47,7 +49,7 @@ namespace org {
                         IntervalSet *const set;
 
                         // TODO (sam): should we really allow null here?
-                        SetTransition(ATNState *target, IntervalSet *set);
+                        SetTransition(ATNState *target, misc::IntervalSet *set);
 
                         virtual int getSerializationType() override;
 

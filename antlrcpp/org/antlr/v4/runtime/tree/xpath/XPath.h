@@ -2,6 +2,7 @@
 
 #include "XPathElement.h"
 #include "Declarations.h"
+#include "XPathLexer.h"
 
 #include <string>
 #include <vector>
@@ -133,9 +134,6 @@ namespace org {
 
                             public:
                                 ArrayListAnonymousInnerClassHelper(XPath *outerInstance, ParseTree *t);
-                                {
-                                    this->add(t);
-                                }
                             };
                         };
 

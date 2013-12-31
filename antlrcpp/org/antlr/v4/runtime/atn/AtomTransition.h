@@ -1,10 +1,9 @@
 ﻿#pragma once
 
-#include "Transition.h"
-#include "ATNState.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
+
 #include <string>
-#include "stringconverter.h"
+#include "Declarations.h"
+#include "Transition.h"
 
 /*
  * [The "BSD license"]
@@ -42,9 +41,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-
                     /// <summary>
                     /// TODO: make all transitions sets? no, should remove set edges </summary>
                     class AtomTransition final : public Transition {
@@ -61,7 +57,7 @@ namespace org {
                         virtual IntervalSet *label() override;
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
                     };
 
                 }

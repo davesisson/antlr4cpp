@@ -1,11 +1,9 @@
 ﻿#pragma once
 
 #include "ANTLRErrorListener.h"
-class Recognizer;
-class RecognitionException; // TODO fixme
-class Parser;
-class ATNConfigSet;
-class DFA;
+
+#include "Declarations.h"
+
 #include <string>
 #include <bitset>
 
@@ -42,18 +40,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-#ifdef TODO
-                namespace dfa {
-                    class DFA;
-                }
-                namespace atn {
-                    class ATNConfigSet;
-                }
-                
-                class Recognizer;
-                class RecognitionException; // TODO fixme
-                class Parser;
-#endif
                 /// <summary>
                 /// @author Sam Harwell
                 /// </summary>

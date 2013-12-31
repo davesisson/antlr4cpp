@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "TerminalNode.h"
+#include "Declarations.h"
 
 #include <string>
 
@@ -38,13 +39,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                namespace misc {
-                    class Interval;
-                }
-                
-                class Token;
-                class ParseTree;
-                class Parser;
                 
                 namespace tree {
 

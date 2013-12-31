@@ -1,27 +1,19 @@
 ﻿#pragma once
 
 #include "Recognizer.h"
-#include "CharStream.h"
 #include "Pair.h"
 #include "IntegerStack.h"
 
 #include "Token.h"
-//#include "TokenSource.h"
-//#include "atn/LexerATNSimulator.h"
-//#include "IntStream.h"
-//#include "TokenFactory.h"
-//#include "LexerNoViableAltException.h"
-//#include "RecognitionException.h"
+#include "TokenSource.h"
 
-class LexerATNSimulator;
-class TokenSource;
-class LexerNoViableAltException;
-class Token;
+
 
 #include <string>
 #include <vector>
 #include <iostream>
 #include "stringconverter.h"
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -62,7 +54,7 @@ namespace org {
                 ///  uses simplified match() and error recovery mechanisms in the interest
                 ///  of speed.
                 /// </summary>
-                class Lexer : public Recognizer<int, LexerATNSimulator*>, public TokenSource {
+                class Lexer : public Recognizer<int, atn::LexerATNSimulator*>, public TokenSource {
                 public:
                     static const int DEFAULT_MODE = 0;
                     static const int MORE = -2;
@@ -165,7 +157,7 @@ namespace org {
                     template<typename T1>
                     void setTokenFactory(TokenFactory<T1> *factory);
 
-                    virtual TokenFactory<void*> *getTokenFactory() override;
+                    virtual TokenFactory<CommonToken*> *getTokenFactory() override;
 
                     /// <summary>
                     /// Set the char stream and reset the lexer </summary>

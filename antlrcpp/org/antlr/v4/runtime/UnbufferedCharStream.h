@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "CharStream.h"
-#include "misc/Interval.h"
+#include "Declarations.h"
 #include <string>
 #include <stdexcept>
 
@@ -39,9 +39,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::Interval;
-
 
                 /// <summary>
                 /// Do not buffer up the entire char stream. It does keep a small buffer
@@ -152,7 +149,7 @@ namespace org {
                     /// Override to provide different source of characters than
                     /// <seealso cref="#input input"/>.
                     /// </summary>
-                    virtual int nextChar() throw(IOException);
+                    virtual int nextChar();
 
                     virtual void add(int c);
 
@@ -185,7 +182,7 @@ namespace org {
 
                     virtual std::wstring getSourceName() override;
 
-                    virtual std::wstring getText(Interval *interval) override;
+                    virtual std::wstring getText(misc::Interval *interval) override;
 
                 protected:
                     int getBufferStartIndex();

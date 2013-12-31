@@ -3,7 +3,8 @@
 #include "DFASerializer.h"
 #include <string>
 
-class DFA;
+#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
