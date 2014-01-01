@@ -13,6 +13,8 @@
 		3789F5051870E074003E0A30 /* Arrays.h in Headers */ = {isa = PBXBuildFile; fileRef = 3789F5031870E074003E0A30 /* Arrays.h */; };
 		3789F5091872F5C2003E0A30 /* XPathLexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3789F5071872F5C2003E0A30 /* XPathLexer.cpp */; };
 		3789F50A1872F5C2003E0A30 /* XPathLexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3789F5081872F5C2003E0A30 /* XPathLexer.h */; };
+		37BED8C4187304740043FB28 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37BED8C2187304740043FB28 /* Exceptions.cpp */; };
+		37BED8C5187304740043FB28 /* Exceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 37BED8C3187304740043FB28 /* Exceptions.h */; };
 		37D1C3FB186A31140041671A /* ANTLRErrorListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */; };
 		37D1C3FC186A31140041671A /* ANTLRErrorListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C2C7186A31130041671A /* ANTLRErrorListener.h */; };
 		37D1C3FD186A31140041671A /* ANTLRErrorStrategy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */; };
@@ -314,6 +316,8 @@
 		3789F5061871AFD8003E0A30 /* Declarations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Declarations.h; path = antlrcpp/Declarations.h; sourceTree = "<group>"; };
 		3789F5071872F5C2003E0A30 /* XPathLexer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XPathLexer.cpp; sourceTree = "<group>"; };
 		3789F5081872F5C2003E0A30 /* XPathLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathLexer.h; sourceTree = "<group>"; };
+		37BED8C2187304740043FB28 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exceptions.cpp; sourceTree = "<group>"; };
+		37BED8C3187304740043FB28 /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exceptions.h; sourceTree = "<group>"; };
 		37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorListener.cpp; sourceTree = "<group>"; };
 		37D1C2C7186A31130041671A /* ANTLRErrorListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANTLRErrorListener.h; sourceTree = "<group>"; };
 		37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorStrategy.cpp; sourceTree = "<group>"; };
@@ -627,6 +631,8 @@
 		37D1C2C5186A31130041671A /* runtime */ = {
 			isa = PBXGroup;
 			children = (
+				37BED8C2187304740043FB28 /* Exceptions.cpp */,
+				37BED8C3187304740043FB28 /* Exceptions.h */,
 				37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */,
 				37D1C2C7186A31130041671A /* ANTLRErrorListener.h */,
 				37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */,
@@ -1152,6 +1158,7 @@
 				37D1C458186A31140041671A /* StarLoopbackState.h in Headers */,
 				37D1C468186A31140041671A /* CharStream.h in Headers */,
 				37D1C47C186A31140041671A /* DiagnosticErrorListener.h in Headers */,
+				37BED8C5187304740043FB28 /* Exceptions.h in Headers */,
 				37D1C4CC186A31140041671A /* RuleContext.h in Headers */,
 				37D1C48E186A31140041671A /* AbstractEqualityComparator.h in Headers */,
 				37D1C516186A31140041671A /* XPathLexerErrorListener.h in Headers */,
@@ -1236,6 +1243,7 @@
 				37D1C51B186A31140041671A /* XPathTokenAnywhereElement.cpp in Sources */,
 				37D1C46B186A31140041671A /* CommonTokenFactory.cpp in Sources */,
 				37D1C463186A31140041671A /* BaseErrorListener.cpp in Sources */,
+				37BED8C4187304740043FB28 /* Exceptions.cpp in Sources */,
 				37D1C417186A31140041671A /* ATNState.cpp in Sources */,
 				37D1C525186A31140041671A /* UnbufferedTokenStream.cpp in Sources */,
 				37D1C50B186A31140041671A /* TerminalNodeImpl.cpp in Sources */,

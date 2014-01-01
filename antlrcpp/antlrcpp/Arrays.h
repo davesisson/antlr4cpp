@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include "StringBuilder.h"
+#include <list>
 
 /// <summary>
 /// Converts List to string with given separator.
@@ -62,12 +63,26 @@ class Arrays {
             return null;
         }
     }
+    
+
 #endif
     
     static std::vector<std::wstring> asList(const std::wstring *items)
     {
         std::vector<std::wstring> foo;
         return foo;//StringToStringList(items, "");
+    }
+    /// <summary>
+    /// Strings to string list.
+    /// </summary>
+    /// <param name="items">The items.</param>
+    /// <param name="separator">The separator.</param>
+    /// <returns></returns>
+    
+    static std::list<std::wstring> copyOf(void * obj, int num)
+    {
+        std::list<std::wstring> foo;
+        return foo;
     }
 };
 #endif /* defined(__antlrcpp__Arrays__) */

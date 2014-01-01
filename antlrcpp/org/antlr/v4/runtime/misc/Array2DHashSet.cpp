@@ -1,4 +1,8 @@
 ﻿#include "Array2DHashSet.h"
+#include "Exceptions.h"
+#include "StringBuilder.h"
+#include "Arrays.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -33,40 +37,50 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-
+                    template<typename T>
                     Array2DHashSet<T>::SetIterator::SetIterator(Array2DHashSet<T> *outerInstance, T data[]) : data(data), outerInstance(outerInstance) {
 
                         InitializeInstanceFields();
                     }
-
+                    
+                    template<typename T>
                     bool Array2DHashSet<T>::SetIterator::hasNext() {
                         return nextIndex < data->length;
                     }
 
+                    template<typename T>
                     T *Array2DHashSet<T>::SetIterator::next() {
                         if (!hasNext()) {
-                            throw NoSuchElementException();
+                            throw new NoSuchElementException();
                         }
 
                         removed = false;
                         return data[nextIndex++];
                     }
 
+                    template<typename T>
                     void Array2DHashSet<T>::SetIterator::remove() {
                         if (removed) {
-                            throw IllegalStateException();
+                            throw new IllegalStateException();
                         }
 
                         outerInstance->remove(data[nextIndex - 1]);
                         removed = true;
                     }
 
+                    template<typename T>
                     void Array2DHashSet<T>::SetIterator::InitializeInstanceFields() {
                         nextIndex = 0;
                         removed = true;
                     }
+                    
+                    template<typename T>
+                    template<typename T1>
                     Array2DHashSet<T>::Array2DHashSet(AbstractEqualityComparator<T1> *comparator) { //this(comparator, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
                     }
+                    
+                    template<typename T>
+                    template<typename T1>
                     Array2DHashSet<T>::Array2DHashSet(AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity) : comparator(ObjectEqualityComparator::INSTANCE) {
                         InitializeInstanceFields();
                         if (comparator == nullptr) {
@@ -77,13 +91,16 @@ namespace org {
                         this->initialBucketCapacity = initialBucketCapacity;
                     }
                     
+                    template<typename T>
                     T Array2DHashSet<T>::getOrAdd(T o) {
                         if (n > threshold) {
                             expand();
                         }
                         return getOrAddImpl(o);
                     }
-                    virtual T Array2DHashSet<T>::getOrAddImpl(T o) {
+                    
+                    template<typename T>
+                    T Array2DHashSet<T>::getOrAddImpl(T o) {
                         int b = getBucket(o);
                         //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
                         //ORIGINAL LINE: T[] bucket = buckets[b];
@@ -119,7 +136,9 @@ namespace org {
                         n++;
                         return o;
                     }
-                    virtual T Array2DHashSet<T>::get(T o) {
+                    
+                    template<typename T>
+                    T Array2DHashSet<T>::get(T o) {
                         if (o == nullptr) {
                             return o;
                         }
@@ -140,12 +159,16 @@ namespace org {
                         }
                         return nullptr;
                     }
+                    
+                    template<typename T>
                     int Array2DHashSet<T>::getBucket(T o) {
                         int hash = comparator->hashCode(o);
                         int b = hash & (buckets->length - 1); // assumes len is power of 2
                         return b;
                     }
-                    virtual int Array2DHashSet<T>::hashCode() override {
+                    
+                    template<typename T>
+                    int Array2DHashSet<T>::hashCode()  {
                         int hash = MurmurHash::initialize();
                         for (auto bucket : buckets) {
                             if (bucket == nullptr) {
@@ -163,7 +186,8 @@ namespace org {
                         return hash;
                     }
                     
-                    virtual bool Array2DHashSet<T>::equals(void *o) override {
+                    template<typename T>
+                    bool Array2DHashSet<T>::equals(void *o) {
                         if (o == this) {
                             return true;
                         }
@@ -172,14 +196,16 @@ namespace org {
                         }
                         //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
                         //ORIGINAL LINE: Array2DHashSet<?> other = (Array2DHashSet<?>)o;
-                        Array2DHashSet<?> *other = static_cast<Array2DHashSet<?>*>(o);
+                        Array2DHashSet<void*> *other = static_cast<Array2DHashSet<void*>*>(o);
                         if (other->size() != size()) {
                             return false;
                         }
                         bool same = this->containsAll(other);
                         return same;
                     }
-                    virtual void Array2DHashSet<T>::expand() {
+                    
+                    template<typename T>
+                    void Array2DHashSet<T>::expand() {
                         //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
                         //ORIGINAL LINE: T[][] old = buckets;
                         T **old = buckets;
@@ -229,24 +255,30 @@ namespace org {
                         
                         assert(n == oldSize);
                     }
-                    bool Array2DHashSet<T>::add(T t) override {
+                    
+                    template<typename T>
+                    bool Array2DHashSet<T>::add(T t) {
                         T existing = getOrAdd(t);
                         return existing == t;
                     }
                     
-                    int Array2DHashSet<T>::size() override {
+                    template<typename T>
+                    int Array2DHashSet<T>::size() {
                         return n;
                     }
                     
-                    bool Array2DHashSet<T>::isEmpty() override {
+                    template<typename T>
+                    bool Array2DHashSet<T>::isEmpty() {
                         return n == 0;
                     }
                     
-                    bool Array2DHashSet<T>::contains(void *o) override {
+                    template<typename T>
+                    bool Array2DHashSet<T>::contains(void *o) {
                         return containsFast(asElementType(o));
                     }
                     
-                    virtual bool Array2DHashSet<T>::containsFast(T obj) {
+                    template<typename T>
+                    bool Array2DHashSet<T>::containsFast(T obj) {
                         if (obj == nullptr) {
                             return false;
                         }
@@ -254,10 +286,13 @@ namespace org {
                         return get(obj) != nullptr;
                     }
                     
-                    virtual Iterator<T> *Array2DHashSet<T>::iterator() override {
+                    template<typename T>
+                    std::iterator<std::random_access_iterator_tag, T> *Array2DHashSet<T>::iterator() {
                         return new SetIterator(this, toArray());
                     }
-                    virtual T *Array2DHashSet<T>::toArray() override {
+                    
+                    template<typename T>
+                    T *Array2DHashSet<T>::toArray()  {
                         //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
                         //ORIGINAL LINE: T[] a = createBucket(size());
                         T *a = createBucket(size());
@@ -279,8 +314,9 @@ namespace org {
                         return a;
                     }
                     
+                    template<typename T>
                     template<typename U>
-                    virtual U *Array2DHashSet<T>::toArray(U a[]) override {
+                    U *Array2DHashSet<T>::toArray(U a[]) {
                         if (sizeof(a) / sizeof(a[0]) < size()) {
                             a = Arrays::copyOf(a, size());
                         }
@@ -303,11 +339,13 @@ namespace org {
                         return a;
                     }
                     
-                    bool Array2DHashSet<T>::remove(void *o) override {
+                    template<typename T>
+                    bool Array2DHashSet<T>::remove(void *o) {
                         return removeFast(asElementType(o));
                     }
                     
-                    virtual bool Array2DHashSet<T>::removeFast(T obj) {
+                    template<typename T>
+                    bool Array2DHashSet<T>::removeFast(T obj) {
                         if (obj == nullptr) {
                             return false;
                         }
@@ -330,7 +368,10 @@ namespace org {
                             
                             if (comparator->equals(e, obj)) { // found it
                                 // shift all elements to the right down one
-                                System::arraycopy(bucket, i + 1, bucket, i, bucket->length - i - 1);
+                                //System::arraycopy(bucket, i + 1, bucket, i, bucket->length - i - 1);
+                                for (int j = i; j < bucket->length - i - 1; j++) {
+                                    bucket[j] = bucket[j + 1];
+                                }
                                 bucket[bucket->length - 1] = nullptr;
                                 n--;
                                 return true;
@@ -340,12 +381,13 @@ namespace org {
                         return false;
                     }
                     
+                    template<typename T>
                     template<typename T1>
-                    bool Array2DHashSet<T>::containsAll(Collection<T1> *collection) {
+                    bool Array2DHashSet<T>::containsAll(std::set<T1> *collection) {
                         if (dynamic_cast<Array2DHashSet*>(collection) != nullptr) {
                             //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
                             //ORIGINAL LINE: Array2DHashSet<?> s = (Array2DHashSet<?>)collection;
-                            Array2DHashSet<?> *s = static_cast<Array2DHashSet<?>*>(collection);
+                            Array2DHashSet<T> *s = static_cast<Array2DHashSet<T>*>(collection);
                             for (auto bucket : s->buckets) {
                                 if (bucket == nullptr) {
                                     continue;
@@ -370,8 +412,9 @@ namespace org {
                     }
                     
                     //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
+                    template<typename T>
                     template<typename T1>
-                    bool Array2DHashSet<T>::addAll(Collection<T1> *c) {
+                    bool Array2DHashSet<T>::addAll(std::set<T1> *c) {
                         bool changed = false;
                         for (auto o : c) {
                             T existing = getOrAdd(o);
@@ -382,8 +425,9 @@ namespace org {
                         return changed;
                     }
                     
+                    template<typename T>
                     template<typename T1>
-                    bool Array2DHashSet<T>::retainAll(Collection<T1> *c) {
+                    bool Array2DHashSet<T>::retainAll(std::set<T1> *c) {
                         int newsize = 0;
                         for (auto bucket : buckets) {
                             if (bucket == nullptr) {
@@ -425,8 +469,9 @@ namespace org {
                         return changed;
                     }
                     
+                    template<typename T>
                     template<typename T1>
-                    bool Array2DHashSet<T>::removeAll(Collection<T1> *c) {
+                    bool Array2DHashSet<T>::removeAll(std::set<T1> *c) {
                         bool changed = false;
                         for (auto o : c) {
                             changed |= removeFast(asElementType(o));
@@ -434,13 +479,15 @@ namespace org {
                         
                         return changed;
                     }
-                    virtual std::wstring Array2DHashSet<T>::toString() override {
+                    
+                    template<typename T>
+                    std::wstring Array2DHashSet<T>::toString() {
                         if (size() == 0) {
                             return L"{}";
                         }
                         
                         StringBuilder *buf = new StringBuilder();
-                        buf->append(L'{');
+                        buf->append(L"{");
                         bool first = true;
                         for (auto bucket : buckets) {
                             if (bucket == nullptr) {
@@ -459,19 +506,20 @@ namespace org {
                                 buf->append(o->toString());
                             }
                         }
-                        buf->append(L'}');
+                        buf->append(L"}");
                         //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
                     
-                    virtual std::wstring Array2DHashSet<T>::toTableString() {
+                    template<typename T>
+                    std::wstring Array2DHashSet<T>::toTableString() {
                         StringBuilder *buf = new StringBuilder();
                         for (auto bucket : buckets) {
                             if (bucket == nullptr) {
                                 buf->append(L"null\n");
                                 continue;
                             }
-                            buf->append(L'[');
+                            buf->append(L"[");
                             bool first = true;
                             for (auto o : bucket) {
                                 if (first) {
@@ -496,8 +544,9 @@ namespace org {
                     /// </summary>
                     /// <param name="capacity"> the length of the array to return </param>
                     /// <returns> the newly constructed array </returns>
-                    virtual T **Array2DHashSet<T>::createBuckets(int capacity) {
-                        return static_cast<T[][]>(new Object[capacity][]);
+                    template<typename T>
+                    std::vector<std::vector<T>> *Array2DHashSet<T>::createBuckets(int capacity) {
+                        return new std::vector<std::vector<T>>();//static_cast<T[][]>(new Object[capacity][]);
                     }
                     
                     /// <summary>
@@ -505,13 +554,18 @@ namespace org {
                     /// </summary>
                     /// <param name="capacity"> the length of the array to return </param>
                     /// <returns> the newly constructed array </returns>
-                    virtual T *Array2DHashSet<T>::createBucket(int capacity) {
-                        return static_cast<T[]>(new Object[capacity]);
+                    template<typename T>
+                    std::vector<T> *Array2DHashSet<T>::createBucket(int capacity) {
+                        return new std::vector<T>();//static_cast<T[]>(new Object[capacity]);
                     }
-                    virtual void Array2DHashSet<T>::clear() {
+                    
+                    template<typename T>
+                    void Array2DHashSet<T>::clear() {
                         buckets = createBuckets(INITAL_CAPACITY);
                         n = 0;
                     }
+                    
+                    template<typename T>
                     void Array2DHashSet<T>::InitializeInstanceFields() {
                         n = 0;
                         threshold = static_cast<int>(INITAL_CAPACITY * LOAD_FACTOR);

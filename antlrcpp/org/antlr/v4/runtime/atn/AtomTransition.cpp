@@ -1,4 +1,5 @@
 ﻿#include "AtomTransition.h"
+#include "IntervalSet.h"
 
 /*
  * [The "BSD license"]
@@ -37,23 +38,23 @@ namespace org {
                 namespace atn {
 
 
-                    AtomTransition::AtomTransition(ATNState *target, int label) : Transition(target), label(label) {
+                    AtomTransition::AtomTransition(ATNState *target, int label) : Transition(target), _label(label) {
                     }
 
                     int AtomTransition::getSerializationType() {
                         return ATOM;
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *AtomTransition::label() {
-                        return IntervalSet::of(label_Renamed);
+                    misc::IntervalSet *AtomTransition::label() {
+                        return misc::IntervalSet::of(_label);
                     }
 
                     bool AtomTransition::matches(int symbol, int minVocabSymbol, int maxVocabSymbol) {
-                        return label_Renamed == symbol;
+                        return _label == symbol;
                     }
 
                     std::wstring AtomTransition::toString() {
-                        return StringConverterHelper::toString(label_Renamed);
+                        return StringConverterHelper::toString(_label);
                     }
                 }
             }

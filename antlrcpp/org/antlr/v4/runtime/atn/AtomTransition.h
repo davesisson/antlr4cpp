@@ -47,14 +47,13 @@ namespace org {
                         /// <summary>
                         /// The token type or character value; or, signifies special label. </summary>
                     public:
-//JAVA TO C++ CONVERTER NOTE: The variable label was renamed since C++ does not allow variables with the same name as methods:
-                        const int label_Renamed;
+                        const int _label;
 
                         AtomTransition(ATNState *target, int label);
 
                         virtual int getSerializationType() override;
 
-                        virtual IntervalSet *label() override;
+                        virtual misc::IntervalSet *label() override;
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) override;
 
                         virtual std::wstring toString();

@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-class IntervalSet;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -88,7 +88,7 @@ namespace org {
                         /// Are we epsilon, action, sempred? </summary>
                         virtual bool isEpsilon();
 
-                        virtual IntervalSet *label();
+                        virtual misc::IntervalSet *label();
 
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) = 0;
                     };

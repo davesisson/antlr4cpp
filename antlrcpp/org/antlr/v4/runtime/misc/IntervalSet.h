@@ -79,9 +79,7 @@ namespace org {
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         IntervalSet(IntervalSet *set); //this();
 
-//JAVA TO C++ CONVERTER TODO TASK: Use 'va_start', 'va_arg', and 'va_end' to access the parameter array within this method:
-//ORIGINAL LINE: public IntervalSet(int... els)
-                        IntervalSet(...);
+                        IntervalSet(int numArgs, ...);
 
                         /// <summary>
                         /// Create a set with a single element, el. </summary>

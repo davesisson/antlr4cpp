@@ -1,6 +1,9 @@
 ﻿#include "IntervalSet.h"
 #include "Token.h"
 #include "MurmurHash.h"
+#include "Exceptions.h"
+#include "interval.h"
+#include "Lexer.h"
 
 /*
  * [The "BSD license"]
@@ -38,57 +41,50 @@ namespace org {
             namespace runtime {
                 namespace misc {
 
-                    IntervalSet *const IntervalSet::COMPLETE_CHAR_SET = IntervalSet::of(0, org::antlr::v4::runtime::Lexer::MAX_CHAR_VALUE);
-                    IntervalSet *const IntervalSet::EMPTY_SET = new IntervalSet();
+                    IntervalSet *const IntervalSet::COMPLETE_CHAR_SET = IntervalSet::of(0, runtime::Lexer::MAX_CHAR_VALUE);
+                    IntervalSet *const IntervalSet::EMPTY_SET = new IntervalSet(0);
 
                     IntervalSet::IntervalSet(std::vector<Interval*> &intervals) {
                         InitializeInstanceFields();
                         this->intervals = intervals;
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     IntervalSet::IntervalSet(IntervalSet *set) {
                         addAll(set);
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Use 'va_start', 'va_arg', and 'va_end' to access the parameter array within this method:
-//ORIGINAL LINE: public IntervalSet(int... els)
-                    IntervalSet::IntervalSet(...) {
+                    IntervalSet::IntervalSet(int n, ...) {
                         InitializeInstanceFields();
-                        if (els == nullptr) {
-                            intervals = VectorHelper::VectorWithReservedSize<Interval*>(2); // most sets are 1 or 2 elements
-                        } else {
-                            intervals = std::vector<Interval*>(els::length);
-                            for (int e : els) {
-                                add(e);
-                            }
+                        va_list vlist;
+                        va_start(vlist, n);
+                        
+                        for (int i = 0; i < n; i++) {
+                            add(va_arg(vlist, int));
                         }
                     }
 
                     org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::of(int a) {
-                        IntervalSet *s = new IntervalSet();
-                        s->add(a);
+                        IntervalSet *s = new IntervalSet(1, a);
                         return s;
                     }
 
                     org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::of(int a, int b) {
-                        IntervalSet *s = new IntervalSet();
-                        s->add(a,b);
+                        IntervalSet *s = new IntervalSet(2, a, b);
                         return s;
                     }
 
                     void IntervalSet::clear() {
                         if (readonly) {
-                            throw IllegalStateException(L"can't alter readonly IntervalSet");
+                            throw new IllegalStateException(L"can't alter readonly IntervalSet");
                         }
                         intervals.clear();
                     }
 
                     void IntervalSet::add(int el) {
                         if (readonly) {
-                            throw IllegalStateException(L"can't alter readonly IntervalSet");
+                            throw new IllegalStateException(L"can't alter readonly IntervalSet");
                         }
-                        add(el,el);
+                        add(1,el);
                     }
 
                     void IntervalSet::add(int a, int b) {
@@ -97,7 +93,7 @@ namespace org {
 
                     void IntervalSet::add(Interval *addition) {
                         if (readonly) {
-                            throw IllegalStateException(L"can't alter readonly IntervalSet");
+                            throw new IllegalStateException(L"can't alter readonly IntervalSet");
                         }
                         //System.out.println("add "+addition+" to "+intervals.toString());
                         if (addition->b < addition->a) {
@@ -105,7 +101,8 @@ namespace org {
                         }
                         // find position in list
                         // Use iterators as we modify list in place
-                        for (std::vector<Interval*>::const_iterator iter = intervals.begin(); iter != intervals.end(); ++iter) {
+//                        for (std::vector<Interval*>::const_iterator iter = intervals.begin(); iter != intervals.end(); ++iter) {
+                        for (std::vector<Interval*>::iterator iter = intervals.begin(); iter != intervals.end(); ++iter) {
                             Interval *r = *iter;
                             if (addition->equals(r)) {
                                 return;
@@ -113,7 +110,8 @@ namespace org {
                             if (addition->adjacent(r) || !addition->disjoint(r)) {
                                 // next to each other, make a single larger interval
                                 Interval *bigger = addition->union_Renamed(r);
-                                (*iter)->set(bigger);
+//                                (*iter)->set(bigger);
+                                (*iter) = bigger;
                                 // make sure we didn't just create an interval that
                                 // should be merged with next interval in list
                                 while ((*iter)->hasNext()) {
@@ -127,6 +125,9 @@ namespace org {
                                     (*iter)->previous(); // move backwards to what we just set
                                     (*iter)->set(bigger->union_Renamed(next)); // set to 3 merged ones
                                     *iter; // first call to next after previous duplicates the result
+                                }
+                                for (iter = ; iter != ; <#increment#>) {
+                                    <#statements#>
                                 }
                                 return;
                             }
@@ -143,7 +144,7 @@ namespace org {
                         intervals.push_back(addition);
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::or(IntervalSet sets[]) {
+                    IntervalSet *IntervalSet::Or(IntervalSet sets[]) {
                         IntervalSet *r = new IntervalSet();
                         for (auto s : sets) {
                             r->addAll(s);
@@ -151,12 +152,12 @@ namespace org {
                         return r;
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::addAll(IntSet *set) {
+                    IntervalSet *IntervalSet::addAll(IntSet *set) {
                         if (set == nullptr) {
                             return this;
                         }
                         if (!(dynamic_cast<IntervalSet*>(set) != nullptr)) {
-                            throw IllegalArgumentException(std::wstring(L"can't add non IntSet (") + set->getClass()->getName() + std::wstring(L") to IntervalSet"));
+                            throw IllegalArgumentException(std::wstring(L"can't add non IntSet (") + L"IntSet" + std::wstring(L") to IntervalSet"));
                         }
                         IntervalSet *other = static_cast<IntervalSet*>(set);
                         // walk set and add each interval
