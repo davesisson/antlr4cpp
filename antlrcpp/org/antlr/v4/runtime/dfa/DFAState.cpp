@@ -1,29 +1,53 @@
 ﻿#include "DFAState.h"
-#include "Java/src/org/antlr/v4/runtime/misc/MurmurHash.h"
+#include "StringBuilder.h"
+#include "ATNConfigSet.h"
+#include "SemanticContext.h"
+#include "ATNConfig.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace dfa {
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::atn::ATN;
-                    using org::antlr::v4::runtime::atn::ATNConfig;
-                    using org::antlr::v4::runtime::atn::ATNConfigSet;
-                    using org::antlr::v4::runtime::atn::ParserATNSimulator;
-                    using org::antlr::v4::runtime::atn::SemanticContext;
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
 
-                    DFAState::PredPrediction::PredPrediction(SemanticContext *pred, int alt) {
+                    DFAState::PredPrediction::PredPrediction(atn::SemanticContext *pred, int alt) {
                         InitializeInstanceFields();
                         this->alt = alt;
                         this->pred = pred;
                     }
 
                     std::wstring DFAState::PredPrediction::toString() {
-                        return std::wstring(L"(") + pred + std::wstring(L", ") + alt + std::wstring(L")");
+                        return std::wstring(L"(") + pred->toString() + std::wstring(L", ") + std::to_wstring(alt) + std::wstring(L")");
                     }
 
                     void DFAState::PredPrediction::InitializeInstanceFields() {
@@ -39,28 +63,28 @@ namespace org {
                         this->stateNumber = stateNumber;
                     }
 
-                    DFAState::DFAState(ATNConfigSet *configs) {
+                    DFAState::DFAState(atn::ATNConfigSet *configs) {
                         InitializeInstanceFields();
                         this->configs = configs;
                     }
 
-                    Set<int> *DFAState::getAltSet() {
-                        Set<int> *alts = std::set<int>();
+                    std::set<int> *DFAState::getAltSet() {
+                        std::set<int> *alts = new std::set<int>();
                         if (configs != nullptr) {
-                            for (auto c : configs) {
-                                alts->add(c->alt);
+                            for (int i = 0; i < configs->size(); i++) {
+                                alts->insert(configs->get(i)->alt);
                             }
                         }
-                        if (alts->isEmpty()) {
+                        if (alts->size() == 0) {
                             return nullptr;
                         }
                         return alts;
                     }
 
                     int DFAState::hashCode() {
-                        int hash = MurmurHash::initialize(7);
-                        hash = MurmurHash::update(hash, configs->hashCode());
-                        hash = MurmurHash::finish(hash, 1);
+                        int hash = misc::MurmurHash::initialize(7);
+                        hash = misc::MurmurHash::update(hash, configs->hashCode());
+                        hash = misc::MurmurHash::finish(hash, 1);
                         return hash;
                     }
 
@@ -70,7 +94,7 @@ namespace org {
                             return true;
                         }
 
-                        if (!(dynamic_cast<DFAState*>(o) != nullptr)) {
+                        if ((DFAState*)o == nullptr) {
                             return false;
                         }
 
@@ -83,17 +107,19 @@ namespace org {
 
                     std::wstring DFAState::toString() {
                         StringBuilder *buf = new StringBuilder();
-                        buf->append(stateNumber)->append(L":")->append(configs);
+                        buf->append(std::to_wstring(stateNumber)); buf->append(L":"); buf->append(configs->toString());
                         if (isAcceptState) {
                             buf->append(L"=>");
-                            if (predicates != nullptr) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                                buf->append(Arrays->toString(predicates));
+                            if (predicates.size() != 0) {
+                                std::wstring tmp;
+                                for (int i = 0; i < predicates.size(); i++) {
+                                    tmp.append(predicates[i]->toString());
+                                }
+                                buf->append(tmp);
                             } else {
-                                buf->append(prediction);
+                                buf->append(std::to_wstring(prediction));
                             }
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
 

@@ -1,8 +1,7 @@
 ﻿#pragma once
 
 #include "Transition.h"
-#include "ATNState.h"
-#include "RuleStartState.h"
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -39,8 +38,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::misc::NotNull;
 
                     class RuleTransition final : public Transition {
                         /// <summary>

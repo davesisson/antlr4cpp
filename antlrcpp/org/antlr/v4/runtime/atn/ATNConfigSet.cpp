@@ -1,16 +1,11 @@
 ﻿#include "ATNConfigSet.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATN.h"
+#include "ATN.h"
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::misc::AbstractEqualityComparator;
-                    using org::antlr::v4::runtime::misc::Array2DHashSet;
-                    using org::antlr::v4::runtime::misc::DoubleKeyMap;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
 
 template<typename T1>
 //JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:

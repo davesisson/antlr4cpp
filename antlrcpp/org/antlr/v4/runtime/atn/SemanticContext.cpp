@@ -1,36 +1,65 @@
 ﻿#include "SemanticContext.h"
-#include "Java/src/org/antlr/v4/runtime/misc/MurmurHash.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Utils.h"
+#include "MurmurHash.h"
+#include "Utils.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::Recognizer;
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Utils;
-
                     SemanticContext::Predicate::Predicate() : ruleIndex(-1), predIndex(-1), isCtxDependent(false) {
                     }
 
                     SemanticContext::Predicate::Predicate(int ruleIndex, int predIndex, bool isCtxDependent) : ruleIndex(ruleIndex), predIndex(predIndex), isCtxDependent(isCtxDependent) {
                     }
 
-template<typename T1, typename T1>
-                    bool SemanticContext::Predicate::eval(Recognizer<T1> *parser, RuleContext *outerContext) {
+                    std::wstring SemanticContext::toString() {
+#ifdef TODO 
+                        WRITE ME 
+#endif
+                    }
+                    template<typename T1, typename T2>
+                    bool SemanticContext::Predicate::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
                         RuleContext *localctx = isCtxDependent ? outerContext : nullptr;
                         return parser->sempred(localctx, ruleIndex, predIndex);
                     }
 
                     int SemanticContext::Predicate::hashCode() {
-                        int hashCode = MurmurHash::initialize();
-                        hashCode = MurmurHash::update(hashCode, ruleIndex);
-                        hashCode = MurmurHash::update(hashCode, predIndex);
-                        hashCode = MurmurHash::update(hashCode, isCtxDependent ? 1 : 0);
-                        hashCode = MurmurHash::finish(hashCode, 3);
+                        int hashCode = misc::MurmurHash::initialize();
+                        hashCode = misc::MurmurHash::update(hashCode, ruleIndex);
+                        hashCode = misc::MurmurHash::update(hashCode, predIndex);
+                        hashCode = misc::MurmurHash::update(hashCode, isCtxDependent ? 1 : 0);
+                        hashCode = misc::MurmurHash::finish(hashCode, 3);
                         return hashCode;
                     }
 
@@ -46,7 +75,7 @@ template<typename T1, typename T1>
                     }
 
                     std::wstring SemanticContext::Predicate::toString() {
-                        return std::wstring(L"{") + ruleIndex + std::wstring(L":") + predIndex + std::wstring(L"}?");
+                        return std::wstring(L"{") + std::to_wstring(ruleIndex) + std::wstring(L":") + std::to_wstring(predIndex) + std::wstring(L"}?");
                     }
 
                     SemanticContext::PrecedencePredicate::PrecedencePredicate() : precedence(0) {
@@ -55,8 +84,8 @@ template<typename T1, typename T1>
                     SemanticContext::PrecedencePredicate::PrecedencePredicate(int precedence) : precedence(precedence) {
                     }
 
-template<typename T1, typename T1>
-                    bool SemanticContext::PrecedencePredicate::eval(Recognizer<T1> *parser, RuleContext *outerContext) {
+                    template<typename T1, typename T2>
+                    bool SemanticContext::PrecedencePredicate::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
                         return parser->precpred(outerContext, precedence);
                     }
 
@@ -125,8 +154,8 @@ template<typename T1, typename T1>
                         return MurmurHash::hashCode(opnds, AND::typeid::hashCode());
                     }
 
-template<typename T1, typename T1>
-                    bool SemanticContext::AND::eval(Recognizer<T1> *parser, RuleContext *outerContext) {
+                    template<typename T1, typename T2>
+                    bool SemanticContext::AND::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
                         for (auto opnd : opnds) {
                             if (!opnd->eval(parser, outerContext)) {
                                 return false;
@@ -176,8 +205,8 @@ template<typename T1, typename T1>
                         return MurmurHash::hashCode(opnds, OR::typeid::hashCode());
                     }
 
-template<typename T1, typename T1>
-                    bool SemanticContext::OR::eval(Recognizer<T1> *parser, RuleContext *outerContext) {
+                    template<typename T1, typename T2>
+                    bool SemanticContext::OR::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
                         for (auto opnd : opnds) {
                             if (opnd->eval(parser, outerContext)) {
                                 return true;
@@ -190,7 +219,7 @@ template<typename T1, typename T1>
                         return Utils::join(Arrays::asList(opnds)->begin(), L"||");
                     }
 
-SemanticContext *const SemanticContext::NONE = new Predicate();
+                    SemanticContext *const SemanticContext::NONE = new Predicate();
 
                     org::antlr::v4::runtime::atn::SemanticContext *SemanticContext::and(SemanticContext *a, SemanticContext *b) {
                         if (a == nullptr || a == NONE) {
@@ -226,10 +255,10 @@ SemanticContext *const SemanticContext::NONE = new Predicate();
                     }
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-template<typename T1> where T1 : SemanticContext
-                    std::vector<PrecedencePredicate*> SemanticContext::filterPrecedencePredicates(Collection<T1> *collection) {
+                    template<typename T1> //where T1 : SemanticContext
+                    std::vector<PrecedencePredicate*> SemanticContext::filterPrecedencePredicates(std::set<T1> *collection) {
                         std::vector<PrecedencePredicate*> result;
-                        for (Collection<? extends SemanticContext>::const_iterator iterator = collection->begin(); iterator != collection->end(); ++iterator) {
+                        for (std::set<SemanticContext*>::const_iterator iterator = collection->begin(); iterator != collection->end(); ++iterator) {
                             SemanticContext *context = *iterator;
                             if (dynamic_cast<PrecedencePredicate*>(context) != nullptr) {
                                 if (result.empty()) {

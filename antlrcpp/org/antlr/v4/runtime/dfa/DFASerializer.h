@@ -4,8 +4,7 @@
 #include <vector>
 #include "stringconverter.h"
 
-class DFA;
-class DFAState;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]

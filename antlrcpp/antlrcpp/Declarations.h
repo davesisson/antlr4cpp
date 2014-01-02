@@ -82,10 +82,10 @@ namespace org {
                 class WritableToken;
                 
                 namespace misc {
-                    class AbstractEqualityComparator;
+                    template<typename T> class AbstractEqualityComparator;
                     template<typename T> class Array2DHashSet;
                     template<typename Key1, typename Key2, typename Value> class DoubleKeyMap;
-                    class EqualityComparator;
+                    template<typename T> class EqualityComparator;
                     class FlexibleHashMap;
                     class GraphicsSupport;
                     class IntSet;

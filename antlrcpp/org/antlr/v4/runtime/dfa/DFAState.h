@@ -2,9 +2,10 @@
 
 #include <string>
 #include <set>
+#include <vector>
 
-class ATNConfigSet;
-class SemanticContext;
+#include "Declarations.h"
+
 
 
 /*
@@ -71,9 +72,9 @@ namespace org {
                     public:
                         class PredPrediction {
                         public:
-                            SemanticContext *pred; // never null; at least SemanticContext.NONE
+                            atn::SemanticContext *pred; // never null; at least SemanticContext.NONE
                             int alt;
-                            PredPrediction(SemanticContext *pred, int alt);
+                            PredPrediction(atn::SemanticContext *pred, int alt);
                             virtual std::wstring toString();
 
                         private:
@@ -83,7 +84,7 @@ namespace org {
                     public:
                         int stateNumber;
 
-                        ATNConfigSet *configs;
+                        atn::ATNConfigSet *configs;
 
                         /// <summary>
                         /// {@code edges[symbol]} points to target of symbol. Shift up by 1 so (-1)
@@ -91,7 +92,7 @@ namespace org {
                         /// </summary>
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: @Nullable public DFAState[] edges;
-                        DFAState *edges;
+                        std::vector<DFAState*> edges;
 
                         bool isAcceptState;
 
@@ -128,7 +129,7 @@ namespace org {
                         /// </summary>
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: @Nullable public PredPrediction[] predicates;
-                        PredPrediction *predicates;
+                        std::vector<PredPrediction *> predicates;
 
                         /// <summary>
                         /// Map a predicate to a predicted alternative. </summary>
@@ -136,7 +137,7 @@ namespace org {
 
                         DFAState(int stateNumber);
 
-                        DFAState(ATNConfigSet *configs);
+                        DFAState(atn::ATNConfigSet *configs);
 
                         /// <summary>
                         /// Get the set of all alts mentioned by all ATN configurations in this

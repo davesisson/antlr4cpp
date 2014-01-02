@@ -6,8 +6,8 @@
 #include <vector>
 #include <set>
 
-class RuleContext;
-class PrecedencePredicate;
+#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
@@ -65,6 +65,8 @@ namespace org {
                         
                         SemanticContext *parent;
 
+                        std::wstring toString();
+
                         /// <summary>
                         /// For context independent predicates, we evaluate them without a local
                         /// context (i.e., null context). That way, we can evaluate them without
@@ -78,10 +80,11 @@ namespace org {
                         /// prediction, so we passed in the outer context here in case of context
                         /// dependent predicate evaluation.
                         /// </summary>
-#ifdef TODO
+                        
+                        
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1> *parser, RuleContext *outerContext) = 0;
-#endif
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+
                         static SemanticContext *And(SemanticContext *a, SemanticContext *b);
 
                         /// 
@@ -89,11 +92,11 @@ namespace org {
                         static SemanticContext *Or(SemanticContext *a, SemanticContext *b);
 
                     private:
-#ifdef TODO
+
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                         template<typename T1>
-                        static std::vector<PrecedencePredicate*> filterPrecedencePredicates(Collection<T1> *collection);
-#endif
+                        static std::vector<PrecedencePredicate*> filterPrecedencePredicates(std::set<T1> *collection);
+
                     };
                     
 
@@ -108,10 +111,10 @@ namespace org {
                         
                     public:
                         Predicate(int ruleIndex, int predIndex, bool isCtxDependent);
-#ifdef TODO
+
                         template<typename T1, typename T2>
-                         bool eval(Recognizer<T1> *parser, RuleContext *outerContext) override;
-#endif
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+
                         
                         virtual int hashCode() ;
                         
@@ -129,10 +132,10 @@ namespace org {
                         
                     public:
                         PrecedencePredicate(int precedence);
-#ifdef TODO
+
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1> *parser, RuleContext *outerContext);
-#endif
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+
                         
                         virtual int compareTo(PrecedencePredicate *o);
                         
@@ -154,10 +157,10 @@ namespace org {
                         virtual bool equals(void *obj);
                         
                         virtual int hashCode();
-#ifdef TODO
+
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1> *parser, RuleContext *outerContext);
-#endif
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+
                         
                         virtual std::wstring toString();
                     };
@@ -173,10 +176,10 @@ namespace org {
                         virtual bool equals(void *obj);
                         
                         virtual int hashCode();
-#ifdef TODO
+
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1> *parser, RuleContext *outerContext);
-#endif
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+
                         virtual std::wstring toString();
                     };
 

@@ -11,12 +11,7 @@
 #include <bitset>
 #include <vector>
 
-class ATNConfig;
-class AbstractEqualityComparator;
-class PredictionContext;
-class SemanticContext;
-class ATNState;
-class ATNSimulator;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
