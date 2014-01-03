@@ -1,24 +1,16 @@
 ﻿#include "Trees.h"
-#include "Java/src/org/antlr/v4/runtime/tree/gui/TreePostScriptGenerator.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Utils.h"
-#include "Java/src/org/antlr/v4/runtime/tree/RuleNode.h"
-#include "Java/src/org/antlr/v4/runtime/tree/ErrorNode.h"
-#include "Java/src/org/antlr/v4/runtime/tree/TerminalNode.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "Java/src/org/antlr/v4/runtime/ParserRuleContext.h"
+#include "Utils.h"
+#include "RuleNode.h"
+#include "ErrorNode.h"
+#include "TerminalNode.h"
+#include "Token.h"
+#include "ParserRuleContext.h"
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-                    using org::antlr::v4::runtime::Parser;
-                    using org::antlr::v4::runtime::ParserRuleContext;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-                    using org::antlr::v4::runtime::misc::Utils;
-                    using org::antlr::v4::runtime::tree::gui::TreePostScriptGenerator;
 
                     std::wstring Trees::getPS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fontName, int fontSize) {
                         TreePostScriptGenerator *psgen = new TreePostScriptGenerator(ruleNames, t, fontName, fontSize);

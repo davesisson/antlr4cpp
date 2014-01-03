@@ -52,9 +52,8 @@ namespace org {
                         ATNState *followState;
 
                         /// @deprecated Use
-                        /// <seealso cref="#RuleTransition(RuleStartState, int, int, ATNState)"/> instead. 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                        RuleTransition(RuleStartState *ruleStart, int ruleIndex, ATNState *followState); //this(ruleStart, ruleIndex, 0, followState);
+                        /// <seealso cref="#RuleTransition(RuleStartState, int, int, ATNState)"/> instead.
+                        RuleTransition(RuleStartState *ruleStart, int ruleIndex, ATNState *followState); 
 
                         RuleTransition(RuleStartState *ruleStart, int ruleIndex, int precedence, ATNState *followState);
 

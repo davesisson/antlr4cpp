@@ -45,7 +45,7 @@ namespace org {
 
                     std::wstring SemanticContext::toString() {
 #ifdef TODO 
-                        WRITE ME 
+                        WRITE ME
 #endif
                     }
                     template<typename T1, typename T2>

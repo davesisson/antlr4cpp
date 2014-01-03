@@ -42,7 +42,7 @@ namespace org {
                             this->tokenType = tokenType;
                         }
 
-                        std::set<ParseTree*> *XPathTokenAnywhereElement::evaluate(ParseTree *t) {
+                        std::vector<ParseTree*> * XPathTokenAnywhereElement::evaluate(ParseTree *t) {
                             return Trees::findAllTokenNodes(t, tokenType);
                         }
 

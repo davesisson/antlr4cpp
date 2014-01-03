@@ -41,6 +41,13 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 class IllegalStateException;
+                class IllegalArgumentException;
+                class NoSuchElementException;
+                class NullPointerException;
+                class InputMismatchException;
+                class ParseCancellationException;
+                
+                class ParseCancellationException;
                 
                 class ANTLRErrorListener;
                 class ANTLRErrorStrategy;

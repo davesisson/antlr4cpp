@@ -1,5 +1,7 @@
 ﻿#include "PredictionContext.h"
 #include "EmptyPredictionContext.h"
+#include "MurmurHash.h"
+#include "ArrayPredictionContext.h"
 
 /*
  * [The "BSD license"]
@@ -35,6 +37,8 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                using misc::MurmurHash;
+                
                 namespace atn {
                     EmptyPredictionContext *const PredictionContext::EMPTY = new EmptyPredictionContext();
                     int PredictionContext::globalNodeCount = 0;

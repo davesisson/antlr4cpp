@@ -51,7 +51,7 @@ namespace org {
                         public:
                             XPathTokenAnywhereElement(const std::wstring &tokenName, int tokenType);
 
-                            virtual std::set<ParseTree*> *evaluate(ParseTree *t) override;
+                            virtual std::vector<ParseTree*> * evaluate(ParseTree *t) override;
 
                         private:
                             void InitializeInstanceFields();

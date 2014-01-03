@@ -39,18 +39,15 @@ namespace org {
                 namespace atn {
 
 
-                    SetTransition::SetTransition(ATNState *target,
-                                                 misc::IntervalSet *set) : Transition(target), set(misc::IntervalSet::of(Token::INVALID_TYPE)) {
-                        if (set == nullptr) {
-                        this->set = set;
-                        }
+                    SetTransition::SetTransition(ATNState *target, misc::IntervalSet *aSet) :
+                    Transition(target), set(aSet==nullptr?misc::IntervalSet::of(Token::INVALID_TYPE):aSet) {
                     }
 
                     int SetTransition::getSerializationType() {
                         return SET;
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *SetTransition::label() {
+                    misc::IntervalSet *SetTransition::label() {
                         return set;
                     }
 
@@ -59,7 +56,6 @@ namespace org {
                     }
 
                     std::wstring SetTransition::toString() {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return set->toString();
                     }
                 }

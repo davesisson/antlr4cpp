@@ -10,6 +10,7 @@
 #include <iostream>
 #include <exception>
 #include <string>
+#include "Declarations.h"
 
 namespace org {
     namespace antlr {
@@ -35,6 +36,33 @@ namespace org {
                     NoSuchElementException();
                 };
                 
+                class NullPointerException : public std::exception {
+                public:
+                    NullPointerException(const std::wstring msg);
+                    NullPointerException();
+                };
+                
+                class RecognitionException :  public std::exception {
+                public:
+                    RecognitionException(const std::wstring msg);
+                    RecognitionException();
+                };
+
+                class ParseCancellationException : public RecognitionException {
+                public:
+                    ParseCancellationException(const std::wstring msg);
+                    ParseCancellationException(RecognitionException*);
+                    ParseCancellationException();
+                };
+
+                class InputMismatchException : public RecognitionException {
+                public:
+                    InputMismatchException(const std::wstring msg);
+                    InputMismatchException(const Parser * parser);
+                    InputMismatchException(const RecognitionException*);
+                    InputMismatchException();
+                };
+
                 
             }
         }

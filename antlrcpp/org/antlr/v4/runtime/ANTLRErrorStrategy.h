@@ -1,8 +1,6 @@
 ﻿#pragma once
 
-class Parser;
-class Token;
-class RecognitionException;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]

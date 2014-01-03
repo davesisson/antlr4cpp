@@ -116,12 +116,12 @@ namespace org {
 
                     // Double dispatch methods for listeners
 
-                    virtual void enterRule(ParseTreeListener *listener);
-                    virtual void exitRule(ParseTreeListener *listener);
+                    virtual void enterRule(tree::ParseTreeListener *listener);
+                    virtual void exitRule(tree::ParseTreeListener *listener);
 
                     /// <summary>
                     /// Does not set parent link; other add methods do that </summary>
-                    virtual TerminalNode *addChild(TerminalNode *t);
+                    virtual tree::TerminalNode *addChild(tree::TerminalNode *t);
 
                     virtual RuleContext *addChild(RuleContext *ruleInvocation);
 
@@ -137,9 +137,9 @@ namespace org {
                 //		states.add(s);
                 //	}
 
-                    virtual TerminalNode *addChild(Token *matchedToken);
+                    virtual tree::TerminalNode *addChild(Token *matchedToken);
 
-                    virtual ErrorNode *addErrorNode(Token *badToken);
+                    virtual tree::ErrorNode *addErrorNode(Token *badToken);
 
                     virtual ParserRuleContext *getParent() override;
 
@@ -149,9 +149,9 @@ namespace org {
                     template<typename T>
                     T getChild(void *ctxType, int i);
 
-                    virtual TerminalNode *getToken(int ttype, int i);
+                    virtual tree::TerminalNode *getToken(int ttype, int i);
 
-                    virtual std::vector<TerminalNode*> getTokens(int ttype);
+                    virtual std::vector<tree::TerminalNode*> getTokens(int ttype);
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                     template<typename T>
@@ -162,7 +162,7 @@ namespace org {
                     std::vector<T> getRuleContexts(void *ctxType);
 
                     virtual int getChildCount() override;
-                    virtual Interval *getSourceInterval() override;
+                    virtual misc::Interval *getSourceInterval() override;
 
                     virtual Token *getStart();
                     virtual Token *getStop();

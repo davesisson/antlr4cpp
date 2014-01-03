@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <string>
-#include <set>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -56,7 +56,7 @@ namespace org {
 
                             /// <summary>
                             /// Given tree rooted at t return all nodes matched by this path element </summary>
-                            virtual std::set<ParseTree*> *evaluate(ParseTree *t) = 0;
+                            virtual std::vector<ParseTree*> *evaluate(ParseTree *t) = 0;
 
                             virtual std::wstring toString();
 

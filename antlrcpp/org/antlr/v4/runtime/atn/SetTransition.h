@@ -1,9 +1,7 @@
 ﻿#pragma once
 
 #include "Transition.h"
-
 #include "Declarations.h"
-
 #include <string>
 
 
@@ -46,14 +44,13 @@ namespace org {
                     /// A transition containing a set of values. </summary>
                     class SetTransition : public Transition {
                     public:
-                        IntervalSet *const set;
+                        misc::IntervalSet * const set;
 
-                        // TODO (sam): should we really allow null here?
                         SetTransition(ATNState *target, misc::IntervalSet *set);
 
                         virtual int getSerializationType() override;
 
-                        virtual IntervalSet *label() override;
+                        virtual misc::IntervalSet *label() override;
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) override;
 
                         virtual std::wstring toString();

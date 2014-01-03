@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "IntStream.h"
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -36,10 +37,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                namespace misc {
-                    class Interval;
-                }
-
 
                 /// <summary>
                 /// A source of characters for an ANTLR lexer. </summary>

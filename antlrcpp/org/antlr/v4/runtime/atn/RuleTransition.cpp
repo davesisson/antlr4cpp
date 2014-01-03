@@ -35,13 +35,12 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::misc::NotNull;
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    RuleTransition::RuleTransition(RuleStartState *ruleStart, int ruleIndex, ATNState *followState) {
+                    // this(ruleStart, ruleIndex, 0, followState);
+                    RuleTransition::RuleTransition(RuleStartState *ruleStart, int ruleIndex, ATNState *followState) : Transition(followState), ruleIndex(ruleIndex), precedence(0) {
                     }
 
-                    RuleTransition::RuleTransition(RuleStartState *ruleStart, int ruleIndex, int precedence, ATNState *followState) : Transition(ruleStart), ruleIndex(ruleIndex), precedence(precedence) {
+                    RuleTransition::RuleTransition(RuleStartState *ruleStart, int ruleIndex, int precedence, ATNState *followState) : Transition(followState), ruleIndex(ruleIndex), precedence(precedence) {
                         this->followState = followState;
                     }
 

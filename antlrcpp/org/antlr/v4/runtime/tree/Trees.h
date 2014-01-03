@@ -98,9 +98,9 @@ namespace org {
                         /// </summary>
                         static std::vector<Tree*> getAncestors(Tree *t);
 
-                        static std::set<ParseTree*> *findAllTokenNodes(ParseTree *t, int ttype);
+                        static std::vector<ParseTree*> *findAllTokenNodes(ParseTree *t, int ttype);
 
-                        static std::set<ParseTree*> *findAllRuleNodes(ParseTree *t, int ruleIndex);
+                        static std::vector<ParseTree*> *findAllRuleNodes(ParseTree *t, int ruleIndex);
 
                         static std::vector<ParseTree*> findAllNodes(ParseTree *t, int index, bool findTokens);
 

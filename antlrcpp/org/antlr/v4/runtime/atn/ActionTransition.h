@@ -1,7 +1,8 @@
 ﻿#pragma once
 
 #include "Transition.h"
-#include "ATNState.h"
+#include "Declarations.h"
+
 #include <string>
 
 /*
@@ -40,7 +41,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::misc::NotNull;
 
                     class ActionTransition final : public Transition {
                     public:
@@ -48,7 +48,7 @@ namespace org {
                         const int actionIndex;
                         const bool isCtxDependent; // e.g., $i ref in action
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
+
                         ActionTransition(ATNState *target, int ruleIndex); //this(target, ruleIndex, -1, false);
 
                         ActionTransition(ATNState *target, int ruleIndex, int actionIndex, bool isCtxDependent);
@@ -59,7 +59,7 @@ namespace org {
 
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
                     };
 
                 }

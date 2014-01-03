@@ -14,6 +14,7 @@
 #include <vector>
 #include "StringBuilder.h"
 #include <list>
+#include <stdarg.h>
 
 /// <summary>
 /// Converts List to string with given separator.
@@ -69,6 +70,19 @@ class Arrays {
     
     static std::vector<std::wstring> asList(const std::wstring *items)
     {
+#ifdef TODO
+        FIX ME
+#endif
+        
+        std::vector<std::wstring> foo;
+        return foo;//StringToStringList(items, "");
+    }
+    static std::vector<std::wstring> asList(int nArgs, ...)
+    {
+#ifdef TODO
+        FIX ME
+#endif
+        
         std::vector<std::wstring> foo;
         return foo;//StringToStringList(items, "");
     }

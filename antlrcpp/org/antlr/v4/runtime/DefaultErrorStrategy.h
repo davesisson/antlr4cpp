@@ -1,15 +1,16 @@
 ﻿#pragma once
 
 #include "ANTLRErrorStrategy.h"
-#include "misc/IntervalSet.h"
-#include "Parser.h"
-#include "RecognitionException.h"
-#include "NoViableAltException.h"
-#include "InputMismatchException.h"
-#include "FailedPredicateException.h"
-#include "Token.h"
-#include <string>
+//#include "misc/IntervalSet.h"
+//#include "Parser.h"
+//#include "RecognitionException.h"
+//#include "NoViableAltException.h"
+//#include "InputMismatchException.h"
+//#include "FailedPredicateException.h"
+//#include "Token.h"
 
+#include <string>
+#include "Declarations.h"
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -45,13 +46,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::atn::ATN;
-                using org::antlr::v4::runtime::atn::ATNState;
-                using org::antlr::v4::runtime::atn::RuleTransition;
-                using org::antlr::v4::runtime::misc::IntervalSet;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
-                using org::antlr::v4::runtime::misc::Pair;
 
                 /// <summary>
                 /// This is the default error handling mechanism for ANTLR parsers
@@ -76,7 +70,7 @@ namespace org {
                     /// </summary>
                     int lastErrorIndex;
 
-                    IntervalSet *lastErrorStates;
+                    misc::IntervalSet *lastErrorStates;
 
                     /// <summary>
                     /// {@inheritDoc}
@@ -193,7 +187,7 @@ namespace org {
                     /// some reason speed is suffering for you, you can turn off this
                     /// functionality by simply overriding this method as a blank { }.
                     /// </summary>
-                    virtual void sync(Parser *recognizer) throw(RecognitionException) override;
+                    virtual void sync(Parser *recognizer) override;
 
                     /// <summary>
                     /// This is called by <seealso cref="#reportError"/> when the exception is a
@@ -314,7 +308,7 @@ namespace org {
                     /// in rule {@code atom}. It can assume that you forgot the {@code ')'}.
                     /// </summary>
                 public:
-                    virtual Token *recoverInline(Parser *recognizer) throw(RecognitionException) override;
+                    virtual Token *recoverInline(Parser *recognizer) override;
 
                     /// <summary>
                     /// This method implements the single-token insertion inline error recovery
@@ -377,7 +371,7 @@ namespace org {
                     /// </summary>
                     virtual Token *getMissingSymbol(Parser *recognizer);
 
-                    virtual IntervalSet *getExpectedTokens(Parser *recognizer);
+                    virtual misc::IntervalSet *getExpectedTokens(Parser *recognizer);
 
                     /// <summary>
                     /// How should a token be displayed in an error message? The default
@@ -488,11 +482,11 @@ namespace org {
                      *  Like Grosch I implement context-sensitive FOLLOW sets that are combined
                      *  at run-time upon error to avoid overhead during parsing.
                      */
-                    virtual IntervalSet *getErrorRecoverySet(Parser *recognizer);
+                    virtual misc::IntervalSet *getErrorRecoverySet(Parser *recognizer);
 
                     /// <summary>
                     /// Consume tokens until one matches the given token set. </summary>
-                    virtual void consumeUntil(Parser *recognizer, IntervalSet *set);
+                    virtual void consumeUntil(Parser *recognizer, misc::IntervalSet *set);
 
                 private:
                     void InitializeInstanceFields();
