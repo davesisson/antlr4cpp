@@ -151,7 +151,7 @@ namespace org {
                             }
                         }
 
-                        Collection<ParseTree*> *XPath::findAll(ParseTree *tree, const std::wstring &xpath, Parser *parser) {
+                        std::vector<ParseTree*> *XPath::findAll(ParseTree *tree, const std::wstring &xpath, Parser *parser) {
                             XPath *p = new XPath(parser, xpath);
                             return p->evaluate(tree);
                         }

@@ -1,10 +1,7 @@
 ﻿#pragma once
 
 #include "IntStream.h"
-#include "Token.h"
-#include "TokenSource.h"
-#include "Interval.h"
-#include "RuleContext.h"
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]

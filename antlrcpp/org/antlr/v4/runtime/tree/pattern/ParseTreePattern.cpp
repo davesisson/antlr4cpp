@@ -52,7 +52,7 @@ namespace org {
                         }
 
                         std::vector<ParseTreeMatch*> ParseTreePattern::findAll(ParseTree *tree, const std::wstring &xpath) {
-                            std::set<ParseTree*> *subtrees = xpath::XPath::findAll(tree, xpath, matcher->getParser());
+                            std::vector<ParseTree*> *subtrees = xpath::XPath::findAll(tree, xpath, matcher->getParser());
                             std::vector<ParseTreeMatch*> matches = std::vector<ParseTreeMatch*>();
                             for (auto t : *subtrees) {
                                 ParseTreeMatch *aMatch = match(t);

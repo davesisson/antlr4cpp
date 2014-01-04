@@ -35,8 +35,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     ArrayPredictionContext::ArrayPredictionContext(SingletonPredictionContext *a) {
                     }
 

@@ -40,6 +40,7 @@ namespace org {
                 UnbufferedTokenStream::UnbufferedTokenStream(TokenSource *tokenSource) { //this(tokenSource, 256);
                 }
                 
+                template<typename T>
                 UnbufferedTokenStream::UnbufferedTokenStream(TokenSource *tokenSource, int bufferSize) {
                     InitializeInstanceFields();
                     this->tokenSource = tokenSource;

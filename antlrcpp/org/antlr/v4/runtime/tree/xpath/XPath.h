@@ -117,7 +117,7 @@ namespace org {
 
 
                         public:
-                            static std::set<ParseTree*> *findAll(ParseTree *tree, const std::wstring &xpath, Parser *parser);
+                            static std::vector<ParseTree*> *findAll(ParseTree *tree, const std::wstring &xpath, Parser *parser);
 
                             /// <summary>
                             /// Return a list of all nodes starting at t as root that satisfy the path.

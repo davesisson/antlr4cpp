@@ -2,6 +2,10 @@
 #include "EmptyPredictionContext.h"
 #include "MurmurHash.h"
 #include "ArrayPredictionContext.h"
+#include "RuleContext.h"
+#include "ATN.h"
+#include "ATNState.h"
+#include "RuleTransition.h"
 
 /*
  * [The "BSD license"]
@@ -48,12 +52,12 @@ namespace org {
 
                     org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::fromRuleContext(ATN *atn, RuleContext *outerContext) {
                         if (outerContext == nullptr) {
-                            outerContext = RuleContext::EMPTY;
+                            outerContext = (RuleContext*)RuleContext::EMPTY;
                         }
 
                         // if we are in RuleContext of start rule, s, then PredictionContext
                         // is EMPTY. Nobody called us. (if we are empty, return empty)
-                        if (outerContext->parent == nullptr || outerContext == RuleContext::EMPTY) {
+                        if (outerContext->parent == nullptr || outerContext == (RuleContext*)RuleContext::EMPTY) {
                             return PredictionContext::EMPTY;
                         }
 
@@ -62,7 +66,7 @@ namespace org {
                         parent = PredictionContext::fromRuleContext(atn, outerContext->parent);
 
                         ATNState *state = atn->states[outerContext->invokingState];
-                        RuleTransition *transition = static_cast<RuleTransition*>(state->transition(0));
+                        RuleTransition *transition = (RuleTransition *)state->transition(0);//static_cast<RuleTransition*>(state->transition(0));
                         return SingletonPredictionContext::create(parent, transition->followState->stateNumber);
                     }
 

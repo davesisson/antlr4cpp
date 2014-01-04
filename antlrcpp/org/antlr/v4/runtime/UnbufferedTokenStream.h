@@ -2,7 +2,6 @@
 
 #include "TokenStream.h"
 
-
 #include <string>
 
 /*
