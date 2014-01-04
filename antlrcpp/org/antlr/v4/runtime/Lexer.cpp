@@ -2,6 +2,40 @@
 #include "IntegerStack.h"
 #include "LexerATNSimulator.h"
 #include "Exceptions.h"
+#include "ANTLRErrorListener.h"
+#include "Interval.h"
+#include "StringBuilder.h"
+#include "CommonTokenFactory.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
@@ -133,8 +167,8 @@ namespace org {
                     mode(_modeStack->pop());
                     return _mode;
                 }
-
-template<typename T1>
+                
+                template<typename T1>
                 void Lexer::setTokenFactory(TokenFactory<T1> *factory) {
                     this->_factory = factory;
                 }
@@ -146,10 +180,10 @@ template<typename T1>
                 void Lexer::setInputStream(IntStream *input) {
 //JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                     delete this->_input;
-                    this->_tokenFactorySourcePair = new Pair<TokenSource*, CharStream*>(this, _input);
+                    this->_tokenFactorySourcePair = new misc::Pair<TokenSource*, CharStream*>(this, _input);
                     reset();
                     this->_input = static_cast<CharStream*>(input);
-                    this->_tokenFactorySourcePair = new Pair<TokenSource*, CharStream*>(this, _input);
+                    this->_tokenFactorySourcePair = new misc::Pair<TokenSource*, CharStream*>(this, _input);
                 }
 
                 std::wstring Lexer::getSourceName() {
@@ -165,13 +199,13 @@ template<typename T1>
                     this->_token = token;
                 }
 
-                org::antlr::v4::runtime::Token *Lexer::emit() {
-                    Token *t = _factory->create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex, getCharIndex() - 1, _tokenStartLine, _tokenStartCharPositionInLine);
+                Token *Lexer::emit() {
+                    Token *t = (Token*)_factory->create(_tokenFactorySourcePair, _type, _text, _channel, _tokenStartCharIndex, getCharIndex() - 1, _tokenStartLine, _tokenStartCharPositionInLine);
                     emit(t);
                     return t;
                 }
 
-                org::antlr::v4::runtime::Token *Lexer::emitEOF() {
+                Token *Lexer::emitEOF() {
                     int cpos = getCharPositionInLine();
                     // The character position for EOF is one beyond the position of
                     // the previous token's last character
@@ -179,7 +213,7 @@ template<typename T1>
                         int n = _token->getStopIndex() - _token->getStartIndex() + 1;
                         cpos = _token->getCharPositionInLine() + n;
                     }
-                    Token *eof = _factory->create(_tokenFactorySourcePair, Token::EOF, L"", Token::DEFAULT_CHANNEL, _input->index(), _input->index() - 1, getLine(), cpos);
+                    Token *eof = (Token*)_factory->create(_tokenFactorySourcePair, Token::_EOF, L"", Token::DEFAULT_CHANNEL, _input->index(), _input->index() - 1, getLine(), cpos);
                     emit(eof);
                     return eof;
                 }
@@ -247,10 +281,10 @@ template<typename T1>
                     return nullptr;
                 }
 
-                std::vector<? extends Token> Lexer::getAllTokens() {
+                std::vector<Token*> Lexer::getAllTokens() {
                     std::vector<Token*> tokens = std::vector<Token*>();
                     Token *t = nextToken();
-                    while (t->getType() != Token::EOF) {
+                    while (t->getType() != Token::_EOF) {
                         tokens.push_back(t);
                         t = nextToken();
                     }
@@ -258,14 +292,14 @@ template<typename T1>
                 }
 
                 void Lexer::recover(LexerNoViableAltException *e) {
-                    if (_input->LA(1) != IntStream::EOF) {
+                    if (_input->LA(1) != IntStream::_EOF) {
                         // skip a char and try again
                         getInterpreter()->consume(_input);
                     }
                 }
 
                 void Lexer::notifyListeners(LexerNoViableAltException *e) {
-                    std::wstring text = _input->getText(Interval::of(_tokenStartCharIndex, _input->index()));
+                    std::wstring text = _input->getText(misc::Interval::of(_tokenStartCharIndex, _input->index()));
                     std::wstring msg = std::wstring(L"token recognition error at: '") + getErrorDisplay(text) + std::wstring(L"'");
 
                     ANTLRErrorListener *listener = getErrorListenerDispatch();
@@ -274,17 +308,23 @@ template<typename T1>
 
                 std::wstring Lexer::getErrorDisplay(const std::wstring &s) {
                     StringBuilder *buf = new StringBuilder();
-                    for (auto c : s.toCharArray()) {
+                    
+                    for (int i = 0; i < s.length(); i++) {
+                        char c = ((char*)s.c_str())[i];
                         buf->append(getErrorDisplay(c));
                     }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                    /*
+                    for (auto c : s.toCharArray()) {
+                        buf->append(getErrorDisplay(c));
+                    }*/
+
                     return buf->toString();
                 }
 
                 std::wstring Lexer::getErrorDisplay(int c) {
                     std::wstring s = StringConverterHelper::toString(static_cast<wchar_t>(c));
                     switch (c) {
-                        case Token::EOF :
+                        case Token::_EOF :
                             s = L"<EOF>";
                             break;
                         case L'\n' :

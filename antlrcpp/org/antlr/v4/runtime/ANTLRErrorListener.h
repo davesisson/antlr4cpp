@@ -1,10 +1,7 @@
 ﻿#pragma once
 
 #include "Recognizer.h"
-class RecognitionException; // TODO fixme
-class Parser;
-class DFA;
-class ATNConfigSet;
+#include "Declarations.h"
 #include <bitset>
 
 /*
@@ -82,12 +79,10 @@ namespace org {
                     ///        the parser was able to recover in line without exiting the
                     ///        surrounding rule. </param>
                 public:
-#ifdef TODO 
-                OK This one really needs some work, different number of parameters
-                between recognizer and what is here
+
                     template<typename T1, typename T2>
-                    void syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) = 0;
-#endif
+                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
+
                     /// <summary>
                     /// This method is called by the parser when a full-context prediction
                     /// results in an ambiguity.
@@ -115,7 +110,7 @@ namespace org {
                     /// <param name="ambigAlts"> the potentially ambiguous alternatives </param>
                     /// <param name="configs"> the ATN configuration set where the ambiguity was
                     /// determined </param>
-                    virtual void reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs) = 0;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, atn::ATNConfigSet *configs) = 0;
 
                     /// <summary>
                     /// This method is called when an SLL conflict occurs and the parser is about
@@ -137,7 +132,7 @@ namespace org {
                     /// represented in {@code configs}. </param>
                     /// <param name="configs"> the ATN configuration set where the SLL conflict was
                     /// detected </param>
-                    virtual void reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs) = 0;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, atn::ATNConfigSet *configs) = 0;
 
                     /// <summary>
                     /// This method is called by the parser when a full-context prediction has a
@@ -166,7 +161,7 @@ namespace org {
                     /// <param name="prediction"> the unambiguous result of the full-context prediction </param>
                     /// <param name="configs"> the ATN configuration set where the unambiguous prediction
                     /// was determined </param>
-                    virtual void reportContextSensitivity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet *configs) = 0;
+                    virtual void reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) = 0;
                 };
 
             }

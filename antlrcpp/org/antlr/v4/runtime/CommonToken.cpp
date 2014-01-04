@@ -1,20 +1,51 @@
 ﻿#include "CommonToken.h"
 #include "Interval.h"
+#include "Pair.h"
+#include "TokenSource.h"
 
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
 
-org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*> *const CommonToken::EMPTY_SOURCE = new org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*>(nullptr, nullptr);
+                misc::Pair<TokenSource*, CharStream*> *const CommonToken::EMPTY_SOURCE = new org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*>(nullptr, nullptr);
 
                 CommonToken::CommonToken(int type) {
                     InitializeInstanceFields();
                     this->type = type;
                 }
 
-                CommonToken::CommonToken(Pair<TokenSource*, CharStream*> *source, int type, int channel, int start, int stop) {
+                CommonToken::CommonToken(misc::Pair<TokenSource*, CharStream*> *source, int type, int channel, int start, int stop) {
                     InitializeInstanceFields();
                     this->source = source;
                     this->type = type;
@@ -49,7 +80,7 @@ org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*> *const CommonToke
                     if (dynamic_cast<CommonToken*>(oldToken) != nullptr) {
                         source = (static_cast<CommonToken*>(oldToken))->source;
                     } else {
-                        source = new Pair<TokenSource*, CharStream*>(oldToken->getTokenSource(), oldToken->getInputStream());
+                        source = new misc::Pair<TokenSource*, CharStream*>(oldToken->getTokenSource(), oldToken->getInputStream());
                     }
                 }
 
@@ -141,7 +172,7 @@ org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*> *const CommonToke
                 std::wstring CommonToken::toString() {
                     std::wstring channelStr = L"";
                     if (channel > 0) {
-                        channelStr = std::wstring(L",channel=") + channel;
+                        channelStr = std::wstring(L",channel=") + std::to_wstring(channel);
                     }
                     std::wstring txt = getText();
                     if (txt != L"") {
@@ -154,7 +185,7 @@ org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*> *const CommonToke
                     } else {
                         txt = L"<no text>";
                     }
-                    return std::wstring(L"[@") + getTokenIndex() + std::wstring(L",") + start + std::wstring(L":") + stop + std::wstring(L"='") + txt + std::wstring(L"',<") + type + std::wstring(L">") + channelStr + std::wstring(L",") + line + std::wstring(L":") + getCharPositionInLine() + std::wstring(L"]");
+                    return std::wstring(L"[@") + std::to_wstring(getTokenIndex()) + std::wstring(L",") + std::to_wstring(start) + std::wstring(L":") + std::to_wstring(stop) + std::wstring(L"='") + txt + std::wstring(L"',<") + std::to_wstring(type) + std::wstring(L">") + channelStr + std::wstring(L",") + std::to_wstring(line) + std::wstring(L":") + std::to_wstring(getCharPositionInLine()) + std::wstring(L"]");
                 }
 
                 void CommonToken::InitializeInstanceFields() {

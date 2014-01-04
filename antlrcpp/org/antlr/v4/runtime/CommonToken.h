@@ -2,11 +2,9 @@
 
 #include "WritableToken.h"
 #include "CharStream.h"
-#include "Pair.h"
-#include "Token.h"
 #include <string>
 
-class TokenSource;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -42,9 +40,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                namespace misc {
-                    class Interval;
-                }
                 
                 class CommonToken : public WritableToken/*, public Serializable*/ {
                 protected:

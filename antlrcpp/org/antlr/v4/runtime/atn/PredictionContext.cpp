@@ -6,6 +6,7 @@
 #include "ATN.h"
 #include "ATNState.h"
 #include "RuleTransition.h"
+#include <assert.h>
 
 /*
  * [The "BSD license"]
@@ -46,48 +47,48 @@ namespace org {
                 namespace atn {
                     EmptyPredictionContext *const PredictionContext::EMPTY = new EmptyPredictionContext();
                     int PredictionContext::globalNodeCount = 0;
-
+                    
                     PredictionContext::PredictionContext(int cachedHashCode) : cachedHashCode(cachedHashCode), id(globalNodeCount++) {
                     }
-
+                    
                     org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::fromRuleContext(ATN *atn, RuleContext *outerContext) {
                         if (outerContext == nullptr) {
                             outerContext = (RuleContext*)RuleContext::EMPTY;
                         }
-
+                        
                         // if we are in RuleContext of start rule, s, then PredictionContext
                         // is EMPTY. Nobody called us. (if we are empty, return empty)
                         if (outerContext->parent == nullptr || outerContext == (RuleContext*)RuleContext::EMPTY) {
                             return PredictionContext::EMPTY;
                         }
-
+                        
                         // If we have a parent, convert it to a PredictionContext graph
                         PredictionContext *parent = EMPTY;
                         parent = PredictionContext::fromRuleContext(atn, outerContext->parent);
-
+                        
                         ATNState *state = atn->states[outerContext->invokingState];
                         RuleTransition *transition = (RuleTransition *)state->transition(0);//static_cast<RuleTransition*>(state->transition(0));
                         return SingletonPredictionContext::create(parent, transition->followState->stateNumber);
                     }
-
+                    
                     bool PredictionContext::isEmpty() {
                         return this == EMPTY;
                     }
-
+                    
                     bool PredictionContext::hasEmptyPath() {
                         return getReturnState(size() - 1) == EMPTY_RETURN_STATE;
                     }
-
+                    
                     int PredictionContext::hashCode() {
                         return cachedHashCode;
                     }
-
+                    
                     int PredictionContext::calculateEmptyHashCode() {
                         int hash = MurmurHash::initialize(INITIAL_HASH);
                         hash = MurmurHash::finish(hash, 0);
                         return hash;
                     }
-
+                    
                     int PredictionContext::calculateHashCode(PredictionContext *parent, int returnState) {
                         int hash = MurmurHash::initialize(INITIAL_HASH);
                         hash = MurmurHash::update(hash, parent);
@@ -95,34 +96,34 @@ namespace org {
                         hash = MurmurHash::finish(hash, 2);
                         return hash;
                     }
-
-                    int PredictionContext::calculateHashCode(PredictionContext parents[], int returnStates[]) {
+                    
+                    int PredictionContext::calculateHashCode(PredictionContext *parents[], int returnStates[]) {
                         int hash = MurmurHash::initialize(INITIAL_HASH);
-
+                        
                         for (auto parent : parents) {
                             hash = MurmurHash::update(hash, parent);
                         }
-
+                        
                         for (auto returnState : returnStates) {
                             hash = MurmurHash::update(hash, returnState);
                         }
-
+                        
                         hash = MurmurHash::finish(hash, 2 * sizeof(parents) / sizeof(parents[0]));
                         return hash;
                     }
-
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                    
+                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
                         assert(a != nullptr && b != nullptr); // must be empty context, never null
-
+                        
                         // share same graph if both same
                         if (a == b || a->equals(b)) {
                             return a;
                         }
-
+                        
                         if (dynamic_cast<SingletonPredictionContext*>(a) != nullptr && dynamic_cast<SingletonPredictionContext*>(b) != nullptr) {
                             return mergeSingletons(static_cast<SingletonPredictionContext*>(a), static_cast<SingletonPredictionContext*>(b), rootIsWildcard, mergeCache);
                         }
-
+                        
                         // At least one of a or b is array
                         // If one is $ and rootIsWildcard, return $ as * wildcard
                         if (rootIsWildcard) {
@@ -133,18 +134,18 @@ namespace org {
                                 return b;
                             }
                         }
-
+                        
                         // convert singleton so both are arrays to normalize
                         if (dynamic_cast<SingletonPredictionContext*>(a) != nullptr) {
-                            a = new ArrayPredictionContext(static_cast<SingletonPredictionContext*>(a));
+                            a = (PredictionContext *)new ArrayPredictionContext(static_cast<SingletonPredictionContext*>(a));
                         }
                         if (dynamic_cast<SingletonPredictionContext*>(b) != nullptr) {
-                            b = new ArrayPredictionContext(static_cast<SingletonPredictionContext*>(b));
+                            b = (PredictionContext *)new ArrayPredictionContext(static_cast<SingletonPredictionContext*>(b));
                         }
                         return mergeArrays(static_cast<ArrayPredictionContext*>(a), static_cast<ArrayPredictionContext*>(b), rootIsWildcard, mergeCache);
                     }
-
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::mergeSingletons(SingletonPredictionContext *a, SingletonPredictionContext *b, bool rootIsWildcard, DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                    
+                    atn::PredictionContext *PredictionContext::mergeSingletons(SingletonPredictionContext *a, SingletonPredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
                         if (mergeCache != nullptr) {
                             PredictionContext *previous = mergeCache->get(a,b);
                             if (previous != nullptr) {
@@ -155,31 +156,31 @@ namespace org {
                                 return previous;
                             }
                         }
-
+                        
                         PredictionContext *rootMerge = mergeRoot(a, b, rootIsWildcard);
                         if (rootMerge != nullptr) {
                             if (mergeCache != nullptr) {
-                                mergeCache->put(a, b, rootMerge);
+                                mergeCache->put((PredictionContext *)a, (PredictionContext *)b, rootMerge);
                             }
                             return rootMerge;
                         }
-
+                        
                         if (a->returnState == b->returnState) { // a == b
                             PredictionContext *parent = merge(a->parent, b->parent, rootIsWildcard, mergeCache);
                             // if parent is same as existing a or b parent or reduced to a parent, return it
                             if (parent == a->parent) { // ax + bx = ax, if a=b
-                                return a;
+                                return (PredictionContext *)a;
                             }
                             if (parent == b->parent) { // ax + bx = bx, if a=b
-                                return b;
+                                return (PredictionContext *)b;
                             }
                             // else: ax + ay = a'[x,y]
                             // merge parents x and y, giving array node with x,y then remainders
                             // of those graphs.  dup a, a' points at merged array
                             // new joined parent so create new singleton pointing to it, a'
-                            PredictionContext *a_ = SingletonPredictionContext::create(parent, a->returnState);
+                            PredictionContext *a_ = (PredictionContext *)SingletonPredictionContext::create(parent, a->returnState);
                             if (mergeCache != nullptr) {
-                                mergeCache->put(a, b, a_);
+                                mergeCache->put((PredictionContext *)a, (PredictionContext *)b, a_);
                             }
                             return a_;
                         }
@@ -220,18 +221,18 @@ namespace org {
                             return a_;
                         }
                     }
-
+                    
                     org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::mergeRoot(SingletonPredictionContext *a, SingletonPredictionContext *b, bool rootIsWildcard) {
                         if (rootIsWildcard) {
                             if (a == EMPTY) { // * + b = *
-                                return EMPTY;
+                                return (PredictionContext *)EMPTY;
                             }
                             if (b == EMPTY) { // a + * = *
-                                return EMPTY;
+                                return (PredictionContext *)EMPTY;
                             }
                         } else {
                             if (a == EMPTY && b == EMPTY) { // $ + $ = $
-                                return EMPTY;
+                                return (PredictionContext *)EMPTY;
                             }
                             if (a == EMPTY) { // $ + x = [$,x]
                                 int payloads[2] = {b->returnState, EMPTY_RETURN_STATE};
@@ -248,8 +249,8 @@ namespace org {
                         }
                         return nullptr;
                     }
-
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::mergeArrays(ArrayPredictionContext *a, ArrayPredictionContext *b, bool rootIsWildcard, DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                    
+                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::mergeArrays(ArrayPredictionContext *a, ArrayPredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
                         if (mergeCache != nullptr) {
                             PredictionContext *previous = mergeCache->get(a,b);
                             if (previous != nullptr) {
@@ -260,12 +261,12 @@ namespace org {
                                 return previous;
                             }
                         }
-
+                        
                         // merge sorted payloads a + b => M
                         int i = 0; // walks a
                         int j = 0; // walks b
                         int k = 0; // walks target M array
-
+                        
                         int mergedReturnStates[a->returnStates->length + b->returnStates->length];
                         PredictionContext mergedParents[a->returnStates->length + b->returnStates->length];
                         // walk and merge to yield mergedParents, mergedReturnStates
@@ -301,7 +302,7 @@ namespace org {
                             }
                             k++;
                         }
-
+                        
                         // copy over any payloads remaining in either array
                         if (i < a->returnStates->length) {
                             for (int p = i; p < a->returnStates->length; p++) {
@@ -316,7 +317,7 @@ namespace org {
                                 k++;
                             }
                         }
-
+                        
                         // trim merged if we combined a few that had same stack tops
                         if (k < sizeof(mergedParents) / sizeof(mergedParents[0])) { // write index < last position; trim
                             if (k == 1) { // for just one merged element, return singleton top
@@ -329,9 +330,9 @@ namespace org {
                             mergedParents = Arrays::copyOf(mergedParents, k);
                             mergedReturnStates = Arrays::copyOf(mergedReturnStates, k);
                         }
-
+                        
                         PredictionContext *M = new ArrayPredictionContext(mergedParents, mergedReturnStates);
-
+                        
                         // if we created same array as a or b, return that instead
                         // TODO: track whether this is possible above during merge sort for speed
                         if (M->equals(a)) {
@@ -346,30 +347,30 @@ namespace org {
                             }
                             return b;
                         }
-
+                        
                         combineCommonParents(mergedParents);
-
+                        
                         if (mergeCache != nullptr) {
                             mergeCache->put(a,b,M);
                         }
                         return M;
                     }
-
+                    
                     void PredictionContext::combineCommonParents(PredictionContext parents[]) {
                         Map<PredictionContext*, PredictionContext*> *uniqueParents = std::unordered_map<PredictionContext*, PredictionContext*>();
-
+                        
                         for (int p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
                             PredictionContext *parent = parents[p];
                             if (!uniqueParents->containsKey(parent)) { // don't replace
                                 uniqueParents->put(parent, parent);
                             }
                         }
-
+                        
                         for (int p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
                             parents[p] = uniqueParents->get(parents[p]);
                         }
                     }
-
+                    
                     std::wstring PredictionContext::toDOTString(PredictionContext *context) {
                         if (context == nullptr) {
                             return L"";
@@ -377,10 +378,10 @@ namespace org {
                         StringBuilder *buf = new StringBuilder();
                         buf->append(L"digraph G {\n");
                         buf->append(L"rankdir=LR;\n");
-
+                        
                         std::vector<PredictionContext*> nodes = getAllContextNodes(context);
                         Collections::sort(nodes, new ComparatorAnonymousInnerClassHelper());
-
+                        
                         for (auto current : nodes) {
                             if (dynamic_cast<SingletonPredictionContext*>(current) != nullptr) {
                                 std::wstring s = static_cast<std::wstring>(current.id);
@@ -411,7 +412,7 @@ namespace org {
                             buf->append(L"]");
                             buf->append(L"\"];\n");
                         }
-
+                        
                         for (auto current : nodes) {
                             if (current == EMPTY) {
                                 continue;
@@ -432,35 +433,35 @@ namespace org {
                                 }
                             }
                         }
-
+                        
                         buf->append(L"}\n");
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                        //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
-
+                    
                     PredictionContext::ComparatorAnonymousInnerClassHelper::ComparatorAnonymousInnerClassHelper() {
                     }
-
+                    
                     int PredictionContext::ComparatorAnonymousInnerClassHelper::compare(PredictionContext *o1, PredictionContext *o2) {
                         return o1->id - o2->id;
                     }
-
+                    
                     org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, IdentityHashMap<PredictionContext*, PredictionContext*> *visited) {
                         if (context->isEmpty()) {
                             return context;
                         }
-
+                        
                         PredictionContext *existing = visited->get(context);
                         if (existing != nullptr) {
                             return existing;
                         }
-
+                        
                         existing = contextCache->get(context);
                         if (existing != nullptr) {
                             visited->put(context, existing);
                             return existing;
                         }
-
+                        
                         bool changed = false;
                         PredictionContext parents[context->size()];
                         for (int i = 0; i < sizeof(parents) / sizeof(parents[0]); i++) {
@@ -471,20 +472,20 @@ namespace org {
                                     for (int j = 0; j < context->size(); j++) {
                                         parents[j] = context->getParent(j);
                                     }
-
+                                    
                                     changed = true;
                                 }
-
+                                
                                 parents[i] = parent;
                             }
                         }
-
+                        
                         if (!changed) {
                             contextCache->add(context);
                             visited->put(context, context);
                             return context;
                         }
-
+                        
                         PredictionContext *updated;
                         if (sizeof(parents) / sizeof(parents[0]) == 0) {
                             updated = EMPTY;
@@ -494,21 +495,21 @@ namespace org {
                             ArrayPredictionContext *arrayPredictionContext = static_cast<ArrayPredictionContext*>(context);
                             updated = new ArrayPredictionContext(parents, arrayPredictionContext->returnStates);
                         }
-
+                        
                         contextCache->add(updated);
                         visited->put(updated, updated);
                         visited->put(context, updated);
-
+                        
                         return updated;
                     }
-
+                    
                     std::vector<PredictionContext*> PredictionContext::getAllContextNodes(PredictionContext *context) {
                         std::vector<PredictionContext*> nodes = std::vector<PredictionContext*>();
                         Map<PredictionContext*, PredictionContext*> *visited = new IdentityHashMap<PredictionContext*, PredictionContext*>();
                         getAllContextNodes_(context, nodes, visited);
                         return nodes;
                     }
-
+                    
                     void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, Map<PredictionContext*, PredictionContext*> *visited) {
                         if (context == nullptr || visited->containsKey(context)) {
                             return;
@@ -519,22 +520,22 @@ namespace org {
                             getAllContextNodes_(context->getParent(i), nodes, visited);
                         }
                     }
-
-template<typename T1, typename T1>
+                    
+                    template<typename T1, typename T1>
                     std::wstring PredictionContext::toString(Recognizer<T1> *recog) {
                         return toString();
-                                        //		return toString(recog, ParserRuleContext.EMPTY);
+                        //		return toString(recog, ParserRuleContext.EMPTY);
                     }
-
-template<typename T1, typename T1>
+                    
+                    template<typename T1, typename T1>
                     std::wstring *PredictionContext::toStrings(Recognizer<T1> *recognizer, int currentState) {
                         return toStrings(recognizer, EMPTY, currentState);
                     }
-
-template<typename T1, typename T1>
+                    
+                    template<typename T1, typename T1>
                     std::wstring *PredictionContext::toStrings(Recognizer<T1> *recognizer, PredictionContext *stop, int currentState) {
                         std::vector<std::wstring> result = std::vector<std::wstring>();
-
+                        
                         for (int perm = 0; ; perm++) {
                             int offset = 0;
                             bool last = true;
@@ -549,7 +550,7 @@ template<typename T1, typename T1>
                                     while ((1 << bits) < p->size()) {
                                         bits++;
                                     }
-
+                                    
                                     int mask = (1 << bits) - 1;
                                     index = (perm >> offset) & mask;
                                     last &= index >= p->size() - 1;
@@ -558,13 +559,13 @@ template<typename T1, typename T1>
                                     }
                                     offset += bits;
                                 }
-
+                                
                                 if (recognizer != nullptr) {
                                     if (localBuffer->length() > 1) {
                                         // first char is '[', if more than that this isn't the first rule
                                         localBuffer->append(L' ');
                                     }
-
+                                    
                                     ATN *atn = recognizer->getATN();
                                     ATNState *s = atn->states[stateNumber];
                                     std::wstring ruleName = recognizer->getRuleNames()[s->ruleIndex];
@@ -575,7 +576,7 @@ template<typename T1, typename T1>
                                             // first char is '[', if more than that this isn't the first rule
                                             localBuffer->append(L' ');
                                         }
-
+                                        
                                         localBuffer->append(p->getReturnState(index));
                                     }
                                 }
@@ -583,16 +584,16 @@ template<typename T1, typename T1>
                                 p = p->getParent(index);
                             }
                             localBuffer->append(L"]");
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                            //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             result.push_back(localBuffer->toString());
-
+                            
                             if (last) {
                                 break;
                             }
-                            outerContinue:
+                        outerContinue:
                         }
-                        outerBreak:
-
+                    outerBreak:
+                        
                         return result.toArray(new std::wstring[result.size()]);
                     }
                 }

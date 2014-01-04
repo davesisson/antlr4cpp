@@ -1,14 +1,9 @@
 ﻿#pragma once
 
-//#include "ATNState.h"
-//#include "PredictionContext.h"
-//#include "SemanticContext.h"
-#include <string>
 
-class Recognizer;
-class SemanticContext;
-class PredictionContext;
-class ATNState;
+#include <string>
+#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
@@ -119,10 +114,10 @@ namespace org {
                         virtual int hashCode();
 
                         virtual std::wstring toString();
-#ifdef TODO
+
                         template<typename T1, typename T2>
-                        virtual std::wstring toString(Recognizer<T1> *recog, bool showAlt);
-#endif
+                        std::wstring toString(Recognizer<T1, T2> *recog, bool showAlt);
+
                     private:
                         void InitializeInstanceFields();
                     };

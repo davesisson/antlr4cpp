@@ -42,6 +42,7 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -71,7 +72,7 @@ namespace org {
                     /// How to create token objects </summary>
 //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
 //ORIGINAL LINE: protected TokenFactory<?> _factory = CommonTokenFactory.DEFAULT;
-                    TokenFactory<void*> *_factory;
+                    TokenFactory<CommonToken*> *_factory;
 
                     /// <summary>
                     /// The goal of all lexer rules/methods is to create a token object.
@@ -235,7 +236,7 @@ namespace org {
                     /// Return a list of all Token objects in input char stream.
                     ///  Forces load of all tokens. Does not include EOF token.
                     /// </summary>
-                    virtual std::vector<void*> getAllTokens();
+                    virtual std::vector<Token*> getAllTokens();
 
                     virtual void recover(LexerNoViableAltException *e);
 

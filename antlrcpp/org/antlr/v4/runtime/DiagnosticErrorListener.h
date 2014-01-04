@@ -71,13 +71,13 @@ namespace org {
                     /// </summary>
                 protected:
                     const bool exactOnly;
-
+                    static const int BITSET_SIZE = 1024;
+                    
                     /// <summary>
                     /// Initializes a new instance of <seealso cref="DiagnosticErrorListener"/> which only
                     /// reports exact ambiguities.
                     /// </summary>
                 public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     DiagnosticErrorListener(); //this(true);
 
                     /// <summary>
@@ -88,14 +88,14 @@ namespace org {
                     /// {@code false} to report all ambiguities. </param>
                     DiagnosticErrorListener(bool exactOnly);
 
-                    virtual void reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, atn::ATNConfigSet *configs) override;
 
-                    virtual void reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs) override;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, atn::ATNConfigSet *configs) override;
 
-                    virtual void reportContextSensitivity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet *configs) override;
+                    virtual void reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) override;
 
                 protected:
-                    virtual std::wstring getDecisionDescription(Parser *recognizer, DFA *dfa);
+                    virtual std::wstring getDecisionDescription(Parser *recognizer, dfa::DFA *dfa);
 
                     /// <summary>
                     /// Computes the set of conflicting or ambiguous alternatives from a
@@ -107,7 +107,7 @@ namespace org {
                     /// <param name="configs"> The conflicting or ambiguous configuration set. </param>
                     /// <returns> Returns {@code reportedAlts} if it is not {@code null}, otherwise
                     /// returns the set of alternatives represented in {@code configs}. </returns>
-                    virtual std::bitset<BITSET_SIZE> *getConflictingAlts(std::bitset<BITSET_SIZE> *reportedAlts, ATNConfigSet *configs);
+                    virtual std::bitset<BITSET_SIZE> *getConflictingAlts(std::bitset<BITSET_SIZE> *reportedAlts, atn::ATNConfigSet *configs);
                 };
 
             }

@@ -8,7 +8,7 @@
 #include "DoubleKeyMap.h"
 #include "Recognizer.h"
 #include "Declarations.h"
-
+#include ""
 
 /*
  * [The "BSD license"]
@@ -258,7 +258,7 @@ namespace org {
                         static std::wstring toDOTString(PredictionContext *context);
 
                     private:
-#ifdef TODO
+
                         class ComparatorAnonymousInnerClassHelper : public Comparator<PredictionContext*> {
 
                         public:
@@ -266,7 +266,7 @@ namespace org {
 
                             virtual int compare(PredictionContext *o1, PredictionContext *o2);
                         };
-#endif
+
                         // From Sam
                     public:
                         static PredictionContext *getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, std::map<PredictionContext*, PredictionContext*> *visited);
