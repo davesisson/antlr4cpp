@@ -1,8 +1,6 @@
 ﻿#pragma once
 
 #include "Recognizer.h"
-#include "Pair.h"
-#include "IntegerStack.h"
 
 #include "Token.h"
 #include "TokenSource.h"

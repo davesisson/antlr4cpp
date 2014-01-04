@@ -45,7 +45,7 @@ namespace org {
 
                         static Interval *const INVALID;
 
-                        static Interval cache[INTERVAL_POOL_MAX_VALUE+1];
+                        static Interval *cache[INTERVAL_POOL_MAX_VALUE+1];
 
                         int a;
                         int b;

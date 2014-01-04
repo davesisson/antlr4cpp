@@ -4,7 +4,7 @@
 
 #include <string>
 #include <fstream>
-
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -39,9 +39,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                namespace misc {
-                    class Interval;
-                }
+
             
                 /// <summary>
                 /// Vacuum all input from a <seealso cref="Reader"/>/<seealso cref="InputStream"/> and then treat it
@@ -138,7 +136,7 @@ namespace org {
                     /// </summary>
                     virtual void seek(int index) override;
 
-                    virtual std::wstring getText(Interval *interval) override;
+                    virtual std::wstring getText(misc::Interval *interval) override;
 
                     virtual std::wstring getSourceName() override;
 

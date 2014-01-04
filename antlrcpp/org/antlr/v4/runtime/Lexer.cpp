@@ -1,5 +1,7 @@
 ﻿#include "Lexer.h"
-
+#include "IntegerStack.h"
+#include "LexerATNSimulator.h"
+#include "Exceptions.h"
 
 namespace org {
     namespace antlr {
@@ -7,14 +9,14 @@ namespace org {
             namespace runtime {
 
 
-                Lexer::Lexer() : _modeStack(new org::antlr::v4::runtime::misc::IntegerStack()) {
+                Lexer::Lexer() : _modeStack(new misc::IntegerStack()) {
                     InitializeInstanceFields();
                 }
 
-                Lexer::Lexer(CharStream *input) : _modeStack(new org::antlr::v4::runtime::misc::IntegerStack()) {
+                Lexer::Lexer(CharStream *input) : _modeStack(new misc::IntegerStack()) {
                     InitializeInstanceFields();
                     this->_input = input;
-                    this->_tokenFactorySourcePair = new Pair<TokenSource*, CharStream*>(this, input);
+                    this->_tokenFactorySourcePair = new misc::Pair<TokenSource*, CharStream*>(this, input);
                 }
 
                 void Lexer::reset() {
@@ -38,7 +40,7 @@ namespace org {
                     getInterpreter()->reset();
                 }
 
-                org::antlr::v4::runtime::Token *Lexer::nextToken() {
+                Token *Lexer::nextToken() {
                     if (_input == nullptr) {
                         throw IllegalStateException(L"nextToken requires a non-null input stream.");
                     }
@@ -48,6 +50,7 @@ namespace org {
                     int tokenStartMarker = _input->mark();
                     try {
                         while (true) {
+                            outerContinue:
                             if (_hitEOF) {
                                 emitEOF();
                                 return _token;
@@ -68,12 +71,12 @@ namespace org {
                                 int ttype;
                                 try {
                                     ttype = getInterpreter()->match(_input, _mode);
-                                } catch (LexerNoViableAltException e) {
+                                } catch (LexerNoViableAltException *e) {
                                     notifyListeners(e); // report error
                                     recover(e);
                                     ttype = SKIP;
                                 }
-                                if (_input->LA(1) == IntStream::EOF) {
+                                if (_input->LA(1) == IntStream::_EOF) {
                                     _hitEOF = true;
                                 }
                                 if (_type == Token::INVALID_TYPE) {
@@ -87,14 +90,17 @@ namespace org {
                                 emit();
                             }
                             return _token;
-                            outerContinue:
                         }
-                        outerBreak:
-                    } finally {
-                        // make sure we release marker after match or
-                        // unbuffered char stream will keep buffering
-                        _input->release(tokenStartMarker);
+                        
                     }
+                    catch(...) {
+                        
+                    }
+                    
+                    // make sure we release marker after match or
+                    // unbuffered char stream will keep buffering
+                    _input->release(tokenStartMarker);
+                    return nullptr;
                 }
 
                 void Lexer::skip() {
@@ -110,8 +116,8 @@ namespace org {
                 }
 
                 void Lexer::pushMode(int m) {
-                    if (LexerATNSimulator::debug) {
-                        std::cout << std::wstring(L"pushMode ") << m << std::endl;
+                    if (atn::LexerATNSimulator::debug) {
+                        std::wcout << std::wstring(L"pushMode ") << m << std::endl;
                     }
                     _modeStack->push(_mode);
                     mode(m);
@@ -121,8 +127,8 @@ namespace org {
                     if (_modeStack->isEmpty()) {
                         throw EmptyStackException();
                     }
-                    if (LexerATNSimulator::debug) {
-                        std::cout << std::wstring(L"popMode back to ") << _modeStack->peek() << std::endl;
+                    if (atn::LexerATNSimulator::debug) {
+                        std::wcout << std::wstring(L"popMode back to ") << _modeStack->peek() << std::endl;
                     }
                     mode(_modeStack->pop());
                     return _mode;
@@ -133,7 +139,7 @@ template<typename T1>
                     this->_factory = factory;
                 }
 
-                org::antlr::v4::runtime::TokenFactory<? extends Token> *Lexer::getTokenFactory() {
+                org::antlr::v4::runtime::TokenFactory<CommonToken*> *Lexer::getTokenFactory() {
                     return _factory;
                 }
 

@@ -1,41 +1,11 @@
 ﻿#include "ParserInterpreter.h"
-#include "Java/src/org/antlr/v4/runtime/atn/StarLoopEntryState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleStartState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/LoopEndState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleStopState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ParserATNSimulator.h"
-#include "Java/src/org/antlr/v4/runtime/InterpreterRuleContext.h"
-#include "Java/src/org/antlr/v4/runtime/atn/DecisionState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/Transition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/AtomTransition.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/PredicateTransition.h"
-#include "Java/src/org/antlr/v4/runtime/FailedPredicateException.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ActionTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/PrecedencePredicateTransition.h"
+
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::atn::ATN;
-                using org::antlr::v4::runtime::atn::ATNState;
-                using org::antlr::v4::runtime::atn::ActionTransition;
-                using org::antlr::v4::runtime::atn::AtomTransition;
-                using org::antlr::v4::runtime::atn::DecisionState;
-                using org::antlr::v4::runtime::atn::LoopEndState;
-                using org::antlr::v4::runtime::atn::ParserATNSimulator;
-                using org::antlr::v4::runtime::atn::PrecedencePredicateTransition;
-                using org::antlr::v4::runtime::atn::PredicateTransition;
-                using org::antlr::v4::runtime::atn::PredictionContextCache;
-                using org::antlr::v4::runtime::atn::RuleStartState;
-                using org::antlr::v4::runtime::atn::RuleStopState;
-                using org::antlr::v4::runtime::atn::RuleTransition;
-                using org::antlr::v4::runtime::atn::StarLoopEntryState;
-                using org::antlr::v4::runtime::atn::Transition;
-                using org::antlr::v4::runtime::dfa::DFA;
-                using org::antlr::v4::runtime::misc::Pair;
+
 
                 ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, Collection<std::wstring> *tokenNames, Collection<std::wstring> *ruleNames, ATN *atn, TokenStream *input) : Parser(input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new BitSet(atn->states.size())), decisionToDFA(new DFA[atn->getNumberOfDecisions()]), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), sharedContextCache(new org::antlr::v4::runtime->atn->PredictionContextCache()), _parentContextStack(new java::util::ArrayDeque<org::antlr::v4::runtime::misc::Pair<ParserRuleContext, Integer>>()) {
                     for (int i = 0; i < decisionToDFA->length; i++) {

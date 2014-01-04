@@ -1,7 +1,8 @@
 ﻿#include "XPathLexer.h"
+#include "PredictionContextCache.h"
+using org::antlr::v4::runtime::atn::PredictionContextCache;
 
-
-PredictionContextCache *const XPathLexer::_sharedContextCache = new PredictionContextCache();
+PredictionContextCache *const XPathLexer::_sharedContextCache = new org::antlr::v4::runtime::atn::PredictionContextCache();
 std::wstring XPathLexer::modeNames[1] = {L"DEFAULT_MODE"};
 const std::wstring XPathLexer::tokenNames[9] = {L"<INVALID>", L"TOKEN_REF", L"RULE_REF", L"'//'", L"'/'", L"'*'", L"'!'", L"ID", L"STRING"};
 const std::wstring XPathLexer::ruleNames[8] = {L"ANYWHERE", L"ROOT", L"WILDCARD", L"BANG", L"ID", L"NameChar", L"NameStartChar", L"STRING"};

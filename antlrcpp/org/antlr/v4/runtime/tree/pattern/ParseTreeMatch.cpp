@@ -1,4 +1,6 @@
 ﻿#include "ParseTreeMatch.h"
+#include "Exceptions.h"
+
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
@@ -36,7 +38,7 @@ namespace org {
                 namespace tree {
                     namespace pattern {
 
-                        ParseTreeMatch::ParseTreeMatch(ParseTree *tree, ParseTreePattern *pattern, MultiMap<std::wstring, ParseTree*> *labels, ParseTree *mismatchedNode) : tree(tree), pattern(pattern), labels(labels), mismatchedNode(mismatchedNode) {
+                        ParseTreeMatch::ParseTreeMatch(ParseTree *tree, ParseTreePattern *pattern, misc::MultiMap<std::wstring, ParseTree*> *labels, ParseTree *mismatchedNode) : tree(tree), pattern(pattern), labels(labels), mismatchedNode(mismatchedNode) {
                             if (tree == nullptr) {
                                 throw IllegalArgumentException(L"tree cannot be null");
                             }
@@ -52,7 +54,7 @@ namespace org {
                         }
 
                         org::antlr::v4::runtime::tree::ParseTree *ParseTreeMatch::get(const std::wstring &label) {
-                            std::vector<ParseTree*> parseTrees = labels->get(label);
+                            std::vector<ParseTree*> parseTrees = labels->at(label);
                             if (parseTrees.empty()) {
                                 return nullptr;
                             }
@@ -61,9 +63,9 @@ namespace org {
                         }
 
                         std::vector<ParseTree*> ParseTreeMatch::getAll(const std::wstring &label) {
-                            std::vector<ParseTree*> nodes = labels->get(label);
+                            std::vector<ParseTree*> nodes = labels->at(label);
                             if (nodes.empty()) {
-                                return Collections::emptyList();
+                                return std::vector<ParseTree*>();// Collections::emptyList();
                             }
 
                             return nodes;
@@ -90,7 +92,11 @@ namespace org {
                         }
 
                         std::wstring ParseTreeMatch::toString() {
-                            return std::wstring::format(L"Match %s; found %d labels", succeeded() ? L"succeeded" : L"failed", getLabels()->size());
+                            if (succeeded()) {
+                                return L"Match succeeded; found " + std::to_wstring(getLabels()->size()) + L" labels";
+                            } else {
+                                return L"Match failed; found " + std::to_wstring(getLabels()->size()) + L" labels";
+                            }
                         }
                     }
                 }

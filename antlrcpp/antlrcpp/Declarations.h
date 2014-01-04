@@ -46,8 +46,9 @@ namespace org {
                 class NullPointerException;
                 class InputMismatchException;
                 class ParseCancellationException;
-                
-                class ParseCancellationException;
+                class InputMismatchException;
+                class EmptyStackException;
+                class LexerNoViableAltException;
                 
                 class ANTLRErrorListener;
                 class ANTLRErrorStrategy;

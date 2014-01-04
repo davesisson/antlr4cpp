@@ -39,7 +39,7 @@ namespace org {
             namespace runtime {
                 namespace atn {
                     
-                    const std::vector<std::wstring> Transition::serializationNames = new std::set<>(Arrays::asList(11, L"INVALID", L"EPSILON", L"RANGE", L"RULE", L"PREDICATE", L"ATOM", L"ACTION", L"SET", L"NOT_SET", L"WILDCARD", L"PRECEDENCE"));
+                    const std::vector<std::wstring> Transition::serializationNames = new std::vector<std::wstring>(Arrays::asList(11, L"INVALID", L"EPSILON", L"RANGE", L"RULE", L"PREDICATE", L"ATOM", L"ACTION", L"SET", L"NOT_SET", L"WILDCARD", L"PRECEDENCE"));
                     
 //                    std::map<Class*, int> *const Transition::serializationTypes = std::map<(std::unordered_map<Class*, int>() {{put(EpsilonTransition::typeid, EPSILON); put(RangeTransition::typeid, RANGE); put(RuleTransition::typeid, RULE); put(PredicateTransition::typeid, PREDICATE); put(AtomTransition::typeid, ATOM); put(ActionTransition::typeid, ACTION); put(SetTransition::typeid, SET); put(NotSetTransition::typeid, NOT_SET); put(WildcardTransition::typeid, WILDCARD); put(PrecedencePredicateTransition::typeid, PRECEDENCE);}}>;
                     

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class PredictionContext;
+#include "Declarations.h"
 #include <map>
 
 /*

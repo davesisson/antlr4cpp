@@ -1,16 +1,11 @@
 ﻿#include "DiagnosticErrorListener.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
+
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::atn::ATNConfig;
-                using org::antlr::v4::runtime::atn::ATNConfigSet;
-                using org::antlr::v4::runtime::dfa::DFA;
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
+
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                 DiagnosticErrorListener::DiagnosticErrorListener() {

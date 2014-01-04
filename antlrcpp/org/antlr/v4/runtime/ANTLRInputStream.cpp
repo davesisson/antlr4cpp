@@ -1,5 +1,5 @@
 ﻿#include "ANTLRInputStream.h"
-#include "Java/src/org/antlr/v4/runtime/IntStream.h"
+
 
 namespace org {
     namespace antlr {

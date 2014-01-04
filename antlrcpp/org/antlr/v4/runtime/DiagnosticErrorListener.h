@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#include "BaseErrorListener.h"
-#include "Parser.h"
-#include "atn/ATNConfigSet.h"
-#include "dfa/DFA.h"
+
 #include <string>
 #include "stringconverter.h"
+#include "Declarations.h"
+#include "BaseErrorListener.h"
+#include <bitset>
 
 /*
  * [The "BSD license"]
@@ -42,12 +42,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::atn::ATNConfig;
-                using org::antlr::v4::runtime::atn::ATNConfigSet;
-                using org::antlr::v4::runtime::dfa::DFA;
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
 
 
                 /// <summary>
@@ -94,9 +88,9 @@ namespace org {
                     /// {@code false} to report all ambiguities. </param>
                     DiagnosticErrorListener(bool exactOnly);
 
-                    virtual void reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs) override;
 
-                    virtual void reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, ATNConfigSet *configs) override;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs) override;
 
                     virtual void reportContextSensitivity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet *configs) override;
 
@@ -113,7 +107,7 @@ namespace org {
                     /// <param name="configs"> The conflicting or ambiguous configuration set. </param>
                     /// <returns> Returns {@code reportedAlts} if it is not {@code null}, otherwise
                     /// returns the set of alternatives represented in {@code configs}. </returns>
-                    virtual BitSet *getConflictingAlts(BitSet *reportedAlts, ATNConfigSet *configs);
+                    virtual std::bitset<BITSET_SIZE> *getConflictingAlts(std::bitset<BITSET_SIZE> *reportedAlts, ATNConfigSet *configs);
                 };
 
             }

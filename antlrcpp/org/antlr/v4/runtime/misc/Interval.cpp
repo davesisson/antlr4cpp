@@ -6,11 +6,11 @@ namespace org {
             namespace runtime {
                 namespace misc {
 
-Interval *const Interval::INVALID = new Interval(-1,-2);
-int Interval::creates = 0;
-int Interval::misses = 0;
-int Interval::hits = 0;
-int Interval::outOfRange = 0;
+                    Interval *const Interval::INVALID = new Interval(-1,-2);
+                    int Interval::creates = 0;
+                    int Interval::misses = 0;
+                    int Interval::hits = 0;
+                    int Interval::outOfRange = 0;
 
                     Interval::Interval(int a, int b) {
                         InitializeInstanceFields();
@@ -37,7 +37,7 @@ int Interval::outOfRange = 0;
                     }
 
                     bool Interval::equals(void *o) {
-                        if (o == nullptr || !(dynamic_cast<Interval*>(o) != nullptr)) {
+                        if (o == nullptr || !( ((Interval*)o) != nullptr)) {
                             return false;
                         }
                         Interval *other = static_cast<Interval*>(o);
@@ -106,7 +106,7 @@ int Interval::outOfRange = 0;
                     }
 
                     std::wstring Interval::toString() {
-                        return a + std::wstring(L"..") + b;
+                        return std::to_wstring(a) + std::wstring(L"..") + std::to_wstring(b);
                     }
 
                     void Interval::InitializeInstanceFields() {

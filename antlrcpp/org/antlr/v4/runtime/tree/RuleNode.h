@@ -1,8 +1,7 @@
 ﻿#pragma once
 
 #include "ParseTree.h"
-
-
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -38,7 +37,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                class RuleContext;
                 
                 namespace tree {
 

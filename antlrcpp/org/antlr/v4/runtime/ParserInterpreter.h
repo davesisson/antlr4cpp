@@ -1,15 +1,10 @@
 ﻿#pragma once
 
 #include "Parser.h"
-#include "atn/ATN.h"
-#include "dfa/DFA.h"
-#include "atn/PredictionContextCache.h"
-#include "ParserRuleContext.h"
-#include "misc/Pair.h"
-#include "TokenStream.h"
-#include "atn/ATNState.h"
+#include "Declarations.h"
 #include <string>
-
+#include <bitset>
+#include <deque>
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
@@ -45,25 +40,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::atn::ATN;
-                using org::antlr::v4::runtime::atn::ATNState;
-                using org::antlr::v4::runtime::atn::ActionTransition;
-                using org::antlr::v4::runtime::atn::AtomTransition;
-                using org::antlr::v4::runtime::atn::DecisionState;
-                using org::antlr::v4::runtime::atn::LoopEndState;
-                using org::antlr::v4::runtime::atn::ParserATNSimulator;
-                using org::antlr::v4::runtime::atn::PrecedencePredicateTransition;
-                using org::antlr::v4::runtime::atn::PredicateTransition;
-                using org::antlr::v4::runtime::atn::PredictionContextCache;
-                using org::antlr::v4::runtime::atn::RuleStartState;
-                using org::antlr::v4::runtime::atn::RuleStopState;
-                using org::antlr::v4::runtime::atn::RuleTransition;
-                using org::antlr::v4::runtime::atn::StarLoopEntryState;
-                using org::antlr::v4::runtime::atn::Transition;
-                using org::antlr::v4::runtime::dfa::DFA;
-                using org::antlr::v4::runtime::misc::Pair;
-
-
                 /// <summary>
                 /// A parser simulator that mimics what ANTLR's generated
                 ///  parser code does. A ParserATNSimulator is used to make
@@ -80,13 +56,15 @@ namespace org {
                 /// </summary>
                 class ParserInterpreter : public Parser {
                 protected:
+                    static const int DEFAULT_BITSET_SIZE = 1024;
+                    
                     const std::wstring grammarFileName;
                     ATN *const atn;
-                    BitSet *const pushRecursionContextStates;
+                    std::bitset<DEFAULT_BITSET_SIZE> *const pushRecursionContextStates;
 
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: protected final org.antlr.v4.runtime.dfa.DFA[] decisionToDFA;
-                    const DFA *decisionToDFA; // not shared like it is for generated parsers
+                    const dfa::DFA *decisionToDFA; // not shared like it is for generated parsers
                     PredictionContextCache *const sharedContextCache;
 
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
@@ -96,10 +74,10 @@ namespace org {
 //ORIGINAL LINE: protected final String[] ruleNames;
                     const std::wstring *ruleNames;
 
-                    Deque<Pair<ParserRuleContext*, int>*> *const _parentContextStack;
+                    std::deque<misc::Pair<ParserRuleContext*, int>*> *const _parentContextStack;
 
                 public:
-                    ParserInterpreter(const std::wstring &grammarFileName, Collection<std::wstring> *tokenNames, Collection<std::wstring> *ruleNames, ATN *atn, TokenStream *input);
+                    ParserInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, ATN *atn, TokenStream *input);
 
                     virtual ATN *getATN() override;
 

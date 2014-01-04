@@ -63,7 +63,7 @@ namespace org {
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ArrayPredictionContext(SingletonPredictionContext *a); //this(new PredictionContext[] {a.parent}, new int[] {a.returnState});
 
-                        ArrayPredictionContext(PredictionContext parents[], int returnStates[]);
+                        ArrayPredictionContext(PredictionContext *parents, int returnStates[]);
 
                         virtual bool isEmpty() override;
 
@@ -80,7 +80,7 @@ namespace org {
 
                         virtual bool equals(void *o) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
                     };
 
                 }

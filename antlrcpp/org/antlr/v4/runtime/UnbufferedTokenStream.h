@@ -41,7 +41,6 @@ namespace org {
             namespace runtime {
 
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                 template<typename T>
                 class UnbufferedTokenStream : public TokenStream {
                 protected:
