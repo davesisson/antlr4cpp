@@ -1,5 +1,5 @@
 ﻿#include "UnbufferedTokenStream.h"
-#include "TokenSource.h"
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -49,6 +49,7 @@ namespace org {
                     fill(1); // prime the pump
                 }
                 
+                template<typename T>
                 virtual Token *UnbufferedTokenStream::get(int i) override { // get absolute index
                     int bufferStartIndex = getBufferStartIndex();
                     if (i < bufferStartIndex || i >= bufferStartIndex + n) {
@@ -57,6 +58,7 @@ namespace org {
                     return tokens[i - bufferStartIndex];
                 }
                 
+                template<typename T>
                 virtual Token *UnbufferedTokenStream::LT(int i) override {
                     if (i == -1) {
                         return lastToken;
@@ -76,26 +78,32 @@ namespace org {
                     return tokens[index];
                 }
                 
+                template<typename T>
                 virtual int UnbufferedTokenStream::LA(int i) override {
                     return LT(i)->getType();
                 }
                 
+                template<typename T>
                 virtual TokenSource *UnbufferedTokenStream::getTokenSource() override {
                     return tokenSource;
                 }
                 
+                template<typename T>
                 virtual std::wstring UnbufferedTokenStream::getText() override {
                     return L"";
                 }
                 
+                template<typename T>
                 virtual std::wstring UnbufferedTokenStream::getText(RuleContext *ctx) override {
                     return getText(ctx->getSourceInterval());
                 }
                 
+                template<typename T>
                 virtual std::wstring UnbufferedTokenStream::getText(Token *start, Token *stop) override {
                     return getText(Interval::of(start->getTokenIndex(), stop->getTokenIndex()));
                 }
                 
+                template<typename T>
                 virtual void UnbufferedTokenStream::consume() override {
                     if (LA(1) == Token::EOF) {
                         throw IllegalStateException(L"cannot consume EOF");

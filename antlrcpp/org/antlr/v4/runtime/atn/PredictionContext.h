@@ -8,7 +8,7 @@
 #include "DoubleKeyMap.h"
 #include "Recognizer.h"
 #include "Declarations.h"
-#include ""
+#include "EqualityComparator.h"
 
 /*
  * [The "BSD license"]
@@ -259,14 +259,14 @@ namespace org {
 
                     private:
 
-                        class ComparatorAnonymousInnerClassHelper : public Comparator<PredictionContext*> {
+                        class ComparatorAnonymousInnerClassHelper : public misc::EqualityComparator<PredictionContext*> {
 
                         public:
                             ComparatorAnonymousInnerClassHelper();
 
                             virtual int compare(PredictionContext *o1, PredictionContext *o2);
                         };
-
+ 
                         // From Sam
                     public:
                         static PredictionContext *getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, std::map<PredictionContext*, PredictionContext*> *visited);
@@ -297,17 +297,17 @@ namespace org {
                         static std::vector<PredictionContext*> getAllContextNodes(PredictionContext *context);
 
                         static void getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, std::map<PredictionContext*, PredictionContext*> *visited);
-#ifdef TODO
-                        template<typename T1, typename T2>
-                        std::wstring toString(Recognizer<T1> *recog);
 
                         template<typename T1, typename T2>
-                        std::wstring *toStrings(Recognizer<T1> *recognizer, int currentState);
+                        std::wstring toString(Recognizer<T1, T2> *recog);
+
+                        template<typename T1, typename T2>
+                        std::wstring *toStrings(Recognizer<T1, T2> *recognizer, int currentState);
 
                         // FROM SAM
                         template<typename T1, typename T2>
-                        std::wstring *toStrings(Recognizer<T1> *recognizer, PredictionContext *stop, int currentState);
-#endif
+                        std::wstring *toStrings(Recognizer<T1, T2> *recognizer, PredictionContext *stop, int currentState);
+
                     };
 
                 }

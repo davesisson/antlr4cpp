@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "TokenStream.h"
-
+#include "Declarations.h"
 #include <string>
 
 /*
