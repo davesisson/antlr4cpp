@@ -36,7 +36,7 @@ namespace org {
             namespace runtime {
                 namespace misc {
 
-                    class NotNull : public System::Attribute {
+                    class NotNull /*: public System::Attribute*/ {
                     };
 
                 }

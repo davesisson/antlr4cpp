@@ -40,7 +40,6 @@ namespace org {
                 namespace tree {
                     namespace pattern {
 
-                        using org::antlr::v4::runtime::misc::NotNull;
 
                         /// <summary>
                         /// Represents a span of raw text (concrete syntax) between tags in a tree
@@ -73,7 +72,7 @@ namespace org {
                             /// The implementation for <seealso cref="TextChunk"/> returns the result of
                             /// <seealso cref="#getText()"/> in single quotes.
                             /// </summary>
-                            virtual std::wstring toString() override;
+                            virtual std::wstring toString();
                         };
 
                     }

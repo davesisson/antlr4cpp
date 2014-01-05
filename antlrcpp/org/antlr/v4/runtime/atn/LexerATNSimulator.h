@@ -4,10 +4,7 @@
 #include <string>
 #include <iostream>
 
-class Lexer;
-class SimState;
-class LexerATNConfig;
-class DFA;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -112,7 +109,7 @@ public:
                     public:
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: @NotNull public final org.antlr.v4.runtime.dfa.DFA[] decisionToDFA;
-                        const DFA *decisionToDFA;
+                        const dfa::DFA *decisionToDFA;
                     protected:
                         int mode;
 
@@ -124,9 +121,9 @@ public:
                         static int match_calls;
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                        LexerATNSimulator(ATN *atn, DFA decisionToDFA[], PredictionContextCache *sharedContextCache); //this(nullptr, atn, decisionToDFA,sharedContextCache);
+                        LexerATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache); //this(nullptr, atn, decisionToDFA,sharedContextCache);
 
-                        LexerATNSimulator(Lexer *recog, ATN *atn, DFA decisionToDFA[], PredictionContextCache *sharedContextCache);
+                        LexerATNSimulator(Lexer *recog, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache);
 
                         virtual void copyState(LexerATNSimulator *simulator);
 

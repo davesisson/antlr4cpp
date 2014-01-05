@@ -1,9 +1,7 @@
 ﻿#pragma once
 
 #include "RecognitionException.h"
-#include "atn/ATNConfigSet.h"
-#include "CharStream.h"
-#include "Lexer.h"
+#include "Declarations.h"
 #include <string>
 
 /*
@@ -41,12 +39,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::atn::ATNConfigSet;
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
-                using org::antlr::v4::runtime::misc::Utils;
-
 
                 class LexerNoViableAltException : public RecognitionException {
                     /// <summary>
@@ -56,18 +48,18 @@ namespace org {
 
                     /// <summary>
                     /// Which configurations did we try at input.index() that couldn't match input.LA(1)? </summary>
-                    ATNConfigSet *const deadEndConfigs;
+                    atn::ATNConfigSet *const deadEndConfigs;
 
                 public:
-                    LexerNoViableAltException(Lexer *lexer, CharStream *input, int startIndex, ATNConfigSet *deadEndConfigs);
+                    LexerNoViableAltException(Lexer *lexer, CharStream *input, int startIndex, atn::ATNConfigSet *deadEndConfigs);
 
                     virtual int getStartIndex();
 
-                    virtual ATNConfigSet *getDeadEndConfigs();
+                    virtual atn::ATNConfigSet *getDeadEndConfigs();
 
                     virtual CharStream *getInputStream() override;
 
-                    virtual std::wstring toString() override;
+                    virtual std::wstring toString();
                 };
 
             }

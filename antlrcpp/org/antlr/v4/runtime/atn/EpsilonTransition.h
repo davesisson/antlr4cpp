@@ -51,7 +51,7 @@ namespace org {
                         virtual bool isEpsilon() override;
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
                     };
 
                 }
