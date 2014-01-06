@@ -1,15 +1,50 @@
 ﻿#include "ParserInterpreter.h"
+#include <deque>
+#include "ATN.h"
+#include "DFA.h"
 
+/*
+ * [The "BSD license"]
+ * Copyright (c) 2013 Terence Parr
+ * Copyright (c) 2013 Sam Harwell
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. The name of the author may not be used to endorse or promote products
+ *    derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
 
+#ifdef TODO 
+                this is a mess
+                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new std::bitset<DEFAULT_BITSET_SIZE>()), decisionToDFA(new dfa::DFA()/*[atn->getNumberOfDecisions()]*/), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), sharedContextCache(new /*org::antlr::v4::runtime->atn->*/PredictionContextCache()), _parentContextStack(new std::deque<misc::Pair<ParserRuleContext, int>>()) {
+              
 
-                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, Collection<std::wstring> *tokenNames, Collection<std::wstring> *ruleNames, ATN *atn, TokenStream *input) : Parser(input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new BitSet(atn->states.size())), decisionToDFA(new DFA[atn->getNumberOfDecisions()]), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), sharedContextCache(new org::antlr::v4::runtime->atn->PredictionContextCache()), _parentContextStack(new java::util::ArrayDeque<org::antlr::v4::runtime::misc::Pair<ParserRuleContext, Integer>>()) {
-                    for (int i = 0; i < decisionToDFA->length; i++) {
-                        decisionToDFA[i] = new DFA(atn->getDecisionState(i), i);
+                    for (int i = 0; i < decisionToDFA->length(); i++) {
+                        decisionToDFA[i] = new dfa::DFA(atn->getDecisionState(i), i);
                     }
 
                     // identify the ATN states where pushNewRecursionContext must be called
@@ -34,9 +69,9 @@ namespace org {
                     }
 
                     // get atn simulator that knows how to do predictions
-                    setInterpreter(new org::antlr::v4::runtime->atn->ParserATNSimulator(this, atn, decisionToDFA, sharedContextCache));
+                    setInterpreter(new /*org::antlr::v4::runtime->atn->*/ParserATNSimulator(this, atn, decisionToDFA, sharedContextCache));
                 }
-
+#endif
                 org::antlr::v4::runtime::atn::ATN *ParserInterpreter::getATN() {
                     return atn;
                 }

@@ -56,7 +56,7 @@ namespace org {
                 /// </summary>
                 class ParserInterpreter : public Parser {
                 protected:
-                    static const int DEFAULT_BITSET_SIZE = 1024;
+                    static const int DEFAULT_BITSET_SIZE = 1024; // atn->states.size() ideally
                     
                     const std::wstring grammarFileName;
                     atn::ATN *const atn;

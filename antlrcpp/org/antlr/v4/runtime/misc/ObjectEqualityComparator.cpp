@@ -5,8 +5,10 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
+#ifdef TODO
+                    // This is problematic in C++
 
-ObjectEqualityComparator *const ObjectEqualityComparator::INSTANCE = new ObjectEqualityComparator();
+                    ObjectEqualityComparator *const ObjectEqualityComparator::INSTANCE = new ObjectEqualityComparator();
 
                     int ObjectEqualityComparator::hashCode(void *obj) {
                         if (obj == nullptr) {
@@ -23,6 +25,7 @@ ObjectEqualityComparator *const ObjectEqualityComparator::INSTANCE = new ObjectE
 
                         return a->equals(b);
                     }
+#endif
                 }
             }
         }

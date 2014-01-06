@@ -1,13 +1,11 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "ATN.h"
-#include "ATNState.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
-#include "Java/src/org/antlr/v4/runtime/RuleContext.h"
-#include "ATNConfig.h"
-#include "PredictionContext.h"
+#include "Token.h"
+#include "Declarations.h"
+
 #include <set>
+#include <vector>
+#include <bitset>
 
 /*
  * [The "BSD license"]
@@ -45,13 +43,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
-
                     class LL1Analyzer {
                         /// <summary>
                         /// Special value added to the lookahead sets to indicate that we hit
@@ -59,10 +50,11 @@ namespace org {
                         /// </summary>
                     public:
                         static const int HIT_PRED = Token::INVALID_TYPE;
+                        static const int BITSET_SIZE = 1024;
+                        
+                        atn::ATN *const atn;
 
-                        ATN *const atn;
-
-                        LL1Analyzer(ATN *atn);
+                        LL1Analyzer(atn::ATN *atn);
 
                         /// <summary>
                         /// Calculates the SLL(1) expected lookahead set for each outgoing transition
@@ -73,7 +65,7 @@ namespace org {
                         /// </summary>
                         /// <param name="s"> the ATN state </param>
                         /// <returns> the expected symbols for each outgoing transition of {@code s}. </returns>
-                        virtual IntervalSet *getDecisionLookahead(ATNState *s);
+                        virtual misc::IntervalSet *getDecisionLookahead(ATNState *s);
 
                         /// <summary>
                         /// Compute set of tokens that can follow {@code s} in the ATN in the
@@ -90,7 +82,7 @@ namespace org {
                         /// </param>
                         /// <returns> The set of tokens that can follow {@code s} in the ATN in the
                         /// specified {@code ctx}. </returns>
-                        virtual IntervalSet *LOOK(ATNState *s, RuleContext *ctx);
+                        virtual misc::IntervalSet *LOOK(ATNState *s, RuleContext *ctx);
 
                         /// <summary>
                         /// Compute set of tokens that can follow {@code s} in the ATN in the
@@ -109,7 +101,7 @@ namespace org {
                         /// </param>
                         /// <returns> The set of tokens that can follow {@code s} in the ATN in the
                         /// specified {@code ctx}. </returns>
-                        virtual IntervalSet *LOOK(ATNState *s, ATNState *stopState, RuleContext *ctx);
+                        virtual misc::IntervalSet *LOOK(ATNState *s, ATNState *stopState, RuleContext *ctx);
 
                         /// <summary>
                         /// Compute set of tokens that can follow {@code s} in the ATN in the
@@ -141,7 +133,7 @@ namespace org {
                         /// outermost context is reached. This parameter has no effect if {@code ctx}
                         /// is {@code null}. </param>
                     protected:
-                        virtual void _LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, IntervalSet *look, Set<ATNConfig*> *lookBusy, BitSet *calledRuleStack, bool seeThruPreds, bool addEOF);
+                        virtual void _LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::vector<ATNConfig*> *lookBusy, std::bitset<BITSET_SIZE> *calledRuleStack, bool seeThruPreds, bool addEOF);
                     };
 
                 }

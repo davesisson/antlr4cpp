@@ -2,6 +2,8 @@
 #include "MurmurHash.h"
 #include "DecisionState.h"
 #include "PredictionContext.h"
+#include "SemanticContext.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr

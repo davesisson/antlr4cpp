@@ -3,11 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
-
-class DecisionState;
-class NotNull;
-class Nullable;
-class DFAState;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -38,6 +34,7 @@ class DFAState;
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -59,12 +56,12 @@ namespace org {
 
                         /// <summary>
                         /// From which ATN state did we create this DFA? </summary>
-                        DecisionState *const atnStartState;
+                        atn::DecisionState *const atnStartState;
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                        DFA(DecisionState *atnStartState); //this(atnStartState, 0);
+                        DFA(atn::DecisionState *atnStartState); //this(atnStartState, 0);
 
-                        DFA(DecisionState *atnStartState, int decision);
+                        DFA(atn::DecisionState *atnStartState, int decision);
 
                         /// <summary>
                         /// Return a list of all states in this DFA, ordered by state number.

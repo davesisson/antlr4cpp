@@ -1,35 +1,61 @@
 ﻿#include "LL1Analyzer.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleStopState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/Transition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/SingletonPredictionContext.h"
-#include "Java/src/org/antlr/v4/runtime/atn/AbstractPredicateTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/WildcardTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/NotSetTransition.h"
+#include "RuleStopState.h"
+#include "Transition.h"
+#include "RuleTransition.h"
+#include "SingletonPredictionContext.h"
+#include "AbstractPredicateTransition.h"
+#include "WildcardTransition.h"
+#include "NotSetTransition.h"
+#include "IntervalSet.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
+ 
                     LL1Analyzer::LL1Analyzer(ATN *atn) : atn(atn) {
                     }
 
-                    IntervalSet *LL1Analyzer::getDecisionLookahead(ATNState *s) {
+                    misc::IntervalSet *LL1Analyzer::getDecisionLookahead(ATNState *s) {
                                         //		System.out.println("LOOK("+s.stateNumber+")");
                         if (s == nullptr) {
                             return nullptr;
                         }
 
-                        IntervalSet look[s->getNumberOfTransitions()];
+                        misc::IntervalSet look[s->getNumberOfTransitions()];
                         for (int alt = 0; alt < s->getNumberOfTransitions(); alt++) {
-                            look[alt] = new IntervalSet();
+                            look[alt] = new misc::IntervalSet();
                             Set<ATNConfig*> *lookBusy = std::set<ATNConfig*>();
                             bool seeThruPreds = false; // fail to get lookahead upon pred
                             _LOOK(s->transition(alt)->target, nullptr, PredictionContext::EMPTY, look[alt], lookBusy, new BitSet(), seeThruPreds, false);
@@ -43,19 +69,19 @@ namespace org {
                         return look;
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *LL1Analyzer::LOOK(ATNState *s, RuleContext *ctx) {
+                    misc::IntervalSet *LL1Analyzer::LOOK(ATNState *s, RuleContext *ctx) {
                         return LOOK(s, nullptr, ctx);
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *LL1Analyzer::LOOK(ATNState *s, ATNState *stopState, RuleContext *ctx) {
-                           IntervalSet *r = new IntervalSet();
+                    IntervalSet *LL1Analyzer::LOOK(ATNState *s, ATNState *stopState, RuleContext *ctx) {
+                           misc::IntervalSet *r = new misc::IntervalSet();
                         bool seeThruPreds = true; // ignore preds; get all lookahead
                         PredictionContext *lookContext = ctx != nullptr ? PredictionContext::fromRuleContext(s->atn, ctx) : nullptr;
                            _LOOK(s, stopState, lookContext, r, std::set<ATNConfig*>(), new BitSet(), seeThruPreds, true);
                            return r;
                     }
 
-                    void LL1Analyzer::_LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, IntervalSet *look, Set<ATNConfig*> *lookBusy, BitSet *calledRuleStack, bool seeThruPreds, bool addEOF) {
+                    void LL1Analyzer::_LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, Set<ATNConfig*> *lookBusy, BitSet *calledRuleStack, bool seeThruPreds, bool addEOF) {
                                         //		System.out.println("_LOOK("+s.stateNumber+", ctx="+ctx);
                         ATNConfig *c = new ATNConfig(s, 0, ctx);
                         if (!lookBusy->add(c)) {
@@ -126,13 +152,13 @@ namespace org {
                             } else if (t->isEpsilon()) {
                                 _LOOK(t->target, stopState, ctx, look, lookBusy, calledRuleStack, seeThruPreds, addEOF);
                             } else if (t->getClass() == WildcardTransition::typeid) {
-                                look->addAll(IntervalSet::of(Token::MIN_USER_TOKEN_TYPE, atn->maxTokenType));
+                                look->addAll(misc::IntervalSet::of(Token::MIN_USER_TOKEN_TYPE, atn->maxTokenType));
                             } else {
                                         //				System.out.println("adding "+ t);
-                                IntervalSet *set = t->label();
+                                misc::IntervalSet *set = t->label();
                                 if (set != nullptr) {
                                     if (dynamic_cast<NotSetTransition*>(t) != nullptr) {
-                                        set = set->complement(IntervalSet::of(Token::MIN_USER_TOKEN_TYPE, atn->maxTokenType));
+                                        set = set->complement(misc::IntervalSet::of(Token::MIN_USER_TOKEN_TYPE, atn->maxTokenType));
                                     }
                                     look->addAll(set);
                                 }
