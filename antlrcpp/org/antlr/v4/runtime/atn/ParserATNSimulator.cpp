@@ -1,41 +1,27 @@
 ﻿#include "ParserATNSimulator.h"
-#include "Java/src/org/antlr/v4/runtime/IntStream.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleStopState.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "Java/src/org/antlr/v4/runtime/atn/SingletonPredictionContext.h"
-#include "Java/src/org/antlr/v4/runtime/CommonTokenStream.h"
-#include "Java/src/org/antlr/v4/runtime/atn/AtomTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/SetTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/NotSetTransition.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
+//#include "Java/src/org/antlr/v4/runtime/IntStream.h"
+//#include "Java/src/org/antlr/v4/runtime/atn/RuleStopState.h"
+//#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
+//#include "Java/src/org/antlr/v4/runtime/Token.h"
+//#include "Java/src/org/antlr/v4/runtime/atn/SingletonPredictionContext.h"
+//#include "Java/src/org/antlr/v4/runtime/CommonTokenStream.h"
+//#include "Java/src/org/antlr/v4/runtime/atn/AtomTransition.h"
+//#include "Java/src/org/antlr/v4/runtime/atn/SetTransition.h"
+//#include "Java/src/org/antlr/v4/runtime/atn/NotSetTransition.h"
+//#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::CommonTokenStream;
-                    using org::antlr::v4::runtime::IntStream;
-                    using org::antlr::v4::runtime::NoViableAltException;
-                    using org::antlr::v4::runtime::Parser;
-                    using org::antlr::v4::runtime::ParserRuleContext;
-                    using org::antlr::v4::runtime::RuleContext;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::TokenStream;
-                    using org::antlr::v4::runtime::dfa::DFA;
-                    using org::antlr::v4::runtime::dfa::DFAState;
-                    using org::antlr::v4::runtime::misc::DoubleKeyMap;
-                    using org::antlr::v4::runtime::misc::Interval;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
+
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ParserATNSimulator::ParserATNSimulator(ATN *atn, DFA decisionToDFA[], PredictionContextCache *sharedContextCache) {
+                    ParserATNSimulator::ParserATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) {
                     }
 
-                    ParserATNSimulator::ParserATNSimulator(Parser *parser, ATN *atn, DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), parser(parser), decisionToDFA(decisionToDFA) {
+                    ParserATNSimulator::ParserATNSimulator(Parser *parser, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), parser(parser), decisionToDFA(decisionToDFA) {
                         InitializeInstanceFields();
                         //		DOTGenerator dot = new DOTGenerator(null);
                         //		System.out.println(dot.getDOT(atn.rules.get(0), parser.getRuleNames()));

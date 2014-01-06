@@ -11,6 +11,7 @@
 #include <exception>
 #include <string>
 #include "Declarations.h"
+#include "RecognitionException.h"
 
 namespace org {
     namespace antlr {
@@ -42,11 +43,6 @@ namespace org {
                     NullPointerException();
                 };
                 
-                class RecognitionException :  public std::exception {
-                public:
-                    RecognitionException(const std::wstring msg);
-                    RecognitionException();
-                };
 
                 class ParseCancellationException : public RecognitionException {
                 public:
@@ -73,6 +69,7 @@ namespace org {
                     EmptyStackException(const std::wstring msg);
                     EmptyStackException();
                 };
+                
                 
             }
         }

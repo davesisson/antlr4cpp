@@ -78,7 +78,7 @@ namespace org {
                 class ParserRuleContext;
                 class ProxyErrorListener;
                 class RecognitionException;
-                template<typename Symbol, typename ATNInterpreter> class Recognizer;
+                template<typename T1, typename T2> class Recognizer;
                 class RuleContext;
                 class Token;
                 template<typename Symbol> class TokenFactory;
@@ -149,7 +149,7 @@ namespace org {
                     class PredicateTransition;
                     class PredictionContext;
                     class PredictionContextCache;
-                    class PredictionMode;
+                    enum class PredictionMode;
                     class RangeTransition;
                     class RuleStartState;
                     class RuleStopState;

@@ -68,7 +68,7 @@ namespace org {
                         
                         ATNState *state = atn->states[outerContext->invokingState];
                         RuleTransition *transition = (RuleTransition *)state->transition(0);//static_cast<RuleTransition*>(state->transition(0));
-                        return SingletonPredictionContext::create(parent, transition->followState->stateNumber);
+                        return SingletonPredictionContext::create(parent, transition->followState->stat3eNumber);
                     }
                     
                     bool PredictionContext::isEmpty() {

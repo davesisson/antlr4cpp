@@ -49,7 +49,7 @@ namespace org {
                 template<typename Symbol, typename ATNInterpreter>
                 class Recognizer {
                 public:
-                    static const int FIXME_EOF = -1;
+                    static const int _EOF = -1;
 
                 private:
 //JAVA TO C++ CONVERTER TODO TASK: Native C++ only allows initialization of static const integral fields in their declarations:
@@ -118,7 +118,7 @@ namespace org {
                     /// Get the <seealso cref="ATN"/> used by the recognizer for prediction.
                     /// </summary>
                     /// <returns> The <seealso cref="ATN"/> used by the recognizer for prediction. </returns>
-                    virtual ATN *getATN() = 0;
+                    virtual atn::ATN *getATN() = 0;
 
                     /// <summary>
                     /// Get the ATN interpreter used by the recognizer for prediction.
@@ -197,7 +197,7 @@ namespace org {
                 private:
                     void InitializeInstanceFields();
 
-public:
+                public:
                     Recognizer();
                 };
 

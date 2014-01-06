@@ -3,11 +3,7 @@
 #include "Recognizer.h"
 #include <string>
 #include <stdexcept>
-
-class ParserRuleContext;
-class RuleContext;
-class IntStream;
-
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -43,6 +39,12 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
+                class RuntimeException : public std::exception {
+                public:
+                    RuntimeException(const std::wstring msg);
+                    RuntimeException();
+                };
+                
                 /// <summary>
                 /// The root of the ANTLR exception hierarchy. In general, ANTLR tracks just
                 ///  3 kinds of errors: prediction errors, failed predicate errors, and
@@ -50,7 +52,7 @@ namespace org {
                 ///  in the input, where it is in the ATN, the rule invocation stack,
                 ///  and what kind of problem occurred.
                 /// </summary>
-                class RecognitionException  {
+                class RecognitionException : public RuntimeException {
                     /// <summary>
                     /// The <seealso cref="Recognizer"/> where this exception originated. </summary>
                 private:
@@ -102,7 +104,7 @@ namespace org {
                     /// <returns> The set of token types that could potentially follow the current
                     /// state in the ATN, or {@code null} if the information is not available. </returns>
                 public:
-                    virtual IntervalSet *getExpectedTokens();
+                    virtual misc::IntervalSet *getExpectedTokens();
 
                     /// <summary>
                     /// Gets the <seealso cref="RuleContext"/> at the time this exception was thrown.

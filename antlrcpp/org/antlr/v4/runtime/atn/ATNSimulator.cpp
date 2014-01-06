@@ -1,16 +1,14 @@
 ﻿#include "ATNSimulator.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNDeserializer.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNConfigSet.h"
+#include "ATNDeserializer.h"
+#include "ATNConfigSet.h"
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::dfa::DFAState;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-const int ATNSimulator::SERIALIZED_VERSION = 0;
+
+                    const int ATNSimulator::SERIALIZED_VERSION = 0;
 
 //JAVA TO C++ CONVERTER TODO TASK: Static constructors are not allowed in native C++:
                     ATNSimulator::ATNSimulator() {

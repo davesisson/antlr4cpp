@@ -1,7 +1,4 @@
-﻿#include "Recognizer.h"
-#include "ConsoleErrorListener.h"
-
-/*
+﻿/*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
  *  Copyright (c) 2013 Dan McLaughlin
@@ -31,17 +28,27 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "Recognizer.h"
+#include "ConsoleErrorListener.h"
+
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 
-                static std::map<std::wstring[] , std::map<std::wstring, int>*> *const Recognizer::tokenTypeMapCache = new std::map<std::wstring[] , std::map<std::wstring, int>*>();
                 
+//                template<typename Symbol, typename ATNInterpreter>
+                static std::map<std::wstring[] , std::map<std::wstring, int>*> *const
+                Recognizer::tokenTypeMapCache = new std::map<std::wstring[] , std::map<std::wstring, int>*>();
+                
+//                template<typename Symbol, typename ATNInterpreter>
                 static std::map<std::wstring[] , std::map<std::wstring, int>*> *const Recognizer::ruleIndexMapCache = new std::map<std::wstring[] , std::map<std::wstring, int>*>();
                 
+                template<typename Symbol, typename ATNInterpreter>
                 Recognizer<Symbol, ATNInterpreter>::CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper() {
                 }
+                
+                template<typename Symbol, typename ATNInterpreter>
                 virtual std::map<std::wstring, int> *Recognizer::getTokenTypeMap() {
                     //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
                     //ORIGINAL LINE: String[] tokenNames = getTokenNames();
@@ -55,7 +62,7 @@ namespace org {
                         Map<std::wstring, int> *result = tokenTypeMapCache->get(tokenNames);
                         if (result == nullptr) {
                             result = Utils::toMap(tokenNames);
-                            result->put(L"EOF", Token::EOF);
+                            result->put(L"EOF", Token::_EOF);
                             result = Collections::unmodifiableMap(result);
                             tokenTypeMapCache->put(tokenNames, result);
                         }
@@ -64,6 +71,7 @@ namespace org {
                     }
                 }
                 
+                template<typename Symbol, typename ATNInterpreter>
                 virtual std::map<std::wstring, int> *Recognizer::getRuleIndexMap() {
                     //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
                     //ORIGINAL LINE: String[] ruleNames = getRuleNames();
@@ -102,7 +110,7 @@ namespace org {
                     }
                     std::wstring s = t->getText();
                     if (s == L"") {
-                        if (t->getType() == Token::EOF) {
+                        if (t->getType() == Token::_EOF) {
                             s = L"<EOF>";
                         } else {
                             s = std::wstring(L"<") + t->getType() + std::wstring(L">");

@@ -1,32 +1,58 @@
 ﻿#include "LexerATNSimulator.h"
-#include "Java/src/org/antlr/v4/runtime/IntStream.h"
-#include "Java/src/org/antlr/v4/runtime/atn/OrderedATNConfigSet.h"
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "Java/src/org/antlr/v4/runtime/LexerNoViableAltException.h"
-#include "Java/src/org/antlr/v4/runtime/atn/PredictionContext.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleStopState.h"
-#include "Java/src/org/antlr/v4/runtime/atn/RuleTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/SingletonPredictionContext.h"
-#include "Java/src/org/antlr/v4/runtime/atn/PredicateTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ActionTransition.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNConfig.h"
-#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
+#include "IntStream.h"
+#include "OrderedATNConfigSet.h"
+#include "Token.h"
+#include "LexerNoViableAltException.h"
+#include "PredictionContext.h"
+#include "RuleStopState.h"
+#include "RuleTransition.h"
+#include "SingletonPredictionContext.h"
+#include "PredicateTransition.h"
+#include "ActionTransition.h"
+#include "ATNConfig.h"
+#include "Interval.h"
+#include "DFA.h"
+#include "Lexer.h"
+#include "ATN.h"
+#include "DFAState.h"
+#include "LexerATNConfig.h"
+#include <assert.h>
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::CharStream;
-                    using org::antlr::v4::runtime::IntStream;
-                    using org::antlr::v4::runtime::Lexer;
-                    using org::antlr::v4::runtime::LexerNoViableAltException;
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::dfa::DFA;
-                    using org::antlr::v4::runtime::dfa::DFAState;
-                    using org::antlr::v4::runtime::misc::Interval;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
 
                     void LexerATNSimulator::SimState::reset() {
                         index = -1;
@@ -42,13 +68,13 @@ namespace org {
                         charPos = -1;
                     }
 
-int LexerATNSimulator::match_calls = 0;
+                    int LexerATNSimulator::match_calls = 0;
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    LexerATNSimulator::LexerATNSimulator(ATN *atn, DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : prevAccept(new SimState()) {
+
+                    LexerATNSimulator::LexerATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : prevAccept(new SimState()), recog(nullptr) {
                     }
 
-                    LexerATNSimulator::LexerATNSimulator(Lexer *recog, ATN *atn, DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), recog(recog), decisionToDFA(decisionToDFA), prevAccept(new SimState()) {
+                    LexerATNSimulator::LexerATNSimulator(Lexer *recog, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), recog(recog), decisionToDFA(decisionToDFA), prevAccept(new SimState()) {
                         InitializeInstanceFields();
                     }
 
@@ -66,15 +92,17 @@ int LexerATNSimulator::match_calls = 0;
                         try {
                             this->startIndex = input->index();
                             this->prevAccept->reset();
-                            DFA *dfa = decisionToDFA[mode];
-                            if (dfa->s0 == nullptr) {
+                            dfa::DFA dfa = *decisionToDFA[mode];
+                            if (dfa.s0 == nullptr) {
                                 return matchATN(input);
                             } else {
-                                return execATN(input, dfa->s0);
+                                return execATN(input, dfa.s0);
                             }
-                        } finally {
+                        }
+                        catch(...) {
                             input->release(mark);
                         }
+                        return -1;
                     }
 
                     void LexerATNSimulator::reset() {
@@ -86,10 +114,12 @@ int LexerATNSimulator::match_calls = 0;
                     }
 
                     int LexerATNSimulator::matchATN(CharStream *input) {
-                        ATNState *startState = atn->modeToStartState[mode];
+                        ATNState *startState = (ATNState *)atn->modeToStartState[mode];
 
                         if (debug) {
-                            System::out::format(Locale::getDefault(), L"matchATN mode %d start: %s\n", mode, startState);
+#ifdef TODO
+                            System::out::format(std::locale::getDefault(), L"matchATN mode %d start: %s\n", mode, startState);
+#endif
                         }
 
                         int old_mode = mode;
@@ -98,7 +128,7 @@ int LexerATNSimulator::match_calls = 0;
                         bool suppressEdge = s0_closure->hasSemanticContext;
                         s0_closure->hasSemanticContext = false;
 
-                        DFAState *next = addDFAState(s0_closure);
+                        dfa::DFAState *next = addDFAState(s0_closure);
                         if (!suppressEdge) {
                             decisionToDFA[mode]->s0 = next;
                         }
@@ -106,24 +136,30 @@ int LexerATNSimulator::match_calls = 0;
                         int predict = execATN(input, next);
 
                         if (debug) {
+#ifdef TODO
                             System::out::format(Locale::getDefault(), L"DFA after matchATN: %s\n", decisionToDFA[old_mode]->toLexerString());
+#endif
                         }
 
                         return predict;
                     }
 
-                    int LexerATNSimulator::execATN(CharStream *input, DFAState *ds0) {
+                    int LexerATNSimulator::execATN(CharStream *input, dfa::DFAState *ds0) {
                         //System.out.println("enter exec index "+input.index()+" from "+ds0.configs);
                         if (debug) {
+#ifdef TODO
                             System::out::format(Locale::getDefault(), L"start state closure=%s\n", ds0->configs);
+#endif
                         }
 
                         int t = input->LA(1);
-                        DFAState *s = ds0; // s is current/from DFA state
+                        dfa::DFAState *s = ds0; // s is current/from DFA state
 
                         while (true) { // while more work
                             if (debug) {
+#ifdef TODO
                                 System::out::format(Locale::getDefault(), L"execATN loop starting closure: %s\n", s->configs);
+#endif
                             }
 
                             // As we move src->trg, src->trg, we keep track of the previous trg to
@@ -143,7 +179,7 @@ int LexerATNSimulator::match_calls = 0;
                             // This optimization makes a lot of sense for loops within DFA.
                             // A character will take us back to an existing DFA state
                             // that already has lots of edges out of it. e.g., .* in comments.
-                            DFAState *target = getExistingTargetState(s, t);
+                            dfa::DFAState *target = getExistingTargetState(s, t);
                             if (target == nullptr) {
                                 target = computeTargetState(input, s, t);
                             }
@@ -154,12 +190,12 @@ int LexerATNSimulator::match_calls = 0;
 
                             if (target->isAcceptState) {
                                 captureSimState(prevAccept, input, target);
-                                if (t == IntStream::EOF) {
+                                if (t == IntStream::_EOF) {
                                     break;
                                 }
                             }
 
-                            if (t != IntStream::EOF) {
+                            if (t != IntStream::_EOF) {
                                 consume(input);
                                 t = input->LA(1);
                             }
@@ -170,20 +206,22 @@ int LexerATNSimulator::match_calls = 0;
                         return failOrAccept(prevAccept, input, s->configs, t);
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *LexerATNSimulator::getExistingTargetState(DFAState *s, int t) {
-                        if (s->edges == nullptr || t < MIN_DFA_EDGE || t > MAX_DFA_EDGE) {
+                    dfa::DFAState *LexerATNSimulator::getExistingTargetState(dfa::DFAState *s, int t) {
+                        if (s->edges.size() == 0 || t < MIN_DFA_EDGE || t > MAX_DFA_EDGE) {
                             return nullptr;
                         }
 
-                        DFAState *target = s->edges[t - MIN_DFA_EDGE];
+                        dfa::DFAState *target = s->edges[t - MIN_DFA_EDGE];
                         if (debug && target != nullptr) {
+#ifdef TODO
                             std::cout << std::wstring(L"reuse state ") << s->stateNumber << std::wstring(L" edge to ") << target->stateNumber << std::endl;
+#endif
                         }
 
                         return target;
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *LexerATNSimulator::computeTargetState(CharStream *input, DFAState *s, int t) {
+                    dfa::DFAState *LexerATNSimulator::computeTargetState(CharStream *input, dfa::DFAState *s, int t) {
                         ATNConfigSet *reach = new OrderedATNConfigSet();
 
                         // if we don't find an existing DFA state
@@ -210,8 +248,8 @@ int LexerATNSimulator::match_calls = 0;
                             return prevAccept->dfaState->prediction;
                         } else {
                             // if no accept and EOF is first char, return EOF
-                            if (t == IntStream::EOF && input->index() == startIndex) {
-                                return Token::EOF;
+                            if (t == IntStream::_EOF && input->index() == startIndex) {
+                                return Token::_EOF;
                             }
 
                             throw LexerNoViableAltException(recog, input, startIndex, reach);
@@ -222,7 +260,7 @@ int LexerATNSimulator::match_calls = 0;
                         // this is used to skip processing for configs which have a lower priority
                         // than a config that already reached an accept state for the same rule
                         int skipAlt = ATN::INVALID_ALT_NUMBER;
-                        for (auto c : closure) {
+                        for (auto c : *closure) {
                             bool currentAltReachedAcceptState = c->alt == skipAlt;
                             if (currentAltReachedAcceptState && (static_cast<LexerATNConfig*>(c))->hasPassedThroughNonGreedyDecision()) {
                                 continue;
@@ -230,7 +268,9 @@ int LexerATNSimulator::match_calls = 0;
 
                             if (debug) {
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+#ifdef TODO
                                 System::out::format(Locale::getDefault(), L"testing %s at %s\n", getTokenName(t), c->toString(recog, true));
+#endif
                             }
 
                             int n = c->state->getNumberOfTransitions();
@@ -251,7 +291,9 @@ int LexerATNSimulator::match_calls = 0;
 
                     void LexerATNSimulator::accept(CharStream *input, int ruleIndex, int actionIndex, int index, int line, int charPos) {
                         if (debug) {
+#ifdef TODO
                             System::out::format(Locale::getDefault(), L"ACTION %s:%d\n", recog != nullptr ? recog->getRuleNames()[ruleIndex] : ruleIndex, actionIndex);
+#endif
                         }
 
                         if (actionIndex >= 0 && recog != nullptr) {
@@ -262,7 +304,7 @@ int LexerATNSimulator::match_calls = 0;
                         input->seek(index);
                         this->line = line;
                         this->charPositionInLine = charPos;
-                        if (input->LA(1) != IntStream::EOF) {
+                        if (input->LA(1) != IntStream::_EOF) {
                             consume(input);
                         }
                     }
@@ -288,17 +330,21 @@ int LexerATNSimulator::match_calls = 0;
 
                     bool LexerATNSimulator::closure(CharStream *input, LexerATNConfig *config, ATNConfigSet *configs, bool currentAltReachedAcceptState, bool speculative) {
                         if (debug) {
+#ifdef TODO
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             std::cout << std::wstring(L"closure(") << config->toString(recog, true) << std::wstring(L")") << std::endl;
+#endif
                         }
 
                         if (dynamic_cast<RuleStopState*>(config->state) != nullptr) {
                             if (debug) {
+#ifdef TODO
                                 if (recog != nullptr) {
                                     System::out::format(Locale::getDefault(), L"closure at %s rule stop %s\n", recog->getRuleNames()[config->state->ruleIndex], config);
                                 } else {
                                     System::out::format(Locale::getDefault(), L"closure at rule stop %s\n", config);
                                 }
+#endif
                             }
 
                             if (config->context == nullptr || config->context->hasEmptyPath()) {
@@ -413,7 +459,7 @@ int LexerATNSimulator::match_calls = 0;
                         try {
                             consume(input);
                             return recog->sempred(nullptr, ruleIndex, predIndex);
-                        } finally {
+                        } catch(...) {
                             charPositionInLine = savedCharPositionInLine;
                             line = savedLine;
                             input->seek(index);
@@ -421,14 +467,14 @@ int LexerATNSimulator::match_calls = 0;
                         }
                     }
 
-                    void LexerATNSimulator::captureSimState(SimState *settings, CharStream *input, DFAState *dfaState) {
+                    void LexerATNSimulator::captureSimState(SimState *settings, CharStream *input, dfa::DFAState *dfaState) {
                         settings->index = input->index();
                         settings->line = line;
                         settings->charPos = charPositionInLine;
                         settings->dfaState = dfaState;
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *LexerATNSimulator::addDFAEdge(DFAState *from, int t, ATNConfigSet *q) {
+                    dfa::DFAState *LexerATNSimulator::addDFAEdge(dfa::DFAState *from, int t, ATNConfigSet *q) {
                         /* leading to this call, ATNConfigSet.hasSemanticContext is used as a
                          * marker indicating dynamic predicate evaluation makes this edge
                          * dependent on the specific input sequence, so the static edge in the
@@ -443,7 +489,7 @@ int LexerATNSimulator::match_calls = 0;
                         bool suppressEdge = q->hasSemanticContext;
                         q->hasSemanticContext = false;
 
-                        DFAState *to = addDFAState(q);
+                        dfa::DFAState *to = addDFAState(q);
 
                         if (suppressEdge) {
                             return to;
@@ -453,7 +499,7 @@ int LexerATNSimulator::match_calls = 0;
                         return to;
                     }
 
-                    void LexerATNSimulator::addDFAEdge(DFAState *p, int t, DFAState *q) {
+                    void LexerATNSimulator::addDFAEdge(dfa::DFAState *p, int t, dfa::DFAState *q) {
                         if (t < MIN_DFA_EDGE || t > MAX_DFA_EDGE) {
                             // Only track edges within the DFA bounds
                             return;
@@ -462,7 +508,7 @@ int LexerATNSimulator::match_calls = 0;
                         if (debug) {
                             std::cout << std::wstring(L"EDGE ") << p << std::wstring(L" -> ") << q << std::wstring(L" upon ") << (static_cast<wchar_t>(t)) << std::endl;
                         }
-
+#ifdef TODO
 //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
                         synchronized(p) {
                             if (p->edges == nullptr) {
@@ -471,6 +517,16 @@ int LexerATNSimulator::match_calls = 0;
                             }
                             p->edges[t - MIN_DFA_EDGE] = q; // connect
                         }
+#else
+                        if (p->edges.size() == 0) {
+                            //  make room for tokens 1..n and -1 masquerading as index 0
+//                            p->edges = new DFAState[MAX_DFA_EDGE - MIN_DFA_EDGE+1];
+#ifdef TODO
+                             Do I need to do any allocation here?
+#endif
+                        }
+                        p->edges[t - MIN_DFA_EDGE] = q; // connect
+#endif
                     }
 
                     org::antlr::v4::runtime::dfa::DFAState *LexerATNSimulator::addDFAState(ATNConfigSet *configs) {
@@ -495,7 +551,8 @@ int LexerATNSimulator::match_calls = 0;
                             proposed->prediction = atn->ruleToTokenType[proposed->lexerRuleIndex];
                         }
 
-                        DFA *dfa = decisionToDFA[mode];
+                        dfa::DFA *dfa = decisionToDFA[mode];
+#ifdef TODO
 //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
                         synchronized(dfa->states) {
                             DFAState *existing = dfa->states->get(proposed);
@@ -511,6 +568,22 @@ int LexerATNSimulator::match_calls = 0;
                             dfa->states->put(newState, newState);
                             return newState;
                         }
+#else
+
+                        dfa::DFAState *existing = dfa->states->get(proposed);
+                        if (existing != nullptr) {
+                            return existing;
+                        }
+                        
+                        dfa::DFAState *newState = proposed;
+                        
+                        newState->stateNumber = dfa->states->size();
+                        configs->setReadonly(true);
+                        newState->configs = configs;
+                        dfa->states->put(newState, newState);
+                        return newState;
+#endif
+                        
                     }
 
                     org::antlr::v4::runtime::dfa::DFA *LexerATNSimulator::getDFA(int mode) {

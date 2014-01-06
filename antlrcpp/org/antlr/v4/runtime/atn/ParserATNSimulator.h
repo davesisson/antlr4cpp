@@ -11,29 +11,9 @@
 #include <iostream>
 #include "stringconverter.h"
 #include <bitset>
+#include "Declarations.h"
 
-class CommonTokenStream;
-class IntStream;
-class NoViableAltException;
-class Parser;
-class ParserRuleContext;
-class RuleContext;
-class Token;
-class TokenStream;
-class DFA;
-class DFAState;
-class DoubleKeyMap;
-class IntervalSet;
-class NotNull;
-class Nullable;
-class ATNConfigSet;
-class SemanticContext;
-class ATNConfig;
-class ActionTransition;
-class PrecedencePredicateTransition;
-class PredicateTransition;
-class RuleTransition;
-class DecisionState;
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -68,9 +48,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                namespace misc {
-                    class Interval;
-                }
                 namespace atn {
                     /// <summary>
                     /// The embodiment of the adaptive LL(*), ALL(*), parsing strategy.
@@ -285,7 +262,7 @@ namespace org {
                     public:
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: @NotNull public final org.antlr.v4.runtime.dfa.DFA[] decisionToDFA;
-                        const DFA *decisionToDFA;
+                        dfa::DFA *decisionToDFA;
 
                         /// <summary>
                         /// SLL, LL, or LL + exact ambig detection? </summary>
@@ -303,7 +280,7 @@ namespace org {
                         /// </summary>
                     protected:
                         misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache;
-#include "Token.h"
+
                         // LAME globals to avoid parameters!!!!! I need these down deep in predTransition
                         TokenStream *_input;
                         int _startIndex;
@@ -313,9 +290,9 @@ namespace org {
                         /// Testing only! </summary>
                     public:
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                        ParserATNSimulator(ATN *atn, DFA decisionToDFA[], PredictionContextCache *sharedContextCache); //this(nullptr, atn, decisionToDFA, sharedContextCache);
+                        ParserATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache); //this(nullptr, atn, decisionToDFA, sharedContextCache);
 
-                        ParserATNSimulator(Parser *parser, ATN *atn, DFA decisionToDFA[], PredictionContextCache *sharedContextCache);
+                        ParserATNSimulator(Parser *parser, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache);
 
                         virtual void reset() override;
 
@@ -353,7 +330,7 @@ namespace org {
                         ///    conflict + preds
                         /// </summary>
                     protected:
-                        virtual int execATN(DFA *dfa, DFAState *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext);
+                        virtual int execATN(dfa::DFA *dfa, dfa::DFAState *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext);
 
                         /// <summary>
                         /// Get an existing target state for an edge in the DFA. If the target state
@@ -365,7 +342,7 @@ namespace org {
                         /// <returns> The existing target DFA state for the given input symbol
                         /// {@code t}, or {@code null} if the target state for this edge is not
                         /// already cached </returns>
-                        virtual DFAState *getExistingTargetState(DFAState *previousD, int t);
+                        virtual dfa::DFAState *getExistingTargetState(dfa::DFAState *previousD, int t);
 
                         /// <summary>
                         /// Compute a target state for an edge in the DFA, and attempt to add the
@@ -378,12 +355,12 @@ namespace org {
                         /// <returns> The computed target DFA state for the given input symbol
                         /// {@code t}. If {@code t} does not lead to a valid DFA state, this method
                         /// returns <seealso cref="#ERROR"/>. </returns>
-                        virtual DFAState *computeTargetState(DFA *dfa, DFAState *previousD, int t);
+                        virtual dfa::DFAState *computeTargetState(dfa::DFA *dfa, dfa::DFAState *previousD, int t);
 
-                        virtual void predicateDFAState(DFAState *dfaState, DecisionState *decisionState);
+                        virtual void predicateDFAState(dfa::DFAState *dfaState, DecisionState *decisionState);
 
                         // comes back with reach.uniqueAlt set to a valid alt
-                        virtual int execATNWithFullContext(DFA *dfa, DFAState *D, ATNConfigSet *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext); // how far we got before failing over
+                        virtual int execATNWithFullContext(dfa::DFA *dfa, dfa::DFAState *D, ATNConfigSet *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext); // how far we got before failing over
 
                         virtual ATNConfigSet *computeReachSet(ATNConfigSet *closure, int t, bool fullCtx);
 
@@ -414,7 +391,7 @@ namespace org {
 
                         virtual SemanticContext *getPredsForAmbigAlts(std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs, int nalts);
 
-                        virtual DFAState::PredPrediction *getPredicatePredictions(std::bitset<BITSET_SIZE> *ambigAlts, SemanticContext altToPred[]);
+                        virtual dfa::DFAState::PredPrediction *getPredicatePredictions(std::bitset<BITSET_SIZE> *ambigAlts, SemanticContext altToPred[]);
 
                         virtual int getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs);
 
@@ -425,7 +402,7 @@ namespace org {
                         ///  then we stop at the first predicate that evaluates to true. This
                         ///  includes pairs with null predicates.
                         /// </summary>
-                        virtual std::bitset<BITSET_SIZE> *evalSemanticContext(DFAState::PredPrediction predPredictions[], ParserRuleContext *outerContext, bool complete);
+                        virtual std::bitset<BITSET_SIZE> *evalSemanticContext(dfa::DFAState::PredPrediction predPredictions[], ParserRuleContext *outerContext, bool complete);
 
 
                         /* TODO: If we are doing predicates, there is no point in pursuing
@@ -536,7 +513,7 @@ namespace org {
                         /// <returns> If {@code to} is {@code null}, this method returns {@code null};
                         /// otherwise this method returns the result of calling <seealso cref="#addDFAState"/>
                         /// on {@code to} </returns>
-                        virtual DFAState *addDFAEdge(DFA *dfa, DFAState *from, int t, DFAState *to);
+                        virtual dfa::DFAState *addDFAEdge(dfa::DFA *dfa, dfa::DFAState *from, int t, dfa::DFAState *to);
 
                         /// <summary>
                         /// Add state {@code D} to the DFA if it is not already present, and return
@@ -552,15 +529,15 @@ namespace org {
                         /// <returns> The state stored in the DFA. This will be either the existing
                         /// state if {@code D} is already in the DFA, or {@code D} itself if the
                         /// state was not already present. </returns>
-                        virtual DFAState *addDFAState(DFA *dfa, DFAState *D);
+                        virtual dfa::DFAState *addDFAState(dfa::DFA *dfa, dfa::DFAState *D);
 
-                        virtual void reportAttemptingFullContext(DFA *dfa, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex);
+                        virtual void reportAttemptingFullContext(dfa::DFA *dfa, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex);
 
-                        virtual void reportContextSensitivity(DFA *dfa, int prediction, ATNConfigSet *configs, int startIndex, int stopIndex);
+                        virtual void reportContextSensitivity(dfa::DFA *dfa, int prediction, ATNConfigSet *configs, int startIndex, int stopIndex);
 
                         /// <summary>
                         /// If context sensitive parsing, we know it's ambiguity not conflict </summary>
-                        virtual void reportAmbiguity(DFA *dfa, DFAState *D, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs);
+                        virtual void reportAmbiguity(dfa::DFA *dfa, dfa::DFAState *D, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs);
 
                     public:
                         void setPredictionMode(PredictionMode mode);

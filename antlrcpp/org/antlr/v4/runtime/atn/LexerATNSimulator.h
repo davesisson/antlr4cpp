@@ -51,19 +51,21 @@ namespace org {
                             int index;
                             int line;
                             int charPos;
-                            DFAState *dfaState;
-
+                            dfa::DFAState *dfaState;
                             virtual void reset();
-
+                            friend class LexerATNSimulator;
+                            
                         private:
                             void InitializeInstanceFields();
 
-public:
+                        public:
                             SimState() {
                                 InitializeInstanceFields();
                             }
+                            
                         };
-
+                        
+                        
                     public:
                         static const bool debug = false;
                         static const bool dfa_debug = false;
@@ -109,7 +111,8 @@ public:
                     public:
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: @NotNull public final org.antlr.v4.runtime.dfa.DFA[] decisionToDFA;
-                        const dfa::DFA *decisionToDFA;
+                        //const dfa::DFA *decisionToDFA;
+                        const std::vector<dfa::DFA*> decisionToDFA;
                     protected:
                         int mode;
 
@@ -134,7 +137,7 @@ public:
                     protected:
                         virtual int matchATN(CharStream *input);
 
-                        virtual int execATN(CharStream *input, DFAState *ds0);
+                        virtual int execATN(CharStream *input, dfa::DFAState *ds0);
 
                         /// <summary>
                         /// Get an existing target state for an edge in the DFA. If the target state
@@ -146,7 +149,7 @@ public:
                         /// <returns> The existing target DFA state for the given input symbol
                         /// {@code t}, or {@code null} if the target state for this edge is not
                         /// already cached </returns>
-                        virtual DFAState *getExistingTargetState(DFAState *s, int t);
+                        virtual dfa::DFAState *getExistingTargetState(dfa::DFAState *s, int t);
 
                         /// <summary>
                         /// Compute a target state for an edge in the DFA, and attempt to add the
@@ -159,7 +162,7 @@ public:
                         /// <returns> The computed target DFA state for the given input symbol
                         /// {@code t}. If {@code t} does not lead to a valid DFA state, this method
                         /// returns <seealso cref="#ERROR"/>. </returns>
-                        virtual DFAState *computeTargetState(CharStream *input, DFAState *s, int t);
+                        virtual dfa::DFAState *computeTargetState(CharStream *input, dfa::DFAState *s, int t);
 
                         virtual int failOrAccept(SimState *prevAccept, CharStream *input, ATNConfigSet *reach, int t);
 
@@ -174,7 +177,7 @@ public:
 
                         virtual ATNState *getReachableTarget(Transition *trans, int t);
 
-                        virtual ATNConfigSet *computeStartState(CharStream *input, ATNState *p);
+                        virtual atn::ATNConfigSet *computeStartState(CharStream *input, ATNState *p);
 
                         /// <summary>
                         /// Since the alternatives within any lexer decision are ordered by
@@ -212,11 +215,11 @@ public:
                         /// {@code true}. </returns>
                         virtual bool evaluatePredicate(CharStream *input, int ruleIndex, int predIndex, bool speculative);
 
-                        virtual void captureSimState(SimState *settings, CharStream *input, DFAState *dfaState);
+                        virtual void captureSimState(SimState *settings, CharStream *input, dfa::DFAState *dfaState);
 
-                        virtual DFAState *addDFAEdge(DFAState *from, int t, ATNConfigSet *q);
+                        virtual dfa::DFAState *addDFAEdge(dfa::DFAState *from, int t, ATNConfigSet *q);
 
-                        virtual void addDFAEdge(DFAState *p, int t, DFAState *q);
+                        virtual void addDFAEdge(dfa::DFAState *p, int t, dfa::DFAState *q);
 
                         /// <summary>
                         /// Add a new DFA state if there isn't one with this set of
@@ -224,10 +227,10 @@ public:
                         /// configuration containing an ATN rule stop state. Later, when
                         /// traversing the DFA, we will know which rule to accept.
                         /// </summary>
-                        virtual DFAState *addDFAState(ATNConfigSet *configs);
+                        virtual dfa::DFAState *addDFAState(ATNConfigSet *configs);
 
                     public:
-                        DFA *getDFA(int mode);
+                        dfa::DFA *getDFA(int mode);
 
                         /// <summary>
                         /// Get the text matched so far for the current token.

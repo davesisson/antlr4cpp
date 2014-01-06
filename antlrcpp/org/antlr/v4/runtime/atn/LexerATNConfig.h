@@ -2,7 +2,8 @@
 
 #include "ATNConfig.h"
 #include "ATNState.h"
-#include "PredictionContext.h"
+#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
@@ -39,10 +40,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
 
                     class LexerATNConfig : public ATNConfig {
                         /// <summary>

@@ -86,7 +86,7 @@ namespace org {
                     /// </summary>
                     /// <seealso cref= ATNDeserializationOptions#isGenerateRuleBypassTransitions() </seealso>
                 private:
-                    static std::map<std::wstring, ATN*> *const bypassAltsAtnCache;
+                    static std::map<std::wstring, atn::ATN*> *const bypassAltsAtnCache;
 
                     /// <summary>
                     /// The error handling strategy for the parser. The default value is a new
@@ -309,7 +309,7 @@ namespace org {
                     /// </summary>
                     /// <exception cref="UnsupportedOperationException"> if the current parser does not
                     /// implement the <seealso cref="#getSerializedATN()"/> method. </exception>
-                    virtual ATN *getATNWithBypassAlts();
+                    virtual atn::ATN *getATNWithBypassAlts();
 
                     /// <summary>
                     /// The preferred method of getting a tree pattern. For example, here's a
@@ -434,9 +434,9 @@ namespace org {
                     /// respectively.
                     /// </summary>
                     /// <seealso cref= ATN#getExpectedTokens(int, RuleContext) </seealso>
-                    virtual IntervalSet *getExpectedTokens();
+                    virtual misc::IntervalSet *getExpectedTokens();
 
-                    virtual IntervalSet *getExpectedTokensWithinCurrentRule();
+                    virtual misc::IntervalSet *getExpectedTokensWithinCurrentRule();
 
                     /// <summary>
                     /// Get a rule's index (i.e., {@code RULE_ruleName} field) or -1 if not found. </summary>
