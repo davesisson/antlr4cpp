@@ -1,4 +1,5 @@
 ﻿#include "ArrayPredictionContext.h"
+#include "StringBuilder.h"
 
 /*
  * [The "BSD license"]
@@ -35,7 +36,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    ArrayPredictionContext::ArrayPredictionContext(SingletonPredictionContext *a) {
+                    ArrayPredictionContext::ArrayPredictionContext(SingletonPredictionContext *a) : PredictionContext {
                     }
 
                     ArrayPredictionContext::ArrayPredictionContext(PredictionContext parents[], int returnStates[]) : PredictionContext(calculateHashCode(parents, returnStates)), parents(parents), returnStates(returnStates) {

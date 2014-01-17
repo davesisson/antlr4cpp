@@ -68,7 +68,7 @@ namespace org {
                         
                         ATNState *state = atn->states[outerContext->invokingState];
                         RuleTransition *transition = (RuleTransition *)state->transition(0);//static_cast<RuleTransition*>(state->transition(0));
-                        return SingletonPredictionContext::create(parent, transition->followState->stat3eNumber);
+                        return SingletonPredictionContext::create(parent, transition->followState->stateNumber);
                     }
                     
                     bool PredictionContext::isEmpty() {
@@ -97,10 +97,14 @@ namespace org {
                         return hash;
                     }
                     
-                    int PredictionContext::calculateHashCode(PredictionContext *parents[], int returnStates[]) {
+                    int PredictionContext::calculateHashCode(std::vector<PredictionContext*> parents, std::vector<int> returnStates) {
                         int hash = MurmurHash::initialize(INITIAL_HASH);
                         
                         for (auto parent : parents) {
+                            hash = MurmurHash::update(hash, parent);
+                        }
+                        for (int i = 0; i < parents.size() ; i++) {
+                            PredictionContext * parent = parents[i];
                             hash = MurmurHash::update(hash, parent);
                         }
                         
@@ -197,7 +201,7 @@ namespace org {
                                     payloads[0] = b->returnState;
                                     payloads[1] = a->returnState;
                                 }
-                                PredictionContext parents[2] = {singleParent, singleParent};
+                                PredictionContext parents[2] = {*singleParent, *singleParent};
                                 PredictionContext *a_ = new ArrayPredictionContext(parents, payloads);
                                 if (mergeCache != nullptr) {
                                     mergeCache->put(a, b, a_);
@@ -208,11 +212,13 @@ namespace org {
                             // into array; can't merge.
                             // ax + by = [ax,by]
                             int payloads[2] = {a->returnState, b->returnState};
-                            PredictionContext parents[2] = {a->parent, b->parent};
+                            PredictionContext parents[2] = {*a->parent, *b->parent};
                             if (a->returnState > b->returnState) { // sort by payload
                                 payloads[0] = b->returnState;
                                 payloads[1] = a->returnState;
-                                parents = new PredictionContext[] {b->parent, a->parent};
+                                parents = new std::vector<PredictionContext*>();//[2]();// {*b->parent, *a->parent};
+                                parents[0] = *b->parent;
+                                parents[1] = *a->parent;
                             }
                             PredictionContext *a_ = new ArrayPredictionContext(parents, payloads);
                             if (mergeCache != nullptr) {
@@ -236,13 +242,13 @@ namespace org {
                             }
                             if (a == EMPTY) { // $ + x = [$,x]
                                 int payloads[2] = {b->returnState, EMPTY_RETURN_STATE};
-                                PredictionContext parents[2] = {b->parent, nullptr};
+                                PredictionContext parents[2] = {*b->parent, *EMPTY};
                                 PredictionContext *joined = new ArrayPredictionContext(parents, payloads);
                                 return joined;
                             }
                             if (b == EMPTY) { // x + $ = [$,x] ($ is always first if present)
                                 int payloads[2] = {a->returnState, EMPTY_RETURN_STATE};
-                                PredictionContext parents[2] = {a->parent, nullptr};
+                                PredictionContext parents[2] = {*a->parent, *EMPTY};
                                 PredictionContext *joined = new ArrayPredictionContext(parents, payloads);
                                 return joined;
                             }
@@ -267,12 +273,12 @@ namespace org {
                         int j = 0; // walks b
                         int k = 0; // walks target M array
                         
-                        int mergedReturnStates[a->returnStates->length + b->returnStates->length];
-                        PredictionContext mergedParents[a->returnStates->length + b->returnStates->length];
+                        int mergedReturnStates[a->returnStates.size() + b->returnStates.size()];
+                        PredictionContext *mergedParents[a->returnStates.size() + b->returnStates.size()];
                         // walk and merge to yield mergedParents, mergedReturnStates
-                        while (i < a->returnStates->length && j < b->returnStates->length) {
-                            PredictionContext *a_parent = a->parents[i];
-                            PredictionContext *b_parent = b->parents[j];
+                        while (i < a->returnStates.size() && j < b->returnStates.size()) {
+                            const PredictionContext *a_parent = &a->parents[i];
+                            const PredictionContext *b_parent = &b->parents[j];
                             if (a->returnStates[i] == b->returnStates[j]) {
                                 // same payload (stack tops are equal), must yield merged singleton
                                 int payload = a->returnStates[i];
@@ -521,19 +527,19 @@ namespace org {
                         }
                     }
                     
-                    template<typename T1, typename T1>
-                    std::wstring PredictionContext::toString(Recognizer<T1> *recog) {
+                    template<typename T1, typename T2>
+                    std::wstring PredictionContext::toString(Recognizer<T1, T2> *recog) {
                         return toString();
                         //		return toString(recog, ParserRuleContext.EMPTY);
                     }
                     
-                    template<typename T1, typename T1>
-                    std::wstring *PredictionContext::toStrings(Recognizer<T1> *recognizer, int currentState) {
+                    template<typename T1, typename T2>
+                    std::wstring *PredictionContext::toStrings(Recognizer<T1, T2> *recognizer, int currentState) {
                         return toStrings(recognizer, EMPTY, currentState);
                     }
                     
-                    template<typename T1, typename T1>
-                    std::wstring *PredictionContext::toStrings(Recognizer<T1> *recognizer, PredictionContext *stop, int currentState) {
+                    template<typename T1, typename T2>
+                    std::wstring *PredictionContext::toStrings(Recognizer<T1, T2> *recognizer, PredictionContext *stop, int currentState) {
                         std::vector<std::wstring> result = std::vector<std::wstring>();
                         
                         for (int perm = 0; ; perm++) {
@@ -595,6 +601,18 @@ namespace org {
                     outerBreak:
                         
                         return result.toArray(new std::wstring[result.size()]);
+                    }
+                    
+                    virtual int PredictionContext::size() {
+                        throw "PredictionContext::size() should not be called";
+                    }
+                    
+                    virtual PredictionContext *PredictionContext::getParent(int index) {
+                        throw "PredictionContext::getParent should not be called";
+                    }
+                    
+                    virtual int PredictionContext::getReturnState(int index) {
+                        throw "PredictionContext::getReturnState should not be called";
                     }
                 }
             }

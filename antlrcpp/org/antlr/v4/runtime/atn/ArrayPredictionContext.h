@@ -3,6 +3,7 @@
 #include "PredictionContext.h"
 #include "SingletonPredictionContext.h"
 #include <string>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -50,15 +51,13 @@ namespace org {
                     public:
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: public final PredictionContext[] parents;
-                        const PredictionContext *parents;
+                        const std::vector<PredictionContext*> *sparents;
 
                         /// <summary>
                         /// Sorted for merge, no duplicates; if present,
                         ///  <seealso cref="#EMPTY_RETURN_STATE"/> is always last.
                         /// </summary>
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: public final int[] returnStates;
-                        const int *returnStates;
+                        const std::vector<int> returnStates;
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ArrayPredictionContext(SingletonPredictionContext *a); //this(new PredictionContext[] {a.parent}, new int[] {a.returnState});

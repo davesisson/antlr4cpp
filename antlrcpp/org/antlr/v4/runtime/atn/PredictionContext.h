@@ -102,11 +102,11 @@ namespace org {
                     public:
                         static PredictionContext *fromRuleContext(ATN *atn, RuleContext *outerContext);
 
-                        virtual int size() = 0;
+                        virtual int size();//= 0;
 
-                        virtual PredictionContext *getParent(int index) = 0;
+                        virtual PredictionContext *getParent(int index);//= 0;
 
-                        virtual int getReturnState(int index) = 0;
+                        virtual int getReturnState(int index); //  = 0;
 
                         /// <summary>
                         /// This means only the <seealso cref="#EMPTY"/> context is in set. </summary>
@@ -116,14 +116,14 @@ namespace org {
 
                         virtual int hashCode()  final;
 
-                        virtual bool equals(void *obj) = 0;
+                        virtual bool equals(void *obj);// = 0;
 
                     protected:
                         static int calculateEmptyHashCode();
 
                         static int calculateHashCode(PredictionContext *parent, int returnState);
 
-                        static int calculateHashCode(PredictionContext *parents[], int returnStates[]);
+                        static int calculateHashCode(std::vector<PredictionContext*> parents, std::vector<int>returnStates);
 
                         // dispatch
                     public:
