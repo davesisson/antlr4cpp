@@ -150,7 +150,7 @@ namespace org {
                     public:
                         //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
                         //ORIGINAL LINE: @NotNull public final SemanticContext[] opnds;
-                        const SemanticContext *opnds;
+                        const std::vector<SemanticContext*> opnds;
                         
                         AND(SemanticContext *a, SemanticContext *b);
                         

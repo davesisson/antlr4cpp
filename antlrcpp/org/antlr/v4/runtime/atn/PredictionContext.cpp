@@ -216,7 +216,7 @@ namespace org {
                             if (a->returnState > b->returnState) { // sort by payload
                                 payloads[0] = b->returnState;
                                 payloads[1] = a->returnState;
-                                parents = new std::vector<PredictionContext*>();//[2]();// {*b->parent, *a->parent};
+                                //parents = std::vector<PredictionContext*>();//[2]();// {*b->parent, *a->parent};
                                 parents[0] = *b->parent;
                                 parents[1] = *a->parent;
                             }
@@ -277,14 +277,14 @@ namespace org {
                         PredictionContext *mergedParents[a->returnStates.size() + b->returnStates.size()];
                         // walk and merge to yield mergedParents, mergedReturnStates
                         while (i < a->returnStates.size() && j < b->returnStates.size()) {
-                            const PredictionContext *a_parent = &a->parents[i];
-                            const PredictionContext *b_parent = &b->parents[j];
+                            PredictionContext *a_parent = a->parents->at(i);// [i];
+                            PredictionContext *b_parent = b->parents->at(i);//&b->parents[j];
                             if (a->returnStates[i] == b->returnStates[j]) {
                                 // same payload (stack tops are equal), must yield merged singleton
                                 int payload = a->returnStates[i];
                                 // $+$ = $
                                 bool both$ = payload == EMPTY_RETURN_STATE && a_parent == nullptr && b_parent == nullptr;
-                                bool ax_ax = (a_parent != nullptr && b_parent != nullptr) && a_parent->equals(b_parent); // ax+ax -> ax
+                                bool ax_ax = (a_parent != nullptr && b_parent != nullptr) && a_parent == b_parent;//->equals(b_parent); // ax+ax -> ax
                                 if (both$ || ax_ax) {
                                     mergedParents[k] = a_parent; // choose left
                                     mergedReturnStates[k] = payload;
@@ -310,15 +310,15 @@ namespace org {
                         }
                         
                         // copy over any payloads remaining in either array
-                        if (i < a->returnStates->length) {
-                            for (int p = i; p < a->returnStates->length; p++) {
-                                mergedParents[k] = a->parents[p];
+                        if (i < a->returnStates.size()) {
+                            for (int p = i; p < a->returnStates.size(); p++) {
+                                mergedParents[k] = a->parents->at(p);//[p];
                                 mergedReturnStates[k] = a->returnStates[p];
                                 k++;
                             }
                         } else {
-                            for (int p = j; p < b->returnStates->length; p++) {
-                                mergedParents[k] = b->parents[p];
+                            for (int p = j; p < b->returnStates.size(); p++) {
+                                mergedParents[k] = b->parents->at(p);// [p];
                                 mergedReturnStates[k] = b->returnStates[p];
                                 k++;
                             }
@@ -362,8 +362,8 @@ namespace org {
                         return M;
                     }
                     
-                    void PredictionContext::combineCommonParents(PredictionContext parents[]) {
-                        Map<PredictionContext*, PredictionContext*> *uniqueParents = std::unordered_map<PredictionContext*, PredictionContext*>();
+                    void PredictionContext::combineCommonParents(PredictionContext *parents[]) {
+                        std::unordered_map<PredictionContext*, PredictionContext*> uniqueParents = std::unordered_map<PredictionContext*, PredictionContext*>();
                         
                         for (int p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
                             PredictionContext *parent = parents[p];

@@ -51,7 +51,7 @@ namespace org {
                     public:
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: public final PredictionContext[] parents;
-                        const std::vector<PredictionContext*> *sparents;
+                        const std::vector<PredictionContext*> *parents;
 
                         /// <summary>
                         /// Sorted for merge, no duplicates; if present,

@@ -1,6 +1,7 @@
 ﻿#include "SemanticContext.h"
 #include "MurmurHash.h"
 #include "Utils.h"
+#include "Arrays.h"
 
 /*
  * [The "BSD license"]
@@ -47,6 +48,7 @@ namespace org {
 #ifdef TODO 
                         WRITE ME
 #endif
+                        return nullptr;
                     }
                     template<typename T1, typename T2>
                     bool SemanticContext::Predicate::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
@@ -64,7 +66,7 @@ namespace org {
                     }
 
                     bool SemanticContext::Predicate::equals(void *obj) {
-                        if (!(dynamic_cast<Predicate*>(obj) != nullptr)) {
+                        if (!((Predicate*)obj/*dynamic_cast<Predicate*>(obj)*/ != nullptr)) {
                             return false;
                         }
                         if (this == obj) {
@@ -100,7 +102,7 @@ namespace org {
                     }
 
                     bool SemanticContext::PrecedencePredicate::equals(void *obj) {
-                        if (!(dynamic_cast<PrecedencePredicate*>(obj) != nullptr)) {
+                        if (!((Predicate*)obj/*dynamic_cast<PrecedencePredicate*>(obj)*/ != nullptr)) {
                             return false;
                         }
 
@@ -117,14 +119,16 @@ namespace org {
                         return SemanticContext::toString();
                     }
 
+#ifdef TODO
+                    // I can't make heads or tails of this
                     SemanticContext::AND::AND(SemanticContext *a, SemanticContext *b) : opnds(operands::toArray(new SemanticContext[operands->size()])) {
-                        Set<SemanticContext*> *operands = std::set<SemanticContext*>();
-                        if (dynamic_cast<AND*>(a) != nullptr) {
+                        std::vector<SemanticContext*> *operands = new std::vector<SemanticContext*>();
+                        if ((AND*)a/*dynamic_cast<AND*>(a)*/ != nullptr) {
                             operands->addAll(Arrays::asList((static_cast<AND*>(a))->opnds));
                         } else {
                             operands->add(a);
                         }
-                        if (dynamic_cast<AND*>(b) != nullptr) {
+                        if ((AND*)/*dynamic_cast<AND*>*/(b) != nullptr) {
                             operands->addAll(Arrays::asList((static_cast<AND*>(b))->opnds));
                         } else {
                             operands->add(b);
@@ -138,22 +142,24 @@ namespace org {
                         }
 
                     }
-
+#endif
                     bool SemanticContext::AND::equals(void *obj) {
                         if (this == obj) {
                             return true;
                         }
-                        if (!(dynamic_cast<AND*>(obj) != nullptr)) {
+                        if (!((AND*)obj/*dynamic_cast<AND*>(obj)*/ != nullptr)) {
                             return false;
                         }
                         AND *other = static_cast<AND*>(obj);
-                        return Arrays::equals(this->opnds, other->opnds);
+                        return (this->opnds == other->opnds);//Arrays::equals(this->opnds, other->opnds);
                     }
 
+                    
                     int SemanticContext::AND::hashCode() {
-                        return MurmurHash::hashCode(opnds, AND::typeid::hashCode());
+                        return misc::MurmurHash::hashCode(opnds, 1234 /*AND::typeid::hashCode()*/);
                     }
 
+                    
                     template<typename T1, typename T2>
                     bool SemanticContext::AND::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
                         for (auto opnd : opnds) {
