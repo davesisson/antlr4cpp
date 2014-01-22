@@ -15,6 +15,7 @@
 #include "StringBuilder.h"
 #include <list>
 #include <stdarg.h>
+#include "Declarations.h"
 
 /// <summary>
 /// Converts List to string with given separator.
@@ -85,6 +86,22 @@ class Arrays {
         
         std::vector<std::wstring> foo;
         return foo;//StringToStringList(items, "");
+    }
+    
+    static bool equals(std::vector<int> a, std::vector<int> b)
+    {
+#ifdef TODO
+        FIX ME
+#endif
+        return false;
+    }
+    
+    static bool equals(std::vector<PredictionContext*> a, std::vector<PredictionContext*> b)
+    {
+#ifdef TODO
+        FIX ME
+#endif
+        return false;
     }
     /// <summary>
     /// Strings to string list.

@@ -175,9 +175,9 @@ namespace org {
                     }
 
                     SemanticContext::OR::OR(SemanticContext *a, SemanticContext *b) : opnds(operands::toArray(new SemanticContext[operands->size()])) {
-                        Set<SemanticContext*> *operands = std::set<SemanticContext*>();
-                        if (dynamic_cast<OR*>(a) != nullptr) {
-                            operands->addAll(Arrays::asList((static_cast<OR*>(a))->opnds));
+                        std::vector<SemanticContext*> *operands = new std::vector<SemanticContext*>();
+                        if ((OR*)/*dynamic_cast<OR*>*/(a) != nullptr) {
+                            operands->addAll(Arrays::asList( ((OR*)/*static_cast<OR*>*/(a))->opnds) );
                         } else {
                             operands->add(a);
                         }

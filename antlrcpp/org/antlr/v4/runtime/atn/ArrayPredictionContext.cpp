@@ -1,5 +1,6 @@
 ﻿#include "ArrayPredictionContext.h"
 #include "StringBuilder.h"
+#include "Arrays.h"
 
 /*
  * [The "BSD license"]
@@ -36,12 +37,20 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    ArrayPredictionContext::ArrayPredictionContext(SingletonPredictionContext *a) : PredictionContext {
+#ifdef TODO
+                    //the base class hash code is gettings set to 0 here, what do we want?
+                    stop
+#endif
+                    ArrayPredictionContext::ArrayPredictionContext(SingletonPredictionContext *a) : PredictionContext(0) {
                     }
 
-                    ArrayPredictionContext::ArrayPredictionContext(PredictionContext parents[], int returnStates[]) : PredictionContext(calculateHashCode(parents, returnStates)), parents(parents), returnStates(returnStates) {
-                        assert(parents != nullptr && sizeof(parents) / sizeof(parents[0]) > 0);
-                        assert(returnStates != nullptr && sizeof(returnStates) / sizeof(returnStates[0]) > 0);
+                    ArrayPredictionContext::ArrayPredictionContext(PredictionContext parents[], int returnStates[]) : PredictionContext(calculateHashCode(parents, *returnStates))/*, parents(parents)*/, returnStates(*returnStates) {
+#ifdef TODO
+//                        assert(parents != nullptr && sizeof(parents) / sizeof(parents[0]) > 0);
+//                        assert(returnStates != nullptr && sizeof(returnStates) / sizeof(returnStates[0]) > 0);
+                        // Setup the parents variable correctly since we're not setting it in the constructor line above
+                        // std::vector<PredictionContext*>
+#endif
                                         //		System.err.println("CREATE ARRAY: "+Arrays.toString(parents)+", "+Arrays.toString(returnStates));
                     }
 
@@ -52,11 +61,11 @@ namespace org {
                     }
 
                     int ArrayPredictionContext::size() {
-                        return returnStates->length;
+                        return (int)returnStates.size();
                     }
 
-                    org::antlr::v4::runtime::atn::PredictionContext *ArrayPredictionContext::getParent(int index) {
-                        return parents[index];
+                    atn::PredictionContext *ArrayPredictionContext::getParent(int index) {
+                        return parents->at(index);
                     }
 
                     int ArrayPredictionContext::getReturnState(int index) {
@@ -66,11 +75,11 @@ namespace org {
                     bool ArrayPredictionContext::equals(void *o) {
                         if (this == o) {
                             return true;
-                        } else if (!(dynamic_cast<ArrayPredictionContext*>(o) != nullptr)) {
+                        } else if (!((ArrayPredictionContext*)o/*dynamic_cast<ArrayPredictionContext*>(o)*/ != nullptr)) {
                             return false;
                         }
 
-                        if (this->hashCode() != o->hashCode()) {
+                        if (this->hashCode() != ((ArrayPredictionContext*)o)->hashCode()) {
                             return false; // can't be same if hash is different
                         }
 
@@ -84,7 +93,7 @@ namespace org {
                         }
                         StringBuilder *buf = new StringBuilder();
                         buf->append(L"[");
-                        for (int i = 0; i < returnStates->length; i++) {
+                        for (int i = 0; i < returnStates.size(); i++) {
                             if (i > 0) {
                                 buf->append(L", ");
                             }
@@ -92,11 +101,14 @@ namespace org {
                                 buf->append(L"$");
                                 continue;
                             }
-                            buf->append(returnStates[i]);
-                            if (parents[i] != nullptr) {
-                                buf->append(L' ');
+                            buf->append(std::to_wstring(returnStates.at(i)));
+                            if (parents->at(i) != nullptr) {
+                                buf->append(L" ");
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                                buf->append(parents[i]->toString());
+#ifdef TODO
+                                ARG
+#endif
+                                buf->append(L"TODO ***"/*parents->at(i)->toString()*/);
                             } else {
                                 buf->append(L"null");
                             }
