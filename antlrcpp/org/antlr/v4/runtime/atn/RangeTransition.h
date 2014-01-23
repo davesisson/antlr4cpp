@@ -1,8 +1,7 @@
 ﻿#pragma once
 
 #include "Transition.h"
-#include "ATNState.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
+#include "Declarations.h"
 #include <string>
 
 /*
@@ -41,9 +40,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-
                     class RangeTransition final : public Transition {
                     public:
                         const int from;
@@ -53,10 +49,10 @@ namespace org {
 
                         virtual int getSerializationType() override;
 
-                        virtual IntervalSet *label() override;
+                        virtual misc::IntervalSet *label() override;
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
                     };
 
                 }

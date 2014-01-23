@@ -40,9 +40,6 @@ namespace org {
                 namespace tree {
                     namespace pattern {
 
-                        using org::antlr::v4::runtime::misc::NotNull;
-                        using org::antlr::v4::runtime::misc::Nullable;
-
                         /// <summary>
                         /// Represents a placeholder tag in a tree pattern. A tag can have any of the
                         /// following forms.
@@ -78,7 +75,6 @@ namespace org {
                             /// <exception cref="IllegalArgumentException"> if {@code tag} is {@code null} or
                             /// empty. </exception>
                         public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                             TagChunk(const std::wstring &tag); //this(nullptr, tag);
 
                             /// <summary>
@@ -112,7 +108,7 @@ namespace org {
                             /// are returned in the form {@code label:tag}, and unlabeled tags are
                             /// returned as just the tag name.
                             /// </summary>
-                            virtual std::wstring toString() override;
+                            virtual std::wstring toString();
                         };
 
                     }

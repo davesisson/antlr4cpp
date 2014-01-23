@@ -1,14 +1,12 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/Token.h"
-#include "Java/src/org/antlr/v4/runtime/TokenSource.h"
-#include "Java/src/org/antlr/v4/runtime/CharStream.h"
 #include <string>
+#include "Token.h"
 
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
- * Copyright (c) 2013 Sam Harwell
+ * Copyright (c) 2013 Dan McLaughlin
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,11 +40,7 @@ namespace org {
                 namespace tree {
                     namespace pattern {
 
-                        using org::antlr::v4::runtime::CharStream;
-                        using org::antlr::v4::runtime::Token;
-                        using org::antlr::v4::runtime::TokenSource;
-                        using org::antlr::v4::runtime::misc::NotNull;
-                        using org::antlr::v4::runtime::misc::Nullable;
+
 
                         /// <summary>
                         /// A <seealso cref="Token"/> object representing an entire subtree matched by a parser
@@ -79,7 +73,7 @@ namespace org {
                             /// <exception cref="IllegalArgumentException"> if {@code ruleName} is {@code null}
                             /// or empty. </exception>
                         public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
+
                             RuleTagToken(const std::wstring &ruleName, int bypassTokenType); //this(ruleName, bypassTokenType, nullptr);
 
                             /// <summary>
@@ -186,7 +180,7 @@ namespace org {
                             /// The implementation for <seealso cref="RuleTagToken"/> returns a string of the form
                             /// {@code ruleName:bypassTokenType}.
                             /// </summary>
-                            virtual std::wstring toString() override;
+                            virtual std::wstring toString();
                         };
 
                     }

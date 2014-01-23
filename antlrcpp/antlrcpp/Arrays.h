@@ -96,7 +96,15 @@ class Arrays {
         return false;
     }
     
-    static bool equals(std::vector<PredictionContext*> a, std::vector<PredictionContext*> b)
+//    static bool equals(std::vector<PredictionContext*> a, std::vector<PredictionContext*> b)
+//    {
+//#ifdef TODO
+//        FIX ME
+//#endif
+//        return false;
+//    }
+    
+    static bool equals(void *a, void* b)
     {
 #ifdef TODO
         FIX ME

@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Transition.h"
-#include "ATNState.h"
+#include "Declarations.h"
 #include <string>
 
 /*
@@ -40,7 +40,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::misc::NotNull;
 
                     class WildcardTransition final : public Transition {
                     public:
@@ -50,7 +49,7 @@ namespace org {
 
                         virtual bool matches(int symbol, int minVocabSymbol, int maxVocabSymbol) override;
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString() ;
                     };
 
                 }

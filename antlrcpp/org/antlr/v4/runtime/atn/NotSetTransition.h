@@ -1,8 +1,7 @@
 ﻿#pragma once
 
 #include "SetTransition.h"
-#include "ATNState.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
+#include "Declarations.h"
 #include <string>
 
 /*
@@ -41,13 +40,9 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
                     class NotSetTransition final : public SetTransition {
                     public:
-                        NotSetTransition(ATNState *target, IntervalSet *set);
+                        NotSetTransition(ATNState *target, misc::IntervalSet *set);
 
                         virtual int getSerializationType() override;
 
