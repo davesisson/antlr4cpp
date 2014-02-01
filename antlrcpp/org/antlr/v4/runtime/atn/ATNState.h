@@ -140,7 +140,7 @@ namespace org {
                         /// <summary>
                         /// Track the transitions emanating from this ATN state. </summary>
                     protected:
-                        const std::vector<Transition*> transitions;
+                        std::vector<Transition*> transitions;
 
                         /// <summary>
                         /// Used to cache lookahead during parsing, not used during construction </summary>

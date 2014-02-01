@@ -2,6 +2,7 @@
 #include "ATN.h"
 #include "Transition.h"
 #include "IntervalSet.h"
+#include <iostream>
 
 /*
  * [The "BSD license"]
@@ -38,16 +39,16 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    
-                    const std::vector<std::wstring> ATNState::serializationNames = java::util::Collections::unmodifiableList(java::util::Arrays::asList(L"INVALID", L"BASIC", L"RULE_START", L"BLOCK_START", L"PLUS_BLOCK_START", L"STAR_BLOCK_START", L"TOKEN_START", L"RULE_STOP", L"BLOCK_END", L"STAR_LOOP_BACK", L"STAR_LOOP_ENTRY", L"PLUS_LOOP_BACK", L"LOOP_END"));
-                    
+#ifdef TODO
+                    const std::vector<std::wstring> ATNState::serializationNames = (L"INVALID", L"BASIC", L"RULE_START", L"BLOCK_START", L"PLUS_BLOCK_START", L"STAR_BLOCK_START", L"TOKEN_START", L"RULE_STOP", L"BLOCK_END", L"STAR_LOOP_BACK", L"STAR_LOOP_ENTRY", L"PLUS_LOOP_BACK", L"LOOP_END");
+#endif
                     int ATNState::hashCode() {
                         return stateNumber;
                     }
                     
                     bool ATNState::equals(void *o) {
                         // are these states same object?
-                        if (dynamic_cast<ATNState*>(o) != nullptr) {
+                        if (o != nullptr) {
                             return stateNumber == (static_cast<ATNState*>(o))->stateNumber;
                         }
                         return false;
@@ -62,29 +63,34 @@ namespace org {
                     }
                     
                     Transition *ATNState::getTransitions() {
+#ifdef TODO
+                        Transition *arr = new Transition[transitions.size()];
+                        //Transition* arr = (Transition*)&transitions[0];
                         return transitions.toArray(new Transition[transitions.size()]);
+#endif
+                        return nullptr;
                     }
                     
                     int ATNState::getNumberOfTransitions() {
-                        return transitions.size();
+                        return (int)transitions.size();
                     }
                     
                     void ATNState::addTransition(Transition *e) {
-                        addTransition(transitions.size(), e);
+                        addTransition((int)transitions.size(), e);
                     }
                     
                     void ATNState::addTransition(int index, Transition *e) {
                         if (transitions.empty()) {
                             epsilonOnlyTransitions = e->isEpsilon();
                         } else if (epsilonOnlyTransitions != e->isEpsilon()) {
-                            System::err::format(Locale::getDefault(), L"ATN state %d has both epsilon and non-epsilon transitions.\n", stateNumber);
+                            std::cerr << L"ATN state %d has both epsilon and non-epsilon transitions.\n" << stateNumber;
                             epsilonOnlyTransitions = false;
                         }
                         
-                        transitions.push_back(index, e);
+                        transitions[index] = e;
                     }
                     
-                    org::antlr::v4::runtime::atn::Transition *ATNState::transition(int i) {
+                    atn::Transition *ATNState::transition(int i) {
                         return transitions[i];
                     }
                     
@@ -92,8 +98,12 @@ namespace org {
                         transitions[i] = e;
                     }
                     
-                    org::antlr::v4::runtime::atn::Transition *ATNState::removeTransition(int index) {
-                        return transitions.remove(index);
+                    atn::Transition *ATNState::removeTransition(int index) {
+                        transitions.erase(transitions.begin() + index);
+#ifdef TODO
+                        // WHat does the Java version return?
+#endif
+                        return nullptr;
                     }
                     
                     bool ATNState::onlyHasEpsilonTransitions() {
