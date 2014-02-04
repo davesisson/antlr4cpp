@@ -1,8 +1,9 @@
 ﻿#pragma once
 
 #include "RecognitionException.h"
-#include "Parser.h"
 #include <string>
+
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -38,13 +39,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::atn::ATNState;
-                using org::antlr::v4::runtime::atn::AbstractPredicateTransition;
-                using org::antlr::v4::runtime::atn::PredicateTransition;
-                using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
-
-
+                
                 /// <summary>
                 /// A semantic predicate failed during validation.  Validation of predicates
                 ///  occurs when normally parsing the alternative just like matching a token.
@@ -53,15 +48,13 @@ namespace org {
                 /// </summary>
                 class FailedPredicateException : public RecognitionException {
                 private:
-                    const int ruleIndex;
-                    const int predicateIndex;
+                    int ruleIndex;
+                    int predicateIndex;
                     const std::wstring predicate;
 
                 public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     FailedPredicateException(Parser *recognizer); //this(recognizer, nullptr);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     FailedPredicateException(Parser *recognizer, const std::wstring &predicate); //this(recognizer, predicate, nullptr);
 
                     FailedPredicateException(Parser *recognizer, const std::wstring &predicate, const std::wstring &message);

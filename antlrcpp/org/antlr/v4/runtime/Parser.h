@@ -110,7 +110,8 @@ namespace org {
                     /// The <seealso cref="ParserRuleContext"/> object for the currently executing rule.
                     /// This is always non-null during the parsing process.
                     /// </summary>
-                    ParserRuleContext *_ctx;
+				public:
+					ParserRuleContext *_ctx;
 
                     /// <summary>
                     /// Specifies whether or not the parser should construct a parse tree during
@@ -118,7 +119,8 @@ namespace org {
                     /// </summary>
                     /// <seealso cref= #getBuildParseTree </seealso>
                     /// <seealso cref= #setBuildParseTree </seealso>
-                    bool _buildParseTrees;
+				protected:
+					bool _buildParseTrees;
 
 
                     /// <summary>
