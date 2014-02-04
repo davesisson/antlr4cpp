@@ -1,6 +1,0 @@
-[submodule "antlrcs"]
-	path = antlrcs
-	url = /Users/Dan/Developer/antlr4
-[submodule "antlr4master"]
-	path = antlr4master
-	url = /Users/Dan/Developer/antlr4
