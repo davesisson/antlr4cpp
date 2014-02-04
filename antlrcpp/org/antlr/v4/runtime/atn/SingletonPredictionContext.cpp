@@ -42,10 +42,10 @@ namespace org {
                         assert(returnState != ATNState::INVALID_STATE_NUMBER);
                     }
 
-                    org::antlr::v4::runtime::atn::SingletonPredictionContext *SingletonPredictionContext::create(PredictionContext *parent, int returnState) {
+                    atn::SingletonPredictionContext *SingletonPredictionContext::create(PredictionContext *parent, int returnState) {
                         if (returnState == EMPTY_RETURN_STATE && parent == nullptr) {
                             // someone can pass in the bits of an array ctx that mean $
-                            return EMPTY;
+                            return (atn::SingletonPredictionContext *)EMPTY;
                         }
                         return new SingletonPredictionContext(parent, returnState);
                     }
@@ -54,7 +54,7 @@ namespace org {
                         return 1;
                     }
 
-                    org::antlr::v4::runtime::atn::PredictionContext *SingletonPredictionContext::getParent(int index) {
+                    atn::PredictionContext *SingletonPredictionContext::getParent(int index) {
                         assert(index == 0);
                         return parent;
                     }
@@ -67,11 +67,11 @@ namespace org {
                     bool SingletonPredictionContext::equals(void *o) {
                         if (this == o) {
                             return true;
-                        } else if (!(dynamic_cast<SingletonPredictionContext*>(o) != nullptr)) {
+                        } else if (!(/*dynamic_cast<SingletonPredictionContext*>(o)*/o != nullptr)) {
                             return false;
                         }
 
-                        if (this->hashCode() != o->hashCode()) {
+                        if (this->hashCode() != ((SingletonPredictionContext*)o)->hashCode()) {
                             return false; // can't be same if hash is different
                         }
 
@@ -80,7 +80,6 @@ namespace org {
                     }
 
                     std::wstring SingletonPredictionContext::toString() {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         std::wstring up = parent != nullptr ? parent->toString() : L"";
                         if (up.length() == 0) {
                             if (returnState == EMPTY_RETURN_STATE) {

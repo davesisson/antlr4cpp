@@ -228,7 +228,7 @@ namespace org {
                         }
                     }
                     
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::mergeRoot(SingletonPredictionContext *a, SingletonPredictionContext *b, bool rootIsWildcard) {
+                    atn::PredictionContext *PredictionContext::mergeRoot(SingletonPredictionContext *a, SingletonPredictionContext *b, bool rootIsWildcard) {
                         if (rootIsWildcard) {
                             if (a == EMPTY) { // * + b = *
                                 return (PredictionContext *)EMPTY;
@@ -256,7 +256,7 @@ namespace org {
                         return nullptr;
                     }
                     
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::mergeArrays(ArrayPredictionContext *a, ArrayPredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                    atn::PredictionContext *PredictionContext::mergeArrays(ArrayPredictionContext *a, ArrayPredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
                         if (mergeCache != nullptr) {
                             PredictionContext *previous = mergeCache->get(a,b);
                             if (previous != nullptr) {
