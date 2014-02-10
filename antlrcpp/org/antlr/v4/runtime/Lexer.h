@@ -61,7 +61,7 @@ namespace org {
 
                     static const int DEFAULT_TOKEN_CHANNEL = Token::DEFAULT_CHANNEL;
                     static const int HIDDEN = Token::HIDDEN_CHANNEL;
-                    static const int MIN_CHAR_VALUE = L'\u0000';
+                    static const int MIN_CHAR_VALUE = L'\0';
                     static const int MAX_CHAR_VALUE = L'\uFFFE';
 
                     CharStream *_input;
