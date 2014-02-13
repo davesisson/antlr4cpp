@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/tree/Tree.h"
+#include "Tree.h"
 
 /*
  * [The "BSD license"]
@@ -39,11 +39,9 @@ namespace org {
                 namespace tree {
                     namespace gui {
 
-                        using org::antlr::v4::runtime::tree::Tree;
-
                         class TreeTextProvider {
                         public:
-                            virtual std::wstring getText(org::antlr::v4::runtime::tree::Tree *node) = 0;
+                            virtual std::wstring getText(tree::Tree *node) = 0;
                         };
 
                     }
