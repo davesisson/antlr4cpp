@@ -1,4 +1,6 @@
 ﻿#include "XPathWildcardElement.h"
+#include "Xpath.h"
+#include "Trees.h"
 
 /*
 * [The "BSD license"]
@@ -42,11 +44,11 @@ namespace org {
 
                         std::vector<ParseTree*> *XPathWildcardElement::evaluate(ParseTree *const t) {
                             if (invert) { // !* is weird but valid (empty)
-                                return std::vector<ParseTree*>();
+                                return new std::vector<ParseTree*>();
                             }
                             std::vector<ParseTree*> kids = std::vector<ParseTree*>();
-                            for (auto c : Trees::getChildren(t)) {
-                                kids.push_back(static_cast<ParseTree*>(c));
+							for (auto c : Trees::getChildren((Tree*)t)) {
+                                kids.push_back((ParseTree*)(c));
                             }
                             return kids;
                         }

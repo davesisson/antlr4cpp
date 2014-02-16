@@ -1,5 +1,6 @@
 ﻿#include "XPathWildcardAnywhereElement.h"
 #include "Trees.h"
+#include "XPath.h"
 
 /*
 * [The "BSD license"]

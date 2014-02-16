@@ -53,7 +53,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ANTLR4CPP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\org\antlr\v4\runtime\xpath;$(SolutionDir)\org\antlr\v4\runtime\tree\pattern;$(SolutionDir)\org\antlr\v4\runtime\tree\gui;$(SolutionDir)\org\antlr\v4\runtime\tree;$(SolutionDir)\org\antlr\v4\runtime\misc;$(SolutionDir)\org\antlr\v4\runtime\dfa;$(SolutionDir)\org\antlr\v4\runtime\atn;$(SolutionDir)\org\antlr\v4\runtime;$(SolutionDir)\antlrcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\antlrcpp;$(SolutionDir);$(SolutionDir)\org\antlr\v4\runtime\xpath;$(SolutionDir)\org\antlr\v4\runtime\tree\pattern;$(SolutionDir)\org\antlr\v4\runtime\tree\gui;$(SolutionDir)\org\antlr\v4\runtime\tree;$(SolutionDir)\org\antlr\v4\runtime\misc;$(SolutionDir)\org\antlr\v4\runtime\dfa;$(SolutionDir)\org\antlr\v4\runtime\atn;$(SolutionDir)\org\antlr\v4\runtime;$(SolutionDir)\antlrcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -195,13 +195,6 @@
     <ClCompile Include="org\antlr\v4\runtime\tree\AbstractParseTreeVisitor.cpp" />
     <ClCompile Include="org\antlr\v4\runtime\tree\ErrorNode.cpp" />
     <ClCompile Include="org\antlr\v4\runtime\tree\ErrorNodeImpl.cpp" />
-    <ClCompile Include="org\antlr\v4\runtime\tree\gui\BasicFontMetrics.cpp" />
-    <ClCompile Include="org\antlr\v4\runtime\tree\gui\PostScriptDocument.cpp" />
-    <ClCompile Include="org\antlr\v4\runtime\tree\gui\SystemFontMetrics.cpp" />
-    <ClCompile Include="org\antlr\v4\runtime\tree\gui\TreeLayoutAdaptor.cpp" />
-    <ClCompile Include="org\antlr\v4\runtime\tree\gui\TreePostScriptGenerator.cpp" />
-    <ClCompile Include="org\antlr\v4\runtime\tree\gui\TreeTextProvider.cpp" />
-    <ClCompile Include="org\antlr\v4\runtime\tree\gui\TreeViewer.cpp" />
     <ClCompile Include="org\antlr\v4\runtime\tree\ParseTree.cpp" />
     <ClCompile Include="org\antlr\v4\runtime\tree\ParseTreeListener.cpp" />
     <ClCompile Include="org\antlr\v4\runtime\tree\ParseTreeProperty.cpp" />
@@ -355,13 +348,6 @@
     <ClInclude Include="org\antlr\v4\runtime\tree\AbstractParseTreeVisitor.h" />
     <ClInclude Include="org\antlr\v4\runtime\tree\ErrorNode.h" />
     <ClInclude Include="org\antlr\v4\runtime\tree\ErrorNodeImpl.h" />
-    <ClInclude Include="org\antlr\v4\runtime\tree\gui\BasicFontMetrics.h" />
-    <ClInclude Include="org\antlr\v4\runtime\tree\gui\PostScriptDocument.h" />
-    <ClInclude Include="org\antlr\v4\runtime\tree\gui\SystemFontMetrics.h" />
-    <ClInclude Include="org\antlr\v4\runtime\tree\gui\TreeLayoutAdaptor.h" />
-    <ClInclude Include="org\antlr\v4\runtime\tree\gui\TreePostScriptGenerator.h" />
-    <ClInclude Include="org\antlr\v4\runtime\tree\gui\TreeTextProvider.h" />
-    <ClInclude Include="org\antlr\v4\runtime\tree\gui\TreeViewer.h" />
     <ClInclude Include="org\antlr\v4\runtime\tree\ParseTree.h" />
     <ClInclude Include="org\antlr\v4\runtime\tree\ParseTreeListener.h" />
     <ClInclude Include="org\antlr\v4\runtime\tree\ParseTreeProperty.h" />
