@@ -309,11 +309,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StringBuilder.cpp; path = antlrcpp/StringBuilder.cpp; sourceTree = "<group>"; };
-		3789F4FF1870D1D8003E0A30 /* StringBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringBuilder.h; path = antlrcpp/StringBuilder.h; sourceTree = "<group>"; };
-		3789F5021870E074003E0A30 /* Arrays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Arrays.cpp; path = antlrcpp/Arrays.cpp; sourceTree = "<group>"; };
-		3789F5031870E074003E0A30 /* Arrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Arrays.h; path = antlrcpp/Arrays.h; sourceTree = "<group>"; };
-		3789F5061871AFD8003E0A30 /* Declarations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Declarations.h; path = antlrcpp/Declarations.h; sourceTree = "<group>"; };
+		3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringBuilder.cpp; sourceTree = "<group>"; };
+		3789F4FF1870D1D8003E0A30 /* StringBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringBuilder.h; sourceTree = "<group>"; };
+		3789F5021870E074003E0A30 /* Arrays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Arrays.cpp; sourceTree = "<group>"; };
+		3789F5031870E074003E0A30 /* Arrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Arrays.h; sourceTree = "<group>"; };
+		3789F5061871AFD8003E0A30 /* Declarations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Declarations.h; sourceTree = "<group>"; };
 		3789F5071872F5C2003E0A30 /* XPathLexer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XPathLexer.cpp; sourceTree = "<group>"; };
 		3789F5081872F5C2003E0A30 /* XPathLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathLexer.h; sourceTree = "<group>"; };
 		37BED8C2187304740043FB28 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exceptions.cpp; sourceTree = "<group>"; };
@@ -979,15 +979,8 @@
 		37D727A11867AF1E007B6D10 = {
 			isa = PBXGroup;
 			children = (
-				3789F5061871AFD8003E0A30 /* Declarations.h */,
-				3789F5021870E074003E0A30 /* Arrays.cpp */,
-				3789F5031870E074003E0A30 /* Arrays.h */,
-				3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */,
-				3789F4FF1870D1D8003E0A30 /* StringBuilder.h */,
-				37D1C529186A4B5B0041671A /* stringconverter.h */,
-				37D1C52A186A4B5B0041671A /* vectorhelper.h */,
-				37D1C2C5186A31130041671A /* runtime */,
 				37D727AC1867AF1E007B6D10 /* antlrcpp */,
+				37D1C2C5186A31130041671A /* runtime */,
 				37D727AB1867AF1E007B6D10 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1003,6 +996,13 @@
 		37D727AC1867AF1E007B6D10 /* antlrcpp */ = {
 			isa = PBXGroup;
 			children = (
+				3789F5061871AFD8003E0A30 /* Declarations.h */,
+				3789F5021870E074003E0A30 /* Arrays.cpp */,
+				3789F5031870E074003E0A30 /* Arrays.h */,
+				3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */,
+				3789F4FF1870D1D8003E0A30 /* StringBuilder.h */,
+				37D1C529186A4B5B0041671A /* stringconverter.h */,
+				37D1C52A186A4B5B0041671A /* vectorhelper.h */,
 				37D727AF1867AF1E007B6D10 /* antlrcppProj.xcconfig */,
 				37D727B01867AF1E007B6D10 /* antlrcppTarget.xcconfig */,
 				37D727B11867AF1E007B6D10 /* antlrcpp.h */,
