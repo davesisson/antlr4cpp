@@ -1,6 +1,37 @@
 ﻿#include "XPathTokenElement.h"
-#include "Java/src/org/antlr/v4/runtime/tree/Trees.h"
-#include "Java/src/org/antlr/v4/runtime/tree/TerminalNode.h"
+#include "Trees.h"
+#include "TerminalNode.h"
+#include "TerminalNode.h"
+
+/*
+* [The "BSD license"]
+*  Copyright (c) 2013 Terence Parr
+*  Copyright (c) 2013 Dan McLaughlin
+*  All rights reserved.
+*
+*  Redistribution and use in source and binary forms, with or without
+*  modification, are permitted provided that the following conditions
+*  are met:
+*
+*  1. Redistributions of source code must retain the above copyright
+*     notice, this list of conditions and the following disclaimer.
+*  2. Redistributions in binary form must reproduce the above copyright
+*     notice, this list of conditions and the following disclaimer in the
+*     documentation and/or other materials provided with the distribution.
+*  3. The name of the author may not be used to endorse or promote products
+*     derived from this software without specific prior written permission.
+*
+*  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+*  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+*  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+*  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+*  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+*  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+*  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+*  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+*  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+*  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 
 namespace org {
     namespace antlr {
@@ -8,17 +39,14 @@ namespace org {
             namespace runtime {
                 namespace tree {
                     namespace xpath {
-                        using org::antlr::v4::runtime::tree::ParseTree;
-                        using org::antlr::v4::runtime::tree::TerminalNode;
-                        using org::antlr::v4::runtime::tree::Tree;
-                        using org::antlr::v4::runtime::tree::Trees;
+
 
                         XPathTokenElement::XPathTokenElement(const std::wstring &tokenName, int tokenType) : XPathElement(tokenName) {
                             InitializeInstanceFields();
                             this->tokenType = tokenType;
                         }
 
-                        Collection<ParseTree*> *XPathTokenElement::evaluate(ParseTree *t) {
+                        std::vector<ParseTree*> *XPathTokenElement::evaluate(ParseTree *t) {
                             // return all children of t that match nodeName
                             std::vector<ParseTree*> nodes = std::vector<ParseTree*>();
                             for (auto c : Trees::getChildren(t)) {
