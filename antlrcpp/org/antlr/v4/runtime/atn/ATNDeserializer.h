@@ -3,7 +3,7 @@
 #include "ATNDeserializationOptions.h"
 #include "ATN.h"
 #include "Transition.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
+#include "IntervalSet.h"
 #include "ATNState.h"
 #include <string>
 #include <vector>
