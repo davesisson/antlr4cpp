@@ -4,6 +4,7 @@
 #include "Declarations.h"
 #include <string>
 #include <stdexcept>
+#include <fstream>
 
 /*
  * [The "BSD license"]
@@ -99,7 +100,7 @@ namespace org {
                     /// </summary>
                     int currentCharIndex;
 
-                    Reader *input;
+                    std::iostream *input;
 
                     /// <summary>
                     /// The name or source of this char stream. </summary>
@@ -108,24 +109,23 @@ namespace org {
 
                     /// <summary>
                     /// Useful for subclasses that pull char from other than this.input. </summary>
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
+
                     UnbufferedCharStream(); //this(256);
 
                     /// <summary>
                     /// Useful for subclasses that pull char from other than this.input. </summary>
                     UnbufferedCharStream(int bufferSize);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    UnbufferedCharStream(InputStream *input); //this(input, 256);
+
+                    UnbufferedCharStream(std::ifstream *input); //this(input, 256);
+
+					UnbufferedCharStream(std::ifstream *input); //this(input, 256);
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    UnbufferedCharStream(Reader *input); //this(input, 256);
+					UnbufferedCharStream(std::ifstream *input, int bufferSize); //this(bufferSize);
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    UnbufferedCharStream(InputStream *input, int bufferSize); //this(bufferSize);
-
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    UnbufferedCharStream(Reader *input, int bufferSize); //this(bufferSize);
+					UnbufferedCharStream(std::ifstream *input, int bufferSize); //this(bufferSize);
 
                     virtual void consume() override;
 

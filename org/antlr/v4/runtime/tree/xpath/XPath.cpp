@@ -8,6 +8,8 @@
 #include "XPathRuleAnywhereElement.h"
 #include "XPathRuleElement.h"
 #include "ParserRuleContext.h"
+#include "Token.h"
+#include "Exceptions.h"
 
 /*
  * [The "BSD license"]
@@ -107,7 +109,7 @@ namespace org {
                                         i++;
                                         break;
 
-                                    case Token::EOF :
+                                    case Token::_EOF :
                                         goto loopBreak;
 
                                     default :
@@ -128,7 +130,7 @@ namespace org {
                         }
 
                         org::antlr::v4::runtime::tree::xpath::XPathElement *XPath::getXPathElement(Token *wordToken, bool anywhere) {
-                            if (wordToken->getType() == Token::EOF) {
+                            if (wordToken->getType() == Token::_EOF) {
                                 throw IllegalArgumentException(L"Missing path element at end of path");
                             }
                             std::wstring word = wordToken->getText();
@@ -156,16 +158,16 @@ namespace org {
                             return p->evaluate(tree);
                         }
 
-                        Collection<ParseTree*> *XPath::evaluate(ParseTree *const t) {
+                        set::vector<ParseTree*> *XPath::evaluate(ParseTree *const t) {
                             ParserRuleContext *dummyRoot = new ParserRuleContext();
                             dummyRoot->children = new ArrayListAnonymousInnerClassHelper(this, t); // don't set t's parent.
 
-                            Collection<ParseTree*> *work = std::vector<ParseTree*>();
+							set::vector<ParseTree*> *work = std::vector<ParseTree*>();
                             work->add(dummyRoot);
 
                             int i = 0;
                             while (i < elements->length) {
-                                Collection<ParseTree*> *next = std::vector<ParseTree*>();
+								set::vector<ParseTree*> *next = std::vector<ParseTree*>();
                                 for (auto node : work) {
                                     if (node->getChildCount() > 0) {
                                         // only try to match next element if it has children
@@ -173,7 +175,7 @@ namespace org {
                                         // we can't go looking for stat nodes.
 //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
 //ORIGINAL LINE: java.util.Collection<? extends org.antlr.v4.runtime.tree.ParseTree> matching = elements[i].evaluate(node);
-                                        Collection<? extends ParseTree> *matching = elements[i]->evaluate(node);
+										set::vector<ParseTree *> *matching = elements[i]->evaluate(node);
                                         next->addAll(matching);
                                     }
                                 }

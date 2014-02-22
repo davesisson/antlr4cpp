@@ -170,7 +170,7 @@ namespace org {
                     ///  the token type BitSet.  Return null if no tokens were found.  This
                     ///  method looks at both on and off channel tokens.
                     /// </summary>
-                    virtual std::vector<Token*> getTokens(int start, int stop, Set<int> *types);
+                    virtual std::vector<Token*> getTokens(int start, int stop, std::vector<int> *types);
 
                     virtual std::vector<Token*> getTokens(int start, int stop, int ttype);
 

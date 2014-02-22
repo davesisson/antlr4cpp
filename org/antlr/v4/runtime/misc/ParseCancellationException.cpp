@@ -5,8 +5,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-                    using org::antlr::v4::runtime::BailErrorStrategy;
-                    using org::antlr::v4::runtime::RecognitionException;
 
                     ParseCancellationException::ParseCancellationException() {
                     }

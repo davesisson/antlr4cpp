@@ -43,7 +43,7 @@ namespace org {
 
                         class XPathLexerErrorListener : public BaseErrorListener {
                         public:
-                            template<typename T1, typename T1>
+                            template<typename T1, typename T2>
                             virtual void syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) override;
                         };
 

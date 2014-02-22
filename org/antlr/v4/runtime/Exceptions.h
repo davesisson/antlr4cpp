@@ -24,10 +24,10 @@ namespace org {
                     IllegalStateException();
                 };
                 
-                
                 class IllegalArgumentException : public std::exception {
                 public:
                     IllegalArgumentException(const std::wstring msg);
+                    IllegalArgumentException(const std::wstring msg, std::exception e);
                     IllegalArgumentException();
                 };
                 
@@ -42,15 +42,33 @@ namespace org {
                     NullPointerException(const std::wstring msg);
                     NullPointerException();
                 };
-                
+                class IndexOutOfBoundsException : public std::exception {
+                public:
+                    IndexOutOfBoundsException(const std::wstring msg);
+                    IndexOutOfBoundsException();
+                };
+                class UnsupportedOperationException : public std::exception {
+                public:
+                    UnsupportedOperationException(const std::wstring msg);
+                    UnsupportedOperationException();
+                };
+                class IOException : public std::exception {
+                public:
+                    IOException(const std::wstring msg);
+                    IOException();
+                };
 
+
+   
+                // Recognition exceptions
+                
                 class ParseCancellationException : public RecognitionException {
                 public:
                     ParseCancellationException(const std::wstring msg);
                     ParseCancellationException(RecognitionException*);
                     ParseCancellationException();
                 };
-
+    
                 class InputMismatchException : public RecognitionException {
                 public:
                     InputMismatchException(const std::wstring msg);

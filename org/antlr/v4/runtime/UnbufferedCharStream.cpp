@@ -1,6 +1,9 @@
 ﻿#include "UnbufferedCharStream.h"
 #include "IntStream.h"
 #include "ANTLRInputStream.h"
+#include "Exceptions.h"
+#include "Interval.h"
+
 /*
 * [The "BSD license"]
 *  Copyright (c) 2013 Terence Parr
@@ -35,9 +38,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::misc::Interval;
-
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                 UnbufferedCharStream::UnbufferedCharStream() {
                 }
 
@@ -47,28 +47,24 @@ namespace org {
                     data = new wchar_t[bufferSize];
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                UnbufferedCharStream::UnbufferedCharStream(InputStream *input) {
+				UnbufferedCharStream::UnbufferedCharStream(std::ifstream *input) {
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                UnbufferedCharStream::UnbufferedCharStream(Reader *input) {
+				UnbufferedCharStream::UnbufferedCharStream(std::ifstream *input) {
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                UnbufferedCharStream::UnbufferedCharStream(InputStream *input, int bufferSize) {
-                    this->input = new InputStreamReader(input);
+				UnbufferedCharStream::UnbufferedCharStream(std::ifstream *input, int bufferSize) {
+					this->input = new  std::iostream(input);
                     fill(1); // prime
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                UnbufferedCharStream::UnbufferedCharStream(Reader *input, int bufferSize) {
+				UnbufferedCharStream::UnbufferedCharStream(std::ifstream *input, int bufferSize) {
                     this->input = input;
                     fill(1); // prime
                 }
 
                 void UnbufferedCharStream::consume() {
-                    if (LA(1) == IntStream::EOF) {
+                    if (LA(1) == IntStream::_EOF) {
                         throw IllegalStateException(L"cannot consume EOF");
                     }
 
@@ -95,7 +91,7 @@ namespace org {
 
                 int UnbufferedCharStream::fill(int n) {
                     for (int i = 0; i < n; i++) {
-                        if (this->n > 0 && data[this->n - 1] == static_cast<wchar_t>(IntStream::EOF)) {
+                        if (this->n > 0 && data[this->n - 1] == static_cast<wchar_t>(IntStream::_EOF)) {
                             return i;
                         }
 
@@ -110,7 +106,7 @@ namespace org {
                     return n;
                 }
 
-                int UnbufferedCharStream::nextChar() throw(IOException) {
+                int UnbufferedCharStream::nextChar()  {
                     return input->read();
                 }
 
@@ -128,14 +124,14 @@ namespace org {
                     sync(i);
                     int index = p + i - 1;
                     if (index < 0) {
-                        throw IndexOutOfBoundsException();
+                        throw new IndexOutOfBoundsException();
                     }
                     if (index >= n) {
-                        return IntStream::EOF;
+                        return IntStream::_EOF;
                     }
                     wchar_t c = data[index];
-                    if (c == static_cast<wchar_t>(IntStream::EOF)) {
-                        return IntStream::EOF;
+                    if (c == static_cast<wchar_t>(IntStream::_EOF)) {
+                        return IntStream::_EOF;
                     }
                     return c;
                 }
@@ -184,9 +180,9 @@ namespace org {
                     // index == to bufferStartIndex should set p to 0
                     int i = index - getBufferStartIndex();
                     if (i < 0) {
-                        throw IllegalArgumentException(std::wstring(L"cannot seek to negative index ") + index);
+                        throw IllegalArgumentException(std::wstring(L"cannot seek to negative index ") + std::to_wstring(index));
                     } else if (i >= n) {
-                        throw UnsupportedOperationException(std::wstring(L"seek to index outside buffer: ") + index + std::wstring(L" not in ") + getBufferStartIndex() + std::wstring(L"..") + (getBufferStartIndex() + n));
+                        throw UnsupportedOperationException(std::wstring(L"seek to index outside buffer: ") + std::to_wstring(index) + std::wstring(L" not in ") + getBufferStartIndex() + std::wstring(L"..") + (getBufferStartIndex() + n));
                     }
 
                     p = i;
@@ -198,7 +194,7 @@ namespace org {
                     }
                 }
 
-                int UnbufferedCharStream::size() {
+                int UnbufferedCharStream::size() { 
                     throw UnsupportedOperationException(L"Unbuffered stream cannot know its size");
                 }
 
