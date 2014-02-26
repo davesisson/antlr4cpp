@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "ATN.h"
-#include "Java/src/org/antlr/v4/runtime/misc/IntegerList.h"
+#include "IntegerList.h"
 #include <string>
 #include <unordered_map>
 #include <vector>

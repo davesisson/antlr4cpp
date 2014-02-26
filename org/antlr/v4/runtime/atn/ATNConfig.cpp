@@ -1,5 +1,5 @@
 ﻿#include "ATNConfig.h"
-#include "Java/src/org/antlr/v4/runtime/misc/MurmurHash.h"
+#include "MurmurHash.h"
 
 namespace org {
     namespace antlr {

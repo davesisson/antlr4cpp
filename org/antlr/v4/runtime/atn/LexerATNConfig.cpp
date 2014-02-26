@@ -95,7 +95,7 @@ namespace org {
                     }
 
                     bool LexerATNConfig::checkNonGreedyDecision(LexerATNConfig *source, ATNState *target) {
-                        return source->passedThroughNonGreedyDecision || dynamic_cast<DecisionState*>(target) != nullptr && (static_cast<DecisionState*>(target))->nonGreedy;
+                        return source->passedThroughNonGreedyDecision || (dynamic_cast<DecisionState*>(target) != nullptr && (static_cast<DecisionState*>(target))->nonGreedy);
                     }
 
                     void LexerATNConfig::InitializeInstanceFields() {

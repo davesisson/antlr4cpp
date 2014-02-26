@@ -93,7 +93,7 @@ namespace org {
                         }
                         StringBuilder *buf = new StringBuilder();
                         buf->append(L"[");
-                        for (int i = 0; i < returnStates.size(); i++) {
+                        for (std::vector<int>::size_type i = 0; i < returnStates.size(); i++) {
                             if (i > 0) {
                                 buf->append(L", ");
                             }
