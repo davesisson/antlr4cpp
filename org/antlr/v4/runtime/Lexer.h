@@ -230,7 +230,7 @@ namespace org {
                     ///  error reporting.  The generated parsers implement a method
                     ///  that overrides this to point to their String[] tokenNames.
                     /// </summary>
-                    virtual std::wstring *getTokenNames() override;
+                    virtual std::vector<std::wstring> *getTokenNames() override;
 
                     /// <summary>
                     /// Return a list of all Token objects in input char stream.

@@ -25,8 +25,8 @@ public:
     XPathLexer(org::antlr::v4::runtime::CharStream *input);
 
     virtual std::wstring getGrammarFileName() override;
-    virtual std::wstring *getTokenNames() override;
-    virtual std::wstring *getRuleNames() override;
+    virtual std::vector<std::wstring> *getTokenNames() override;
+    virtual std::vector<std::wstring> *getRuleNames() override;
     virtual std::wstring *getModeNames() override;
     virtual org::antlr::v4::runtime::atn::ATN *getATN() override;
     virtual void action(org::antlr::v4::runtime::RuleContext *_localctx, int ruleIndex, int actionIndex) override;
