@@ -6,6 +6,7 @@
 #include "Token.h"
 #include "ParserRuleContext.h"
 #include "Utils.h"
+#include "TreePostScriptGenerator.h"
 
 /*
 * [The "BSD license"]
@@ -63,7 +64,7 @@ namespace org {
                         }
                     }
 
-                    void Trees::writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName) throw(IOException) {
+                    void Trees::writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName) {
                         writePS(t, ruleNames, fileName, L"Helvetica", 11);
                     }
 

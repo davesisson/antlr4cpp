@@ -60,9 +60,8 @@ namespace org {
                         /// <summary>
                         /// Maps from rule index to starting state number.
                         /// </summary>
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: public RuleStartState[] ruleToStartState;
-                        RuleStartState *ruleToStartState;
+
+                        std::vector<RuleStartState*> ruleToStartState;
 
                         /// <summary>
                         /// Maps from rule index to stop state number.

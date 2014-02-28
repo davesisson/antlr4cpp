@@ -2,6 +2,21 @@
 #include <deque>
 #include "ATN.h"
 #include "DFA.h"
+#include "RuleStartState.h"
+#include "InterpreterRuleContext.h"
+#include "ParserATNSimulator.h"
+#include "DecisionState.h"
+#include "Transition.h"
+#include "ANTLRErrorStrategy.h"
+#include "Token.h"
+#include "AtomTransition.h"
+#include "ActionTransition.h"
+#include "Exceptions.h"
+#include "RuleTransition.h"
+#include "PrecedencePredicateTransition.h"
+#include "PredicateTransition.h"
+#include "wchar.h"
+
 
 /*
  * [The "BSD license"]
@@ -76,11 +91,11 @@ namespace org {
                     return atn;
                 }
 
-                std::wstring *ParserInterpreter::getTokenNames() {
+                std::vector<std::wstring> *ParserInterpreter::getTokenNames() {
                     return tokenNames;
                 }
 
-                std::wstring *ParserInterpreter::getRuleNames() {
+                std::vector<std::wstring> *ParserInterpreter::getRuleNames() {
                     return ruleNames;
                 }
 
@@ -89,9 +104,9 @@ namespace org {
                 }
 
                 org::antlr::v4::runtime::ParserRuleContext *ParserInterpreter::parse(int startRuleIndex) {
-                    RuleStartState *startRuleStartState = atn->ruleToStartState[startRuleIndex];
+                    atn::RuleStartState *startRuleStartState = atn->ruleToStartState[startRuleIndex];
 
-                    InterpreterRuleContext *rootContext = new InterpreterRuleContext(nullptr, org::antlr::v4::runtime->atn->ATNState::INVALID_STATE_NUMBER, startRuleIndex);
+                    InterpreterRuleContext *rootContext = new InterpreterRuleContext(nullptr, atn::ATNState::INVALID_STATE_NUMBER, startRuleIndex);
                     if (startRuleStartState->isPrecedenceRule) {
                         enterRecursionRule(rootContext, startRuleStartState->stateNumber, startRuleIndex, 0);
                     } else {
@@ -99,9 +114,9 @@ namespace org {
                     }
 
                     while (true) {
-                        ATNState *p = getATNState();
+                        atn::ATNState *p = getATNState();
                         switch (p->getStateType()) {
-                        case org::antlr::v4::runtime->atn->ATNState::RULE_STOP :
+                            case atn::ATNState::RULE_STOP :
                             // pop; return from rule
                             if (_ctx->isEmpty()) {
                                 exitRule();
@@ -119,96 +134,96 @@ namespace org {
                 }
 
                 void ParserInterpreter::enterRecursionRule(ParserRuleContext *localctx, int state, int ruleIndex, int precedence) {
-                    _parentContextStack->push(new Pair<ParserRuleContext*, int>(_ctx, localctx->invokingState));
+                    _parentContextStack->push(new misc::Pair<ParserRuleContext*, int>(_ctx, localctx->invokingState));
                     Parser::enterRecursionRule(localctx, state, ruleIndex, precedence);
                 }
 
-                org::antlr::v4::runtime::atn::ATNState *ParserInterpreter::getATNState() {
+                atn::ATNState *ParserInterpreter::getATNState() {
                     return atn->states[getState()];
                 }
 
-                void ParserInterpreter::visitState(ATNState *p) {
+                void ParserInterpreter::visitState(atn::ATNState *p) {
                     int edge;
                     if (p->getNumberOfTransitions() > 1) {
-                        edge = getInterpreter()->adaptivePredict(_input, (static_cast<DecisionState*>(p))->decision, _ctx);
+                        edge = getInterpreter()->adaptivePredict(_input, ((atn::DecisionState*)p)->decision, _ctx);
                     } else {
                         edge = 1;
                     }
 
-                    Transition *transition = p->transition(edge - 1);
+                    atn::Transition *transition = p->transition(edge - 1);
                     switch (transition->getSerializationType()) {
-                    case org::antlr::v4::runtime->atn->Transition::EPSILON:
-                        if (pushRecursionContextStates->get(p->stateNumber) && !(dynamic_cast<LoopEndState*>(transition->target) != nullptr)) {
+                        case atn::Transition::EPSILON:
+                            if (pushRecursionContextStates->get(p->stateNumber) && !(dynamic_cast<atn::LoopEndState*>(transition->target) != nullptr)) {
                             InterpreterRuleContext *ctx = new InterpreterRuleContext(_parentContextStack->peek()->a, _parentContextStack->peek()->b, _ctx->getRuleIndex());
                             pushNewRecursionContext(ctx, atn->ruleToStartState[p->ruleIndex]->stateNumber, _ctx->getRuleIndex());
                         }
                         break;
 
-                    case org::antlr::v4::runtime->atn->Transition::ATOM:
-                        match((static_cast<AtomTransition*>(transition))->label_Renamed);
+                        case atn::Transition::ATOM:
+                            match(((atn::AtomTransition*)(transition))->label());
                         break;
 
-                    case org::antlr::v4::runtime->atn->Transition::RANGE:
-                    case org::antlr::v4::runtime->atn->Transition::SET:
-                    case org::antlr::v4::runtime->atn->Transition::NOT_SET:
-                        if (!transition->matches(_input->LA(1), Token::MIN_USER_TOKEN_TYPE, 65535)) {
-                            _errHandler->recoverInline(this);
-                        }
-                        matchWildcard();
+                        case atn::Transition::RANGE:
+                        case atn::Transition::SET:
+                        case atn::Transition::NOT_SET:
+                            if (!transition->matches(_input->LA(1), Token::MIN_USER_TOKEN_TYPE, 65535)) {
+                                _errHandler->recoverInline(this);
+                            }
+                            matchWildcard();
                         break;
 
-                    case org::antlr::v4::runtime->atn->Transition::WILDCARD:
-                        matchWildcard();
+                        case atn::Transition::WILDCARD:
+                            matchWildcard();
                         break;
 
-                    case org::antlr::v4::runtime->atn->Transition::RULE:
-                        RuleStartState *ruleStartState = static_cast<RuleStartState*>(transition->target);
-                        int ruleIndex = ruleStartState->ruleIndex;
-                        InterpreterRuleContext *ctx = new InterpreterRuleContext(_ctx, p->stateNumber, ruleIndex);
-                        if (ruleStartState->isPrecedenceRule) {
-                            enterRecursionRule(ctx, ruleStartState->stateNumber, ruleIndex, (static_cast<RuleTransition*>(transition))->precedence);
-                        } else {
-                            enterRule(ctx, transition->target->stateNumber, ruleIndex);
-                        }
+                        case atn::Transition::RULE:
+                            atn::RuleStartState *ruleStartState = (atn::RuleStartState*)(transition->target);
+                            int ruleIndex = ruleStartState->ruleIndex;
+                            InterpreterRuleContext *ctx = new InterpreterRuleContext(_ctx, p->stateNumber, ruleIndex);
+                            if (ruleStartState->isPrecedenceRule) {
+                                enterRecursionRule(ctx, ruleStartState->stateNumber, ruleIndex, ((atn::RuleTransition*)(transition))->precedence);
+                            } else {
+                                enterRule(ctx, transition->target->stateNumber, ruleIndex);
+                            }
                         break;
-
-                    case org::antlr::v4::runtime->atn->Transition::PREDICATE:
-                        PredicateTransition *predicateTransition = static_cast<PredicateTransition*>(transition);
-                        if (!sempred(_ctx, predicateTransition->ruleIndex, predicateTransition->predIndex)) {
-                            throw FailedPredicateException(this);
-                        }
-
-                        break;
-
-                    case org::antlr::v4::runtime->atn->Transition::ACTION:
-                        ActionTransition *actionTransition = static_cast<ActionTransition*>(transition);
-                        action(_ctx, actionTransition->ruleIndex, actionTransition->actionIndex);
-                        break;
-
-                    case org::antlr::v4::runtime->atn->Transition::PRECEDENCE:
-                        if (!precpred(_ctx, (static_cast<PrecedencePredicateTransition*>(transition))->precedence)) {
-                            throw FailedPredicateException(this, std::wstring::format(L"precpred(_ctx, %d)", (static_cast<PrecedencePredicateTransition*>(transition))->precedence));
-                        }
-                        break;
-
-                    default:
-                        throw UnsupportedOperationException(L"Unrecognized ATN transition type.");
+                            
+                        case atn::Transition::PREDICATE:
+                            atn::PredicateTransition *predicateTransition = (atn::PredicateTransition*)(transition);
+                            if (!sempred(_ctx, predicateTransition->ruleIndex, predicateTransition->predIndex)) {
+                                throw FailedPredicateException(this);
+                            }
+                            
+                            break;
+                            
+                        case atn::Transition::ACTION:
+                            atn::ActionTransition *actionTransition = (atn::ActionTransition*)(transition);
+                            action(_ctx, actionTransition->ruleIndex, actionTransition->actionIndex);
+                            break;
+                            
+                        case atn::Transition::PRECEDENCE:
+                            if (!precpred(_ctx, ((atn::PrecedencePredicateTransition*)(transition))->precedence)) {
+                                throw new FailedPredicateException(this, L"precpred(_ctx, " + std::to_wstring(((atn::PrecedencePredicateTransition*)(transition))->precedence) +  L")");
+                            }
+                            break;
+                            
+                        default:
+                            throw UnsupportedOperationException(L"Unrecognized ATN transition type.");
                     }
-
+                    
                     setState(transition->target->stateNumber);
                 }
 
-                void ParserInterpreter::visitRuleStopState(ATNState *p) {
-                    RuleStartState *ruleStartState = atn->ruleToStartState[p->ruleIndex];
+                void ParserInterpreter::visitRuleStopState(atn::ATNState *p) {
+                    atn::RuleStartState *ruleStartState = atn->ruleToStartState[p->ruleIndex];
                     if (ruleStartState->isPrecedenceRule) {
-                        Pair<ParserRuleContext*, int> *parentContext = _parentContextStack->pop();
+                        misc::Pair<ParserRuleContext*, int> *parentContext = _parentContextStack->pop();
                         unrollRecursionContexts(parentContext->a);
                         setState(parentContext->b);
                     } else {
                         exitRule();
                     }
 
-                    RuleTransition *ruleTransition = static_cast<RuleTransition*>(atn->states[getState()]->transition(0));
+                    atn::RuleTransition *ruleTransition = static_cast<atn::RuleTransition*>(atn->states[getState()]->transition(0));
                     setState(ruleTransition->followState->stateNumber);
                 }
             }

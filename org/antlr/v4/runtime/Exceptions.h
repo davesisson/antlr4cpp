@@ -58,7 +58,13 @@ namespace org {
                     IOException();
                 };
 
-
+                class FailedPredicateException :public std::exception {
+                public:
+                    FailedPredicateException(const std::wstring msg);
+                    FailedPredicateException(Parser*);
+                    FailedPredicateException(Parser*, const std::wstring msg);
+                    FailedPredicateException();
+                };
    
                 // Recognition exceptions
                 

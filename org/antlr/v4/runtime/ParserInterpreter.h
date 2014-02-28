@@ -67,12 +67,9 @@ namespace org {
                     const dfa::DFA *decisionToDFA; // not shared like it is for generated parsers
                     atn::PredictionContextCache *const sharedContextCache;
 
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected final String[] tokenNames;
-                    const std::wstring *tokenNames;
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected final String[] ruleNames;
-                    const std::wstring *ruleNames;
+
+                    std::vector<std::wstring> *tokenNames;
+                    std::vector<std::wstring> *ruleNames;
 
                     std::deque<misc::Pair<ParserRuleContext*, int>*> *const _parentContextStack;
 
@@ -81,9 +78,9 @@ namespace org {
 
                     virtual atn::ATN *getATN() override;
 
-                    virtual std::wstring *getTokenNames() override;
+                    virtual std::vector<std::wstring> *getTokenNames() override;
 
-                    virtual std::wstring *getRuleNames() override;
+                    virtual std::vector<std::wstring> *getRuleNames() override;
 
                     virtual std::wstring getGrammarFileName() override;
 
