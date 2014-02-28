@@ -61,7 +61,7 @@ namespace org {
 
                         SemanticContext::PrecedencePredicate *getPredicate();
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                     };
 
