@@ -58,7 +58,6 @@ namespace org {
                     if (_input != nullptr) {
                         _input->seek(0); // rewind the input
                     }
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                     delete _token;
                     _type = Token::INVALID_TYPE;
                     _channel = Token::DEFAULT_CHANNEL;
@@ -90,7 +89,6 @@ namespace org {
                                 return _token;
                             }
 
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                             delete _token;
                             _channel = Token::DEFAULT_CHANNEL;
                             _tokenStartCharIndex = _input->index();
@@ -178,7 +176,6 @@ namespace org {
                 }
 
                 void Lexer::setInputStream(IntStream *input) {
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                     delete this->_input;
                     this->_tokenFactorySourcePair = new misc::Pair<TokenSource*, CharStream*>(this, _input);
                     reset();
@@ -277,7 +274,7 @@ namespace org {
                     return nullptr;
                 }
 
-                std::wstring *Lexer::getTokenNames() {
+                std::vector<std::wstring> *Lexer::getTokenNames() {
                     return nullptr;
                 }
 

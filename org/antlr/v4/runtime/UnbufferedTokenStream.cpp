@@ -115,7 +115,7 @@ namespace org {
 				template<typename T>
                 void UnbufferedTokenStream<T>::consume()  {
 					if (LA(1) == Token::_EOF) {
-						throw IllegalStateException(L"cannot consume EOF");
+						throw new IllegalStateException(L"cannot consume EOF");
 					}
                     
 					// buf always has at least tokens[p==0] in this method due to ctor
@@ -252,7 +252,7 @@ namespace org {
                 
 				template<typename T>
                 int UnbufferedTokenStream<T>::size()  {
-					throw UnsupportedOperationException(L"Unbuffered stream cannot know its size");
+					throw new UnsupportedOperationException(L"Unbuffered stream cannot know its size");
 				}
                 
 				template<typename T>
@@ -280,7 +280,6 @@ namespace org {
 						buf->append(t->getText());
 					}
                     
-					//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
 					return buf->toString();
 				}
                 
