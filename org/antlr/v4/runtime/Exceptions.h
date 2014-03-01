@@ -65,7 +65,8 @@ namespace org {
                     FailedPredicateException(Parser*, const std::wstring msg);
                     FailedPredicateException();
                 };
-   
+                
+
                 // Recognition exceptions
                 
                 class ParseCancellationException : public RecognitionException {

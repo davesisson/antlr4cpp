@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Dan McLaughlin. All rights reserved.
 //
 
-#ifndef __antlrcpp__Arrays__
-#define __antlrcpp__Arrays__
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -123,5 +122,10 @@ class Arrays {
         std::list<std::wstring> foo;
         return foo;
     }
+    
+    static void arraycopy(void * arrayA, void * arrayB, int num)
+    {
+
+    }
 };
-#endif /* defined(__antlrcpp__Arrays__) */
+

@@ -3,6 +3,7 @@
 #include "TokenStream.h"
 #include "Declarations.h"
 #include <string>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -50,9 +51,8 @@ namespace org {
                     /// we keep adding to buffer. Otherwise, <seealso cref="#consume consume()"/> resets so
                     /// we start filling at index 0 again.
                     /// </summary>
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected Token[] tokens;
-                    Token *tokens;
+
+                    std::vector<Token *>tokens;
 
                     /// <summary>
                     /// The number of tokens currently in <seealso cref="#tokens tokens"/>.
@@ -99,7 +99,6 @@ namespace org {
                     int currentTokenIndex;
 
                 public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     UnbufferedTokenStream(TokenSource *tokenSource);
 
                     UnbufferedTokenStream(TokenSource *tokenSource, int bufferSize);

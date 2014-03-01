@@ -1,8 +1,7 @@
 ﻿#pragma once
 
-#include "CharStream.h"
-#include "TokenFactory.h"
 #include "Declarations.h"
+#include <string>
 
 /*
  * [The "BSD license"]
