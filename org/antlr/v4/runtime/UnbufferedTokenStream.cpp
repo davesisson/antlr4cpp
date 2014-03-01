@@ -268,7 +268,7 @@ namespace org {
 					int start = interval->a;
 					int stop = interval->b;
 					if (start < bufferStartIndex || stop > bufferStopIndex) {
-						throw new UnsupportedOperationException(std::wstring(L"interval ") + std::to_wstring(interval) + std::wstring(L" not in token buffer window: ") + std::to_wstring(bufferStartIndex) + std::wstring(L"..") + std::to_wstring(bufferStopIndex));
+						throw new UnsupportedOperationException(std::wstring(L"interval ") + interval->toString() + std::wstring(L" not in token buffer window: ") + std::to_wstring(bufferStartIndex) + std::wstring(L"..") + std::to_wstring(bufferStopIndex));
 					}
                     
 					int a = start - bufferStartIndex;
