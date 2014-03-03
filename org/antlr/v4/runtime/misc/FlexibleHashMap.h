@@ -3,11 +3,15 @@
 #include "AbstractEqualityComparator.h"
 #include "ObjectEqualityComparator.h"
 #include "MurmurHash.h"
+#include "Exceptions.h"
 #include <string>
 #include <vector>
 #include <list>
 #include <iostream>
 #include "vectorhelper.h"
+#include <map>
+#include "StringBuilder.h"
+
 
 /*
  * [The "BSD license"]
@@ -51,20 +55,19 @@ namespace org {
                     ///  varying hashCode/equals.
                     /// </summary>
                     template<typename K, typename V>
-                    class FlexibleHashMap : public Map<K, V> {
+                    class FlexibleHashMap : public std::map<K, V> {
                     public:
-                        template<typename K, typename V>
+                        template<typename Key, typename Value>
                         class Entry {
                         public:
-                            const K key;
-                            V value;
+                            const Key key;
+                            Value value;
 
-                            Entry(K key, V value) : key(key) {
+                            Entry(Key key, Value value) : key(key) {
                                 this->value = value;
                             }
 
-                            virtual std::wstring toString() override {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                            virtual std::wstring toString() {
                                 return key->toString() + std::wstring(L":") + value->toString();
                             }
                         };
@@ -72,13 +75,10 @@ namespace org {
                     public:
                         static const int INITAL_CAPACITY = 16; // must be power of 2
                         static const int INITAL_BUCKET_CAPACITY = 8;
-//JAVA TO C++ CONVERTER TODO TASK: Native C++ only allows initialization of static const integral fields in their declarations:
-                        static const double LOAD_FACTOR = 0.75;
+                        static const double LOAD_FACTOR;
 
                     protected:
-//JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
-//ORIGINAL LINE: @NotNull protected final AbstractEqualityComparator<? super K> comparator;
-                        AbstractEqualityComparator<? __super K> *const comparator;
+                        AbstractEqualityComparator<K> *const comparator;
 
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: protected java.util.LinkedList<Entry<K, V>>[] buckets;
@@ -92,22 +92,22 @@ namespace org {
 
                         int currentPrime; // jump by 4 primes each expand or whatever
                         int initialBucketCapacity;
-
+                    private:
+                        void InitializeInstanceFields() {
+                            n = 0;
+                            threshold = static_cast<int>(INITAL_CAPACITY * LOAD_FACTOR);
+                            currentPrime = 1;
+                            initialBucketCapacity = INITAL_BUCKET_CAPACITY;
+                        }
                     public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                        FlexibleHashMap() { //this(nullptr, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
+                        FlexibleHashMap() {
                         }
 
                         template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public FlexibleHashMap(@Nullable AbstractEqualityComparator<? super K> comparator)
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         FlexibleHashMap(AbstractEqualityComparator<T1> *comparator) { //this(comparator, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
                         }
 
                         template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public FlexibleHashMap(@Nullable AbstractEqualityComparator<? super K> comparator, int initialCapacity, int initialBucketCapacity)
                         FlexibleHashMap(AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity) : comparator(ObjectEqualityComparator::INSTANCE) {
                             InitializeInstanceFields();
                             if (comparator == nullptr) {
@@ -119,11 +119,10 @@ namespace org {
                         }
 
                     private:
-                        template<typename K, typename V>
+                        //template<typename K, typename V>
                         static std::list<Entry<K, V>*> *createEntryListArray(int length) {
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: @SuppressWarnings("unchecked") java.util.LinkedList<Entry<K, V>>[] result = (java.util.LinkedList<Entry<K, V>>[])new java.util.LinkedList<?>[length];
-                            std::list<Entry<K, V>*> *result = static_cast<std::list<Entry<K, V>*>[]>(new std::list<?>[length]);
+                            std::list<Entry<K, V>*> *result = static_cast<std::list<Entry<K, V>*>[]>(new std::list<V>[length]);
                             return result;
                         }
 
@@ -135,7 +134,7 @@ namespace org {
                         }
 
                     public:
-                        virtual V get(void *key) override {
+                        virtual V get(void *key)  {
                             K typedKey = static_cast<K>(key);
                             if (key == nullptr) {
                                 return nullptr;
@@ -153,7 +152,7 @@ namespace org {
                             return nullptr;
                         }
 
-                        virtual V put(K key, V value) override {
+                        virtual V put(K key, V value)  {
                             if (key == nullptr) {
                                 return nullptr;
                             }
@@ -179,21 +178,20 @@ namespace org {
                             return nullptr;
                         }
 
-                        virtual V remove(void *key) override {
-                            throw UnsupportedOperationException();
+                        virtual V remove(void *key)  {
+                            throw new UnsupportedOperationException();
                         }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                        template<typename T1, typename T1> where T1 : K where T1 : V
-                        virtual void putAll(Map<T1> *m) override {
-                            throw UnsupportedOperationException();
+                        template<typename T1, typename T2>
+                        void putAll(std::map<T1, T2> *m)  {
+                            throw new UnsupportedOperationException();
                         }
 
-                        virtual Set<K> *keySet() override {
-                            throw UnsupportedOperationException();
+                        virtual std::vector<K> *keySet()  {
+                            throw new UnsupportedOperationException();
                         }
 
-                        virtual Collection<V> *values() override {
+                        virtual std::vector<V> *values()  {
                             std::vector<V> a = VectorHelper::VectorWithReservedSize<V>(size());
                             for (auto bucket : buckets) {
                                 if (bucket == nullptr) {
@@ -205,20 +203,21 @@ namespace org {
                             }
                             return a;
                         }
-
-                        virtual Set<Map::Entry<K, V>*> *entrySet() override {
-                            throw UnsupportedOperationException();
+#ifdef TODO
+                        virtual std::vector<std::map::Entry<K, V>*> *entrySet()  {
+                            throw new UnsupportedOperationException();
                         }
+#endif
 
-                        virtual bool containsKey(void *key) override {
+                        virtual bool containsKey(void *key)  {
                             return get(key) != nullptr;
                         }
 
-                        virtual bool containsValue(void *value) override {
-                            throw UnsupportedOperationException();
+                        virtual bool containsValue(void *value)  {
+                            throw new UnsupportedOperationException();
                         }
 
-                        virtual int hashCode() override {
+                        virtual int hashCode()  {
                             int hash = MurmurHash::initialize();
                             for (auto bucket : buckets) {
                                 if (bucket == nullptr) {
@@ -236,7 +235,7 @@ namespace org {
                             return hash;
                         }
 
-                        virtual bool equals(void *o) override {
+                        virtual bool equals(void *o)  {
                             throw UnsupportedOperationException();
                         }
 
@@ -270,20 +269,20 @@ namespace org {
                         }
 
                     public:
-                        virtual int size() override {
+                        virtual int size()  {
                             return n;
                         }
 
-                        virtual bool isEmpty() override {
+                        virtual bool isEmpty()  {
                             return n == 0;
                         }
 
-                        virtual void clear() override {
+                        virtual void clear()  {
                             buckets = createEntryListArray(INITAL_CAPACITY);
                             n = 0;
                         }
 
-                        virtual std::wstring toString() override {
+                        virtual std::wstring toString()  {
                             if (size() == 0) {
                                 return L"{}";
                             }
@@ -304,12 +303,11 @@ namespace org {
                                     } else {
                                         buf->append(L", ");
                                     }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+
                                     buf->append(e.toString());
                                 }
                             }
                             buf->append(L'}');
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             return buf->toString();
                         }
 
@@ -331,13 +329,11 @@ namespace org {
                                     if (e == nullptr) {
                                         buf->append(L"_");
                                     } else {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                                         buf->append(e.toString());
                                     }
                                 }
                                 buf->append(L"]\n");
                             }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             return buf->toString();
                         }
 
@@ -353,16 +349,10 @@ namespace org {
                             map->put(L"mom", 8);
                             map->put(L"hi", 9);
                             std::cout << map << std::endl;
-                            std::cout << map->toTableString() << std::endl;
+                            //std::cout << map->toTableString();
+                            std::cout << std::endl;
                         }
 
-                    private:
-                        void InitializeInstanceFields() {
-                            n = 0;
-                            threshold = static_cast<int>(INITAL_CAPACITY * LOAD_FACTOR);
-                            currentPrime = 1;
-                            initialBucketCapacity = INITAL_BUCKET_CAPACITY;
-                        }
                     };
 
                 }

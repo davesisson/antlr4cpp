@@ -3,7 +3,6 @@
 #include "ATNSimulator.h"
 #include <string>
 #include <iostream>
-
 #include "Declarations.h"
 
 /*
@@ -109,9 +108,6 @@ namespace org {
                         int charPositionInLine;
 
                     public:
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: @NotNull public final org.antlr.v4.runtime.dfa.DFA[] decisionToDFA;
-                        //const dfa::DFA *decisionToDFA;
                         const std::vector<dfa::DFA*> decisionToDFA;
                     protected:
                         int mode;
@@ -123,7 +119,6 @@ namespace org {
                     public:
                         static int match_calls;
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         LexerATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache); //this(nullptr, atn, decisionToDFA,sharedContextCache);
 
                         LexerATNSimulator(Lexer *recog, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache);

@@ -1,30 +1,57 @@
 ﻿#include "LexerInterpreter.h"
-#include "Java/src/org/antlr/v4/runtime/atn/ATNType.h"
-#include "Java/src/org/antlr/v4/runtime/atn/LexerATNSimulator.h"
+#include "ATNType.h"
+#include "LexerATNSimulator.h"
+#include "ATN.h"
+#include "DFA.h"
+#include "Exceptions.h"
+#include "PredictionContextCache.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::CharStream;
-                using org::antlr::v4::runtime::Lexer;
-                using org::antlr::v4::runtime::atn::ATN;
-                using org::antlr::v4::runtime::atn::ATNType;
-                using org::antlr::v4::runtime::atn::LexerATNSimulator;
-                using org::antlr::v4::runtime::atn::PredictionContextCache;
-                using org::antlr::v4::runtime::dfa::DFA;
 
-                LexerInterpreter::LexerInterpreter(const std::wstring &grammarFileName, Collection<std::wstring> *tokenNames, Collection<std::wstring> *ruleNames, Collection<std::wstring> *modeNames, ATN *atn, CharStream *input) : org::antlr::v4::runtime::Lexer(input), grammarFileName(grammarFileName), atn(atn), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), modeNames(modeNames->toArray(new std::wstring[modeNames->size()])), _decisionToDFA(new DFA[atn->getNumberOfDecisions()]), _sharedContextCache(new org::antlr::v4::runtime->atn->PredictionContextCache()) {
+                LexerInterpreter::LexerInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, std::vector<std::wstring> *modeNames, atn::ATN *atn, CharStream *input) : Lexer(_input), grammarFileName(grammarFileName), atn(atn), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), modeNames(modeNames->toArray(new std::wstring[modeNames->size()])), _decisionToDFA(new dfa::DFA[atn->getNumberOfDecisions()]), _sharedContextCache(new atn::PredictionContextCache()) {
 
-                    if (atn->grammarType != org::antlr::v4::runtime->atn->ATNType->LEXER) {
-                        throw IllegalArgumentException(L"The ATN must be a lexer ATN.");
+                    if (atn->grammarType != atn::ATNType::LEXER) {
+                        throw new IllegalArgumentException(L"The ATN must be a lexer ATN.");
                     }
 
 
-                    for (int i = 0; i < _decisionToDFA->length; i++) {
-                        _decisionToDFA[i] = new DFA(atn->getDecisionState(i), i);
+                    for (int i = 0; i < _decisionToDFA.size(); i++) {
+                        _decisionToDFA[i] = new dfa::DFA(atn->getDecisionState(i), i);
                     }
-                    this->_interp = new org::antlr::v4::runtime->atn->LexerATNSimulator(atn,_decisionToDFA,_sharedContextCache);
+                    this->_interp = new atn::LexerATNSimulator(atn,_decisionToDFA,_sharedContextCache);
                 }
 
                 org::antlr::v4::runtime::atn::ATN *LexerInterpreter::getATN() {
@@ -35,11 +62,11 @@ namespace org {
                     return grammarFileName;
                 }
 
-                std::wstring *LexerInterpreter::getTokenNames() {
+                std::vector<std::wstring> *LexerInterpreter::getTokenNames() {
                     return tokenNames;
                 }
 
-                std::wstring *LexerInterpreter::getRuleNames() {
+                std::vector<std::wstring> *LexerInterpreter::getRuleNames() {
                     return ruleNames;
                 }
 

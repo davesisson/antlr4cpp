@@ -53,6 +53,16 @@ public:
         return *this;
     }
     
+    StringBuilder & append(const wchar_t & str) {
+#ifdef TODO
+        scratch.append(str);
+        if (scratch.size() > ScratchSize) {
+            main.append(scratch);
+            scratch.resize(0);
+        }
+#endif
+        return *this;
+    }
     const std::wstring & str() {
         if (scratch.size() > 0) {
             main.append(scratch);
@@ -63,7 +73,7 @@ public:
     const std::wstring & toString() {
         return str();
     }
-    
+
 
     
     // Utility function to provide "format" capability

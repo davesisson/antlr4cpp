@@ -17,6 +17,7 @@
 #include "DFAState.h"
 #include "LexerATNConfig.h"
 #include <assert.h>
+#include "Exceptions.h"
 
 /*
  * [The "BSD license"]
@@ -400,7 +401,7 @@ namespace org {
                                 break;
 
                             case Transition::PRECEDENCE:
-                                throw UnsupportedOperationException(L"Precedence predicates are not supported in lexers.");
+                                throw new UnsupportedOperationException(L"Precedence predicates are not supported in lexers.");
 
                             case Transition::PREDICATE:
                                 /*  Track traversing semantic predicates. If we traverse,

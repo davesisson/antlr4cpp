@@ -1,11 +1,9 @@
 ﻿#pragma once
 
 #include "Lexer.h"
-#include "atn/ATN.h"
-#include "dfa/DFA.h"
-#include "atn/PredictionContextCache.h"
-#include "CharStream.h"
+#include "Declarations.h"
 #include <string>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -41,46 +39,32 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::CharStream;
-                using org::antlr::v4::runtime::Lexer;
-                using org::antlr::v4::runtime::atn::ATN;
-                using org::antlr::v4::runtime::atn::ATNType;
-                using org::antlr::v4::runtime::atn::LexerATNSimulator;
-                using org::antlr::v4::runtime::atn::PredictionContextCache;
-                using org::antlr::v4::runtime::dfa::DFA;
-
-
                 class LexerInterpreter : public Lexer {
                 protected:
                     const std::wstring grammarFileName;
-                    ATN *const atn;
+                    atn::ATN *const atn;
 
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected final String[] tokenNames;
-                    const std::wstring *tokenNames;
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected final String[] ruleNames;
-                    const std::wstring *ruleNames;
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected final String[] modeNames;
-                    const std::wstring *modeNames;
 
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected final org.antlr.v4.runtime.dfa.DFA[] _decisionToDFA;
-                    const DFA *_decisionToDFA;
-                    PredictionContextCache *const _sharedContextCache;
+                    std::vector<std::wstring> *tokenNames;
+
+                    std::vector<std::wstring> *ruleNames;
+
+                    std::wstring *modeNames;
+
+                    const std::vector<dfa::DFA> _decisionToDFA;
+                    
+                    atn::PredictionContextCache *const _sharedContextCache;
 
                 public:
-                    LexerInterpreter(const std::wstring &grammarFileName, Collection<std::wstring> *tokenNames, Collection<std::wstring> *ruleNames, Collection<std::wstring> *modeNames, ATN *atn, CharStream *input);
+                    LexerInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, std::vector<std::wstring> *modeNames, atn::ATN *atn, CharStream *input);
 
-                    virtual ATN *getATN() override;
+                    virtual atn::ATN *getATN() override;
 
                     virtual std::wstring getGrammarFileName() override;
 
-                    virtual std::wstring *getTokenNames() override;
+                    virtual std::vector<std::wstring> *getTokenNames() override;
 
-                    virtual std::wstring *getRuleNames() override;
+                    virtual std::vector<std::wstring> *getRuleNames() override;
 
                     virtual std::wstring *getModeNames() override;
                 };
