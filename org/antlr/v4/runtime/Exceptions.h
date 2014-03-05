@@ -84,11 +84,6 @@ namespace org {
                     InputMismatchException();
                 };
 
-                class LexerNoViableAltException : public RecognitionException {
-                public:
-                    LexerNoViableAltException(const std::wstring msg);
-                    LexerNoViableAltException();
-                };
                 class EmptyStackException : public RecognitionException {
                 public:
                     EmptyStackException(const std::wstring msg);

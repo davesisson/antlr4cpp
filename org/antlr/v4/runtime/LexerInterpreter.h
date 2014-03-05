@@ -51,7 +51,7 @@ namespace org {
 
                     std::wstring *modeNames;
 
-                    const std::vector<dfa::DFA> _decisionToDFA;
+                    std::vector<dfa::DFA*> _decisionToDFA;
                     
                     atn::PredictionContextCache *const _sharedContextCache;
 

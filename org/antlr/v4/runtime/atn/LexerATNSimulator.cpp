@@ -17,7 +17,7 @@
 #include "DFAState.h"
 #include "LexerATNConfig.h"
 #include <assert.h>
-#include "Exceptions.h"
+#include "LexerNoViableAltException.h"
 
 /*
  * [The "BSD license"]
@@ -72,10 +72,10 @@ namespace org {
                     int LexerATNSimulator::match_calls = 0;
 
 
-                    LexerATNSimulator::LexerATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : prevAccept(new SimState()), recog(nullptr) {
+                    LexerATNSimulator::LexerATNSimulator(ATN *atn, std::vector<dfa::DFA*> decisionToDFA, PredictionContextCache *sharedContextCache) : prevAccept(new SimState()), recog(nullptr) {
                     }
 
-                    LexerATNSimulator::LexerATNSimulator(Lexer *recog, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), recog(recog), decisionToDFA(decisionToDFA), prevAccept(new SimState()) {
+                    LexerATNSimulator::LexerATNSimulator(Lexer *recog, ATN *atn, std::vector<dfa::DFA*> decisionToDFA, PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), recog(recog), decisionToDFA(decisionToDFA), prevAccept(new SimState()) {
                         InitializeInstanceFields();
                     }
 
