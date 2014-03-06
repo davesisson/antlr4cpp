@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include "CharStream.h"
 
 #include <string>
 #include <fstream>
+#include "CharStream.h"
 #include "Declarations.h"
 
 /*
@@ -56,9 +56,7 @@ namespace org {
                     /// <summary>
                     /// The data being scanned </summary>
                 protected:
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected char[] data;
-                    wchar_t *data;
+                    std::wstring data;
 
                     /// <summary>
                     /// How many characters are actually in the buffer </summary>
@@ -83,21 +81,16 @@ namespace org {
                     /// This is the preferred constructor for strings as no data is copied </summary>
                     ANTLRInputStream(wchar_t data[], int numberOfActualCharsInArray);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     ANTLRInputStream(std::ifstream *r) ; //this(r, INITIAL_BUFFER_SIZE, READ_BUFFER_SIZE);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     ANTLRInputStream(std::ifstream *r, int initialSize) ; //this(r, initialSize, READ_BUFFER_SIZE);
 
                     ANTLRInputStream(std::ifstream *r, int initialSize, int readChunkSize);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     ANTLRInputStream(std::iostream *input) ; //this(new InputStreamReader(input), INITIAL_BUFFER_SIZE);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     ANTLRInputStream(std::iostream *input, int initialSize); //this(new InputStreamReader(input), initialSize);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     ANTLRInputStream(std::iostream *input, int initialSize, int readChunkSize); //this(new InputStreamReader(input), initialSize, readChunkSize);
 
                     virtual void load(std::ifstream *r, int size, int readChunkSize);

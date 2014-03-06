@@ -1,5 +1,37 @@
 ﻿#include "ANTLRInputStream.h"
+#include "Exceptions.h"
+#include "Interval.h"
+#include "assert.h"
 
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
@@ -13,7 +45,7 @@ namespace org {
 
                 ANTLRInputStream::ANTLRInputStream(const std::wstring &input) {
                     InitializeInstanceFields();
-                    this->data = input.toCharArray();
+                    this->data = input[0]; // DAN - is this correct?
                     this->n = input.length();
                 }
 
@@ -23,32 +55,21 @@ namespace org {
                     this->n = numberOfActualCharsInArray;
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                ANTLRInputStream::ANTLRInputStream(Reader *r) throw(IOException) {
+
+                ANTLRInputStream::ANTLRInputStream(std::ifstream *r) {
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                ANTLRInputStream::ANTLRInputStream(Reader *r, int initialSize) throw(IOException) {
+
+                ANTLRInputStream::ANTLRInputStream(std::ifstream *r, int initialSize)  {
                 }
 
-                ANTLRInputStream::ANTLRInputStream(Reader *r, int initialSize, int readChunkSize) throw(IOException) {
+                ANTLRInputStream::ANTLRInputStream(std::ifstream *r, int initialSize, int readChunkSize) {
                     InitializeInstanceFields();
                     load(r, initialSize, readChunkSize);
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                ANTLRInputStream::ANTLRInputStream(InputStream *input) throw(IOException) {
-                }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                ANTLRInputStream::ANTLRInputStream(InputStream *input, int initialSize) throw(IOException) {
-                }
-
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                ANTLRInputStream::ANTLRInputStream(InputStream *input, int initialSize, int readChunkSize) throw(IOException) {
-                }
-
-                void ANTLRInputStream::load(Reader *r, int size, int readChunkSize) throw(IOException) {
+                void ANTLRInputStream::load(std::ifstream *r, int size, int readChunkSize) {
                     if (r == nullptr) {
                         return;
                     }
@@ -66,11 +87,11 @@ namespace org {
                            int numRead = 0;
                            int p = 0;
                            do {
-                               if (p + readChunkSize > data->length) { // overflow?
+                               if (p + readChunkSize > data.length()) { // overflow?
                                    // System.out.println("### overflow p="+p+", data.length="+data.length);
-                                   data = Arrays::copyOf(data, data->length * 2);
+                                   data = Arrays::copyOf(data, data.length() * 2);
                                }
-                               numRead = r->read(data, p, readChunkSize);
+                               numRead = r->read(data, p);
                                // System.out.println("read "+numRead+" chars; p was "+p+" is now "+(p+numRead));
                                p += numRead;
                            } while (numRead != -1); // while not EOF
@@ -78,9 +99,11 @@ namespace org {
                            // EOF subtracted one above in p+=numRead; add one back
                            n = p + 1;
                            //System.out.println("n="+n);
-                       } finally {
-                           r->close();
                        }
+                       catch (void *){
+                          r->close();
+                       }
+    
                 }
 
                 void ANTLRInputStream::reset() {
@@ -89,7 +112,7 @@ namespace org {
 
                 void ANTLRInputStream::consume() {
                     if (p >= n) {
-                        assert(LA(1) == IntStream::EOF);
+                        assert(LA(1) == IntStream::_EOF);
                         throw IllegalStateException(L"cannot consume EOF");
                     }
 
@@ -107,13 +130,13 @@ namespace org {
                     if (i < 0) {
                         i++; // e.g., translate LA(-1) to use offset i=0; then data[p+0-1]
                         if ((p + i - 1) < 0) {
-                            return IntStream::EOF; // invalid; no char before first char
+                            return IntStream::_EOF; // invalid; no char before first char
                         }
                     }
 
                     if ((p + i - 1) >= n) {
                         //System.out.println("char LA("+i+")=EOF; p="+p);
-                        return IntStream::EOF;
+                        return IntStream::_EOF;
                     }
                     //System.out.println("char LA("+i+")="+(char)data[p+i-1]+"; p="+p);
                     //System.out.println("LA("+i+"); p="+p+" n="+n+" data.length="+data.length);

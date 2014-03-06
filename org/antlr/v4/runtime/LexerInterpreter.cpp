@@ -41,7 +41,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                LexerInterpreter::LexerInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, std::vector<std::wstring> *modeNames, atn::ATN *atn, CharStream *input) : Lexer(_input), grammarFileName(grammarFileName), atn(atn), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), modeNames(modeNames->toArray(new std::wstring[modeNames->size()])), _decisionToDFA(new dfa::DFA[atn->getNumberOfDecisions()]), _sharedContextCache(new atn::PredictionContextCache()) {
+                LexerInterpreter::LexerInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, std::vector<std::wstring> *modeNames, atn::ATN *atn, CharStream *input) : Lexer(_input), grammarFileName(grammarFileName), atn(atn), tokenNames(tokenNames/*->toArray(new std::wstring[tokenNames->size()]))*/, ruleNames(ruleNames/*->toArray(new std::wstring[ruleNames->size()])*/), modeNames(modeNames/*->toArray(new std::wstring[modeNames->size()])*/), _decisionToDFA(new std::vector<dfa::DFA*>()), _sharedContextCache(new atn::PredictionContextCache()) {
 
                     if (atn->grammarType != atn::ATNType::LEXER) {
                         throw new IllegalArgumentException(L"The ATN must be a lexer ATN.");
