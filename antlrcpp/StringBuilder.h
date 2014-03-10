@@ -74,7 +74,9 @@ public:
         return str();
     }
 
-
+    std::wstring::size_type length() {
+        return str().size();
+    }
     
     // Utility function to provide "format" capability
     /* Problems with this

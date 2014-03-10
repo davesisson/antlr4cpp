@@ -6,6 +6,8 @@
 #include "ATN.h"
 #include "ATNState.h"
 #include "RuleTransition.h"
+#include "Arrays.h"
+#include "stringconverter.h"
 #include <assert.h>
 
 /*
@@ -47,8 +49,8 @@ namespace org {
                 namespace atn {
                     EmptyPredictionContext *const PredictionContext::EMPTY = new EmptyPredictionContext();
                     int PredictionContext::globalNodeCount = 0;
-                    
-                    PredictionContext::PredictionContext(int cachedHashCode) : cachedHashCode(cachedHashCode), id(globalNodeCount++) {
+
+                    PredictionContext::PredictionContext(int cachedHashCode) : id(globalNodeCount++), cachedHashCode(cachedHashCode)  {
                     }
                     
                     org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::fromRuleContext(ATN *atn, RuleContext *outerContext) {
@@ -103,7 +105,7 @@ namespace org {
                         for (auto parent : parents) {
                             hash = MurmurHash::update(hash, parent);
                         }
-                        for (int i = 0; i < parents.size() ; i++) {
+                        for (std::vector<PredictionContext*>::size_type i = 0; i < parents.size() ; i++) {
                             PredictionContext * parent = parents[i];
                             hash = MurmurHash::update(hash, parent);
                         }
@@ -211,16 +213,17 @@ namespace org {
                             // parents differ and can't merge them. Just pack together
                             // into array; can't merge.
                             // ax + by = [ax,by]
-                            int payloads[2] = {a->returnState, b->returnState};
-                            PredictionContext parents[2] = {*a->parent, *b->parent};
+                            PredictionContext *a_;
                             if (a->returnState > b->returnState) { // sort by payload
-                                payloads[0] = b->returnState;
-                                payloads[1] = a->returnState;
-                                //parents = std::vector<PredictionContext*>();//[2]();// {*b->parent, *a->parent};
-                                parents[0] = *b->parent;
-                                parents[1] = *a->parent;
+                                int payloads[2] = {b->returnState, a->returnState};
+                                PredictionContext parents[2] = {*b->parent, *a->parent};
+                                a_ = new ArrayPredictionContext(parents, payloads);
+                            } else {
+                                int payloads[2] = {a->returnState, b->returnState};
+                                PredictionContext parents[2] = {*a->parent, *b->parent};
+                                a_ = new ArrayPredictionContext(parents, payloads);
                             }
-                            PredictionContext *a_ = new ArrayPredictionContext(parents, payloads);
+
                             if (mergeCache != nullptr) {
                                 mergeCache->put(a, b, a_);
                             }
@@ -269,9 +272,9 @@ namespace org {
                         }
                         
                         // merge sorted payloads a + b => M
-                        int i = 0; // walks a
-                        int j = 0; // walks b
-                        int k = 0; // walks target M array
+                        std::vector<int>::size_type i = 0; // walks a
+                        std::vector<int>::size_type j = 0; // walks b
+                        std::vector<int>::size_type k = 0; // walks target M array
                         
                         int mergedReturnStates[a->returnStates.size() + b->returnStates.size()];
                         PredictionContext *mergedParents[a->returnStates.size() + b->returnStates.size()];
@@ -311,13 +314,13 @@ namespace org {
                         
                         // copy over any payloads remaining in either array
                         if (i < a->returnStates.size()) {
-                            for (int p = i; p < a->returnStates.size(); p++) {
+                            for (std::vector<int>::size_type p = i; p < a->returnStates.size(); p++) {
                                 mergedParents[k] = a->parents->at(p);//[p];
                                 mergedReturnStates[k] = a->returnStates[p];
                                 k++;
                             }
                         } else {
-                            for (int p = j; p < b->returnStates.size(); p++) {
+                            for (std::vector<int>::size_type p = j; p < b->returnStates.size(); p++) {
                                 mergedParents[k] = b->parents->at(p);// [p];
                                 mergedReturnStates[k] = b->returnStates[p];
                                 k++;
@@ -333,11 +336,12 @@ namespace org {
                                 }
                                 return a_;
                             }
-                            mergedParents = Arrays::copyOf(mergedParents, k);
-                            mergedReturnStates = Arrays::copyOf(mergedReturnStates, k);
+                            // TODO: mergedParents = Arrays::copyOf(mergedParents, k);
+                            // TODO: mergedReturnStates = Arrays::copyOf(mergedReturnStates, k);
                         }
                         
-                        PredictionContext *M = new ArrayPredictionContext(mergedParents, mergedReturnStates);
+                        PredictionContext *M = nullptr;
+                        // TODO: PredictionContext *M = new ArrayPredictionContext(mergedParents, mergedReturnStates);
                         
                         // if we created same array as a or b, return that instead
                         // TODO: track whether this is possible above during merge sort for speed
@@ -365,15 +369,15 @@ namespace org {
                     void PredictionContext::combineCommonParents(PredictionContext *parents[]) {
                         std::unordered_map<PredictionContext*, PredictionContext*> uniqueParents = std::unordered_map<PredictionContext*, PredictionContext*>();
                         
-                        for (int p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
+                        for (size_t p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
                             PredictionContext *parent = parents[p];
-                            if (!uniqueParents->containsKey(parent)) { // don't replace
-                                uniqueParents->put(parent, parent);
+                            if (uniqueParents.find(parent) == uniqueParents.end()) { // don't replace
+                                uniqueParents[parent] = parent;
                             }
                         }
                         
-                        for (int p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
-                            parents[p] = uniqueParents->get(parents[p]);
+                        for (size_t p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
+                            parents[p] = uniqueParents.at(parents[p]);
                         }
                     }
                     
@@ -386,21 +390,21 @@ namespace org {
                         buf->append(L"rankdir=LR;\n");
                         
                         std::vector<PredictionContext*> nodes = getAllContextNodes(context);
-                        Collections::sort(nodes, new ComparatorAnonymousInnerClassHelper());
+                        //TODO: Collections::sort(nodes, new ComparatorAnonymousInnerClassHelper());
                         
                         for (auto current : nodes) {
                             if (dynamic_cast<SingletonPredictionContext*>(current) != nullptr) {
-                                std::wstring s = static_cast<std::wstring>(current.id);
-                                buf->append(L"  s")->append(s);
-                                std::wstring returnState = static_cast<std::wstring>(current.getReturnState(0));
+                                std::wstring s = StringConverterHelper::toString(current->id);
+                                buf->append(L"  s").append(s);
+                                std::wstring returnState = StringConverterHelper::toString(current->getReturnState(0));
                                 if (dynamic_cast<EmptyPredictionContext*>(current) != nullptr) {
                                     returnState = L"$";
                                 }
-                                buf->append(L" [label=\"")->append(returnState)->append(L"\"];\n");
+                                buf->append(L" [label=\"").append(returnState).append(L"\"];\n");
                                 continue;
                             }
                             ArrayPredictionContext *arr = static_cast<ArrayPredictionContext*>(current);
-                            buf->append(L"  s")->append(arr->id);
+                            buf->append(L"  s").append(arr->id);
                             buf->append(L" [shape=box, label=\"");
                             buf->append(L"[");
                             bool first = true;
@@ -423,17 +427,17 @@ namespace org {
                             if (current == EMPTY) {
                                 continue;
                             }
-                            for (int i = 0; i < current.size(); i++) {
-                                if (current.getParent(i) == nullptr) {
+                            for (int i = 0; i < current->size(); i++) {
+                                if (current->getParent(i) == nullptr) {
                                     continue;
                                 }
-                                std::wstring s = static_cast<std::wstring>(current.id);
-                                buf->append(L"  s")->append(s);
+                                std::wstring s = StringConverterHelper::toString(current->id);
+                                buf->append(L"  s").append(s);
                                 buf->append(L"->");
                                 buf->append(L"s");
-                                buf->append(current.getParent(i)->id);
-                                if (current.size() > 1) {
-                                    buf->append(std::wstring(L" [label=\"parent[") + i + std::wstring(L"]\"];\n"));
+                                buf->append(current->getParent(i)->id);
+                                if (current->size() > 1) {
+                                    buf->append(std::wstring(L" [label=\"parent[") + StringConverterHelper::toString(i) + std::wstring(L"]\"];\n"));
                                 } else {
                                     buf->append(L";\n");
                                 }
@@ -452,7 +456,8 @@ namespace org {
                         return o1->id - o2->id;
                     }
                     
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, IdentityHashMap<PredictionContext*, PredictionContext*> *visited) {
+                    // TODO: IdentityHashpMap
+                    /*org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, IdentityHashMap<PredictionContext*, PredictionContext*> *visited) {
                         if (context->isEmpty()) {
                             return context;
                         }
@@ -507,16 +512,18 @@ namespace org {
                         visited->put(context, updated);
                         
                         return updated;
-                    }
+                    }*/
                     
-                    std::vector<PredictionContext*> PredictionContext::getAllContextNodes(PredictionContext *context) {
+                    // TODO: Map, IdentityHashMap
+                    /*std::vector<PredictionContext*> PredictionContext::getAllContextNodes(PredictionContext *context) {
                         std::vector<PredictionContext*> nodes = std::vector<PredictionContext*>();
                         Map<PredictionContext*, PredictionContext*> *visited = new IdentityHashMap<PredictionContext*, PredictionContext*>();
                         getAllContextNodes_(context, nodes, visited);
                         return nodes;
-                    }
+                    }*/
                     
-                    void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, Map<PredictionContext*, PredictionContext*> *visited) {
+                    // TODO: Map
+                    /*void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, Map<PredictionContext*, PredictionContext*> *visited) {
                         if (context == nullptr || visited->containsKey(context)) {
                             return;
                         }
@@ -525,8 +532,14 @@ namespace org {
                         for (int i = 0; i < context->size(); i++) {
                             getAllContextNodes_(context->getParent(i), nodes, visited);
                         }
-                    }
+                    }*/
                     
+                    std::wstring PredictionContext::toString() {
+                        //TODO: what should this return?  (Return empty string
+                        // for now.)
+                        return L"";
+                    }
+
                     template<typename T1, typename T2>
                     std::wstring PredictionContext::toString(Recognizer<T1, T2> *recog) {
                         return toString();
@@ -597,21 +610,23 @@ namespace org {
                                 break;
                             }
                         outerContinue:
+                            continue;
                         }
                     outerBreak:
                         
-                        return result.toArray(new std::wstring[result.size()]);
+                        // TODO: return result.toArray(new std::wstring[result.size()]);
+                        return nullptr;
                     }
                     
-                    virtual int PredictionContext::size() {
+                    int PredictionContext::size() {
                         throw "PredictionContext::size() should not be called";
                     }
                     
-                    virtual PredictionContext *PredictionContext::getParent(int index) {
+                    PredictionContext *PredictionContext::getParent(int index) {
                         throw "PredictionContext::getParent should not be called";
                     }
                     
-                    virtual int PredictionContext::getReturnState(int index) {
+                    int PredictionContext::getReturnState(int index) {
                         throw "PredictionContext::getReturnState should not be called";
                     }
                 }

@@ -298,6 +298,8 @@ namespace org {
 
                         static void getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, std::map<PredictionContext*, PredictionContext*> *visited);
 
+                        std::wstring toString();
+
                         template<typename T1, typename T2>
                         std::wstring toString(Recognizer<T1, T2> *recog);
 

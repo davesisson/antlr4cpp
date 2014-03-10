@@ -156,7 +156,7 @@ namespace org {
 
                     
                     int SemanticContext::AND::hashCode() {
-                        return misc::MurmurHash::hashCode(opnds, 1234 /*AND::typeid::hashCode()*/);
+                        return misc::MurmurHash::hashCode(opnds.data(), 1234 /*AND::typeid::hashCode()*/);
                     }
 
                     
