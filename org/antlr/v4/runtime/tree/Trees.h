@@ -105,8 +105,6 @@ namespace org {
                         static std::vector<ParseTree*> findAllNodes(ParseTree *t, int index, bool findTokens);
 
                         template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public static void _findAllNodes(ParseTree t, int index, boolean findTokens, java.util.List<? super ParseTree> nodes)
                         static void _findAllNodes(ParseTree *t, int index, bool findTokens, std::vector<T1> nodes);
 
                         static std::vector<ParseTree*> descendants(ParseTree *t);

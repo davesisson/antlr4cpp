@@ -183,8 +183,6 @@
 		37D1C4A0186A31140041671A /* IntervalSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C36E186A31130041671A /* IntervalSet.h */; };
 		37D1C4A1186A31140041671A /* IntSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C36F186A31130041671A /* IntSet.cpp */; };
 		37D1C4A2186A31140041671A /* IntSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C370186A31130041671A /* IntSet.h */; };
-		37D1C4A3186A31140041671A /* JFileChooserConfirmOverwrite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C371186A31130041671A /* JFileChooserConfirmOverwrite.cpp */; };
-		37D1C4A4186A31140041671A /* JFileChooserConfirmOverwrite.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C372186A31130041671A /* JFileChooserConfirmOverwrite.h */; };
 		37D1C4A5186A31140041671A /* LogManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C373186A31130041671A /* LogManager.cpp */; };
 		37D1C4A6186A31140041671A /* LogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C374186A31130041671A /* LogManager.h */; };
 		37D1C4A7186A31140041671A /* MultiMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C375186A31130041671A /* MultiMap.cpp */; };
@@ -486,8 +484,6 @@
 		37D1C36E186A31130041671A /* IntervalSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntervalSet.h; sourceTree = "<group>"; };
 		37D1C36F186A31130041671A /* IntSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntSet.cpp; sourceTree = "<group>"; };
 		37D1C370186A31130041671A /* IntSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntSet.h; sourceTree = "<group>"; };
-		37D1C371186A31130041671A /* JFileChooserConfirmOverwrite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JFileChooserConfirmOverwrite.cpp; sourceTree = "<group>"; };
-		37D1C372186A31130041671A /* JFileChooserConfirmOverwrite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFileChooserConfirmOverwrite.h; sourceTree = "<group>"; };
 		37D1C373186A31130041671A /* LogManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LogManager.cpp; sourceTree = "<group>"; };
 		37D1C374186A31130041671A /* LogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
 		37D1C375186A31130041671A /* MultiMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiMap.cpp; sourceTree = "<group>"; };
@@ -859,8 +855,6 @@
 				37D1C36E186A31130041671A /* IntervalSet.h */,
 				37D1C36F186A31130041671A /* IntSet.cpp */,
 				37D1C370186A31130041671A /* IntSet.h */,
-				37D1C371186A31130041671A /* JFileChooserConfirmOverwrite.cpp */,
-				37D1C372186A31130041671A /* JFileChooserConfirmOverwrite.h */,
 				37D1C373186A31130041671A /* LogManager.cpp */,
 				37D1C374186A31130041671A /* LogManager.h */,
 				37D1C375186A31130041671A /* MultiMap.cpp */,
@@ -1119,7 +1113,6 @@
 				37D1C486186A31140041671A /* Lexer.h in Headers */,
 				37D1C49A186A31140041671A /* IntegerList.h in Headers */,
 				37D1C404186A31140041671A /* AbstractPredicateTransition.h in Headers */,
-				37D1C4A4186A31140041671A /* JFileChooserConfirmOverwrite.h in Headers */,
 				37D1C4A8186A31140041671A /* MultiMap.h in Headers */,
 				37D1C524186A31140041671A /* UnbufferedCharStream.h in Headers */,
 				37D1C4C6186A31140041671A /* ProxyErrorListener.h in Headers */,
@@ -1278,7 +1271,6 @@
 				37D1C4F1186A31140041671A /* ParseTreeVisitor.cpp in Sources */,
 				37D1C42D186A31140041671A /* LexerATNSimulator.cpp in Sources */,
 				37D1C415186A31140041671A /* ATNSimulator.cpp in Sources */,
-				37D1C4A3186A31140041671A /* JFileChooserConfirmOverwrite.cpp in Sources */,
 				37D1C433186A31140041671A /* NotSetTransition.cpp in Sources */,
 				37D1C49D186A31140041671A /* Interval.cpp in Sources */,
 				3789F5001870D1D8003E0A30 /* StringBuilder.cpp in Sources */,

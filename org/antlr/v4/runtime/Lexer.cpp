@@ -6,6 +6,7 @@
 #include "Interval.h"
 #include "StringBuilder.h"
 #include "CommonTokenFactory.h"
+#include "LexerNoViableAltException.h"
 
 /*
  * [The "BSD license"]

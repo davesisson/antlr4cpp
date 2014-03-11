@@ -6,7 +6,8 @@
 #include "Token.h"
 #include "ParserRuleContext.h"
 #include "Utils.h"
-#include "TreePostScriptGenerator.h"
+//#include "TreePostScriptGenerator.h"
+
 
 /*
 * [The "BSD license"]
@@ -43,7 +44,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-
+#ifdef TODO
                     std::wstring Trees::getPS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fontName, int fontSize) {
                         TreePostScriptGenerator *psgen = new TreePostScriptGenerator(ruleNames, t, fontName, fontSize);
                         return psgen->getPS();
@@ -63,11 +64,10 @@ namespace org {
                             bw->close();
                         }
                     }
-
                     void Trees::writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName) {
                         writePS(t, ruleNames, fileName, L"Helvetica", 11);
                     }
-
+#endif
                     std::wstring Trees::toStringTree(Tree *t) {
                         return toStringTree(t, static_cast<std::vector<std::wstring>>(nullptr));
                     }

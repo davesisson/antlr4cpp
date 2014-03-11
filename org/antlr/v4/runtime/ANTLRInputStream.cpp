@@ -2,6 +2,7 @@
 #include "Exceptions.h"
 #include "Interval.h"
 #include "assert.h"
+#include "Arrays.h"
 
 /*
  * [The "BSD license"]
@@ -46,7 +47,7 @@ namespace org {
                 ANTLRInputStream::ANTLRInputStream(const std::wstring &input) {
                     InitializeInstanceFields();
                     this->data = input[0]; // DAN - is this correct?
-                    this->n = input.length();
+                    this->n = (int)input.length();
                 }
 
                 ANTLRInputStream::ANTLRInputStream(wchar_t data[], int numberOfActualCharsInArray) {
@@ -56,20 +57,20 @@ namespace org {
                 }
 
 
-                ANTLRInputStream::ANTLRInputStream(std::ifstream *r) {
+                ANTLRInputStream::ANTLRInputStream(std::wifstream *r) {
                 }
 
 
-                ANTLRInputStream::ANTLRInputStream(std::ifstream *r, int initialSize)  {
+                ANTLRInputStream::ANTLRInputStream(std::wifstream *r, int initialSize)  {
                 }
 
-                ANTLRInputStream::ANTLRInputStream(std::ifstream *r, int initialSize, int readChunkSize) {
+                ANTLRInputStream::ANTLRInputStream(std::wifstream *r, int initialSize, int readChunkSize) {
                     InitializeInstanceFields();
                     load(r, initialSize, readChunkSize);
                 }
 
 
-                void ANTLRInputStream::load(std::ifstream *r, int size, int readChunkSize) {
+                void ANTLRInputStream::load(std::wifstream *r, int size, int readChunkSize) {
                     if (r == nullptr) {
                         return;
                     }
@@ -89,8 +90,9 @@ namespace org {
                            do {
                                if (p + readChunkSize > data.length()) { // overflow?
                                    // System.out.println("### overflow p="+p+", data.length="+data.length);
-                                   data = Arrays::copyOf(data, data.length() * 2);
+                                   data = Arrays::copyOf(data, (int)data.length() * 2);
                                }
+                               r->read(new wchar_t[100], p);
                                numRead = r->read(data, p);
                                // System.out.println("read "+numRead+" chars; p was "+p+" is now "+(p+numRead));
                                p += numRead;

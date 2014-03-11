@@ -51,7 +51,7 @@ namespace org {
                 class ANTLRInputStream : public CharStream {
                 public:
                     static const int READ_BUFFER_SIZE = 1024;
-                       static const int INITIAL_BUFFER_SIZE = 1024;
+                    static const int INITIAL_BUFFER_SIZE = 1024;
 
                     /// <summary>
                     /// The data being scanned </summary>
@@ -81,19 +81,19 @@ namespace org {
                     /// This is the preferred constructor for strings as no data is copied </summary>
                     ANTLRInputStream(wchar_t data[], int numberOfActualCharsInArray);
 
-                    ANTLRInputStream(std::ifstream *r) ; //this(r, INITIAL_BUFFER_SIZE, READ_BUFFER_SIZE);
+                    ANTLRInputStream(std::wifstream *r) ; //this(r, INITIAL_BUFFER_SIZE, READ_BUFFER_SIZE);
 
-                    ANTLRInputStream(std::ifstream *r, int initialSize) ; //this(r, initialSize, READ_BUFFER_SIZE);
+                    ANTLRInputStream(std::wifstream *r, int initialSize) ; //this(r, initialSize, READ_BUFFER_SIZE);
+                    
+                    ANTLRInputStream(std::wifstream *r, int initialSize, int readChunkSize);
 
-                    ANTLRInputStream(std::ifstream *r, int initialSize, int readChunkSize);
+                    ANTLRInputStream(std::wiostream *input) ; //this(new InputStreamReader(input), INITIAL_BUFFER_SIZE);
 
-                    ANTLRInputStream(std::iostream *input) ; //this(new InputStreamReader(input), INITIAL_BUFFER_SIZE);
+                    ANTLRInputStream(std::wiostream *input, int initialSize); //this(new InputStreamReader(input), initialSize);
 
-                    ANTLRInputStream(std::iostream *input, int initialSize); //this(new InputStreamReader(input), initialSize);
+                    ANTLRInputStream(std::wiostream *input, int initialSize, int readChunkSize); //this(new InputStreamReader(input), initialSize, readChunkSize);
 
-                    ANTLRInputStream(std::iostream *input, int initialSize, int readChunkSize); //this(new InputStreamReader(input), initialSize, readChunkSize);
-
-                    virtual void load(std::ifstream *r, int size, int readChunkSize);
+                    virtual void load(std::wifstream *r, int size, int readChunkSize);
 
                     /// <summary>
                     /// Reset the stream so that it's in the same state it was

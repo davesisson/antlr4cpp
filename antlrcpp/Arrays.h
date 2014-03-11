@@ -122,6 +122,12 @@ class Arrays {
         std::list<std::wstring> foo;
         return foo;
     }
+
+    static std::wstring copyOf(std::wstring obj, int num)
+    {
+        std::wstring foo;
+        return foo;
+    }
     
     static void arraycopy(void * arrayA, void * arrayB, int num)
     {
