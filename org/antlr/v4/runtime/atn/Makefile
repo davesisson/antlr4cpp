@@ -36,11 +36,14 @@ SRCS += \
 	OrderedATNConfigSet.cpp \
 	PlusBlockStartState.cpp \
 	PlusLoopbackState.cpp \
+	PredicateTransition.cpp \
+	PredictionContext.cpp \
 	PredictionMode.cpp \
 	RangeTransition.cpp \
 	RuleStartState.cpp \
 	RuleStopState.cpp \
 	RuleTransition.cpp \
+	SemanticContext.cpp \
 	SetTransition.cpp \
 	SingletonPredictionContext.cpp \
 	StarBlockStartState.cpp \
@@ -49,9 +52,8 @@ SRCS += \
 	TokensStartState.cpp \
 	Transition.cpp \
 	WildcardTransition.cpp
-# Alejandro's TODO: PredictionContextCache.cpp PredicateTransition.cpp \
+# Alejandro's TODO: PredictionContextCache.cpp \
 	PrecedencePredicateTransition.cpp ParserATNSimulator.cpp
-#TODO: SemanticContext.cpp: class misc::Utils not defined
 
 OBJS = $(SRCS:.cpp=.o)
 

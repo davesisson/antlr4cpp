@@ -101,6 +101,8 @@ namespace org {
                     
 
                     class SemanticContext::Predicate : public SemanticContext {
+                        friend class SemanticContext;
+
                     public:
                         const int ruleIndex;
                         const int predIndex;
@@ -115,7 +117,6 @@ namespace org {
                         template<typename T1, typename T2>
                         bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
 
-                        
                         virtual int hashCode() ;
                         
                         virtual bool equals(void *obj) ;
@@ -173,7 +174,7 @@ namespace org {
                         
                         OR(SemanticContext *a, SemanticContext *b);
                         
-                        virtual bool equals(void *obj);
+                        virtual bool equals(SemanticContext *obj);
                         
                         virtual int hashCode();
 
