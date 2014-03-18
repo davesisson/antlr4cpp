@@ -1,16 +1,9 @@
 ﻿#pragma once
 
 #include "ANTLRErrorStrategy.h"
-//#include "misc/IntervalSet.h"
-//#include "Parser.h"
-//#include "RecognitionException.h"
-//#include "NoViableAltException.h"
-//#include "InputMismatchException.h"
-//#include "FailedPredicateException.h"
-//#include "Token.h"
-
 #include <string>
 #include "Declarations.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr

@@ -93,7 +93,9 @@ namespace org {
                                    data = Arrays::copyOf(data, (int)data.length() * 2);
                                }
                                r->read(new wchar_t[100], p);
+#ifdef TODO
                                numRead = r->read(data, p);
+#endif
                                // System.out.println("read "+numRead+" chars; p was "+p+" is now "+(p+numRead));
                                p += numRead;
                            } while (numRead != -1); // while not EOF

@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/CommonToken.h"
+#include "CommonToken.h"
 #include <string>
 
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
- * Copyright (c) 2013 Sam Harwell
+ * Copyright (c) 2013 Dan McLaughlin
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,10 +40,6 @@ namespace org {
                 namespace tree {
                     namespace pattern {
 
-                        using org::antlr::v4::runtime::CommonToken;
-                        using org::antlr::v4::runtime::Token;
-                        using org::antlr::v4::runtime::misc::NotNull;
-                        using org::antlr::v4::runtime::misc::Nullable;
 
                         /// <summary>
                         /// A <seealso cref="Token"/> object representing a token of a particular type; e.g.,
@@ -68,7 +64,6 @@ namespace org {
                             /// <param name="tokenName"> The token name. </param>
                             /// <param name="type"> The token type. </param>
                         public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                             TokenTagToken(const std::wstring &tokenName, int type); //this(tokenName, type, nullptr);
 
                             /// <summary>

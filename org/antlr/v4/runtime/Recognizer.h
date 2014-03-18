@@ -44,17 +44,13 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                 template<typename Symbol, typename ATNInterpreter>
                 class Recognizer {
                 public:
                     static const int _EOF = -1;
 
                 private:
-//JAVA TO C++ CONVERTER TODO TASK: Native C++ only allows initialization of static const integral fields in their declarations:
                     static std::map<std::wstring[] , std::map<std::wstring, int>*> *const tokenTypeMapCache;
-//JAVA TO C++ CONVERTER TODO TASK: Native C++ only allows initialization of static const integral fields in their declarations:
                     static std::map<std::wstring[] , std::map<std::wstring, int>*> *const ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;

@@ -6,8 +6,7 @@
 #include "Token.h"
 #include "ParserRuleContext.h"
 #include "Utils.h"
-//#include "TreePostScriptGenerator.h"
-
+#include "Tree.h"
 
 /*
 * [The "BSD license"]
@@ -38,13 +37,13 @@
 *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
+#ifdef TODO
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-#ifdef TODO
+
                     std::wstring Trees::getPS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fontName, int fontSize) {
                         TreePostScriptGenerator *psgen = new TreePostScriptGenerator(ruleNames, t, fontName, fontSize);
                         return psgen->getPS();
@@ -67,9 +66,12 @@ namespace org {
                     void Trees::writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName) {
                         writePS(t, ruleNames, fileName, L"Helvetica", 11);
                     }
-#endif
+
+
+                    // Major failure - these aren't compiling for unknown reasons to me at the moment
+                    
                     std::wstring Trees::toStringTree(Tree *t) {
-                        return toStringTree(t, static_cast<std::vector<std::wstring>>(nullptr));
+                        return toStringTree(t, nullptr);//static_cast<std::vector<std::wstring>>(nullptr));
                     }
 
                     std::wstring Trees::toStringTree(Tree *t, Parser *recog) {
@@ -97,13 +99,10 @@ namespace org {
                             buf->append(toStringTree(t->getChild(i), ruleNames));
                         }
                         buf->append(L")");
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
-
+                    
                     std::wstring Trees::getNodeText(Tree *t, Parser *recog) {
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: String[] ruleNames = recog != nullptr ? recog.getRuleNames() : nullptr;
                         std::wstring *ruleNames = recog != nullptr ? recog->getRuleNames() : nullptr;
                         std::vector<std::wstring> ruleNamesList = ruleNames != nullptr ? Arrays::asList(ruleNames) : nullptr;
                         return getNodeText(t, ruleNamesList);
@@ -116,7 +115,6 @@ namespace org {
                                 std::wstring ruleName = ruleNames[ruleIndex];
                                 return ruleName;
                             } else if (dynamic_cast<ErrorNode*>(t) != nullptr) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                                 return t->toString();
                             } else if (dynamic_cast<TerminalNode*>(t) != nullptr) {
                                 Token *symbol = (static_cast<TerminalNode*>(t))->getSymbol();
@@ -131,7 +129,6 @@ namespace org {
                         if (dynamic_cast<Token*>(payload) != nullptr) {
                             return (static_cast<Token*>(payload))->getText();
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return t->getPayload()->toString();
                     }
 
@@ -170,9 +167,7 @@ namespace org {
                         return nodes;
                     }
 
-template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public static void _findAllNodes(ParseTree t, int index, boolean findTokens, java.util.List<? super ParseTree> nodes)
+                    template<typename T1>
                     void Trees::_findAllNodes(ParseTree *t, int index, bool findTokens, std::vector<T1> nodes) {
                         // check this node (the root) first
                         if (findTokens && dynamic_cast<TerminalNode*>(t) != nullptr) {
@@ -205,8 +200,10 @@ template<typename T1>
 
                     Trees::Trees() {
                     }
+                    
                 }
             }
         }
     }
 }
+#endif

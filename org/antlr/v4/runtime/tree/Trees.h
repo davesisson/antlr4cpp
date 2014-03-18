@@ -3,16 +3,7 @@
 #include <string>
 #include <vector>
 #include <set>
-
-class Parser;
-class ParserRuleContext;
-class Token;
-class NotNull;
-class Nullable;
-class Utils;
-class TreePostScriptGenerator;
-class Tree;
-class ParseTree;
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]

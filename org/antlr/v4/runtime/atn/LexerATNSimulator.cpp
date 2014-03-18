@@ -507,7 +507,7 @@ namespace org {
                         }
 
                         if (debug) {
-                            std::cout << std::wstring(L"EDGE ") << p << std::wstring(L" -> ") << q << std::wstring(L" upon ") << (static_cast<wchar_t>(t)) << std::endl;
+                            std::wcout << std::wstring(L"EDGE ") << p << std::wstring(L" -> ") << q << std::wstring(L" upon ") << (static_cast<wchar_t>(t)) << std::endl;
                         }
 #ifdef TODO
 //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
