@@ -103,7 +103,7 @@ namespace org {
                     return grammarFileName;
                 }
 
-                org::antlr::v4::runtime::ParserRuleContext *ParserInterpreter::parse(int startRuleIndex) {
+                ParserRuleContext *ParserInterpreter::parse(int startRuleIndex) {
                     atn::RuleStartState *startRuleStartState = atn->ruleToStartState[startRuleIndex];
 
                     InterpreterRuleContext *rootContext = new InterpreterRuleContext(nullptr, atn::ATNState::INVALID_STATE_NUMBER, startRuleIndex);
@@ -134,7 +134,7 @@ namespace org {
                 }
 
                 void ParserInterpreter::enterRecursionRule(ParserRuleContext *localctx, int state, int ruleIndex, int precedence) {
-                    _parentContextStack->push(new misc::Pair<ParserRuleContext*, int>(_ctx, localctx->invokingState));
+                    _parentContextStack->push_back(new misc::Pair<ParserRuleContext*, int>(_ctx, localctx->invokingState));
                     Parser::enterRecursionRule(localctx, state, ruleIndex, precedence);
                 }
 
@@ -216,7 +216,8 @@ namespace org {
                 void ParserInterpreter::visitRuleStopState(atn::ATNState *p) {
                     atn::RuleStartState *ruleStartState = atn->ruleToStartState[p->ruleIndex];
                     if (ruleStartState->isPrecedenceRule) {
-                        misc::Pair<ParserRuleContext*, int> *parentContext = _parentContextStack->pop();
+                        misc::Pair<ParserRuleContext*, int> *parentContext = _parentContextStack->back(); // Dan - make sure this is equivalent
+                        _parentContextStack->pop_back();
                         unrollRecursionContexts(parentContext->a);
                         setState(parentContext->b);
                     } else {
