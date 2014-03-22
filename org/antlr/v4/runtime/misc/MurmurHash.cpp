@@ -1,4 +1,5 @@
 ﻿#include "MurmurHash.h"
+#include <functional>
 
 /*
  * [The "BSD license"]
@@ -64,8 +65,11 @@ namespace org {
                         return hash;
                     }
 
+                    template<typename T>
                     int MurmurHash::update(int hash, void *value) {
-                        return update(hash, value != nullptr ? value->hashCode() : 0);
+                        std::hash<T> hashFunction;
+                        
+                        return update(hash, value != nullptr ? hashFunction(value) : 0);
                     }
 
                     int MurmurHash::finish(int hash, int numberOfWords) {

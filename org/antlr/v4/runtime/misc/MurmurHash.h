@@ -73,6 +73,7 @@ namespace org {
                         /// <param name="hash"> the intermediate hash value </param>
                         /// <param name="value"> the value to add to the current hash </param>
                         /// <returns> the updated intermediate hash value </returns>
+                        template<typename T>
                         static int update(int hash, void *value);
 
                         /// <summary>

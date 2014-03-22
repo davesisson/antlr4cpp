@@ -85,7 +85,8 @@ namespace org {
                     
                     //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
                     //synchronized(ruleIndexMapCache) {
-                        std::map<std::wstring, int> *result = ruleIndexMapCache->get(ruleNames);
+                        std::map<std::wstring, int> *result = ruleIndexMapCache->at(*ruleNames);
+                    
                         if (result == nullptr) {
                             result = Collections::unmodifiableMap(Utils::toMap(ruleNames));
                             ruleIndexMapCache->put(ruleNames, result);
