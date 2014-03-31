@@ -1,4 +1,5 @@
 ﻿#include "PredicateTransition.h"
+#include "stringconverter.h"
 
 namespace org {
     namespace antlr {
@@ -23,11 +24,12 @@ namespace org {
                     }
 
                     org::antlr::v4::runtime::atn::SemanticContext::Predicate *PredicateTransition::getPredicate() {
-                           return new SemanticContext::Predicate(ruleIndex, predIndex, isCtxDependent);
+                        // TODO: who is responsible for managing this memory?
+                        return new SemanticContext::Predicate(ruleIndex, predIndex, isCtxDependent);
                     }
 
                     std::wstring PredicateTransition::toString() {
-                        return std::wstring(L"pred_") + ruleIndex + std::wstring(L":") + predIndex;
+                        return std::wstring(L"pred_") + StringConverterHelper::toString(ruleIndex) + std::wstring(L":") + StringConverterHelper::toString(predIndex);
                     }
                 }
             }

@@ -1,4 +1,6 @@
-﻿#include "SemanticContext.h"
+﻿#include <typeinfo>
+
+#include "SemanticContext.h"
 #include "MurmurHash.h"
 #include "Utils.h"
 #include "Arrays.h"
@@ -66,6 +68,7 @@ namespace org {
                     }
 
                     bool SemanticContext::Predicate::equals(void *obj) {
+                        // TODO: this is wrong
                         if (!((Predicate*)obj/*dynamic_cast<Predicate*>(obj)*/ != nullptr)) {
                             return false;
                         }
@@ -102,6 +105,7 @@ namespace org {
                     }
 
                     bool SemanticContext::PrecedencePredicate::equals(void *obj) {
+                        // TODO: this is wrong
                         if (!((Predicate*)obj/*dynamic_cast<PrecedencePredicate*>(obj)*/ != nullptr)) {
                             return false;
                         }
@@ -147,6 +151,7 @@ namespace org {
                         if (this == obj) {
                             return true;
                         }
+                        // TODO: this is wrong
                         if (!((AND*)obj/*dynamic_cast<AND*>(obj)*/ != nullptr)) {
                             return false;
                         }
@@ -156,7 +161,7 @@ namespace org {
 
                     
                     int SemanticContext::AND::hashCode() {
-                        return misc::MurmurHash::hashCode(opnds.data(), 1234 /*AND::typeid::hashCode()*/);
+                        return misc::MurmurHash::hashCode(opnds.data(), 1234 /*TODO: AND::typeid::hashCode()*/);
                     }
 
                     
@@ -171,63 +176,80 @@ namespace org {
                     }
 
                     std::wstring SemanticContext::AND::toString() {
-                        return Utils::join(Arrays::asList(opnds)->begin(), L"&&");
+                        // TODO: Utils class has not been declared
+                        // return Utils::join(Arrays::asList(opnds)->begin(), L"&&");
+
+                        return L"";
                     }
 
-                    SemanticContext::OR::OR(SemanticContext *a, SemanticContext *b) : opnds(operands::toArray(new SemanticContext[operands->size()])) {
-                        std::vector<SemanticContext*> *operands = new std::vector<SemanticContext*>();
-                        if ((OR*)/*dynamic_cast<OR*>*/(a) != nullptr) {
-                            operands->addAll(Arrays::asList( ((OR*)/*static_cast<OR*>*/(a))->opnds) );
-                        } else {
-                            operands->add(a);
-                        }
-                        if (dynamic_cast<OR*>(b) != nullptr) {
-                            operands->addAll(Arrays::asList((static_cast<OR*>(b))->opnds));
-                        } else {
-                            operands->add(b);
-                        }
+                    // TODO: operands is not defined.  In SemanticContext.java
+                    // it's declared as Set<SemanticContext> and initialized to
+                    // an instance of HashSet.
+//                    SemanticContext::OR::OR(SemanticContext *a, SemanticContext *b) : opnds(operands::toArray(new SemanticContext[operands->size()])) {
+//                        std::vector<SemanticContext*> *operands = new std::vector<SemanticContext*>();
+//                        if ((OR*)/*dynamic_cast<OR*>*/(a) != nullptr) {
+//                            operands->addAll(Arrays::asList( ((OR*)/*static_cast<OR*>*/(a))->opnds) );
+//                        } else {
+//                            operands->add(a);
+//                        }
+//                        if (dynamic_cast<OR*>(b) != nullptr) {
+//                            operands->addAll(Arrays::asList((static_cast<OR*>(b))->opnds));
+//                        } else {
+//                            operands->add(b);
+//                        }
+//
+//                        std::vector<PrecedencePredicate*> precedencePredicates = filterPrecedencePredicates(operands);
+//                        if (!precedencePredicates.empty()) {
+//                            // interested in the transition with the highest precedence
+//                            PrecedencePredicate *reduced = Collections::max(precedencePredicates);
+//                            operands->add(reduced);
+//                        }
+//                    }
 
-                        std::vector<PrecedencePredicate*> precedencePredicates = filterPrecedencePredicates(operands);
-                        if (!precedencePredicates.empty()) {
-                            // interested in the transition with the highest precedence
-                            PrecedencePredicate *reduced = Collections::max(precedencePredicates);
-                            operands->add(reduced);
-                        }
-
-                    }
-
-                    bool SemanticContext::OR::equals(void *obj) {
+                    // TODO: changed obj from void* to SemanticContext*
+                    bool SemanticContext::OR::equals(SemanticContext *obj) {
                         if (this == obj) {
                             return true;
                         }
-                        if (!(dynamic_cast<OR*>(obj) != nullptr)) {
+
+                        if (obj == nullptr || typeid(*obj) != typeid(*this)) {
                             return false;
                         }
-                        OR *other = static_cast<OR*>(obj);
-                        return Arrays::equals(this->opnds, other->opnds);
+
+                        // TODO: fix Array::equals
+                        //OR *other = static_cast<OR*>(obj);
+                        //return Arrays::equals(this->opnds, other->opnds);
+                        return false;
                     }
 
                     int SemanticContext::OR::hashCode() {
-                        return MurmurHash::hashCode(opnds, OR::typeid::hashCode());
+                        // TODO: seed? (OR::typeid::hashCode()???)
+                        return misc::MurmurHash::hashCode(opnds, 0);
                     }
 
                     template<typename T1, typename T2>
                     bool SemanticContext::OR::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
-                        for (auto opnd : opnds) {
-                            if (opnd->eval(parser, outerContext)) {
-                                return true;
-                            }
-                        }
+                        // TODO: opnds is not a container type (const
+                        // SemanticContext *).  Should it be changed to a
+                        // container type?
+//                        for (auto opnd : opnds) {
+//                            if (opnd->eval(parser, outerContext)) {
+//                                return true;
+//                            }
+//                        }
                         return false;
                     }
 
                     std::wstring SemanticContext::OR::toString() {
-                        return Utils::join(Arrays::asList(opnds)->begin(), L"||");
+                        // TODO: Utils
+                        //return misc::Utils::join(Arrays::asList(opnds)->begin(), L"||");
+                        return L"";
                     }
 
                     SemanticContext *const SemanticContext::NONE = new Predicate();
 
-                    org::antlr::v4::runtime::atn::SemanticContext *SemanticContext::and(SemanticContext *a, SemanticContext *b) {
+                    // TODO: huh???
+                    /*org::antlr::v4::runtime::atn::SemanticContext *SemanticContext::and(SemanticContext *a, SemanticContext *b) {
                         if (a == nullptr || a == NONE) {
                             return b;
                         }
@@ -258,26 +280,17 @@ namespace org {
                         }
 
                         return result;
-                    }
+                    }*/
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                     template<typename T1> //where T1 : SemanticContext
-                    std::vector<PrecedencePredicate*> SemanticContext::filterPrecedencePredicates(std::set<T1> *collection) {
+                    std::vector<SemanticContext::PrecedencePredicate*> SemanticContext::filterPrecedencePredicates(std::set<T1> *collection) {
                         std::vector<PrecedencePredicate*> result;
                         for (std::set<SemanticContext*>::const_iterator iterator = collection->begin(); iterator != collection->end(); ++iterator) {
                             SemanticContext *context = *iterator;
                             if (dynamic_cast<PrecedencePredicate*>(context) != nullptr) {
-                                if (result.empty()) {
-                                    result = std::vector<PrecedencePredicate*>();
-                                }
-
                                 result.push_back(static_cast<PrecedencePredicate*>(context));
-                                (*iterator)->remove();
                             }
-                        }
-
-                        if (result.empty()) {
-                            return Collections::emptyList();
                         }
 
                         return result;
