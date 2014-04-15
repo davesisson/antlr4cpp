@@ -1,6 +1,7 @@
 ﻿#include "Recognizer.h"
 #include "ConsoleErrorListener.h"
 #include "Token.h"
+#include "StringBuilder.h"
 
 /*
  * [The "BSD license"]
@@ -85,7 +86,8 @@ namespace org {
                     
                     //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
                     //synchronized(ruleIndexMapCache) {
-                        std::map<std::wstring, int> *result = ruleIndexMapCache->at(*ruleNames);
+                    std::map<std::wstring, int> *result = ruleIndexMapCache->at(*ruleNames);
+                    
                     
                         if (result == nullptr) {
                             result = Collections::unmodifiableMap(Utils::toMap(ruleNames));
@@ -125,8 +127,9 @@ namespace org {
                             s = std::wstring(L"<") + std::to_wstring(t->getType()) + std::wstring(L">");
                         }
                     }
-                    //JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                    s = s.replace(L"\n",L"\\n");
+                    
+                    s = StringBuilder::string_replace(s, L"\n",L"\\n");
+                    
                     //JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
                     s = s.replace(L"\r",L"\\r");
                     //JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
@@ -140,17 +143,17 @@ namespace org {
                         throw L"listener cannot be null.";
                     }
                     
-                    _listeners->add(listener);
+                    _listeners.insert(listener);
                 }
                 
                 template<typename T1, typename T2>
                 void Recognizer<T1, T2>::removeErrorListener(ANTLRErrorListener *listener) {
-                    _listeners->remove(listener);
+                    _listeners. .remove(listener);
                 }
                 
                 template<typename T1, typename T2>
                 void Recognizer<T1, T2>::removeErrorListeners() {
-                    _listeners->clear();
+                    _listeners.clear();
                 }
                 
                 template<typename T1, typename T2>

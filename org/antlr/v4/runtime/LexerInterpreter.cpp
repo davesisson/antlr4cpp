@@ -40,7 +40,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
+#ifdef TODO
                 LexerInterpreter::LexerInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, std::vector<std::wstring> *modeNames, atn::ATN *atn, CharStream *input) : Lexer(_input), grammarFileName(grammarFileName), atn(atn), tokenNames(tokenNames/*->toArray(new std::wstring[tokenNames->size()]))*/, ruleNames(ruleNames/*->toArray(new std::wstring[ruleNames->size()])*/), modeNames(modeNames/*->toArray(new std::wstring[modeNames->size()])*/), _decisionToDFA(new std::vector<dfa::DFA*>()), _sharedContextCache(new atn::PredictionContextCache()) {
 
                     if (atn->grammarType != atn::ATNType::LEXER) {
@@ -53,7 +53,7 @@ namespace org {
                     }
                     this->_interp = new atn::LexerATNSimulator(atn,_decisionToDFA,_sharedContextCache);
                 }
-
+#endif
                 org::antlr::v4::runtime::atn::ATN *LexerInterpreter::getATN() {
                     return atn;
                 }

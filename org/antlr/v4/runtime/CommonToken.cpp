@@ -176,7 +176,7 @@ namespace org {
                     }
                     std::wstring txt = getText();
                     if (txt != L"") {
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
+                        
                         txt = txt.replace(L"\n",L"\\n");
 //JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
                         txt = txt.replace(L"\r",L"\\r");
