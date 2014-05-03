@@ -10,10 +10,11 @@ ALL_LDFLAGS = $(LDFLAGS)
 
 # Escote's files
 SRCS = \
-        AbstractPredicateTransition.cpp \
+    AbstractPredicateTransition.cpp \
 	ActionTransition.cpp \
 	ArrayPredictionContext.cpp \
 	ATNDeserializationOptions.cpp \
+	ATNDeserializer.cpp \
 	ATNState.cpp \
 	ATNType.cpp \
 	AtomTransition.cpp \
@@ -27,7 +28,7 @@ SRCS = \
 	LexerATNConfig.cpp \
 	LoopEndState.cpp
 # Escote's TODO: LL1Analyzer.cpp LexerATNSimulator.cpp ATNSimulator.cpp \
-	ATNSerializer.cpp ATNDeserializer.cpp ATNConfigSet.cpp ATNConfig.cpp \
+	ATNSerializer.cpp ATNConfigSet.cpp ATNConfig.cpp \
 	ATN.cpp
 
 # Alejandro's files
@@ -37,7 +38,6 @@ SRCS += \
 	PlusBlockStartState.cpp \
 	PlusLoopbackState.cpp \
 	PredicateTransition.cpp \
-	PredictionContext.cpp \
 	PredictionMode.cpp \
 	RangeTransition.cpp \
 	RuleStartState.cpp \
@@ -52,7 +52,7 @@ SRCS += \
 	TokensStartState.cpp \
 	Transition.cpp \
 	WildcardTransition.cpp
-# Alejandro's TODO: PredictionContextCache.cpp \
+# Alejandro's TODO: PredictionContext.cpp PredictionContextCache.cpp \
 	PrecedencePredicateTransition.cpp ParserATNSimulator.cpp
 
 OBJS = $(SRCS:.cpp=.o)

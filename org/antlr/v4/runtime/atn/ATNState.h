@@ -139,7 +139,7 @@ namespace org {
 
                         /// <summary>
                         /// Track the transitions emanating from this ATN state. </summary>
-                    protected:
+                    // TODO protected:???  It's being accessed directly in ATNDeserializer
                         std::vector<Transition*> transitions;
 
                         /// <summary>

@@ -5,6 +5,7 @@
 #include "Transition.h"
 #include "IntervalSet.h"
 #include "ATNState.h"
+#include "UUID.h"
 #include <string>
 #include <vector>
 
@@ -59,7 +60,7 @@ namespace org {
                     public:
                         static const int SERIALIZED_VERSION;
 //JAVA TO C++ CONVERTER TODO TASK: Static constructors are not allowed in native C++:
-                        static ATNDeserializer();
+                        //static ATNDeserializer();
 
                         /// <summary>
                         /// This is the earliest supported serialized UUID.
@@ -87,10 +88,8 @@ namespace org {
                         ATNDeserializationOptions *const deserializationOptions;
 
                     public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                        ATNDeserializer(); //this(ATNDeserializationOptions.getDefaultOptions());
-
-                        ATNDeserializer(ATNDeserializationOptions *deserializationOptions);
+                        ATNDeserializer();
+                        ATNDeserializer(ATNDeserializationOptions *dso);
 
                         /// <summary>
                         /// Determines if a particular serialized representation of an ATN supports
@@ -128,6 +127,10 @@ namespace org {
                         virtual Transition *edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<IntervalSet*> &sets);
 
                         virtual ATNState *stateFactory(int type, int ruleIndex);
+
+                    private:
+                        static std::vector<UUID*> supportedUUIDsInitializer();
+                        ATNDeserializationOptions *deserializationOptionsInitializer(ATNDeserializationOptions *dso);
 
                     };
 

@@ -55,7 +55,8 @@ namespace org {
                         ///  can go back later and build DFA predictors for them.  This includes
                         ///  all the rules, subrules, optional blocks, ()+, ()* etc...
                         /// </summary>
-                        const std::vector<DecisionState*> decisionToState;
+                        // TODO: should this be const?  (It used to be declared as const but was causing problems in ATNDeserializer.)
+                        std::vector<DecisionState*> decisionToState;
 
                         /// <summary>
                         /// Maps from rule index to starting state number.
@@ -68,7 +69,7 @@ namespace org {
                         /// </summary>
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: public RuleStopState[] ruleToStopState;
-                        RuleStopState *ruleToStopState;
+                        RuleStopState **ruleToStopState;
 
                         std::map<std::wstring, TokensStartState*> *const modeNameToStartState;
                         
