@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "ParseTree.h"
+#include <map>
 
 /*
  * [The "BSD license"]
@@ -58,7 +59,7 @@ namespace org {
                     template<typename V>
                     class ParseTreeProperty {
                     protected:
-                        Map<ParseTree*, V> *annotations;
+                        std::map<ParseTree*, V> *annotations;
 
                     public:
                         virtual V get(ParseTree *node) {
@@ -73,10 +74,10 @@ namespace org {
 
                     private:
                         void InitializeInstanceFields() {
-                            annotations = new java::util::IdentityHashMap<ParseTree*, V>();
+                            annotations = new std::map<ParseTree*, V>();
                         }
 
-public:
+                    public:
                         ParseTreeProperty() {
                             InitializeInstanceFields();
                         }

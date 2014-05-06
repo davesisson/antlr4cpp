@@ -2,6 +2,7 @@
 #include "ConsoleErrorListener.h"
 #include "Token.h"
 #include "StringBuilder.h"
+#include "ProxyErrorListener.h"
 
 /*
  * [The "BSD license"]
@@ -38,7 +39,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 
-
                 template<typename T1, typename T2>
                 std::map<std::wstring[] , std::map<std::wstring, int>*> *const
                 Recognizer<T1, T2>::tokenTypeMapCache = new std::map<std::wstring[] , std::map<std::wstring, int>*>();
@@ -88,7 +88,6 @@ namespace org {
                     //synchronized(ruleIndexMapCache) {
                     std::map<std::wstring, int> *result = ruleIndexMapCache->at(*ruleNames);
                     
-                    
                         if (result == nullptr) {
                             result = Collections::unmodifiableMap(Utils::toMap(ruleNames));
                             ruleIndexMapCache->put(ruleNames, result);
@@ -128,7 +127,7 @@ namespace org {
                         }
                     }
                     
-                    s = StringBuilder::string_replace(s, L"\n",L"\\n");
+                    s = StringBuilder::string_replace(s, L"\n", L"\\n");
                     
                     //JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
                     s = s.replace(L"\r",L"\\r");
@@ -148,7 +147,7 @@ namespace org {
                 
                 template<typename T1, typename T2>
                 void Recognizer<T1, T2>::removeErrorListener(ANTLRErrorListener *listener) {
-                    _listeners. .remove(listener);
+                    _listeners.remove(listener);
                 }
                 
                 template<typename T1, typename T2>
@@ -205,10 +204,10 @@ namespace org {
                 {
                     add(ConsoleErrorListener::INSTANCE);
                 }
-                
-                
+ 
                 
             }
         }
     }
+ 
 }

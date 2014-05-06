@@ -177,7 +177,7 @@ namespace org {
                     class ErrorNodeImpl;
                     class ParseTree;
                     class ParseTreeListener;
-                    class ParseTreeProperty;
+                    template<typename T> class ParseTreeProperty;
                     template<typename T> class ParseTreeVisitor;
                     class ParseTreeWalker;
                     class RuleNode;

@@ -57,7 +57,6 @@ namespace org {
                     IOException(const std::wstring msg);
                     IOException();
                 };
-
                 class FailedPredicateException :public std::exception {
                 public:
                     FailedPredicateException(const std::wstring msg);

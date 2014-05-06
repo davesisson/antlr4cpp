@@ -1,12 +1,10 @@
 ﻿#pragma once
 
 #include "ANTLRErrorListener.h"
-#include "RecognitionException.h"
-#include "Recognizer.h"
-#include "Parser.h"
-#include "atn/ATNConfigSet.h"
-#include "dfa/DFA.h"
+#include "Declarations.h"
 #include <string>
+#include <vector>
+#include <bitset>
 
 /*
  * [The "BSD license"]
@@ -41,37 +39,35 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::atn::ATNConfigSet;
-                using org::antlr::v4::runtime::dfa::DFA;
-
-
                 /// <summary>
                 /// This implementation of <seealso cref="ANTLRErrorListener"/> dispatches all calls to a
                 /// collection of delegate listeners. This reduces the effort required to support multiple
                 /// listeners.
-                /// 
-                /// @author Sam Harwell
                 /// </summary>
+                
                 class ProxyErrorListener : public ANTLRErrorListener {
                 private:
-//JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
-//ORIGINAL LINE: private final java.util.Collection<? extends ANTLRErrorListener> delegates;
-                    Collection<? extends ANTLRErrorListener> *const delegates;
+#ifdef TODO
+                    Check out the bitset size
+#else
+#define BITSETSIZE  1024
+#endif
+                    //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
+                    //ORIGINAL LINE: private final java.util.Collection<? extends ANTLRErrorListener> delegates;
+                    std::vector<ANTLRErrorListener> *const delegates;
 
                 public:
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T1> where T1 : ANTLRErrorListener
-                    ProxyErrorListener(Collection<T1> *delegates);
+                    template<typename T1> //where T1 : ANTLRErrorListener
+                    ProxyErrorListener(std::vector<T1> *delegates);
 
-                    template<typename T1, typename T1>
-                    virtual void syntaxError(Recognizer<T1> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) override;
+                    template<typename T1, typename T2>
+                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
 
-                    virtual void reportAmbiguity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSETSIZE> *ambigAlts, atn::ATNConfigSet *configs) override;
 
-                    virtual void reportAttemptingFullContext(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, ATNConfigSet *configs) override;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSETSIZE> *conflictingAlts, atn::ATNConfigSet *configs) override;
 
-                    virtual void reportContextSensitivity(Parser *recognizer, DFA *dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet *configs) override;
+                    virtual void reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) override;
                 };
 
             }
