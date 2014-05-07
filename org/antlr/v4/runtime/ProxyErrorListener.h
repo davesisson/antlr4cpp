@@ -47,14 +47,9 @@ namespace org {
                 
                 class ProxyErrorListener : public ANTLRErrorListener {
                 private:
-#ifdef TODO
-                    Check out the bitset size
-#else
-#define BITSETSIZE  1024
-#endif
                     //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
                     //ORIGINAL LINE: private final java.util.Collection<? extends ANTLRErrorListener> delegates;
-                    std::vector<ANTLRErrorListener> *const delegates;
+                    std::vector<ANTLRErrorListener*> *const delegates;
 
                 public:
                     template<typename T1> //where T1 : ANTLRErrorListener
@@ -63,9 +58,9 @@ namespace org {
                     template<typename T1, typename T2>
                     void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
 
-                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSETSIZE> *ambigAlts, atn::ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, atn::ATNConfigSet *configs) override;
 
-                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSETSIZE> *conflictingAlts, atn::ATNConfigSet *configs) override;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, atn::ATNConfigSet *configs) override;
 
                     virtual void reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) override;
                 };

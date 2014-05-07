@@ -41,10 +41,6 @@ namespace org {
                 /// <summary>
                 /// How to emit recognition errors. </summary>
                 class ANTLRErrorListener {
-#ifdef TODO
-                    work on this number
-#endif
-                    static const int BITSET_SIZE = 1024;
                     
                     /// <summary>
                     /// Upon syntax error, notify any interested parties. This is not how to
@@ -79,7 +75,11 @@ namespace org {
                     ///        the parser was able to recover in line without exiting the
                     ///        surrounding rule. </param>
                 public:
-
+#ifdef TODO
+                    work on this number
+#endif
+                    static const int BITSET_SIZE = 1024;
+                    
                     template<typename T1, typename T2>
                     void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
 
