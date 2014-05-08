@@ -70,8 +70,6 @@ namespace org {
 
                     /// <summary>
                     /// How to create token objects </summary>
-//JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
-//ORIGINAL LINE: protected TokenFactory<?> _factory = CommonTokenFactory.DEFAULT;
                     TokenFactory<CommonToken*> *_factory;
 
                     /// <summary>
