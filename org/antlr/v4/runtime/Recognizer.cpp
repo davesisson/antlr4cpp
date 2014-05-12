@@ -3,6 +3,7 @@
 #include "Token.h"
 #include "StringBuilder.h"
 #include "ProxyErrorListener.h"
+#include "Strings.h"
 
 /*
  * [The "BSD license"]
@@ -127,12 +128,12 @@ namespace org {
                         }
                     }
                     
-                    s = StringBuilder::string_replace(s, L"\n", L"\\n");
+                    replaceAll(s, L"\n", L"\\n");
                     
-                    //JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                    s = s.replace(L"\r",L"\\r");
-                    //JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                    s = s.replace(L"\t",L"\\t");
+                    replaceAll(s, L"\r",L"\\r");
+
+                    replaceAll(s, L"\t", L"\\t");
+                    
                     return std::wstring(L"'") + s + std::wstring(L"'");
                 }
                 
@@ -147,7 +148,8 @@ namespace org {
                 
                 template<typename T1, typename T2>
                 void Recognizer<T1, T2>::removeErrorListener(ANTLRErrorListener *listener) {
-                    _listeners.remove(listener);
+                    //_listeners.remove(listener); does this work the same way?
+                    _listeners.erase(listener);
                 }
                 
                 template<typename T1, typename T2>
