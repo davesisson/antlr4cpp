@@ -1,5 +1,3 @@
-#pragma once
-
 /*
  * [The "BSD license"]
  *  Copyright (c) 2014 Dan McLaughlin
@@ -29,8 +27,16 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <string>
-
-void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to);
-
-
+#include "Utils.h"
+namespace Utils {
+#ifdef TODO
+    Add the body
+#endif
+    
+    std::map<std::wstring, int>* toMap(std::wstring *) {
+#ifdef TODO
+        Add the body
+#endif
+        return nullptr;
+    }
+}

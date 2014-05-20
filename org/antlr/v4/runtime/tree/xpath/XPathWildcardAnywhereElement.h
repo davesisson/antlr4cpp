@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "XPathElement.h"
-#include "ParseTree.h"
+#include "Declarations.h"
 #include <vector>
 
 /*
@@ -40,10 +40,6 @@ namespace org {
             namespace runtime {
                 namespace tree {
                     namespace xpath {
-
-                        using org::antlr::v4::runtime::tree::ParseTree;
-                        using org::antlr::v4::runtime::tree::Trees;
-
 
                         class XPathWildcardAnywhereElement : public XPathElement {
                         public:

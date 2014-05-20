@@ -2,6 +2,7 @@
 #include "Interval.h"
 #include "Pair.h"
 #include "TokenSource.h"
+#include "Strings.h"
 
 /*
  * [The "BSD license"]
@@ -38,7 +39,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                misc::Pair<TokenSource*, CharStream*> *const CommonToken::EMPTY_SOURCE = new org::antlr::v4::runtime::misc::Pair<TokenSource*, CharStream*>(nullptr, nullptr);
+                misc::Pair<TokenSource*, CharStream*> *const CommonToken::EMPTY_SOURCE = new misc::Pair<TokenSource*, CharStream*>(nullptr, nullptr);
 
                 CommonToken::CommonToken(int type) {
                     InitializeInstanceFields();
@@ -177,11 +178,11 @@ namespace org {
                     std::wstring txt = getText();
                     if (txt != L"") {
                         
-                        txt = txt.replace(L"\n",L"\\n");
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                        txt = txt.replace(L"\r",L"\\r");
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                        txt = txt.replace(L"\t",L"\\t");
+                        replaceAll(txt, L"\n",L"\\n");
+
+                        replaceAll(txt, L"\r",L"\\r");
+
+                        replaceAll(txt, L"\t",L"\\t");
                     } else {
                         txt = L"<no text>";
                     }

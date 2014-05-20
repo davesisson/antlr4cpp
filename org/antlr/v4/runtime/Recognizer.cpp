@@ -4,6 +4,7 @@
 #include "StringBuilder.h"
 #include "ProxyErrorListener.h"
 #include "Strings.h"
+#include "Utils.h"
 
 /*
  * [The "BSD license"]
@@ -44,13 +45,9 @@ namespace org {
                 std::map<std::wstring[] , std::map<std::wstring, int>*> *const
                 Recognizer<T1, T2>::tokenTypeMapCache = new std::map<std::wstring[] , std::map<std::wstring, int>*>();
                 
-               template<typename T1, typename T2>
-               std::map<std::wstring[] , std::map<std::wstring, int>*> *const Recognizer<T1, T2>::ruleIndexMapCache = new std::map<std::wstring[] , std::map<std::wstring, int>*>();
+                template<typename T1, typename T2>
+                std::map<std::wstring* , std::map<std::wstring, int>*> *const Recognizer<T1, T2>::ruleIndexMapCache = new std::map<std::wstring* , std::map<std::wstring, int>*>();
                 
-               template<typename T1, typename T2>
-                Recognizer<T1, T2>::CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
-                {
-                }
                 
                template<typename T1, typename T2>
                 std::map<std::wstring, int> *Recognizer<T1, T2>::getTokenTypeMap() {
@@ -84,17 +81,19 @@ namespace org {
                     if (ruleNames == nullptr) {
                         throw L"The current recognizer does not provide a list of rule names.";
                     }
-                    
+
                     //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
                     //synchronized(ruleIndexMapCache) {
-                    std::map<std::wstring, int> *result = ruleIndexMapCache->at(*ruleNames);
+                    std::map<std::wstring, int> *result = ruleIndexMapCache->at(ruleNames);
                     
-                        if (result == nullptr) {
-                            result = Collections::unmodifiableMap(Utils::toMap(ruleNames));
-                            ruleIndexMapCache->put(ruleNames, result);
-                        }
-                        
-                        return result;
+                    if (result == nullptr) {
+                        result = Utils::toMap(ruleNames);
+#ifdef TODO             // Why isn't this working??
+                        ruleIndexMapCache->insert(ruleNames, result);
+#endif
+                    }
+
+                    return result;
                     //}
                 }
 
@@ -199,14 +198,22 @@ namespace org {
                 template<typename T1, typename T2>
                 Recognizer<T1, T2>::Recognizer() {
                     InitializeInstanceFields();
+                    _listeners = new std::vector<ANTLRErrorListener*>();
                 }
                 
+ 
+                template<typename T1, typename T2>
+                Recognizer<T1, T2>::CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
+                {
+                }
+                
+#ifdef TODO
                 template<typename T1, typename T2>
                 Recognizer<T1, T2>::CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
                 {
                     add(ConsoleErrorListener::INSTANCE);
                 }
- 
+#endif
                 
             }
         }

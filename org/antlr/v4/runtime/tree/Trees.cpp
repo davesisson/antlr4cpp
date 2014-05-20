@@ -187,8 +187,8 @@ namespace org {
                         }
                     }
 
-                    std::vector<ParseTree*> Trees::descendants(ParseTree *t) {
-                        std::vector<ParseTree*> nodes = std::vector<ParseTree*>();
+                    std::vector<ParseTree*>* Trees::descendants(ParseTree *t) {
+                        std::vector<ParseTree*> *nodes = new std::vector<ParseTree*>();
                         nodes.push_back(t);
 
                         int n = t->getChildCount();

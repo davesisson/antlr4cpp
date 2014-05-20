@@ -18,6 +18,8 @@
 		37C068491916709700B4D312 /* UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 37C068481916709700B4D312 /* UUID.h */; };
 		37C0684B191E636C00B4D312 /* Strings.h in Headers */ = {isa = PBXBuildFile; fileRef = 37C0684A191E636C00B4D312 /* Strings.h */; };
 		37C0684D1920EF8300B4D312 /* Strings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37C0684C1920EF8300B4D312 /* Strings.cpp */; };
+		37C068501922490A00B4D312 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37C0684E1922490A00B4D312 /* Utils.cpp */; };
+		37C068511922490A00B4D312 /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 37C0684F1922490A00B4D312 /* Utils.h */; };
 		37D1C3FB186A31140041671A /* ANTLRErrorListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */; };
 		37D1C3FC186A31140041671A /* ANTLRErrorListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C2C7186A31130041671A /* ANTLRErrorListener.h */; };
 		37D1C3FD186A31140041671A /* ANTLRErrorStrategy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */; };
@@ -322,6 +324,8 @@
 		37C068481916709700B4D312 /* UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UUID.h; path = antlrcpp/UUID.h; sourceTree = SOURCE_ROOT; };
 		37C0684A191E636C00B4D312 /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		37C0684C1920EF8300B4D312 /* Strings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Strings.cpp; sourceTree = "<group>"; };
+		37C0684E1922490A00B4D312 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
+		37C0684F1922490A00B4D312 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorListener.cpp; sourceTree = "<group>"; };
 		37D1C2C7186A31130041671A /* ANTLRErrorListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANTLRErrorListener.h; sourceTree = "<group>"; };
 		37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorStrategy.cpp; sourceTree = "<group>"; };
@@ -1011,6 +1015,8 @@
 				37D727AD1867AF1E007B6D10 /* Supporting Files */,
 				37C0684A191E636C00B4D312 /* Strings.h */,
 				37C0684C1920EF8300B4D312 /* Strings.cpp */,
+				37C0684E1922490A00B4D312 /* Utils.cpp */,
+				37C0684F1922490A00B4D312 /* Utils.h */,
 			);
 			path = antlrcpp;
 			sourceTree = "<group>";
@@ -1157,6 +1163,7 @@
 				37D1C42C186A31140041671A /* LexerATNConfig.h in Headers */,
 				37D1C424186A31140041671A /* BlockStartState.h in Headers */,
 				37D1C450186A31140041671A /* SemanticContext.h in Headers */,
+				37C068511922490A00B4D312 /* Utils.h in Headers */,
 				37D1C448186A31140041671A /* RangeTransition.h in Headers */,
 				37D1C458186A31140041671A /* StarLoopbackState.h in Headers */,
 				37D1C468186A31140041671A /* CharStream.h in Headers */,
@@ -1369,6 +1376,7 @@
 				37D1C459186A31140041671A /* StarLoopEntryState.cpp in Sources */,
 				37D1C45D186A31140041671A /* Transition.cpp in Sources */,
 				37D1C3FD186A31140041671A /* ANTLRErrorStrategy.cpp in Sources */,
+				37C068501922490A00B4D312 /* Utils.cpp in Sources */,
 				37D1C509186A31140041671A /* TerminalNode.cpp in Sources */,
 				37D1C489186A31140041671A /* LexerNoViableAltException.cpp in Sources */,
 				37D1C46F186A31140041671A /* ConsoleErrorListener.cpp in Sources */,

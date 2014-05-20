@@ -98,7 +98,7 @@ namespace org {
                         template<typename T1>
                         static void _findAllNodes(ParseTree *t, int index, bool findTokens, std::vector<T1> nodes);
 
-                        static std::vector<ParseTree*> descendants(ParseTree *t);
+                        static std::vector<ParseTree*>* descendants(ParseTree *t);
 
                     private:
                         Trees();

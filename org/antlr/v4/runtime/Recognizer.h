@@ -51,7 +51,7 @@ namespace org {
 
                 private:
                     static std::map<std::wstring[] , std::map<std::wstring, int>*> *const tokenTypeMapCache;
-                    static std::map<std::wstring[] , std::map<std::wstring, int>*> *const ruleIndexMapCache;
+                    static std::map<std::wstring* , std::map<std::wstring, int>*> *const ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;
 

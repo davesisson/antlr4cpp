@@ -29,8 +29,18 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <string>
+#include <iostream>
+#include <map>
 
-void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to);
+namespace Utils {
+    template<typename T1>
+    class CopyOnWriteArrayList {
+    public:
+        CopyOnWriteArrayList();
+        
+    };
+    
+    
+    std::map<std::wstring, int>* toMap(std::wstring *);
 
-
+}

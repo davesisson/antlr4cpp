@@ -38,15 +38,13 @@ namespace org {
             namespace runtime {
                 namespace tree {
                     namespace xpath {
-                        using org::antlr::v4::runtime::tree::ParseTree;
-                        using org::antlr::v4::runtime::tree::Trees;
 
                         XPathWildcardAnywhereElement::XPathWildcardAnywhereElement() : XPathElement(XPath::WILDCARD) {
                         }
 
                         std::vector<ParseTree*> *XPathWildcardAnywhereElement::evaluate(ParseTree *t) {
                             if (invert) { // !* is weird but valid (empty)
-                                return std::vector<ParseTree*>();
+                                return new std::vector<ParseTree*>();
                             }
                             return Trees::descendants(t);
                         }

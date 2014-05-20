@@ -29,7 +29,7 @@
 
 #include "Strings.h"
 
-void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to);
+void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to)
 {
     if(from.empty()) {
         return;

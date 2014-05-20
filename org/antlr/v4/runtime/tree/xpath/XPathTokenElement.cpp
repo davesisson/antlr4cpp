@@ -48,12 +48,12 @@ namespace org {
 
                         std::vector<ParseTree*> *XPathTokenElement::evaluate(ParseTree *t) {
                             // return all children of t that match nodeName
-                            std::vector<ParseTree*> nodes = std::vector<ParseTree*>();
+                            std::vector<ParseTree*> *nodes = new std::vector<ParseTree*>();
                             for (auto c : Trees::getChildren(t)) {
                                 if (dynamic_cast<TerminalNode*>(c) != nullptr) {
                                     TerminalNode *tnode = static_cast<TerminalNode*>(c);
                                     if ((tnode->getSymbol()->getType() == tokenType && !invert) || (tnode->getSymbol()->getType() != tokenType && invert)) {
-                                        nodes.push_back(tnode);
+                                        nodes->push_back(tnode);
                                     }
                                 }
                             }
