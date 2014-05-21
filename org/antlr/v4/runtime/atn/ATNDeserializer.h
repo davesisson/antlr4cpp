@@ -12,7 +12,7 @@
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
- *  Copyright (c) 2013 Sam Harwell
+ *  Copyright (c) 2013 Dan McLaughlin
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -44,13 +44,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-                    using org::antlr::v4::runtime::misc::Pair;
-
 
                     /// 
                     /// <summary>
@@ -124,7 +117,7 @@ namespace org {
 
                         static UUID *toUUID(wchar_t data[], int offset);
 
-                        virtual Transition *edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<IntervalSet*> &sets);
+                        virtual Transition *edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets);
 
                         virtual ATNState *stateFactory(int type, int ruleIndex);
 

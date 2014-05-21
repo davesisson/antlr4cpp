@@ -7,7 +7,7 @@
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
- *  Copyright (c) 2013 Sam Harwell
+ *  Copyright (c) 2013 Dan McLaughlin
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@ namespace org {
                     class ATNSimulator {
                         /// @deprecated Use <seealso cref="ATNDeserializer#SERIALIZED_VERSION"/> instead. 
                     public:
-                        static const int SERIALIZED_VERSION;
+                        static const int SERIALIZED_VERSION = 0;
 
                         ATNSimulator();
 
@@ -55,7 +55,7 @@ namespace org {
                         
                         /// <summary>
                         /// Must distinguish between missing edge and edge we know leads nowhere </summary>
-                        static dfa::DFAState *const ERROR;
+                        static dfa::DFAState * ERROR;
                         ATN *const atn;
 
                         /// <summary>

@@ -612,7 +612,7 @@
 		37D1C3F8186A31140041671A /* UnbufferedTokenStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbufferedTokenStream.h; sourceTree = "<group>"; };
 		37D1C3F9186A31140041671A /* WritableToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WritableToken.cpp; sourceTree = "<group>"; };
 		37D1C3FA186A31140041671A /* WritableToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WritableToken.h; sourceTree = "<group>"; };
-		37D1C529186A4B5B0041671A /* stringconverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringconverter.h; sourceTree = "<group>"; };
+		37D1C529186A4B5B0041671A /* stringconverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stringconverter.h; path = ../antlrcpp/stringconverter.h; sourceTree = "<group>"; };
 		37D1C52A186A4B5B0041671A /* vectorhelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vectorhelper.h; sourceTree = "<group>"; };
 		37D727AA1867AF1E007B6D10 /* antlrcpp.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = antlrcpp.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		37D727AE1867AF1E007B6D10 /* antlrcpp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "antlrcpp-Prefix.pch"; sourceTree = "<group>"; };
@@ -721,7 +721,7 @@
 				37D1C3FA186A31140041671A /* WritableToken.h */,
 			);
 			name = runtime;
-			path = org/antlr/v4/runtime;
+			path = ../org/antlr/v4/runtime;
 			sourceTree = "<group>";
 		};
 		37D1C2CE186A31130041671A /* atn */ = {
@@ -1018,7 +1018,8 @@
 				37C0684E1922490A00B4D312 /* Utils.cpp */,
 				37C0684F1922490A00B4D312 /* Utils.h */,
 			);
-			path = antlrcpp;
+			name = antlrcpp;
+			path = ../antlrcpp;
 			sourceTree = "<group>";
 		};
 		37D727AD1867AF1E007B6D10 /* Supporting Files */ = {
