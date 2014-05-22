@@ -44,7 +44,7 @@ namespace org {
                     int MurmurHash::initialize(int seed) {
                         return seed;
                     }
-
+                    
                     int MurmurHash::update(int hash, int value) {
                         const int c1 = 0xCC9E2D51;
                         const int c2 = 0x1B873593;
@@ -66,7 +66,7 @@ namespace org {
                     }
 
                     template<typename T>
-                    int MurmurHash::update(int hash, void *value) {
+                    int MurmurHash::update(int hash, T *value) {
                         std::hash<T> hashFunction;
                         
                         return update(hash, value != nullptr ? hashFunction(value) : 0);

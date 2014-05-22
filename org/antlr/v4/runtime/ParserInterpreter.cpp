@@ -16,12 +16,12 @@
 #include "PrecedencePredicateTransition.h"
 #include "PredicateTransition.h"
 #include "wchar.h"
-
+#include "LoopEndState.h"
 
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
- * Copyright (c) 2013 Sam Harwell
+ * Copyright (c) 2013 Dan McLaughlin
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -153,7 +153,7 @@ namespace org {
                     atn::Transition *transition = p->transition(edge - 1);
                     switch (transition->getSerializationType()) {
                         case atn::Transition::EPSILON:
-                            if (pushRecursionContextStates->get(p->stateNumber) && !(dynamic_cast<atn::LoopEndState*>(transition->target) != nullptr)) {
+                            if (pushRecursionContextStates->at(p->stateNumber) && !(dynamic_cast<atn::LoopEndState*>(transition->target) != nullptr)) {
                             InterpreterRuleContext *ctx = new InterpreterRuleContext(_parentContextStack->peek()->a, _parentContextStack->peek()->b, _ctx->getRuleIndex());
                             pushNewRecursionContext(ctx, atn->ruleToStartState[p->ruleIndex]->stateNumber, _ctx->getRuleIndex());
                         }

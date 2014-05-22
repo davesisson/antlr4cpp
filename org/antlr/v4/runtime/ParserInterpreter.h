@@ -8,7 +8,7 @@
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
- * Copyright (c) 2013 Sam Harwell
+ * Copyright (c) 2013 Dan McLaughlin
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,8 +62,6 @@ namespace org {
                     atn::ATN *const atn;
                     std::bitset<DEFAULT_BITSET_SIZE> *const pushRecursionContextStates;
 
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected final org.antlr.v4.runtime.dfa.DFA[] decisionToDFA;
                     const dfa::DFA *decisionToDFA; // not shared like it is for generated parsers
                     atn::PredictionContextCache *const sharedContextCache;
 
