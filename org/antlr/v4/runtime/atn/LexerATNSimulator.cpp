@@ -18,6 +18,7 @@
 #include "LexerATNConfig.h"
 #include <assert.h>
 #include "LexerNoViableAltException.h"
+#include "Exceptions.h"
 
 /*
  * [The "BSD license"]
@@ -279,7 +280,7 @@ namespace org {
                                 Transition *trans = c->state->transition(ti);
                                 ATNState *target = getReachableTarget(trans, t);
                                 if (target != nullptr) {
-                                    if (closure(input, new LexerATNConfig(static_cast<LexerATNConfig*>(c), target), reach, currentAltReachedAcceptState, true)) {
+                                    if (this->closure(input, new LexerATNConfig(static_cast<LexerATNConfig*>(c), target), reach, currentAltReachedAcceptState, true)) {
                                         // any remaining configs for this alt have a lower priority than
                                         // the one that just reached an accept state.
                                         skipAlt = c->alt;
@@ -311,7 +312,7 @@ namespace org {
                     }
 
                     org::antlr::v4::runtime::atn::ATNState *LexerATNSimulator::getReachableTarget(Transition *trans, int t) {
-                        if (trans->matches(t, wchar_t::MIN_VALUE, wchar_t::MAX_VALUE)) {
+                        if (trans->matches(t, WCHAR_MIN, WCHAR_MAX)) {
                             return trans->target;
                         }
 
@@ -319,11 +320,11 @@ namespace org {
                     }
 
                     org::antlr::v4::runtime::atn::ATNConfigSet *LexerATNSimulator::computeStartState(CharStream *input, ATNState *p) {
-                        PredictionContext *initialContext = PredictionContext::EMPTY;
+                        EmptyPredictionContext * initialContext  = PredictionContext::EMPTY;
                         ATNConfigSet *configs = new OrderedATNConfigSet();
                         for (int i = 0; i < p->getNumberOfTransitions(); i++) {
                             ATNState *target = p->transition(i)->target;
-                            LexerATNConfig *c = new LexerATNConfig(target, i + 1, initialContext);
+                            LexerATNConfig *c = new LexerATNConfig(target, i + 1, (PredictionContext*)initialContext);
                             closure(input, c, configs, false, false);
                         }
                         return configs;
@@ -332,7 +333,6 @@ namespace org {
                     bool LexerATNSimulator::closure(CharStream *input, LexerATNConfig *config, ATNConfigSet *configs, bool currentAltReachedAcceptState, bool speculative) {
                         if (debug) {
 #ifdef TODO
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             std::cout << std::wstring(L"closure(") << config->toString(recog, true) << std::wstring(L")") << std::endl;
 #endif
                         }
@@ -353,7 +353,7 @@ namespace org {
                                     configs->add(config);
                                     return true;
                                 } else {
-                                    configs->add(new LexerATNConfig(config, config->state, PredictionContext::EMPTY));
+                                    configs->add(new LexerATNConfig(config, config->state, (PredictionContext*)PredictionContext::EMPTY));
                                     currentAltReachedAcceptState = true;
                                 }
                             }
@@ -394,16 +394,20 @@ namespace org {
                     org::antlr::v4::runtime::atn::LexerATNConfig *LexerATNSimulator::getEpsilonTarget(CharStream *input, LexerATNConfig *config, Transition *t, ATNConfigSet *configs, bool speculative) {
                         LexerATNConfig *c = nullptr;
                         switch (t->getSerializationType()) {
-                            case Transition::RULE:
+                            case Transition::RULE: {
                                 RuleTransition *ruleTransition = static_cast<RuleTransition*>(t);
                                 PredictionContext *newContext = SingletonPredictionContext::create(config->context, ruleTransition->followState->stateNumber);
                                 c = new LexerATNConfig(config, t->target, newContext);
+                            }
                                 break;
 
                             case Transition::PRECEDENCE:
+                            //{
                                 throw new UnsupportedOperationException(L"Precedence predicates are not supported in lexers.");
+                            //}
+                                break;
 
-                            case Transition::PREDICATE:
+                            case Transition::PREDICATE: {
                                 /*  Track traversing semantic predicates. If we traverse,
                                  we cannot add a DFA state for this "reach" computation
                                  because the DFA would not test the predicate again in the
@@ -413,23 +417,26 @@ namespace org {
                                  semantically it's not used that often. One of the key elements to
                                  this predicate mechanism is not adding DFA states that see
                                  predicates immediately afterwards in the ATN. For example,
-                                        
+                                 
                                  a : ID {p1}? | ID {p2}? ;
-                                        
+                                 
                                  should create the start state for rule 'a' (to save start state
                                  competition), but should not create target of ID state. The
                                  collection of ATN states the following ID references includes
                                  states reached by traversing predicates. Since this is when we
                                  test them, we cannot cash the DFA state target of ID.
-                             */
+                                 */
                                 PredicateTransition *pt = static_cast<PredicateTransition*>(t);
                                 if (debug) {
+#ifdef TODO
                                     std::cout << std::wstring(L"EVAL rule ") << pt->ruleIndex << std::wstring(L":") << pt->predIndex << std::endl;
+#endif
                                 }
                                 configs->hasSemanticContext = true;
                                 if (evaluatePredicate(input, pt->ruleIndex, pt->predIndex, speculative)) {
                                     c = new LexerATNConfig(config, t->target);
                                 }
+                            }
                                 break;
                             // ignore actions; just exec one per rule upon accept
                             case Transition::ACTION:
@@ -466,6 +473,7 @@ namespace org {
                             input->seek(index);
                             input->release(marker);
                         }
+                        return false;
                     }
 
                     void LexerATNSimulator::captureSimState(SimState *settings, CharStream *input, dfa::DFAState *dfaState) {
@@ -536,9 +544,9 @@ namespace org {
                          */
                         assert(!configs->hasSemanticContext);
 
-                        DFAState *proposed = new DFAState(configs);
+                        dfa::DFAState *proposed = new dfa::DFAState(configs);
                         ATNConfig *firstConfigWithRuleStopState = nullptr;
-                        for (auto c : configs) {
+                        for (auto c : *configs) {
                             if (dynamic_cast<RuleStopState*>(c->state) != nullptr) {
                                 firstConfigWithRuleStopState = c;
                                 break;
@@ -571,7 +579,7 @@ namespace org {
                         }
 #else
 
-                        dfa::DFAState *existing = dfa->states->get(proposed);
+                        dfa::DFAState *existing = dfa->states->at(proposed);
                         if (existing != nullptr) {
                             return existing;
                         }
@@ -581,7 +589,7 @@ namespace org {
                         newState->stateNumber = dfa->states->size();
                         configs->setReadonly(true);
                         newState->configs = configs;
-                        dfa->states->put(newState, newState);
+                        dfa->states->insert(newState, newState);
                         return newState;
 #endif
                         
@@ -593,7 +601,7 @@ namespace org {
 
                     std::wstring LexerATNSimulator::getText(CharStream *input) {
                         // index is first lookahead char, don't include.
-                        return input->getText(Interval::of(startIndex, input->index() - 1));
+                        return input->getText(misc::Interval::of(startIndex, input->index() - 1));
                     }
 
                     int LexerATNSimulator::getLine() {

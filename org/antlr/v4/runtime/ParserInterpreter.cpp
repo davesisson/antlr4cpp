@@ -153,14 +153,17 @@ namespace org {
                     atn::Transition *transition = p->transition(edge - 1);
                     switch (transition->getSerializationType()) {
                         case atn::Transition::EPSILON:
-                            if (pushRecursionContextStates->at(p->stateNumber) && !(dynamic_cast<atn::LoopEndState*>(transition->target) != nullptr)) {
-                            InterpreterRuleContext *ctx = new InterpreterRuleContext(_parentContextStack->peek()->a, _parentContextStack->peek()->b, _ctx->getRuleIndex());
+                            if (pushRecursionContextStates[p->stateNumber] == 1 && !(dynamic_cast<atn::LoopEndState*>(transition->target) != nullptr)) {
+                            InterpreterRuleContext *ctx = new InterpreterRuleContext(_parentContextStack->front()->a, _parentContextStack->front()->b, _ctx->getRuleIndex());
                             pushNewRecursionContext(ctx, atn->ruleToStartState[p->ruleIndex]->stateNumber, _ctx->getRuleIndex());
                         }
                         break;
 
                         case atn::Transition::ATOM:
+#ifdef TODO
+                            // Where is this function? Try on an OS other that OS X
                             match(((atn::AtomTransition*)(transition))->label());
+#endif
                         break;
 
                         case atn::Transition::RANGE:
