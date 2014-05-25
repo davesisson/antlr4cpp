@@ -46,7 +46,7 @@ namespace org {
                     /// </summary>
                     class ATNDeserializer {
                     public:
-                        static const int SERIALIZED_VERSION;
+                        static const int SERIALIZED_VERSION = 3;
 //JAVA TO C++ CONVERTER TODO TASK: Static constructors are not allowed in native C++:
                         //static ATNDeserializer();
 
@@ -54,7 +54,7 @@ namespace org {
                         /// This is the earliest supported serialized UUID.
                         /// </summary>
                     private:
-                        static UUID *const BASE_SERIALIZED_UUID;
+                        static UUID *const BASE_SERIALIZED_UUID = nullptr;
                         /// <summary>
                         /// This UUID indicates an extension of <seealso cref="BASE_SERIALIZED_UUID"/> for the
                         /// addition of precedence predicates.
@@ -97,7 +97,7 @@ namespace org {
                     public:
                         virtual ATN *deserialize(wchar_t data[]);
 
-                    protected:
+                    public:
                         virtual void verifyATN(ATN *atn);
 
                         virtual void checkCondition(bool condition);

@@ -46,9 +46,6 @@ namespace org {
                 namespace atn {
 
                     ATNSimulator::ATNSimulator() {
-#ifdef TODO
-                        SERIALIZED_UUID = ATNDeserializer::SERIALIZED_UUID;
-#endif
                         ERROR = new dfa::DFAState(new ATNConfigSet());
                         ERROR->stateNumber = INT32_MAX;
                         sharedContextCache = new PredictionContextCache();
@@ -102,7 +99,7 @@ namespace org {
                         return ATNDeserializer::toUUID(data, offset);
                     }
 
-                    org::antlr::v4::runtime::atn::Transition *ATNSimulator::edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<IntervalSet*> &sets) {
+                    org::antlr::v4::runtime::atn::Transition *ATNSimulator::edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets) {
                         return (new ATNDeserializer())->edgeFactory(atn, type, src, trg, arg1, arg2, arg3, sets);
                     }
 

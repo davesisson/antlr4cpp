@@ -50,9 +50,8 @@ namespace org {
                         /// This is the current serialized UUID. </summary>
                         /// @deprecated Use <seealso cref="ATNDeserializer#checkCondition(boolean)"/> instead.
 #ifdef TODO
-                        static UUID *const SERIALIZED_UUID;
+                        constexpr static UUID *const SERIALIZED_UUID = ATNDeserializer::SERIALIZED_UUID;
 #endif
-                        
                         /// <summary>
                         /// Must distinguish between missing edge and edge we know leads nowhere </summary>
                         static dfa::DFAState * ERROR;
@@ -110,10 +109,10 @@ namespace org {
                         /// @deprecated Use <seealso cref="ATNDeserializer#toLong"/> instead. 
                         static long long toLong(wchar_t data[], int offset);
 
-#ifdef TODO
+
                         /// @deprecated Use <seealso cref="ATNDeserializer#toUUID"/> instead. 
                         static UUID *toUUID(wchar_t data[], int offset);
-#endif
+                        
                         /// @deprecated Use <seealso cref="ATNDeserializer#edgeFactory"/> instead. 
                         static Transition *edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets);
 
