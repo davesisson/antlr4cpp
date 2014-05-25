@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		373775A2192FE6F400A4058D /* UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 373775A1192FE6F400A4058D /* UUID.h */; };
 		3789F5001870D1D8003E0A30 /* StringBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */; };
 		3789F5011870D1D8003E0A30 /* StringBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 3789F4FF1870D1D8003E0A30 /* StringBuilder.h */; };
 		3789F5041870E074003E0A30 /* Arrays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3789F5021870E074003E0A30 /* Arrays.cpp */; };
@@ -312,6 +313,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		373775A1192FE6F400A4058D /* UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUID.h; sourceTree = "<group>"; };
 		3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringBuilder.cpp; sourceTree = "<group>"; };
 		3789F4FF1870D1D8003E0A30 /* StringBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringBuilder.h; sourceTree = "<group>"; };
 		3789F5021870E074003E0A30 /* Arrays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Arrays.cpp; sourceTree = "<group>"; };
@@ -1000,6 +1002,7 @@
 		37D727AC1867AF1E007B6D10 /* antlrcpp */ = {
 			isa = PBXGroup;
 			children = (
+				373775A1192FE6F400A4058D /* UUID.h */,
 				3789F5061871AFD8003E0A30 /* Declarations.h */,
 				3789F5021870E074003E0A30 /* Arrays.cpp */,
 				3789F5031870E074003E0A30 /* Arrays.h */,
@@ -1120,6 +1123,7 @@
 				37D1C418186A31140041671A /* ATNState.h in Headers */,
 				37D1C4CE186A31140041671A /* Token.h in Headers */,
 				37D1C414186A31140041671A /* ATNSerializer.h in Headers */,
+				373775A2192FE6F400A4058D /* UUID.h in Headers */,
 				37D1C4C4186A31140041671A /* ParserRuleContext.h in Headers */,
 				37D1C478186A31140041671A /* DFAState.h in Headers */,
 				37D1C526186A31140041671A /* UnbufferedTokenStream.h in Headers */,

@@ -4,6 +4,10 @@
 #include "DFAState.h"
 #include "limits.h"
 #include "ATNType.h"
+#include "PredictionContextCache.h"
+#include "PredictionContext.h"
+#include "ATN.h"
+#include <map>
 
 /*
  * [The "BSD license"]
@@ -42,14 +46,14 @@ namespace org {
                 namespace atn {
 
                     ATNSimulator::ATNSimulator() {
-                        SERIALIZED_VERSION = ATNDeserializer::SERIALIZED_VERSION;
 #ifdef TODO
                         SERIALIZED_UUID = ATNDeserializer::SERIALIZED_UUID;
 #endif
                         ERROR = new dfa::DFAState(new ATNConfigSet());
                         ERROR->stateNumber = INT32_MAX;
+                        sharedContextCache = new PredictionContextCache();
                         
-                        atn = new atn::ATN(ATNType.ATNState, 0);
+                        atn = new ATN(ATNType::LEXER, 0);
                     }
 
                     ATNSimulator::ATNSimulator(ATN *atn, PredictionContextCache *sharedContextCache) : atn(atn), sharedContextCache(sharedContextCache) {
@@ -64,14 +68,13 @@ namespace org {
                             return context;
                         }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                        synchronized(sharedContextCache) {
-                            IdentityHashMap<PredictionContext*, PredictionContext*> *visited = new IdentityHashMap<PredictionContext*, PredictionContext*>();
+//                        synchronized(sharedContextCache) {
+                          std::map<PredictionContext*, PredictionContext*> *visited = new std::map<PredictionContext*, PredictionContext*>();
                             return PredictionContext::getCachedContext(context, sharedContextCache, visited);
-                        }
+//                        }
                     }
 
-                    org::antlr::v4::runtime::atn::ATN *ATNSimulator::deserialize(wchar_t data[]) {
+                    atn::ATN *ATNSimulator::deserialize(wchar_t data[]) {
                         return (new ATNDeserializer())->deserialize(data);
                     }
 

@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "Declarations.h"
-
+#include "ATNDeserializer.h"
 
 /*
  * [The "BSD license"]
@@ -42,7 +42,7 @@ namespace org {
                     class ATNSimulator {
                         /// @deprecated Use <seealso cref="ATNDeserializer#SERIALIZED_VERSION"/> instead. 
                     public:
-                        static const int SERIALIZED_VERSION = 0;
+                        static const int SERIALIZED_VERSION = ATNDeserializer::SERIALIZED_VERSION;
 
                         ATNSimulator();
 
@@ -56,7 +56,7 @@ namespace org {
                         /// <summary>
                         /// Must distinguish between missing edge and edge we know leads nowhere </summary>
                         static dfa::DFAState * ERROR;
-                        ATN *const atn;
+                        ATN * atn;
 
                         /// <summary>
                         /// The context cache maps all PredictionContext objects that are equals()
@@ -80,7 +80,7 @@ namespace org {
                         ///  so it's not worth the complexity.
                         /// </summary>
                     protected:
-                        PredictionContextCache *const sharedContextCache;
+                        PredictionContextCache * sharedContextCache;
 
 
                     public:

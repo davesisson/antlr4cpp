@@ -1,34 +1,39 @@
 ﻿#include "ATNDeserializer.h"
-#include "ATNType.h"
-#include "LoopEndState.h"
-#include "Pair.h"
-#include "BlockStartState.h"
-#include "BlockEndState.h"
-#include "DecisionState.h"
-#include "RuleStartState.h"
-#include "Token.h"
-#include "RuleStopState.h"
-#include "TokensStartState.h"
-#include "RuleTransition.h"
-#include "EpsilonTransition.h"
-#include "PlusLoopbackState.h"
-#include "PlusBlockStartState.h"
-#include "StarLoopbackState.h"
-#include "StarLoopEntryState.h"
-#include "BasicBlockStartState.h"
-#include "BasicState.h"
-#include "AtomTransition.h"
-#include "StarBlockStartState.h"
-#include "RangeTransition.h"
-#include "PredicateTransition.h"
-#include "PrecedencePredicateTransition.h"
-#include "ActionTransition.h"
-#include "SetTransition.h"
-#include "NotSetTransition.h"
-#include "WildcardTransition.h"
+#include "ATNDeserializationOptions.h"
+#include "Declarations.h"
+#include "ATNState.h"
+
+//#include "ATNType.h"
+//#include "LoopEndState.h"
+//#include "Pair.h"
+//#include "BlockStartState.h"
+//#include "BlockEndState.h"
+//#include "DecisionState.h"
+//#include "RuleStartState.h"
+//#include "Token.h"
+//#include "RuleStopState.h"
+//#include "TokensStartState.h"
+//#include "RuleTransition.h"
+//#include "EpsilonTransition.h"
+//#include "PlusLoopbackState.h"
+//#include "PlusBlockStartState.h"
+//#include "StarLoopbackState.h"
+//#include "StarLoopEntryState.h"
+//#include "BasicBlockStartState.h"
+//#include "BasicState.h"
+//#include "AtomTransition.h"
+//#include "StarBlockStartState.h"
+//#include "RangeTransition.h"
+//#include "PredicateTransition.h"
+//#include "PrecedencePredicateTransition.h"
+//#include "ActionTransition.h"
+//#include "SetTransition.h"
+//#include "NotSetTransition.h"
+//#include "WildcardTransition.h"
 
 #include <exception>
 #include <cstdint>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -127,8 +132,8 @@ namespace org {
                         //
                         // STATES
                         //
-                        std::vector<Pair<LoopEndState*, int>*> loopBackStateNumbers = std::vector<Pair<LoopEndState*, int>*>();
-                        std::vector<Pair<BlockStartState*, int>*> endStateNumbers = std::vector<Pair<BlockStartState*, int>*>();
+                        std::vector<misc::Pair<LoopEndState*, int>*> loopBackStateNumbers = std::vector<misc::Pair<LoopEndState*, int>*>();
+                        std::vector<misc::Pair<BlockStartState*, int>*> endStateNumbers = std::vector<misc::Pair<BlockStartState*, int>*>();
                         int nstates = toInt(data[p++]);
                         for (int i = 0; i < nstates; i++) {
                             int stype = toInt(data[p++]);
@@ -146,10 +151,10 @@ namespace org {
                             ATNState *s = stateFactory(stype, ruleIndex);
                             if (stype == ATNState::LOOP_END) { // special case
                                 int loopBackStateNumber = toInt(data[p++]);
-                                loopBackStateNumbers.push_back(new Pair<LoopEndState*, int>(static_cast<LoopEndState*>(s), loopBackStateNumber));
+                                loopBackStateNumbers.push_back(new misc::Pair<LoopEndState*, int>(static_cast<LoopEndState*>(s), loopBackStateNumber));
                             } else if (dynamic_cast<BlockStartState*>(s) != nullptr) {
                                 int endStateNumber = toInt(data[p++]);
-                                endStateNumbers.push_back(new Pair<BlockStartState*, int>(static_cast<BlockStartState*>(s), endStateNumber));
+                                endStateNumbers.push_back(new misc::Pair<BlockStartState*, int>(static_cast<BlockStartState*>(s), endStateNumber));
                             }
                             atn->addState(s);
                         }
@@ -230,14 +235,14 @@ namespace org {
                         //
                         // SETS
                         //
-                        std::vector<IntervalSet*> sets = std::vector<IntervalSet*>();
+                        std::vector<misc::IntervalSet*> sets = std::vector<misc::IntervalSet*>();
                         int nsets = toInt(data[p++]);
                         for (int i = 0; i < nsets; i++) {
                             int nintervals = toInt(data[p]);
                             p++;
                             // TODO IntervalSet does not have a default constructor
                             //IntervalSet *set = new IntervalSet();
-                            IntervalSet *set = nullptr;
+                            misc::IntervalSet *set = nullptr;
                             sets.push_back(set);
 
                             bool containsEof = toInt(data[p++]) != 0;
@@ -520,7 +525,7 @@ namespace org {
                         return new UUID(mostSigBits, leastSigBits);
                     }
 
-                    Transition *ATNDeserializer::edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<IntervalSet*> &sets) {
+                    Transition *ATNDeserializer::edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets) {
                         ATNState *target = atn->states[trg];
                         switch (type) {
                             case Transition::EPSILON :
