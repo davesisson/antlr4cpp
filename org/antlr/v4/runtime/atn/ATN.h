@@ -48,7 +48,7 @@ namespace org {
                     public:
                         static const int INVALID_ALT_NUMBER = 0;
 
-                        const std::vector<ATNState*> states;
+                        std::vector<ATNState*> * states;
 
                         /// <summary>
                         /// Each subrule/rule is a decision point and we must track them so we
@@ -56,7 +56,7 @@ namespace org {
                         ///  all the rules, subrules, optional blocks, ()+, ()* etc...
                         /// </summary>
                         // TODO: should this be const?  (It used to be declared as const but was causing problems in ATNDeserializer.)
-                        std::vector<DecisionState*> decisionToState;
+                        std::vector<DecisionState*> * decisionToState;
 
                         /// <summary>
                         /// Maps from rule index to starting state number.
@@ -104,7 +104,7 @@ namespace org {
 //ORIGINAL LINE: public int[] ruleToActionIndex;
                         int *ruleToActionIndex;
 
-                        const std::vector<TokensStartState*> modeToStartState;
+                        const std::vector<TokensStartState*> * modeToStartState;
 
                         /// <summary>
                         /// Used for runtime deserialization of ATNs from strings </summary>

@@ -2,6 +2,10 @@
 #include "LL1Analyzer.h"
 #include "Token.h"
 #include "RuleTransition.h"
+#include "IntervalSet.h"
+#include "Exceptions.h"
+#include "RuleContext.h"
+#include "DecisionState.h"
 
 /*
  * [The "BSD license"]
@@ -39,12 +43,12 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    ATN::ATN(ATNType grammarType, int maxTokenType) : grammarType(grammarType), maxTokenType(maxTokenType), states(new java::util::ArrayList<ATNState>()), decisionToState(new java::util::ArrayList<DecisionState>()), modeNameToStartState(new java::util::LinkedHashMap<String, TokensStartState>()), modeToStartState(new java::util::ArrayList<TokensStartState>()) {
+                    ATN::ATN(ATNType grammarType, int maxTokenType) : grammarType(grammarType), maxTokenType(maxTokenType), states(new std::vector<ATNState*>()), decisionToState(new std::vector<DecisionState*>()), modeNameToStartState(new std::map<std::wstring, TokensStartState*>()), modeToStartState(new std::vector<TokensStartState*>()) {
                     }
 
                     org::antlr::v4::runtime::misc::IntervalSet *ATN::nextTokens(ATNState *s, RuleContext *ctx) {
                         LL1Analyzer *anal = new LL1Analyzer(this);
-                        IntervalSet *next = anal->LOOK(s, ctx);
+                        misc::IntervalSet *next = anal->LOOK(s, ctx);
                         return next;
                     }
 
@@ -60,51 +64,52 @@ namespace org {
                     void ATN::addState(ATNState *state) {
                         if (state != nullptr) {
                             state->atn = this;
-                            state->stateNumber = states.size();
+                            state->stateNumber = (int)states->size();
                         }
 
-                        states.push_back(state);
+                        states->push_back(state);
+                    
                     }
 
                     void ATN::removeState(ATNState *state) {
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
-                        delete states[state->stateNumber]; // just free mem, don't shift states in list
+                        delete states->at(state->stateNumber);// just free mem, don't shift states in list
+                        states->at(state->stateNumber) = nullptr;
                     }
 
                     int ATN::defineDecisionState(DecisionState *s) {
-                        decisionToState.push_back(s);
-                        s->decision = decisionToState.size() - 1;
+                        decisionToState->push_back(s);
+                        s->decision = (int)decisionToState->size() - 1;
                         return s->decision;
                     }
 
                     org::antlr::v4::runtime::atn::DecisionState *ATN::getDecisionState(int decision) {
-                        if (!decisionToState.empty()) {
-                            return decisionToState[decision];
+                        if (!decisionToState->empty()) {
+                            return decisionToState->at(decision);
                         }
                         return nullptr;
                     }
 
                     int ATN::getNumberOfDecisions() {
-                        return decisionToState.size();
+                        return (int)decisionToState->size();
                     }
 
                     org::antlr::v4::runtime::misc::IntervalSet *ATN::getExpectedTokens(int stateNumber, RuleContext *context) {
-                        if (stateNumber < 0 || stateNumber >= states.size()) {
-                            throw IllegalArgumentException(L"Invalid state number.");
+                        if (stateNumber < 0 || stateNumber >= states->size()) {
+                            throw new IllegalArgumentException(L"Invalid state number.");
                         }
 
                         RuleContext *ctx = context;
-                        ATNState *s = states[stateNumber];
-                        IntervalSet *following = nextTokens(s);
+                        ATNState *s = states->at(stateNumber);
+                        misc::IntervalSet *following = nextTokens(s);
                         if (!following->contains(Token::EPSILON)) {
                             return following;
                         }
 
-                        IntervalSet *expected = new IntervalSet();
+                        misc::IntervalSet *expected = new misc::IntervalSet(0);
                         expected->addAll(following);
                         expected->remove(Token::EPSILON);
                         while (ctx != nullptr && ctx->invokingState >= 0 && following->contains(Token::EPSILON)) {
-                            ATNState *invokingState = states[ctx->invokingState];
+                            ATNState *invokingState = states->at(ctx->invokingState);
                             RuleTransition *rt = static_cast<RuleTransition*>(invokingState->transition(0));
                             following = nextTokens(rt->followState);
                             expected->addAll(following);
@@ -113,7 +118,7 @@ namespace org {
                         }
 
                         if (following->contains(Token::EPSILON)) {
-                            expected->add(Token::EOF);
+                            expected->add(Token::_EOF);
                         }
 
                         return expected;
