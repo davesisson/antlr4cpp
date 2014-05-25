@@ -2,6 +2,7 @@
 
 #include "Parser.h"
 #include "Declarations.h"
+
 #include <string>
 #include <bitset>
 #include <deque>

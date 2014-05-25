@@ -126,9 +126,6 @@ namespace org {
                                     (*iter)->set(bigger->union_Renamed(next)); // set to 3 merged ones
                                     *iter; // first call to next after previous duplicates the result
                                 }
-                                for (iter = ; iter != ; <#increment#>) {
-                                    <#statements#>
-                                }
                                 return;
                             }
                             if (addition->startsBeforeDisjoint(r)) {

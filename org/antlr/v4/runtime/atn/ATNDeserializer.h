@@ -1,8 +1,11 @@
 ﻿#pragma once
 
 #include "UUID.h"
+#include "Declarations.h"
+
 #include <string>
 #include <vector>
+
 
 /*
  * [The "BSD license"]
@@ -54,7 +57,7 @@ namespace org {
                         /// This is the earliest supported serialized UUID.
                         /// </summary>
                     private:
-                        static UUID *const BASE_SERIALIZED_UUID = nullptr;
+                        constexpr static UUID *const BASE_SERIALIZED_UUID = UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");;
                         /// <summary>
                         /// This UUID indicates an extension of <seealso cref="BASE_SERIALIZED_UUID"/> for the
                         /// addition of precedence predicates.

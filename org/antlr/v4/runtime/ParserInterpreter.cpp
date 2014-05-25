@@ -1,5 +1,4 @@
 ﻿#include "ParserInterpreter.h"
-#include <deque>
 #include "ATN.h"
 #include "DFA.h"
 #include "RuleStartState.h"
@@ -15,9 +14,9 @@
 #include "RuleTransition.h"
 #include "PrecedencePredicateTransition.h"
 #include "PredicateTransition.h"
-#include "wchar.h"
 #include "LoopEndState.h"
 
+#include <deque>
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
@@ -139,7 +138,7 @@ namespace org {
                 }
 
                 atn::ATNState *ParserInterpreter::getATNState() {
-                    return atn->states[getState()];
+                    return atn->states->at(getState());
                 }
 
                 void ParserInterpreter::visitState(atn::ATNState *p) {
@@ -180,6 +179,7 @@ namespace org {
                         break;
 
                         case atn::Transition::RULE:
+                        {
                             atn::RuleStartState *ruleStartState = (atn::RuleStartState*)(transition->target);
                             int ruleIndex = ruleStartState->ruleIndex;
                             InterpreterRuleContext *ctx = new InterpreterRuleContext(_ctx, p->stateNumber, ruleIndex);
@@ -188,25 +188,31 @@ namespace org {
                             } else {
                                 enterRule(ctx, transition->target->stateNumber, ruleIndex);
                             }
+                        }
                         break;
                             
                         case atn::Transition::PREDICATE:
+                        {
                             atn::PredicateTransition *predicateTransition = (atn::PredicateTransition*)(transition);
                             if (!sempred(_ctx, predicateTransition->ruleIndex, predicateTransition->predIndex)) {
                                 throw FailedPredicateException(this);
                             }
-                            
+                        }
                             break;
-                            
+                        
                         case atn::Transition::ACTION:
+                        {
                             atn::ActionTransition *actionTransition = (atn::ActionTransition*)(transition);
                             action(_ctx, actionTransition->ruleIndex, actionTransition->actionIndex);
+                        }
                             break;
                             
                         case atn::Transition::PRECEDENCE:
+                        {
                             if (!precpred(_ctx, ((atn::PrecedencePredicateTransition*)(transition))->precedence)) {
                                 throw new FailedPredicateException(this, L"precpred(_ctx, " + std::to_wstring(((atn::PrecedencePredicateTransition*)(transition))->precedence) +  L")");
                             }
+                        }
                             break;
                             
                         default:
@@ -227,7 +233,7 @@ namespace org {
                         exitRule();
                     }
 
-                    atn::RuleTransition *ruleTransition = static_cast<atn::RuleTransition*>(atn->states[getState()]->transition(0));
+                    atn::RuleTransition *ruleTransition = static_cast<atn::RuleTransition*>(atn->states->at(getState())->transition(0));
                     setState(ruleTransition->followState->stateNumber);
                 }
             }
