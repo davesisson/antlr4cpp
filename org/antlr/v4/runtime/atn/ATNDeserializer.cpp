@@ -2,34 +2,35 @@
 #include "ATNDeserializationOptions.h"
 #include "Declarations.h"
 #include "ATNState.h"
+#include "ATN.h"
+#include "Pair.h"
+#include "LoopEndState.h"
+#include "Token.h"
+#include "BlockStartState.h"
+#include "BlockEndState.h"
 
-//#include "ATNType.h"
-//#include "LoopEndState.h"
-//#include "Pair.h"
-//#include "BlockStartState.h"
-//#include "BlockEndState.h"
-//#include "DecisionState.h"
-//#include "RuleStartState.h"
-//#include "Token.h"
-//#include "RuleStopState.h"
-//#include "TokensStartState.h"
-//#include "RuleTransition.h"
-//#include "EpsilonTransition.h"
-//#include "PlusLoopbackState.h"
-//#include "PlusBlockStartState.h"
-//#include "StarLoopbackState.h"
-//#include "StarLoopEntryState.h"
-//#include "BasicBlockStartState.h"
-//#include "BasicState.h"
-//#include "AtomTransition.h"
-//#include "StarBlockStartState.h"
-//#include "RangeTransition.h"
-//#include "PredicateTransition.h"
-//#include "PrecedencePredicateTransition.h"
-//#include "ActionTransition.h"
-//#include "SetTransition.h"
-//#include "NotSetTransition.h"
-//#include "WildcardTransition.h"
+#include "ATNType.h"
+#include "DecisionState.h"
+#include "RuleStartState.h"
+#include "RuleStopState.h"
+#include "TokensStartState.h"
+#include "RuleTransition.h"
+#include "EpsilonTransition.h"
+#include "PlusLoopbackState.h"
+#include "PlusBlockStartState.h"
+#include "StarLoopbackState.h"
+#include "StarLoopEntryState.h"
+#include "BasicBlockStartState.h"
+#include "BasicState.h"
+#include "AtomTransition.h"
+#include "StarBlockStartState.h"
+#include "RangeTransition.h"
+#include "PredicateTransition.h"
+#include "PrecedencePredicateTransition.h"
+#include "ActionTransition.h"
+#include "SetTransition.h"
+#include "NotSetTransition.h"
+#include "WildcardTransition.h"
 
 #include <exception>
 #include <cstdint>
@@ -74,7 +75,7 @@ namespace org {
                     /* This value should never change. Updates following this version are
                      * reflected as change in the unique ID SERIALIZED_UUID.
                      */
-                    UUID *const ATNDeserializer::BASE_SERIALIZED_UUID = UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");
+                    //UUID *const ATNDeserializer::BASE_SERIALIZED_UUID = UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");
                     UUID *const ATNDeserializer::ADDED_PRECEDENCE_TRANSITIONS = UUID::fromString(L"1DA0C57D-6C06-438A-9B27-10BCB3CE0F61");
                     const std::vector<UUID*> ATNDeserializer::SUPPORTED_UUIDS = supportedUUIDsInitializer();
                     UUID *const ATNDeserializer::SERIALIZED_UUID = ADDED_PRECEDENCE_TRANSITIONS;
@@ -150,27 +151,27 @@ namespace org {
                             ATNState *s = stateFactory(stype, ruleIndex);
                             if (stype == ATNState::LOOP_END) { // special case
                                 int loopBackStateNumber = toInt(data[p++]);
-                                loopBackStateNumbers.push_back(new misc::Pair<LoopEndState*, int>(static_cast<LoopEndState*>(s), loopBackStateNumber));
-                            } else if (dynamic_cast<BlockStartState*>(s) != nullptr) {
+                                loopBackStateNumbers.push_back(new misc::Pair<LoopEndState*, int>(/*static_cast<LoopEndState*>(*/(LoopEndState*)s/*)*/, loopBackStateNumber));
+                            } else if (/*dynamic_cast<BlockStartState*>(*/s/*)*/ != nullptr) {
                                 int endStateNumber = toInt(data[p++]);
-                                endStateNumbers.push_back(new misc::Pair<BlockStartState*, int>(static_cast<BlockStartState*>(s), endStateNumber));
+                                endStateNumbers.push_back(new misc::Pair<BlockStartState*, int>(/*static_cast<BlockStartState*>(*/(BlockStartState*)s, endStateNumber));
                             }
                             atn->addState(s);
                         }
 
                         // delay the assignment of loop back and end states until we know all the state instances have been initialized
                         for (auto pair : loopBackStateNumbers) {
-                            pair->a->loopBackState = atn->states[pair->b];
+                            pair->a->loopBackState = atn->states->at(pair->b);
                         }
 
                         for (auto pair : endStateNumbers) {
-                            pair->a->endState = static_cast<BlockEndState*>(atn->states[pair->b]);
+                            pair->a->endState = (BlockEndState*)atn->states->at(pair->b);//static_cast<BlockEndState*>(atn->states[pair->b]);
                         }
 
                         int numNonGreedyStates = toInt(data[p++]);
                         for (int i = 0; i < numNonGreedyStates; i++) {
                             int stateNumber = toInt(data[p++]);
-                            (static_cast<DecisionState*>(atn->states[stateNumber]))->nonGreedy = true;
+                            ((DecisionState*)atn->states->at(stateNumber) /*static_cast<DecisionState*>(atn->states[stateNumber])*/)->nonGreedy = true;
                         }
 
                         if (supportsPrecedencePredicates) {
@@ -192,7 +193,7 @@ namespace org {
 
                         for (int i = 0; i < nrules; i++) {
                             int s = toInt(data[p++]);
-                            RuleStartState *startState = static_cast<RuleStartState*>(atn->states[s]);
+                            RuleStartState *startState = /*static_cast<RuleStartState*>*/(RuleStartState*)atn->states->at(s);
                             atn->ruleToStartState.push_back(startState);
                             if (atn->grammarType == ATNType::LEXER) {
                                 int tokenType = toInt(data[p++]);

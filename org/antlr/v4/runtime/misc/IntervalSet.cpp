@@ -114,24 +114,28 @@ namespace org {
                                 (*iter) = bigger;
                                 // make sure we didn't just create an interval that
                                 // should be merged with next interval in list
-                                while ((*iter)->hasNext()) {
+                                
+                                
+                                while ( iter++ != intervals.end()) {
                                     Interval *next = *iter;
                                     if (!bigger->adjacent(next) && bigger->disjoint(next)) {
                                         break;
                                     }
 
                                     // if we bump up against or overlap next, merge
-                                    (*iter)->remove(); // remove this one
-                                    (*iter)->previous(); // move backwards to what we just set
-                                    (*iter)->set(bigger->union_Renamed(next)); // set to 3 merged ones
-                                    *iter; // first call to next after previous duplicates the result
+                                    intervals.erase(iter);// remove this one
+                                    iter--; // move backwards to what we just set
+                                    r = *iter;
+                                    
+                                    intervals.insert(iter, bigger->union_Renamed(next));//(*iter)->set(bigger->union_Renamed(next)); // set to 3 merged ones
+                                    //*iter; // first call to next after previous duplicates the result
                                 }
                                 return;
                             }
                             if (addition->startsBeforeDisjoint(r)) {
                                 // insert before r
-                                (*iter)->previous();
-                                (*iter)->add(addition);
+                                iter--; //(*iter)->previous();
+                                intervals.insert(iter, addition);//(*iter)->add(addition);
                                 return;
                             }
                             // if disjoint and after r, a future iteration will handle it
@@ -141,8 +145,8 @@ namespace org {
                         intervals.push_back(addition);
                     }
 
-                    IntervalSet *IntervalSet::Or(IntervalSet sets[]) {
-                        IntervalSet *r = new IntervalSet();
+                    IntervalSet *IntervalSet::Or(std::vector<IntervalSet*> sets) {
+                        IntervalSet *r = new IntervalSet(0);
                         for (auto s : sets) {
                             r->addAll(s);
                         }
@@ -158,7 +162,7 @@ namespace org {
                         }
                         IntervalSet *other = static_cast<IntervalSet*>(set);
                         // walk set and add each interval
-                        int n = other->intervals.size();
+                        int n = (int)other->intervals.size();
                         for (int i = 0; i < n; i++) {
                             Interval *I = other->intervals[i];
                             this->add(I->a,I->b);
@@ -175,7 +179,7 @@ namespace org {
                             return nullptr; // nothing in common with null set
                         }
                         if (!(dynamic_cast<IntervalSet*>(vocabulary) != nullptr)) {
-                            throw IllegalArgumentException(std::wstring(L"can't complement with non IntervalSet (") + vocabulary->getClass()->getName() + std::wstring(L")"));
+                            throw new IllegalArgumentException(std::wstring(L"can't complement with non IntervalSet (") + std::wstring(L"IntSet") + std::wstring(L")"));
                         }
                         IntervalSet *vocabularyIS = (static_cast<IntervalSet*>(vocabulary));
                         int maxElement = vocabularyIS->getMaxElement();

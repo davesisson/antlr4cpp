@@ -114,7 +114,7 @@ namespace org {
                         /// <summary>
                         /// combine all sets in the array returned the or'd value </summary>
                     public:
-                        static IntervalSet *Or(IntervalSet sets[]);
+                        static IntervalSet *Or(std::vector<IntervalSet*> sets);
 
                         virtual IntervalSet *addAll(IntSet *set) override;
 
