@@ -4,6 +4,9 @@
 #include "Exceptions.h"
 #include "interval.h"
 #include "Lexer.h"
+#include "StringBuilder.h"
+#include "IntegerList.h"
+#include <algorithm>
 
 /*
  * [The "BSD license"]
@@ -184,33 +187,33 @@ namespace org {
                         IntervalSet *vocabularyIS = (static_cast<IntervalSet*>(vocabulary));
                         int maxElement = vocabularyIS->getMaxElement();
 
-                        IntervalSet *compl = new IntervalSet();
+                        IntervalSet *compliment = new IntervalSet(0);
                         int n = intervals.size();
                         if (n == 0) {
-                            return compl;
+                            return compliment;
                         }
                         Interval *first = intervals[0];
                         // add a range from 0 to first.a constrained to vocab
                         if (first->a > 0) {
                             IntervalSet *s = IntervalSet::of(0, first->a - 1);
-                            IntervalSet *a = s->and(vocabularyIS);
-                            compl->addAll(a);
+                            IntervalSet *a = s->And(vocabularyIS);
+                            compliment->addAll(a);
                         }
                         for (int i = 1; i < n; i++) { // from 2nd interval .. nth
                             Interval *previous = intervals[i - 1];
                             Interval *current = intervals[i];
                             IntervalSet *s = IntervalSet::of(previous->b + 1, current->a - 1);
-                            IntervalSet *a = s->and(vocabularyIS);
-                            compl->addAll(a);
+                            IntervalSet *a = s->And(vocabularyIS);
+                            compliment->addAll(a);
                         }
                         Interval *last = intervals[n - 1];
                         // add a range from last.b to maxElement constrained to vocab
                         if (last->b < maxElement) {
                             IntervalSet *s = IntervalSet::of(last->b + 1, maxElement);
-                            IntervalSet *a = s->and(vocabularyIS);
-                            compl->addAll(a);
+                            IntervalSet *a = s->And(vocabularyIS);
+                            compliment->addAll(a);
                         }
-                        return compl;
+                        return compliment;
                     }
 
                     org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::subtract(IntSet *other) {
@@ -220,17 +223,17 @@ namespace org {
                         // will be empty.  The only problem would be when this' set max value
                         // goes beyond MAX_CHAR_VALUE, but hopefully the constant MAX_CHAR_VALUE
                         // will prevent this.
-                        return this->and((static_cast<IntervalSet*>(other))->complement(COMPLETE_CHAR_SET));
+                        return this->And((static_cast<IntervalSet*>(other))->complement(COMPLETE_CHAR_SET));
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::or(IntSet *a) {
-                        IntervalSet *o = new IntervalSet();
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::Or(IntSet *a) {
+                        IntervalSet *o = new IntervalSet(0);
                         o->addAll(this);
                         o->addAll(a);
                         return o;
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::and(IntSet *other) {
+                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::And(IntSet *other) {
                         if (other == nullptr) { //|| !(other instanceof IntervalSet) ) {
                             return nullptr; // nothing in common with null set
                         }
@@ -256,21 +259,21 @@ namespace org {
                             } else if (mine->properlyContains(theirs)) {
                                 // overlap, add intersection, get next theirs
                                 if (intersection == nullptr) {
-                                    intersection = new IntervalSet();
+                                    intersection = new IntervalSet(0);
                                 }
                                 intersection->add(mine->intersection(theirs));
                                 j++;
                             } else if (theirs->properlyContains(mine)) {
                                 // overlap, add intersection, get next mine
                                 if (intersection == nullptr) {
-                                    intersection = new IntervalSet();
+                                    intersection = new IntervalSet(0);
                                 }
                                 intersection->add(mine->intersection(theirs));
                                 i++;
                             } else if (!mine->disjoint(theirs)) {
                                 // overlap, add intersection
                                 if (intersection == nullptr) {
-                                    intersection = new IntervalSet();
+                                    intersection = new IntervalSet(0);
                                 }
                                 intersection->add(mine->intersection(theirs));
                                 // Move the iterator of lower range [a..b], but not
@@ -288,7 +291,7 @@ namespace org {
                             }
                         }
                         if (intersection == nullptr) {
-                            return new IntervalSet();
+                            return new IntervalSet(0);
                         }
                         return intersection;
                     }
@@ -368,8 +371,8 @@ namespace org {
                     int IntervalSet::hashCode() {
                         int hash = MurmurHash::initialize();
                         for (auto I : intervals) {
-                            hash = MurmurHash::update(hash, I.a);
-                            hash = MurmurHash::update(hash, I.b);
+                            hash = MurmurHash::update(hash, I->a);
+                            hash = MurmurHash::update(hash, I->b);
                         }
 
                         hash = MurmurHash::finish(hash, intervals.size() * 2);
@@ -377,11 +380,11 @@ namespace org {
                     }
 
                     bool IntervalSet::equals(void *obj) {
-                        if (obj == nullptr || !(dynamic_cast<IntervalSet*>(obj) != nullptr)) {
+                        if (obj == nullptr || !(static_cast<IntervalSet*>(obj) != nullptr)) {
                             return false;
                         }
                         IntervalSet *other = static_cast<IntervalSet*>(obj);
-                        return this->intervals.equals(other->intervals);
+                        return std::equal(this->intervals.begin(), this->intervals.end(), other->intervals.begin());
                     }
 
                     std::wstring IntervalSet::toString() {
@@ -405,26 +408,25 @@ namespace org {
                                 if (a == -1) {
                                     buf->append(L"<EOF>");
                                 } else if (elemAreChar) {
-                                    buf->append(L"'")->append(static_cast<wchar_t>(a))->append(L"'");
+                                    buf->append(L"'").append(static_cast<wchar_t>(a)).append(L"'");
                                 } else {
                                     buf->append(a);
                                 }
                             } else {
                                 if (elemAreChar) {
-                                    buf->append(L"'")->append(static_cast<wchar_t>(a))->append(L"'..'")->append(static_cast<wchar_t>(b))->append(L"'");
+                                    buf->append(L"'").append(static_cast<wchar_t>(a)).append(L"'..'").append(static_cast<wchar_t>(b)).append(L"'");
                                 } else {
-                                    buf->append(a)->append(L"..")->append(b);
+                                    buf->append(a).append(L"..").append(b);
                                 }
                             }
-                            if ((*iter)->hasNext()) {
+                            iter++;
+                            if (iter == this->intervals.end()) {
                                 buf->append(L", ");
                             }
-                            iter++;
                         }
                         if (this->size() > 1) {
                             buf->append(L"}");
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
 
@@ -451,20 +453,19 @@ namespace org {
                                     buf->append(elementName(tokenNames, i));
                                 }
                             }
-                            if ((*iter)->hasNext()) {
+                            iter++;
+                            if (iter == this->intervals.end()) {
                                 buf->append(L", ");
                             }
-                            iter++;
                         }
                         if (this->size() > 1) {
                             buf->append(L"}");
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
 
                     std::wstring IntervalSet::elementName(std::wstring tokenNames[], int a) {
-                        if (a == Token::EOF) {
+                        if (a == Token::_EOF) {
                             return L"<EOF>";
                         } else if (a == Token::EPSILON) {
                             return L"<EPSILON>";
@@ -516,13 +517,13 @@ namespace org {
                         return values;
                     }
 
-                    Set<int> *IntervalSet::toSet() {
-                        Set<int> *s = std::set<int>();
+                    std::set<int> *IntervalSet::toSet() {
+                        std::set<int> *s = new std::set<int>();
                         for (auto I : intervals) {
-                            int a = I.a;
-                            int b = I.b;
+                            int a = I->a;
+                            int b = I->b;
                             for (int v = a; v <= b; v++) {
-                                s->add(v);
+                                s->insert(v);
                             }
                         }
                         return s;
@@ -563,7 +564,7 @@ namespace org {
                             }
                             // if whole interval x..x, rm
                             if (el == a && el == b) {
-                                intervals.remove(i);
+                                intervals.erase(intervals.begin() + i);
                                 break;
                             }
                             // if on left edge x..b, adjust left
