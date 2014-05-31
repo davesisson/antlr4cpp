@@ -1,11 +1,12 @@
 ﻿#pragma once
 
+
+#include "Declarations.h"
 #include "ATNType.h"
+
 #include <string>
 #include <vector>
 #include <map>
-
-#include "Declarations.h"
 
 
 /*

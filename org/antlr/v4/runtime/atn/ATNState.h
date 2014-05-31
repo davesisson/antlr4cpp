@@ -1,11 +1,13 @@
 ﻿#pragma once
 
+#include "Declarations.h"
+#include "stringconverter.h"
+
 #include <string>
 #include <vector>
-#include "stringconverter.h"
 #include <list>
 
-#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]

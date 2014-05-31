@@ -1,11 +1,12 @@
 ﻿#pragma once
 
 #include "ATNState.h"
+#include "Declarations.h"
+
+
 #include <string>
 #include <vector>
 #include <map>
-
-#include "Declarations.h"
 
 /*
  * [The "BSD license"]

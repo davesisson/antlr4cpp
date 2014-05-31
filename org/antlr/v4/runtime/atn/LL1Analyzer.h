@@ -65,7 +65,7 @@ namespace org {
                         /// </summary>
                         /// <param name="s"> the ATN state </param>
                         /// <returns> the expected symbols for each outgoing transition of {@code s}. </returns>
-                        virtual misc::IntervalSet *getDecisionLookahead(ATNState *s);
+                        virtual std::vector<misc::IntervalSet*> getDecisionLookahead(ATNState *s);
 
                         /// <summary>
                         /// Compute set of tokens that can follow {@code s} in the ATN in the

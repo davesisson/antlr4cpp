@@ -7,6 +7,8 @@
 #include "WildcardTransition.h"
 #include "NotSetTransition.h"
 #include "IntervalSet.h"
+#include "ATNConfig.h"
+#include "ATN.h"
 
 /*
  * [The "BSD license"]
@@ -47,18 +49,20 @@ namespace org {
                     LL1Analyzer::LL1Analyzer(ATN *atn) : atn(atn) {
                     }
 
-                    misc::IntervalSet *LL1Analyzer::getDecisionLookahead(ATNState *s) {
+                    std::vector<misc::IntervalSet*> LL1Analyzer::getDecisionLookahead(ATNState *s) {
                                         //		System.out.println("LOOK("+s.stateNumber+")");
+                        std::vector<misc::IntervalSet*> look;
+                        
                         if (s == nullptr) {
-                            return nullptr;
+                            return look;
                         }
-
-                        misc::IntervalSet *look = new misc::IntervalSet[s->getNumberOfTransitions()]();
+                        
+                        // need s->getNumberOfTransitions()); of them
                         for (int alt = 0; alt < s->getNumberOfTransitions(); alt++) {
-                            look[alt] = new misc::IntervalSet();
-                            std::set<ATNConfig*> *lookBusy = new std::set<ATNConfig*>();
+                            look[alt] = new misc::IntervalSet(0);
+                            std::vector<ATNConfig*> *lookBusy = new std::vector<ATNConfig*>();
                             bool seeThruPreds = false; // fail to get lookahead upon pred
-                            _LOOK(s->transition(alt)->target, nullptr, PredictionContext::EMPTY, look[alt], lookBusy, new BitSet(), seeThruPreds, false);
+                            _LOOK(s->transition(alt)->target, nullptr, (PredictionContext*)PredictionContext::EMPTY, look[alt], lookBusy, new std::bitset<BITSET_SIZE>(), seeThruPreds, false);
                             // Wipe out lookahead for this alternative if we found nothing
                             // or we had a predicate when we !seeThruPreds
                             if (look[alt]->size() == 0 || look[alt]->contains(HIT_PRED)) {
@@ -73,15 +77,15 @@ namespace org {
                         return LOOK(s, nullptr, ctx);
                     }
 
-                    IntervalSet *LL1Analyzer::LOOK(ATNState *s, ATNState *stopState, RuleContext *ctx) {
-                           misc::IntervalSet *r = new misc::IntervalSet();
+                    misc::IntervalSet *LL1Analyzer::LOOK(ATNState *s, ATNState *stopState, RuleContext *ctx) {
+                           misc::IntervalSet *r = new misc::IntervalSet(0);
                         bool seeThruPreds = true; // ignore preds; get all lookahead
                         PredictionContext *lookContext = ctx != nullptr ? PredictionContext::fromRuleContext(s->atn, ctx) : nullptr;
-                           _LOOK(s, stopState, lookContext, r, std::set<ATNConfig*>(), new BitSet(), seeThruPreds, true);
+                           _LOOK(s, stopState, lookContext, r, new std::vector<ATNConfig*>(), new std::bitset<BITSET_SIZE>(), seeThruPreds, true);
                            return r;
                     }
 
-                    void LL1Analyzer::_LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, Set<ATNConfig*> *lookBusy, BitSet *calledRuleStack, bool seeThruPreds, bool addEOF) {
+                    void LL1Analyzer::_LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::vector<ATNConfig*> *lookBusy,  std::bitset<BITSET_SIZE> *calledRuleStack, bool seeThruPreds, bool addEOF) {
                                         //		System.out.println("_LOOK("+s.stateNumber+", ctx="+ctx);
                         ATNConfig *c = new ATNConfig(s, 0, ctx);
                         if (!lookBusy->add(c)) {
@@ -93,7 +97,7 @@ namespace org {
                                 look->add(Token::EPSILON);
                                 return;
                             } else if (ctx->isEmpty() && addEOF) {
-                                look->add(Token::EOF);
+                                look->add(Token::_EOF);
                                 return;
                             }
                         }
@@ -103,21 +107,22 @@ namespace org {
                                 look->add(Token::EPSILON);
                                 return;
                             } else if (ctx->isEmpty() && addEOF) {
-                                look->add(Token::EOF);
+                                look->add(Token::_EOF);
                                 return;
                             }
 
-                            if (ctx != PredictionContext::EMPTY) {
+                            if (ctx != (PredictionContext*)PredictionContext::EMPTY) {
                                 // run thru all possible stack tops in ctx
                                 for (int i = 0; i < ctx->size(); i++) {
                                     ATNState *returnState = atn->states[ctx->getReturnState(i)];
                                         //					System.out.println("popping back to "+retState);
 
-                                    bool removed = calledRuleStack->get(returnState->ruleIndex);
+                                    bool removed = calledRuleStack->test(returnState->ruleIndex);
                                     try {
                                         calledRuleStack->clear(returnState->ruleIndex);
                                         _LOOK(returnState, stopState, ctx->getParent(i), look, lookBusy, calledRuleStack, seeThruPreds, addEOF);
-                                    } finally {
+                                    }
+                                    finally {
                                         if (removed) {
                                             calledRuleStack->set(returnState->ruleIndex);
                                         }

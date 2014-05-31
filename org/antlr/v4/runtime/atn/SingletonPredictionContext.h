@@ -1,8 +1,9 @@
 ﻿#pragma once
 
+#include "stringconverter.h"
 #include "PredictionContext.h"
 #include <string>
-#include "stringconverter.h"
+
 
 /*
  * [The "BSD license"]

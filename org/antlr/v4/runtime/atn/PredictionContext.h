@@ -1,14 +1,14 @@
 ﻿#pragma once
 
+#include "DoubleKeyMap.h"
+#include "Recognizer.h"
+#include "Declarations.h"
+#include "EqualityComparator.h"
 
 #include <string>
 #include <unordered_map>
 #include <vector>
 #include <limits.h>
-#include "DoubleKeyMap.h"
-#include "Recognizer.h"
-#include "Declarations.h"
-#include "EqualityComparator.h"
 
 /*
  * [The "BSD license"]

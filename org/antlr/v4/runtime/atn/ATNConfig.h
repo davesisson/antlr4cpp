@@ -1,9 +1,8 @@
 ﻿#pragma once
 
-
-#include <string>
 #include "Declarations.h"
 
+#include <string>
 
 /*
  * [The "BSD license"]
