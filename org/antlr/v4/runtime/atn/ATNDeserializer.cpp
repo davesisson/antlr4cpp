@@ -31,6 +31,7 @@
 #include "SetTransition.h"
 #include "NotSetTransition.h"
 #include "WildcardTransition.h"
+#include "IntervalSet.h"
 
 #include <exception>
 #include <cstdint>
@@ -178,7 +179,7 @@ namespace org {
                             int numPrecedenceStates = toInt(data[p++]);
                             for (int i = 0; i < numPrecedenceStates; i++) {
                                 int stateNumber = toInt(data[p++]);
-                                (static_cast<RuleStartState*>(atn->states[stateNumber]))->isPrecedenceRule = true;
+                                (dynamic_cast<RuleStartState*>(atn->states[stateNumber]))->isPrecedenceRule = true;
                             }
                         }
 
@@ -212,7 +213,7 @@ namespace org {
                         }
 
                         atn->ruleToStopState = new RuleStopState*[nrules];
-                        for (ATNState *state : atn->states) {
+                        for (ATNState *state : *atn->states) {
                             if (!(dynamic_cast<RuleStopState*>(state) != nullptr)) {
                                 continue;
                             }
