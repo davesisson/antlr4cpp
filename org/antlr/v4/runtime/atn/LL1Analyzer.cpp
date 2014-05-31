@@ -53,10 +53,10 @@ namespace org {
                             return nullptr;
                         }
 
-                        misc::IntervalSet look[s->getNumberOfTransitions()];
+                        misc::IntervalSet *look = new misc::IntervalSet[s->getNumberOfTransitions()]();
                         for (int alt = 0; alt < s->getNumberOfTransitions(); alt++) {
                             look[alt] = new misc::IntervalSet();
-                            Set<ATNConfig*> *lookBusy = std::set<ATNConfig*>();
+                            std::set<ATNConfig*> *lookBusy = new std::set<ATNConfig*>();
                             bool seeThruPreds = false; // fail to get lookahead upon pred
                             _LOOK(s->transition(alt)->target, nullptr, PredictionContext::EMPTY, look[alt], lookBusy, new BitSet(), seeThruPreds, false);
                             // Wipe out lookahead for this alternative if we found nothing

@@ -138,7 +138,7 @@ namespace org {
                 }
 
                 atn::ATNState *ParserInterpreter::getATNState() {
-                    return atn->states->at(getState());
+                    return atn->states.at(getState());
                 }
 
                 void ParserInterpreter::visitState(atn::ATNState *p) {
@@ -233,7 +233,7 @@ namespace org {
                         exitRule();
                     }
 
-                    atn::RuleTransition *ruleTransition = static_cast<atn::RuleTransition*>(atn->states->at(getState())->transition(0));
+                    atn::RuleTransition *ruleTransition = static_cast<atn::RuleTransition*>(atn->states.at(getState())->transition(0));
                     setState(ruleTransition->followState->stateNumber);
                 }
             }

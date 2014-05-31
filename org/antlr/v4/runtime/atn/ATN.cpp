@@ -42,8 +42,8 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    ATN::ATN(ATNType grammarType, int maxTokenType) : grammarType(grammarType), maxTokenType(maxTokenType), states(new std::vector<ATNState*>()), decisionToState(new std::vector<DecisionState*>()), modeNameToStartState(new std::map<std::wstring, TokensStartState*>()), modeToStartState(new std::vector<TokensStartState*>()) {
+                    //, states(new std::vector<ATNState*>()), decisionToState(new std::vector<DecisionState*>())
+                    ATN::ATN(ATNType grammarType, int maxTokenType) : grammarType(grammarType), maxTokenType(maxTokenType), modeNameToStartState(new std::map<std::wstring, TokensStartState*>()), modeToStartState(new std::vector<TokensStartState*>()) {
                     }
 
                     org::antlr::v4::runtime::misc::IntervalSet *ATN::nextTokens(ATNState *s, RuleContext *ctx) {
@@ -64,42 +64,42 @@ namespace org {
                     void ATN::addState(ATNState *state) {
                         if (state != nullptr) {
                             state->atn = this;
-                            state->stateNumber = (int)states->size();
+                            state->stateNumber = (int)states.size();
                         }
 
-                        states->push_back(state);
+                        states.push_back(state);
                     
                     }
 
                     void ATN::removeState(ATNState *state) {
-                        delete states->at(state->stateNumber);// just free mem, don't shift states in list
-                        states->at(state->stateNumber) = nullptr;
+                        delete states.at(state->stateNumber);// just free mem, don't shift states in list
+                        states.at(state->stateNumber) = nullptr;
                     }
 
                     int ATN::defineDecisionState(DecisionState *s) {
-                        decisionToState->push_back(s);
-                        s->decision = (int)decisionToState->size() - 1;
+                        decisionToState.push_back(s);
+                        s->decision = (int)decisionToState.size() - 1;
                         return s->decision;
                     }
 
                     org::antlr::v4::runtime::atn::DecisionState *ATN::getDecisionState(int decision) {
-                        if (!decisionToState->empty()) {
-                            return decisionToState->at(decision);
+                        if (!decisionToState.empty()) {
+                            return decisionToState.at(decision);
                         }
                         return nullptr;
                     }
 
                     int ATN::getNumberOfDecisions() {
-                        return (int)decisionToState->size();
+                        return (int)decisionToState.size();
                     }
 
                     org::antlr::v4::runtime::misc::IntervalSet *ATN::getExpectedTokens(int stateNumber, RuleContext *context) {
-                        if (stateNumber < 0 || stateNumber >= states->size()) {
+                        if (stateNumber < 0 || stateNumber >= states.size()) {
                             throw new IllegalArgumentException(L"Invalid state number.");
                         }
 
                         RuleContext *ctx = context;
-                        ATNState *s = states->at(stateNumber);
+                        ATNState *s = states.at(stateNumber);
                         misc::IntervalSet *following = nextTokens(s);
                         if (!following->contains(Token::EPSILON)) {
                             return following;
@@ -109,7 +109,7 @@ namespace org {
                         expected->addAll(following);
                         expected->remove(Token::EPSILON);
                         while (ctx != nullptr && ctx->invokingState >= 0 && following->contains(Token::EPSILON)) {
-                            ATNState *invokingState = states->at(ctx->invokingState);
+                            ATNState *invokingState = states.at(ctx->invokingState);
                             RuleTransition *rt = static_cast<RuleTransition*>(invokingState->transition(0));
                             following = nextTokens(rt->followState);
                             expected->addAll(following);

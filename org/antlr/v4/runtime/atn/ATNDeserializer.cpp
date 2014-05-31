@@ -162,17 +162,17 @@ namespace org {
 
                         // delay the assignment of loop back and end states until we know all the state instances have been initialized
                         for (auto pair : loopBackStateNumbers) {
-                            pair->a->loopBackState = atn->states->at(pair->b);
+                            pair->a->loopBackState = atn->states.at(pair->b);
                         }
 
                         for (auto pair : endStateNumbers) {
-                            pair->a->endState = (BlockEndState*)atn->states->at(pair->b);//static_cast<BlockEndState*>(atn->states[pair->b]);
+                            pair->a->endState = (BlockEndState*)atn->states.at(pair->b);//static_cast<BlockEndState*>(atn->states[pair->b]);
                         }
 
                         int numNonGreedyStates = toInt(data[p++]);
                         for (int i = 0; i < numNonGreedyStates; i++) {
                             int stateNumber = toInt(data[p++]);
-                            ((DecisionState*)atn->states->at(stateNumber) /*static_cast<DecisionState*>(atn->states[stateNumber])*/)->nonGreedy = true;
+                            ((DecisionState*)atn->states.at(stateNumber) /*static_cast<DecisionState*>(atn->states[stateNumber])*/)->nonGreedy = true;
                         }
 
                         if (supportsPrecedencePredicates) {
@@ -194,7 +194,7 @@ namespace org {
 
                         for (int i = 0; i < nrules; i++) {
                             int s = toInt(data[p++]);
-                            RuleStartState *startState = /*static_cast<RuleStartState*>*/(RuleStartState*)atn->states->at(s);
+                            RuleStartState *startState = /*static_cast<RuleStartState*>*/(RuleStartState*)atn->states.at(s);
                             atn->ruleToStartState.push_back(startState);
                             if (atn->grammarType == ATNType::LEXER) {
                                 int tokenType = toInt(data[p++]);
@@ -213,7 +213,7 @@ namespace org {
                         }
 
                         atn->ruleToStopState = new RuleStopState*[nrules];
-                        for (ATNState *state : *atn->states) {
+                        for (ATNState *state : atn->states) {
                             if (!(dynamic_cast<RuleStopState*>(state) != nullptr)) {
                                 continue;
                             }
