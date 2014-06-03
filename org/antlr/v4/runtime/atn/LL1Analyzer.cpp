@@ -10,6 +10,7 @@
 #include "ATNConfig.h"
 #include "ATN.h"
 
+#include <typeinfo>
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -60,7 +61,7 @@ namespace org {
                         // need s->getNumberOfTransitions()); of them
                         for (int alt = 0; alt < s->getNumberOfTransitions(); alt++) {
                             look[alt] = new misc::IntervalSet(0);
-                            std::vector<ATNConfig*> *lookBusy = new std::vector<ATNConfig*>();
+                            std::set<ATNConfig*> *lookBusy = new std::set<ATNConfig*>();
                             bool seeThruPreds = false; // fail to get lookahead upon pred
                             _LOOK(s->transition(alt)->target, nullptr, (PredictionContext*)PredictionContext::EMPTY, look[alt], lookBusy, new std::bitset<BITSET_SIZE>(), seeThruPreds, false);
                             // Wipe out lookahead for this alternative if we found nothing
@@ -81,14 +82,15 @@ namespace org {
                            misc::IntervalSet *r = new misc::IntervalSet(0);
                         bool seeThruPreds = true; // ignore preds; get all lookahead
                         PredictionContext *lookContext = ctx != nullptr ? PredictionContext::fromRuleContext(s->atn, ctx) : nullptr;
-                           _LOOK(s, stopState, lookContext, r, new std::vector<ATNConfig*>(), new std::bitset<BITSET_SIZE>(), seeThruPreds, true);
+                           _LOOK(s, stopState, lookContext, r, new std::set<ATNConfig*>(), new std::bitset<BITSET_SIZE>(), seeThruPreds, true);
                            return r;
                     }
 
-                    void LL1Analyzer::_LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::vector<ATNConfig*> *lookBusy,  std::bitset<BITSET_SIZE> *calledRuleStack, bool seeThruPreds, bool addEOF) {
+                    void LL1Analyzer::_LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::set<ATNConfig*> *lookBusy,  std::bitset<BITSET_SIZE> *calledRuleStack, bool seeThruPreds, bool addEOF) {
                                         //		System.out.println("_LOOK("+s.stateNumber+", ctx="+ctx);
                         ATNConfig *c = new ATNConfig(s, 0, ctx);
-                        if (!lookBusy->add(c)) {
+                        
+                        if (!lookBusy->insert(c).second) {
                             return;
                         }
 
@@ -119,13 +121,15 @@ namespace org {
 
                                     bool removed = calledRuleStack->test(returnState->ruleIndex);
                                     try {
-                                        calledRuleStack->clear(returnState->ruleIndex);
+                                        calledRuleStack[returnState->ruleIndex] = false;
                                         _LOOK(returnState, stopState, ctx->getParent(i), look, lookBusy, calledRuleStack, seeThruPreds, addEOF);
                                     }
-                                    finally {
-                                        if (removed) {
-                                            calledRuleStack->set(returnState->ruleIndex);
-                                        }
+                                    catch(...) {
+                                        // Just move to the next steps as a "finally" clause
+                                    }
+                                    if (removed) {
+                                        calledRuleStack->set(returnState->ruleIndex);
+    
                                     }
                                 }
                                 return;
@@ -135,8 +139,9 @@ namespace org {
                         int n = s->getNumberOfTransitions();
                         for (int i = 0; i < n; i++) {
                             Transition *t = s->transition(i);
-                            if (t->getClass() == RuleTransition::typeid) {
-                                if (calledRuleStack->get((static_cast<RuleTransition*>(t))->target->ruleIndex)) {
+                            
+                            if (typeid(t) == typeid(RuleTransition)) {
+                                if ( (*calledRuleStack)[(static_cast<RuleTransition*>(t))->target->ruleIndex]) {
                                     continue;
                                 }
 
@@ -145,9 +150,12 @@ namespace org {
                                 try {
                                     calledRuleStack->set((static_cast<RuleTransition*>(t))->target->ruleIndex);
                                     _LOOK(t->target, stopState, newContext, look, lookBusy, calledRuleStack, seeThruPreds, addEOF);
-                                } finally {
-                                    calledRuleStack->clear((static_cast<RuleTransition*>(t))->target->ruleIndex);
                                 }
+                                catch(...) {
+                                    // Just move to the next steps as a "finally" clause
+                                }
+                                calledRuleStack[((static_cast<RuleTransition*>(t))->target->ruleIndex)] = false;
+                                
                             } else if (dynamic_cast<AbstractPredicateTransition*>(t) != nullptr) {
                                 if (seeThruPreds) {
                                     _LOOK(t->target, stopState, ctx, look, lookBusy, calledRuleStack, seeThruPreds, addEOF);
@@ -156,7 +164,7 @@ namespace org {
                                 }
                             } else if (t->isEpsilon()) {
                                 _LOOK(t->target, stopState, ctx, look, lookBusy, calledRuleStack, seeThruPreds, addEOF);
-                            } else if (t->getClass() == WildcardTransition::typeid) {
+                            } else if (typeid(t) == typeid(WildcardTransition)) {
                                 look->addAll(misc::IntervalSet::of(Token::MIN_USER_TOKEN_TYPE, atn->maxTokenType));
                             } else {
                                         //				System.out.println("adding "+ t);
