@@ -48,12 +48,33 @@ namespace org {
                     ///  and deletion as well as during "consume until error recovery set"
                     ///  upon no viable alternative exceptions.
                     /// </summary>
-                    class ErrorNodeImpl : public TerminalNodeImpl, public ErrorNode {
+                    class ErrorNodeImpl : public virtual TerminalNodeImpl, public virtual ErrorNode {
                     public:
                         ErrorNodeImpl(Token *token);
 
                         template<typename T, typename T1>
                         T accept(ParseTreeVisitor<T1> *visitor);
+                        
+                        // From TerminalnodeImpl
+                        
+                        // From Terminal Node
+                        Token *getSymbol();
+                        
+                        // From Parse Tree
+                        ParseTree *getParent() override;
+                        ParseTree *getChild(int i) override;
+                        std::wstring getText();
+                        std::wstring toStringTree(Parser *parser);
+                        
+                        // From SyntaxTree
+                        misc::Interval *getSourceInterval();
+                        
+                        // From Tree
+                        //Tree *getParent();
+                        void *getPayload();
+                        //Tree *getChild(int i);
+                        int getChildCount();
+                        //std::wstring toStringTree();
                     };
 
                 }

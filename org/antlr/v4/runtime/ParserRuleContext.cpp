@@ -1,6 +1,8 @@
 ﻿#include "ParserRuleContext.h"
 #include "TerminalNodeImpl.h"
 #include "ErrorNodeImpl.h"
+#include "Interval.h"
+#include "Parser.h"
 
 #include <typeinfo>
 /*
@@ -81,14 +83,14 @@ namespace org {
                     }
                 }
 
-                org::antlr::v4::runtime::tree::TerminalNode *ParserRuleContext::addChild(Token *matchedToken) {
+                tree::TerminalNode *ParserRuleContext::addChild(Token *matchedToken) {
                     tree::TerminalNodeImpl *t = new tree::TerminalNodeImpl(matchedToken);
                     addChild(t);
                     t->parent = this;
                     return t;
                 }
 
-                org::antlr::v4::runtime::tree::ErrorNode *ParserRuleContext::addErrorNode(Token *badToken) {
+                tree::ErrorNode *ParserRuleContext::addErrorNode(Token *badToken) {
                     tree::ErrorNodeImpl *t = new tree::ErrorNodeImpl(badToken);
                     addChild(t);
                     t->parent = this;
@@ -177,7 +179,7 @@ namespace org {
 
                 template<typename T>
                 T ParserRuleContext::getRuleContext(void *ctxType, int i) {
-                    return getChild(ctxType, i);
+                    return getChild<T>(ctxType, i);
                 }
 
 
@@ -189,12 +191,12 @@ namespace org {
 
                     std::vector<T> contexts;
                     for (auto o : children) {
-                        if (ctxType->isInstance(o)) {
+                        if (typeid(ctxType) == typeid(o)) {
                             if (contexts.empty()) {
                                 contexts = std::vector<T>();
                             }
 
-                            contexts.push_back(ctxType->cast(o));
+                            contexts.push_back((ParserRuleContext*)(o));
                         }
                     }
 
@@ -206,14 +208,14 @@ namespace org {
                 }
 
                 int ParserRuleContext::getChildCount() {
-                    return children.size() > 0 ? children.size() : 0;
+                    return (int)children.size() > 0 ? (int)children.size() : 0;
                 }
 
                 org::antlr::v4::runtime::misc::Interval *ParserRuleContext::getSourceInterval() {
                     if (start == nullptr || stop == nullptr) {
-                        return Interval::INVALID;
+                        return misc::Interval::INVALID;
                     }
-                    return Interval::of(start->getTokenIndex(), stop->getTokenIndex());
+                    return misc::Interval::of(start->getTokenIndex(), stop->getTokenIndex());
                 }
 
                 org::antlr::v4::runtime::Token *ParserRuleContext::getStart() {
@@ -227,7 +229,10 @@ namespace org {
                 std::wstring ParserRuleContext::toInfoString(Parser *recognizer) {
                     std::vector<std::wstring> rules = recognizer->getRuleInvocationStack(this);
                     std::reverse(rules.begin(), rules.end());
-                    return std::wstring(L"ParserRuleContext") + rules + std::wstring(L"{") + std::wstring(L"start=") + start + std::wstring(L", stop=") + stop + L'}';
+#ifdef TODO
+                    FIX UP THIS STRING
+#endif
+                    return std::wstring(L"ParserRuleContext") /*+ rules*/ + std::wstring(L"{") + std::wstring(L"start=") + std::to_wstring(start->getTokenIndex())  + std::wstring(L", stop=") + std::to_wstring(stop->getTokenIndex()) + L'}';
                 }
             }
         }

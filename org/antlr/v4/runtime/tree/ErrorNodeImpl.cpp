@@ -37,11 +37,34 @@ namespace org {
                     ErrorNodeImpl::ErrorNodeImpl(Token *token) : TerminalNodeImpl(token) {
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T, typename T1>// where T1 : T
+
+                    template<typename T, typename T1>
                     T ErrorNodeImpl::accept(ParseTreeVisitor<T1> *visitor) {
                         return visitor->visitErrorNode(this);
                     }
+                    
+                    
+                    // From Terminal Node
+                    Token *getSymbol();
+                    
+                    // From Parse Tree
+                    ParseTree *getParent() override;
+                    ParseTree *getChild(int i) override;
+                    std::wstring getText();
+                    std::wstring toStringTree(Parser *parser);
+                    
+                    // From SyntaxTree
+                    misc::Interval *getSourceInterval();
+                    
+                    // From Tree
+                    //Tree *getParent();
+                    void *getPayload();
+                    //Tree *getChild(int i);
+                    int getChildCount();
+                    //std::wstring toStringTree();
+                    
+                    
+                    
                 }
             }
         }

@@ -66,7 +66,9 @@ namespace org {
                         SemanticContext *parent;
 
                         std::wstring toString();
-
+                        
+                        virtual bool equals(void *obj);
+                        
                         /// <summary>
                         /// For context independent predicates, we evaluate them without a local
                         /// context (i.e., null context). That way, we can evaluate them without
@@ -119,7 +121,7 @@ namespace org {
 
                         virtual int hashCode() ;
                         
-                        virtual bool equals(void *obj) ;
+                        virtual bool equals(void *obj);
                         
                         virtual std::wstring toString() ;
                     };

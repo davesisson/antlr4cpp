@@ -52,6 +52,11 @@ namespace org {
 #endif
                         return nullptr;
                     }
+                    bool SemanticContext::equals(void *obj) {
+                        // "SemanticContext::equals should have been called on a daughter class"
+                        throw new std::exception();
+                    }
+                    
                     template<typename T1, typename T2>
                     bool SemanticContext::Predicate::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
                         RuleContext *localctx = isCtxDependent ? outerContext : nullptr;

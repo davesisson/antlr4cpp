@@ -1,24 +1,52 @@
 ﻿#include "ATNConfig.h"
+#include "ATNState.h"
+#include "PredictionContext.h"
+#include "SemanticContext.h"
 #include "MurmurHash.h"
+#include "StringBuilder.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::Recognizer;
-                    using org::antlr::v4::runtime::misc::MurmurHash;
-                    using org::antlr::v4::runtime::misc::NotNull;
-                    using org::antlr::v4::runtime::misc::Nullable;
-
                     ATNConfig::ATNConfig(ATNConfig *old) : state(old->state), alt(old->alt), semanticContext(old->semanticContext) {
                         InitializeInstanceFields();
                         this->context = old->context;
                         this->reachesIntoOuterContext = old->reachesIntoOuterContext;
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ATNConfig::ATNConfig(ATNState *state, int alt, PredictionContext *context) {
+                    ATNConfig::ATNConfig(ATNState *state, int alt, PredictionContext *context) : state(state), alt(alt), context(context), semanticContext(nullptr) {
                     }
 
                     ATNConfig::ATNConfig(ATNState *state, int alt, PredictionContext *context, SemanticContext *semanticContext) : state(state), alt(alt), semanticContext(semanticContext) {
@@ -26,20 +54,20 @@ namespace org {
                         this->context = context;
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state) {
+                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state): state(state), alt(0), context(nullptr), semanticContext(nullptr)
+                    {
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, SemanticContext *semanticContext) {
+                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, SemanticContext *semanticContext): state(state), alt(0), context(nullptr), semanticContext(semanticContext)
+                    {
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ATNConfig::ATNConfig(ATNConfig *c, SemanticContext *semanticContext) {
+                    ATNConfig::ATNConfig(ATNConfig *c, SemanticContext *semanticContext): state(nullptr), alt(0), context(nullptr), semanticContext(semanticContext)
+                    {
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context) {
+                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context): state(state), alt(0), context(context), semanticContext(nullptr)
+                    {
                     }
 
                     ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context, SemanticContext *semanticContext) : state(state), alt(c->alt), semanticContext(semanticContext) {
@@ -49,7 +77,7 @@ namespace org {
                     }
 
                     bool ATNConfig::equals(void *o) {
-                        if (!(dynamic_cast<ATNConfig*>(o) != nullptr)) {
+                        if (!(o != nullptr/*dynamic_cast<ATNConfig*>(o) != nullptr*/)) {
                             return false;
                         }
 
@@ -67,21 +95,25 @@ namespace org {
                     }
 
                     int ATNConfig::hashCode() {
-                        int hashCode = MurmurHash::initialize(7);
-                        hashCode = MurmurHash::update(hashCode, state->stateNumber);
-                        hashCode = MurmurHash::update(hashCode, alt);
-                        hashCode = MurmurHash::update(hashCode, context);
-                        hashCode = MurmurHash::update(hashCode, semanticContext);
-                        hashCode = MurmurHash::finish(hashCode, 4);
+                        int hashCode = misc::MurmurHash::initialize(7);
+                        hashCode = misc::MurmurHash::update(hashCode, state->stateNumber);
+                        hashCode = misc::MurmurHash::update(hashCode, alt);
+                        hashCode = misc::MurmurHash::update(hashCode, context);
+                        hashCode = misc::MurmurHash::update(hashCode, semanticContext);
+                        hashCode = misc::MurmurHash::finish(hashCode, 4);
                         return hashCode;
                     }
 
                     std::wstring ATNConfig::toString() {
+#ifdef TODO
                         return toString(nullptr, true);
+#endif
+                        return L"";
                     }
 
-template<typename T1, typename T1>
-                    std::wstring ATNConfig::toString(Recognizer<T1> *recog, bool showAlt) {
+                    template<typename T1, typename T2>
+                    std::wstring ATNConfig::toString(Recognizer<T1, T2> *recog, bool showAlt) {
+#ifdef TODO
                         StringBuilder *buf = new StringBuilder();
                                         //		if ( state.ruleIndex>=0 ) {
                                         //			if ( recog!=null ) buf.append(recog.getRuleNames()[state.ruleIndex]+":");
@@ -95,7 +127,7 @@ template<typename T1, typename T1>
                         }
                         if (context != nullptr) {
                             buf->append(L",[");
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+//                            :
                             buf->append(context->toString());
                             buf->append(L"]");
                         }
@@ -107,8 +139,9 @@ template<typename T1, typename T1>
                             buf->append(L",up=")->append(reachesIntoOuterContext);
                         }
                         buf->append(L')');
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+
                         return buf->toString();
+#endif
                     }
 
                     void ATNConfig::InitializeInstanceFields() {

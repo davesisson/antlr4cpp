@@ -1,7 +1,10 @@
-//
-//  StringBuilder.h
-//  antlrcpp
-//
+#ifndef __antlrcpp__StringBuilder__
+#define __antlrcpp__StringBuilder__
+
+#include "Declarations.h"
+
+#include <iostream>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Dan McLaughlin
@@ -31,10 +34,6 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __antlrcpp__StringBuilder__
-#define __antlrcpp__StringBuilder__
-
-#include <iostream>
 
 class StringBuilder {
 private:
@@ -50,6 +49,10 @@ public:
             main.append(scratch);
             scratch.resize(0);
         }
+        return *this;
+    }
+    
+    StringBuilder & append(const org::antlr::v4::runtime::atn::ATNState* const state) {
         return *this;
     }
     

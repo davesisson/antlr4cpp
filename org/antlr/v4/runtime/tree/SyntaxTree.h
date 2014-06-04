@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Tree.h"
-
+#include "Declarations.h"
 
 /*
  * [The "BSD license"]
