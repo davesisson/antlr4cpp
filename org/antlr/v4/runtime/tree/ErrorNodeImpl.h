@@ -52,8 +52,7 @@ namespace org {
                     public:
                         ErrorNodeImpl(Token *token);
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                        template<typename T, typename T1> //where T1 : T
+                        template<typename T, typename T1>
                         T accept(ParseTreeVisitor<T1> *visitor);
                     };
 

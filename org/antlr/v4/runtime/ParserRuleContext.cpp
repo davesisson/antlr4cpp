@@ -1,6 +1,8 @@
 ﻿#include "ParserRuleContext.h"
 #include "TerminalNodeImpl.h"
 #include "ErrorNodeImpl.h"
+
+#include <typeinfo>
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -30,14 +32,11 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using tree::ParseTreeListener;
-                using tree::TerminalNode;
-                using tree::TerminalNodeImpl;
-                using tree::ErrorNodeImpl;
                 
                 ParserRuleContext::ParserRuleContext() {
                 }
@@ -54,13 +53,13 @@ namespace org {
                 ParserRuleContext::ParserRuleContext(ParserRuleContext *parent, int invokingStateNumber) : RuleContext(parent, invokingStateNumber) {
                 }
 
-                void ParserRuleContext::enterRule(ParseTreeListener *listener) {
+                void ParserRuleContext::enterRule(tree::ParseTreeListener *listener) {
                 }
 
-                void ParserRuleContext::exitRule(ParseTreeListener *listener) {
+                void ParserRuleContext::exitRule(tree::ParseTreeListener *listener) {
                 }
 
-                org::antlr::v4::runtime::tree::TerminalNode *ParserRuleContext::addChild(TerminalNode *t) {
+                org::antlr::v4::runtime::tree::TerminalNode *ParserRuleContext::addChild(tree::TerminalNode *t) {
                     if (children.empty()) {
                         children = std::vector<ParseTree*>();
                     }
@@ -83,14 +82,14 @@ namespace org {
                 }
 
                 org::antlr::v4::runtime::tree::TerminalNode *ParserRuleContext::addChild(Token *matchedToken) {
-                    TerminalNodeImpl *t = new TerminalNodeImpl(matchedToken);
+                    tree::TerminalNodeImpl *t = new tree::TerminalNodeImpl(matchedToken);
                     addChild(t);
                     t->parent = this;
                     return t;
                 }
 
                 org::antlr::v4::runtime::tree::ErrorNode *ParserRuleContext::addErrorNode(Token *badToken) {
-                    ErrorNodeImpl *t = new ErrorNodeImpl(badToken);
+                    tree::ErrorNodeImpl *t = new tree::ErrorNodeImpl(badToken);
                     addChild(t);
                     t->parent = this;
                     return t;
@@ -109,17 +108,17 @@ namespace org {
 
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                 template<typename T> //where T : org.antlr.v4.runtime.tree.ParseTree
-                T ParserRuleContext::getChild(Class *ctxType, int i) {
+                T ParserRuleContext::getChild(void *ctxType, int i) {
                     if (children.empty() || i < 0 || i >= children.size()) {
                         return nullptr;
                     }
 
                     int j = -1; // what element have we found with ctxType?
                     for (auto o : children) {
-                        if (ctxType->isInstance(o)) {
+                        if (typeid(ctxType) == typeid(o)) {
                             j++;
                             if (j == i) {
-                                return ctxType->cast(o);
+                                return dynamic_cast<T>(o);
                             }
                         }
                     }
@@ -133,8 +132,8 @@ namespace org {
 
                     int j = -1; // what token with ttype have we found?
                     for (auto o : children) {
-                        if (dynamic_cast<TerminalNode*>(o) != nullptr) {
-                            TerminalNode *tnode = static_cast<TerminalNode*>(o);
+                        if (dynamic_cast<tree::TerminalNode*>(o) != nullptr) {
+                            tree::TerminalNode *tnode = static_cast<tree::TerminalNode*>(o);
                             Token *symbol = tnode->getSymbol();
                             if (symbol->getType() == ttype) {
                                 j++;
@@ -148,19 +147,20 @@ namespace org {
                     return nullptr;
                 }
 
-                std::vector<TerminalNode*> ParserRuleContext::getTokens(int ttype) {
+                // I think this should be changed to a pointer?
+                std::vector<tree::TerminalNode*> ParserRuleContext::getTokens(int ttype) {
                     if (children.empty()) {
-                        return Collections::emptyList();
+                        return std::vector<tree::TerminalNode*>();
                     }
 
-                    std::vector<TerminalNode*> tokens;
+                    std::vector<tree::TerminalNode*> tokens;
                     for (auto o : children) {
-                        if (dynamic_cast<TerminalNode*>(o) != nullptr) {
-                            TerminalNode *tnode = static_cast<TerminalNode*>(o);
+                        if (dynamic_cast<tree::TerminalNode*>(o) != nullptr) {
+                            tree::TerminalNode *tnode = static_cast<tree::TerminalNode*>(o);
                             Token *symbol = tnode->getSymbol();
                             if (symbol->getType() == ttype) {
                                 if (tokens.empty()) {
-                                    tokens = std::vector<TerminalNode*>();
+                                    tokens = std::vector<tree::TerminalNode*>();
                                 }
                                 tokens.push_back(tnode);
                             }
@@ -168,23 +168,23 @@ namespace org {
                     }
 
                     if (tokens.empty()) {
-                        return Collections::emptyList();
+                        return std::vector<tree::TerminalNode*>();
                     }
 
                     return tokens;
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-template<typename T> where T : ParserRuleContext
-                T ParserRuleContext::getRuleContext(Class *ctxType, int i) {
+
+                template<typename T>
+                T ParserRuleContext::getRuleContext(void *ctxType, int i) {
                     return getChild(ctxType, i);
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-template<typename T> where T : ParserRuleContext
-                std::vector<T> ParserRuleContext::getRuleContexts(Class *ctxType) {
+
+                template<typename T>
+                std::vector<T> ParserRuleContext::getRuleContexts(void *ctxType) {
                     if (children.empty()) {
-                        return Collections::emptyList();
+                        return std::vector<T>();
                     }
 
                     std::vector<T> contexts;
@@ -199,7 +199,7 @@ template<typename T> where T : ParserRuleContext
                     }
 
                     if (contexts.empty()) {
-                        return Collections::emptyList();
+                        return std::vector<T>();
                     }
 
                     return contexts;

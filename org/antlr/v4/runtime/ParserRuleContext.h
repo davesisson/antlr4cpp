@@ -1,11 +1,12 @@
 ﻿#pragma once
 
 #include "RuleContext.h"
+#include "Declarations.h"
 
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
@@ -132,11 +133,6 @@ namespace org {
                     /// </summary>
                     virtual void removeLastChild();
 
-                //	public void trace(int s) {
-                //		if ( states==null ) states = new ArrayList<Integer>();
-                //		states.add(s);
-                //	}
-
                     virtual tree::TerminalNode *addChild(Token *matchedToken);
 
                     virtual tree::ErrorNode *addErrorNode(Token *badToken);
@@ -145,7 +141,6 @@ namespace org {
 
                     virtual ParseTree *getChild(int i) override;
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                     template<typename T>
                     T getChild(void *ctxType, int i);
 
@@ -153,11 +148,9 @@ namespace org {
 
                     virtual std::vector<tree::TerminalNode*> getTokens(int ttype);
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                     template<typename T>
                     T getRuleContext(void *ctxType, int i);
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                     template<typename T>
                     std::vector<T> getRuleContexts(void *ctxType);
 
