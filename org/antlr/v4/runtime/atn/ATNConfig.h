@@ -82,21 +82,16 @@ namespace org {
 
                         ATNConfig(ATNConfig *old); // dup
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ATNConfig(ATNState *state, int alt, PredictionContext *context); //this(state, alt, context, SemanticContext.NONE);
 
                         ATNConfig(ATNState *state, int alt, PredictionContext *context, SemanticContext *semanticContext);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ATNConfig(ATNConfig *c, ATNState *state); //this(c, state, c.context, c.semanticContext);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ATNConfig(ATNConfig *c, ATNState *state, SemanticContext *semanticContext); //this(c, state, c.context, semanticContext);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ATNConfig(ATNConfig *c, SemanticContext *semanticContext); //this(c, c.state, c.context, semanticContext);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context); //this(c, state, context, c.semanticContext);
 
                         ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context, SemanticContext *semanticContext);

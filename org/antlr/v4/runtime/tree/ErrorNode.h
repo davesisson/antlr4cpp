@@ -38,7 +38,7 @@ namespace org {
             namespace runtime {
                 namespace tree {
 
-                    class ErrorNode : public TerminalNode {
+                    class ErrorNode : public virtual TerminalNode {
                     };
 
                 }

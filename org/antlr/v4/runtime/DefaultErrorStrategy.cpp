@@ -1,5 +1,15 @@
 ﻿#include "DefaultErrorStrategy.h"
 #include "NoViableAltException.h"
+#include "IntervalSet.h"
+#include "ParserATNSimulator.h"
+#include "InputMismatchException.h"
+#include "Exceptions.h"
+#include "ATN.h"
+#include "ATNState.h"
+#include "Transition.h"
+#include "Strings.h"
+#include "RuleTransition.h"
+#include "TokenSource.h"
 
 /*
  * [The "BSD license"]
@@ -72,10 +82,12 @@ namespace org {
                     } else if (dynamic_cast<InputMismatchException*>(e) != nullptr) {
                         reportInputMismatch(recognizer, static_cast<InputMismatchException*>(e));
                     } else if (dynamic_cast<FailedPredicateException*>(e) != nullptr) {
-                        reportFailedPredicate(recognizer, static_cast<FailedPredicateException*>(e));
+                        reportFailedPredicate(recognizer, dynamic_cast<FailedPredicateException*>(e));
                     } else {
+#ifdef TODO
                         System::err::println(std::wstring(L"unknown recognition error type: ") + e->getClass()->getName());
                         recognizer->notifyErrorListeners(e->getOffendingToken(), e->what(), e);
+#endif
                     }
                 }
 
@@ -97,15 +109,15 @@ namespace org {
                     }
                     lastErrorIndex = recognizer->getInputStream()->index();
                     if (lastErrorStates == nullptr) {
-                        lastErrorStates = new IntervalSet();
+                        lastErrorStates = new misc::IntervalSet(0);
                     }
                     lastErrorStates->add(recognizer->getState());
-                    IntervalSet *followSet = getErrorRecoverySet(recognizer);
+                    misc::IntervalSet *followSet = getErrorRecoverySet(recognizer);
                     consumeUntil(recognizer, followSet);
                 }
 
-                void DefaultErrorStrategy::sync(Parser *recognizer) throw(RecognitionException) {
-                    ATNState *s = recognizer->getInterpreter()->atn->states[recognizer->getState()];
+                void DefaultErrorStrategy::sync(Parser *recognizer) {
+                    atn::ATNState *s = recognizer->getInterpreter()->atn->states[recognizer->getState()];
                                 //		System.err.println("sync @ "+s.stateNumber+"="+s.getClass().getSimpleName());
                     // If already recovering, don't try to sync
                     if (inErrorRecoveryMode(recognizer)) {
@@ -116,7 +128,7 @@ namespace org {
                     int la = tokens->LA(1);
 
                     // try cheaper subset first; might get lucky. seems to shave a wee bit off
-                    if (recognizer->getATN()->nextTokens(s)->contains(la) || la == Token::EOF) {
+                    if (recognizer->getATN()->nextTokens(s)->contains(la) || la == Token::_EOF) {
                         return;
                     }
 
@@ -126,24 +138,25 @@ namespace org {
                     }
 
                     switch (s->getStateType()) {
-                    case ATNState::BLOCK_START:
-                    case ATNState::STAR_BLOCK_START:
-                    case ATNState::PLUS_BLOCK_START:
-                    case ATNState::STAR_LOOP_ENTRY:
+                        case atn::ATNState::BLOCK_START:
+                        case atn::ATNState::STAR_BLOCK_START:
+                        case atn::ATNState::PLUS_BLOCK_START:
+                        case atn::ATNState::STAR_LOOP_ENTRY:
                         // report error and recover if possible
                         if (singleTokenDeletion(recognizer) != nullptr) {
                             return;
                         }
 
-                        throw InputMismatchException(recognizer);
+                        throw new InputMismatchException(recognizer);
 
-                    case ATNState::PLUS_LOOP_BACK:
-                    case ATNState::STAR_LOOP_BACK:
+                        case atn::ATNState::PLUS_LOOP_BACK:
+                        case atn::ATNState::STAR_LOOP_BACK: {
                                 //			System.err.println("at loop back: "+s.getClass().getSimpleName());
-                        reportUnwantedToken(recognizer);
-                        IntervalSet *expecting = recognizer->getExpectedTokens();
-                        IntervalSet *whatFollowsLoopIterationOrRule = expecting->or(getErrorRecoverySet(recognizer));
-                        consumeUntil(recognizer, whatFollowsLoopIterationOrRule);
+                            reportUnwantedToken(recognizer);
+                            misc::IntervalSet *expecting = recognizer->getExpectedTokens();
+                            misc::IntervalSet *whatFollowsLoopIterationOrRule = expecting->Or(getErrorRecoverySet(recognizer));
+                            consumeUntil(recognizer, whatFollowsLoopIterationOrRule);
+                        }
                         break;
 
                     default:
@@ -156,7 +169,7 @@ namespace org {
                     TokenStream *tokens = recognizer->getInputStream();
                     std::wstring input;
                     if (tokens != nullptr) {
-                        if (e->getStartToken()->getType() == Token::EOF) {
+                        if (e->getStartToken()->getType() == Token::_EOF) {
                             input = L"<EOF>";
                         } else {
                             input = tokens->getText(e->getStartToken(), e->getOffendingToken());
@@ -189,8 +202,8 @@ namespace org {
 
                     Token *t = recognizer->getCurrentToken();
                     std::wstring tokenName = getTokenErrorDisplay(t);
-                    IntervalSet *expecting = getExpectedTokens(recognizer);
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                    misc::IntervalSet *expecting = getExpectedTokens(recognizer);
+
                     std::wstring msg = std::wstring(L"extraneous input ") + tokenName + std::wstring(L" expecting ") + expecting->toString(recognizer->getTokenNames());
                     recognizer->notifyErrorListeners(t, msg, nullptr);
                 }
@@ -203,14 +216,13 @@ namespace org {
                     beginErrorCondition(recognizer);
 
                     Token *t = recognizer->getCurrentToken();
-                    IntervalSet *expecting = getExpectedTokens(recognizer);
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                    misc::IntervalSet *expecting = getExpectedTokens(recognizer);
                     std::wstring msg = std::wstring(L"missing ") + expecting->toString(recognizer->getTokenNames()) + std::wstring(L" at ") + getTokenErrorDisplay(t);
 
                     recognizer->notifyErrorListeners(t, msg, nullptr);
                 }
 
-                org::antlr::v4::runtime::Token *DefaultErrorStrategy::recoverInline(Parser *recognizer) throw(RecognitionException) {
+                Token *DefaultErrorStrategy::recoverInline(Parser *recognizer) {
                     // SINGLE TOKEN DELETION
                     Token *matchedSymbol = singleTokenDeletion(recognizer);
                     if (matchedSymbol != nullptr) {
@@ -234,10 +246,10 @@ namespace org {
                     // if current token is consistent with what could come after current
                     // ATN state, then we know we're missing a token; error recovery
                     // is free to conjure up and insert the missing token
-                    ATNState *currentState = recognizer->getInterpreter()->atn->states[recognizer->getState()];
-                    ATNState *next = currentState->transition(0)->target;
-                    ATN *atn = recognizer->getInterpreter()->atn;
-                    IntervalSet *expectingAtLL2 = atn->nextTokens(next, recognizer->_ctx);
+                    atn::ATNState *currentState = recognizer->getInterpreter()->atn->states[recognizer->getState()];
+                    atn::ATNState *next = currentState->transition(0)->target;
+                    atn::ATN *atn = recognizer->getInterpreter()->atn;
+                    misc::IntervalSet *expectingAtLL2 = atn->nextTokens(next, recognizer->_ctx);
                                 //		System.out.println("LT(2) set="+expectingAtLL2.toString(recognizer.getTokenNames()));
                     if (expectingAtLL2->contains(currentSymbolType)) {
                         reportMissingToken(recognizer);
@@ -248,7 +260,7 @@ namespace org {
 
                 org::antlr::v4::runtime::Token *DefaultErrorStrategy::singleTokenDeletion(Parser *recognizer) {
                     int nextTokenType = recognizer->getInputStream()->LA(2);
-                    IntervalSet *expecting = getExpectedTokens(recognizer);
+                    misc::IntervalSet *expecting = getExpectedTokens(recognizer);
                     if (expecting->contains(nextTokenType)) {
                         reportUnwantedToken(recognizer);
                         /*
@@ -268,20 +280,20 @@ namespace org {
 
                 org::antlr::v4::runtime::Token *DefaultErrorStrategy::getMissingSymbol(Parser *recognizer) {
                     Token *currentSymbol = recognizer->getCurrentToken();
-                    IntervalSet *expecting = getExpectedTokens(recognizer);
+                    misc::IntervalSet *expecting = getExpectedTokens(recognizer);
                     int expectedTokenType = expecting->getMinElement(); // get any element
                     std::wstring tokenText;
-                    if (expectedTokenType == Token::EOF) {
+                    if (expectedTokenType == Token::_EOF) {
                         tokenText = L"<missing EOF>";
                     } else {
-                        tokenText = std::wstring(L"<missing ") + recognizer->getTokenNames()[expectedTokenType] + std::wstring(L">");
+                        tokenText = std::wstring(L"<missing ") + recognizer->getTokenNames()[expectedTokenType]/*.at(expectedTokenType)*/ + std::wstring(L">");
                     }
                     Token *current = currentSymbol;
                     Token *lookback = recognizer->getInputStream()->LT(-1);
-                    if (current->getType() == Token::EOF && lookback != nullptr) {
+                    if (current->getType() == Token::_EOF && lookback != nullptr) {
                         current = lookback;
                     }
-                    return recognizer->getTokenFactory()->create(new Pair<TokenSource*, CharStream*>(current->getTokenSource(), current->getTokenSource()->getInputStream()), expectedTokenType, tokenText, Token::DEFAULT_CHANNEL, -1, -1, current->getLine(), current->getCharPositionInLine());
+                    return recognizer->getTokenFactory()->create(new misc::Pair<TokenSource*, CharStream*>(current->getTokenSource(), current->getTokenSource()->getInputStream()), expectedTokenType, tokenText, Token::DEFAULT_CHANNEL, -1, -1, current->getLine(), current->getCharPositionInLine());
                 }
 
                 org::antlr::v4::runtime::misc::IntervalSet *DefaultErrorStrategy::getExpectedTokens(Parser *recognizer) {
@@ -294,10 +306,10 @@ namespace org {
                     }
                     std::wstring s = getSymbolText(t);
                     if (s == L"") {
-                        if (getSymbolType(t) == Token::EOF) {
+                        if (getSymbolType(t) == Token::_EOF) {
                             s = L"<EOF>";
                         } else {
-                            s = std::wstring(L"<") + getSymbolType(t) + std::wstring(L">");
+                            s = std::wstring(L"<") + std::to_wstring(getSymbolType(t) + std::wstring(L">");
                         }
                     }
                     return escapeWSAndQuote(s);
@@ -311,26 +323,23 @@ namespace org {
                     return symbol->getType();
                 }
 
-                std::wstring DefaultErrorStrategy::escapeWSAndQuote(const std::wstring &s) {
+                std::wstring DefaultErrorStrategy::escapeWSAndQuote(std::wstring &s) {
                                 //		if ( s==null ) return s;
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                    s = s.replace(L"\n",L"\\n");
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                    s = s.replace(L"\r",L"\\r");
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                    s = s.replace(L"\t",L"\\t");
+                    replaceAll(s, L"\n", L"\\n");
+                    replaceAll(s, L"\r",L"\\r");
+                    replaceAll(s, L"\t",L"\\t");
                     return std::wstring(L"'") + s + std::wstring(L"'");
                 }
 
                 org::antlr::v4::runtime::misc::IntervalSet *DefaultErrorStrategy::getErrorRecoverySet(Parser *recognizer) {
-                    ATN *atn = recognizer->getInterpreter()->atn;
+                    atn::ATN *atn = recognizer->getInterpreter()->atn;
                     RuleContext *ctx = recognizer->_ctx;
-                    IntervalSet *recoverSet = new IntervalSet();
+                    misc::IntervalSet *recoverSet = new misc::IntervalSet(0);
                     while (ctx != nullptr && ctx->invokingState >= 0) {
                         // compute what follows who invoked us
-                        ATNState *invokingState = atn->states[ctx->invokingState];
-                        RuleTransition *rt = static_cast<RuleTransition*>(invokingState->transition(0));
-                        IntervalSet *follow = atn->nextTokens(rt->followState);
+                        atn::ATNState *invokingState = atn->states[ctx->invokingState];
+                        atn::RuleTransition *rt = dynamic_cast<atn::RuleTransition*>(invokingState->transition(0));
+                        misc::IntervalSet *follow = atn->nextTokens(rt->followState);
                         recoverSet->addAll(follow);
                         ctx = ctx->parent;
                     }
@@ -339,10 +348,10 @@ namespace org {
                     return recoverSet;
                 }
 
-                void DefaultErrorStrategy::consumeUntil(Parser *recognizer, IntervalSet *set) {
+                void DefaultErrorStrategy::consumeUntil(Parser *recognizer, misc::IntervalSet *set) {
                                 //		System.err.println("consumeUntil("+set.toString(recognizer.getTokenNames())+")");
                     int ttype = recognizer->getInputStream()->LA(1);
-                    while (ttype != Token::EOF && !set->contains(ttype)) {
+                    while (ttype != Token::_EOF && !set->contains(ttype)) {
                         //System.out.println("consume during recover LA(1)="+getTokenNames()[input.LA(1)]);
                                 //			recognizer.getInputStream().consume();
                         recognizer->consume();

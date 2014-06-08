@@ -55,26 +55,37 @@ namespace org {
                         template<typename T, typename T1>
                         T accept(ParseTreeVisitor<T1> *visitor);
                         
+                        // From ErrorNode
+                        
+                        // TerminalNodeImpl->TerminalNode->ParseTree->SyntaxTree->Tree
+                        //        ErrorNode->TerminalNode ...
+
+                        
                         // From TerminalnodeImpl
                         
                         // From Terminal Node
+                    public:
                         Token *getSymbol();
                         
                         // From Parse Tree
+                    public:
                         ParseTree *getParent() override;
                         ParseTree *getChild(int i) override;
                         std::wstring getText();
                         std::wstring toStringTree(Parser *parser);
                         
                         // From SyntaxTree
-                        misc::Interval *getSourceInterval();
+                    public:
+                        misc::Interval *getSourceInterval() override;
                         
                         // From Tree
-                        //Tree *getParent();
-                        void *getPayload();
-                        //Tree *getChild(int i);
-                        int getChildCount();
-                        //std::wstring toStringTree();
+                    public:
+//                        Tree *getParent() override;
+                        void *getPayload() override;
+//                        Tree *getChild(int i) override;
+                        
+                        int getChildCount() override;
+                        std::wstring toStringTree() override;
                     };
 
                 }

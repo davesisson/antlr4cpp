@@ -1,4 +1,8 @@
-﻿#include "ErrorNodeImpl.h"
+﻿
+
+#include "ErrorNodeImpl.h"
+
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -48,8 +52,8 @@ namespace org {
                     Token *getSymbol();
                     
                     // From Parse Tree
-                    ParseTree *getParent() override;
-                    ParseTree *getChild(int i) override;
+//                    ParseTree *getParent() override;
+//                    ParseTree *getChild(int i) override;
                     std::wstring getText();
                     std::wstring toStringTree(Parser *parser);
                     

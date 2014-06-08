@@ -116,7 +116,7 @@ namespace org {
                     }
 
                     int LexerATNSimulator::matchATN(CharStream *input) {
-                        ATNState *startState = (ATNState *)atn->modeToStartState[mode];
+                        ATNState *startState = (ATNState *)atn->modeToStartState->at(mode);
 
                         if (debug) {
 #ifdef TODO

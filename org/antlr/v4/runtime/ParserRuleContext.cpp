@@ -61,7 +61,7 @@ namespace org {
                 void ParserRuleContext::exitRule(tree::ParseTreeListener *listener) {
                 }
 
-                org::antlr::v4::runtime::tree::TerminalNode *ParserRuleContext::addChild(tree::TerminalNode *t) {
+                tree::TerminalNode *ParserRuleContext::addChild(tree::TerminalNode *t) {
                     if (children.empty()) {
                         children = std::vector<ParseTree*>();
                     }
@@ -69,7 +69,7 @@ namespace org {
                     return t;
                 }
 
-                org::antlr::v4::runtime::RuleContext *ParserRuleContext::addChild(RuleContext *ruleInvocation) {
+                RuleContext *ParserRuleContext::addChild(RuleContext *ruleInvocation) {
                     if (children.empty()) {
                         children = std::vector<ParseTree*>();
                     }
@@ -97,19 +97,18 @@ namespace org {
                     return t;
                 }
 
-                org::antlr::v4::runtime::ParserRuleContext *ParserRuleContext::getParent()
                 /// <summary>
                 /// Override to make type more specific </summary>
+                ParserRuleContext *ParserRuleContext::getParent()
                 {
                     return static_cast<ParserRuleContext*>(RuleContext::getParent());
                 }
 
-                org::antlr::v4::runtime::tree::ParseTree *ParserRuleContext::getChild(int i) {
+                tree::ParseTree *ParserRuleContext::getChild(int i) {
                     return children.size() > 0 && i >= 0 && i < children.size() ? children[i] : nullptr;
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                template<typename T> //where T : org.antlr.v4.runtime.tree.ParseTree
+                template<typename T>
                 T ParserRuleContext::getChild(void *ctxType, int i) {
                     if (children.empty() || i < 0 || i >= children.size()) {
                         return nullptr;
@@ -127,7 +126,7 @@ namespace org {
                     return nullptr;
                 }
 
-                org::antlr::v4::runtime::tree::TerminalNode *ParserRuleContext::getToken(int ttype, int i) {
+                tree::TerminalNode *ParserRuleContext::getToken(int ttype, int i) {
                     if (children.empty() || i < 0 || i >= children.size()) {
                         return nullptr;
                     }
@@ -211,18 +210,18 @@ namespace org {
                     return (int)children.size() > 0 ? (int)children.size() : 0;
                 }
 
-                org::antlr::v4::runtime::misc::Interval *ParserRuleContext::getSourceInterval() {
+                misc::Interval *ParserRuleContext::getSourceInterval() {
                     if (start == nullptr || stop == nullptr) {
                         return misc::Interval::INVALID;
                     }
                     return misc::Interval::of(start->getTokenIndex(), stop->getTokenIndex());
                 }
 
-                org::antlr::v4::runtime::Token *ParserRuleContext::getStart() {
+                Token *ParserRuleContext::getStart() {
                     return start;
                 }
 
-                org::antlr::v4::runtime::Token *ParserRuleContext::getStop() {
+                Token *ParserRuleContext::getStop() {
                     return stop;
                 }
 

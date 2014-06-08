@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "ANTLRErrorStrategy.h"
-#include <string>
 #include "Declarations.h"
 
+#include <string>
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -381,7 +381,7 @@ namespace org {
 
                     virtual int getSymbolType(Token *symbol);
 
-                    virtual std::wstring escapeWSAndQuote(const std::wstring &s);
+                    virtual std::wstring escapeWSAndQuote(std::wstring &s);
 
                     /*  Compute the error recovery set for the current rule.  During
                      *  rule invocation, the parser pushes the set of tokens that can

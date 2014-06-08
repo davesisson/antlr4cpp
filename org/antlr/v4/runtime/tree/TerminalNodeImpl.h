@@ -42,7 +42,7 @@ namespace org {
                 
                 namespace tree {
 
-                    class TerminalNodeImpl : public TerminalNode {
+                    class TerminalNodeImpl : public virtual TerminalNode {
                     public:
                         Token *symbol;
                         ParseTree *parent;
