@@ -188,8 +188,8 @@ namespace org {
                 }
 
                 void DefaultErrorStrategy::reportFailedPredicate(Parser *recognizer, FailedPredicateException *e) {
-                    std::wstring ruleName = recognizer->getRuleNames()[recognizer->_ctx->getRuleIndex()];
-                    std::wstring msg = std::wstring(L"rule ") + ruleName + std::wstring(L" ") + e->getMessage();
+                    std::wstring ruleName = recognizer->getRuleNames()->at(recognizer->_ctx->getRuleIndex());
+                    std::wstring msg = std::wstring(L"rule ") + ruleName + std::wstring(L" ") + std::to_wstring(e->what());
                     recognizer->notifyErrorListeners(e->getOffendingToken(), msg, e);
                 }
 

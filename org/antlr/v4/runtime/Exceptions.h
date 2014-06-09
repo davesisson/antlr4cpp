@@ -7,31 +7,37 @@
 //
 
 
+#include "Declarations.h"
+#include "RecognitionException.h"
+
 #include <iostream>
 #include <exception>
 #include <string>
-#include "Declarations.h"
-#include "RecognitionException.h"
+
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                class ANTLRException : public std::exception {
+                    public:
+                    std::wstring getMessage();
+                };
                 
-                class IllegalStateException : public std::exception {
+                class IllegalStateException : public ANTLRException {
                 public:
                     IllegalStateException(const std::wstring msg);
                     IllegalStateException();
                 };
                 
-                class IllegalArgumentException : public std::exception {
+                class IllegalArgumentException : public ANTLRException {
                 public:
                     IllegalArgumentException(const std::wstring msg);
                     IllegalArgumentException(const std::wstring msg, std::exception e);
                     IllegalArgumentException();
                 };
                 
-                class NoSuchElementException : public std::exception {
+                class NoSuchElementException : public ANTLRException {
                 public:
                     NoSuchElementException(const std::wstring msg);
                     NoSuchElementException();
@@ -42,22 +48,22 @@ namespace org {
                     NullPointerException(const std::wstring msg);
                     NullPointerException();
                 };
-                class IndexOutOfBoundsException : public std::exception {
+                class IndexOutOfBoundsException : public ANTLRException {
                 public:
                     IndexOutOfBoundsException(const std::wstring msg);
                     IndexOutOfBoundsException();
                 };
-                class UnsupportedOperationException : public std::exception {
+                class UnsupportedOperationException : public ANTLRException {
                 public:
                     UnsupportedOperationException(const std::wstring msg);
                     UnsupportedOperationException();
                 };
-                class IOException : public std::exception {
+                class IOException : public ANTLRException {
                 public:
                     IOException(const std::wstring msg);
                     IOException();
                 };
-                class FailedPredicateException :public std::exception {
+                class FailedPredicateException :public ANTLRException {
                 public:
                     FailedPredicateException(const std::wstring msg);
                     FailedPredicateException(Parser*);
