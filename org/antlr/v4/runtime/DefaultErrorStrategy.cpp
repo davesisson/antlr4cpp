@@ -309,7 +309,7 @@ namespace org {
                         if (getSymbolType(t) == Token::_EOF) {
                             s = L"<EOF>";
                         } else {
-                            s = std::wstring(L"<") + std::to_wstring(getSymbolType(t) + std::wstring(L">");
+                            s = std::wstring(L"<") + std::to_wstring(getSymbolType(t)) + std::wstring(L">");
                         }
                     }
                     return escapeWSAndQuote(s);

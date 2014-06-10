@@ -1,10 +1,11 @@
 ﻿#pragma once
 
+#include "Pair.h"
+#include "Declarations.h"
+
 #include <map>
 #include <vector>
 #include <list>
-#include "Pair.h"
-#include "Declarations.h"
 
 /*
  * [The "BSD license"]

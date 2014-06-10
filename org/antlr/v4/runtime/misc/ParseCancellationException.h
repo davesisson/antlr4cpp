@@ -38,11 +38,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-
-                    using org::antlr::v4::runtime::BailErrorStrategy;
-                    using org::antlr::v4::runtime::RecognitionException;
-
-
                     /// <summary>
                     /// This exception is thrown to cancel a parsing operation. This exception does
                     /// not extend <seealso cref="RecognitionException"/>, allowing it to bypass the standard
@@ -51,7 +46,7 @@ namespace org {
                     /// 
                     /// @author Sam Harwell
                     /// </summary>
-                    class ParseCancellationException : public CancellationException {
+                    class ParseCancellationException : public std::exception {
 
                     public:
                         ParseCancellationException();
