@@ -1,9 +1,12 @@
 ﻿#pragma once
 
 #include "Recognizer.h"
+#include "Declarations.h"
+#include "Exceptions.h"
+
 #include <string>
 #include <stdexcept>
-#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
@@ -39,7 +42,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                class RuntimeException : public std::exception {
+                class RuntimeException : public ANTLRException {
                 public:
                     RuntimeException(const std::wstring msg);
                     RuntimeException();
@@ -56,8 +59,6 @@ namespace org {
                     /// <summary>
                     /// The <seealso cref="Recognizer"/> where this exception originated. </summary>
                 private:
-//JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
-//ORIGINAL LINE: @Nullable private final Recognizer<?, ?> recognizer;
                     Recognizer<void*, void*> *const recognizer;
 
                     RuleContext *const ctx;
@@ -145,6 +146,21 @@ namespace org {
                     void InitializeInstanceFields();
                 };
 
+                // Recognition exceptions
+                
+                class ParseCancellationException : public RecognitionException {
+                public:
+                    ParseCancellationException(const std::wstring msg);
+                    ParseCancellationException(RecognitionException*);
+                    ParseCancellationException();
+                };
+                
+                class EmptyStackException : public RecognitionException {
+                public:
+                    EmptyStackException(const std::wstring msg);
+                    EmptyStackException();
+                };
+                
             }
         }
     }

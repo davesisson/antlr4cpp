@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Dan McLaughlin. All rights reserved.
 //
 
+#pragma once
 
 #include "Declarations.h"
-#include "RecognitionException.h"
 
 #include <iostream>
 #include <exception>
@@ -22,6 +22,7 @@ namespace org {
                 class ANTLRException : public std::exception {
                     public:
                     std::wstring getMessage();
+
                 };
                 
                 class IllegalStateException : public ANTLRException {
@@ -71,29 +72,6 @@ namespace org {
                     FailedPredicateException();
                 };
                 
-
-                // Recognition exceptions
-                
-                class ParseCancellationException : public RecognitionException {
-                public:
-                    ParseCancellationException(const std::wstring msg);
-                    ParseCancellationException(RecognitionException*);
-                    ParseCancellationException();
-                };
-    
-                class InputMismatchException : public RecognitionException {
-                public:
-                    InputMismatchException(const std::wstring msg);
-                    InputMismatchException(const Parser * parser);
-                    InputMismatchException(const RecognitionException*);
-                    InputMismatchException();
-                };
-
-                class EmptyStackException : public RecognitionException {
-                public:
-                    EmptyStackException(const std::wstring msg);
-                    EmptyStackException();
-                };
                 
                 
             }
