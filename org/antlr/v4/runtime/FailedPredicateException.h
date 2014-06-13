@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "RecognitionException.h"
-#include <string>
-
 #include "Declarations.h"
+
+#include <string>
 
 /*
  * [The "BSD license"]

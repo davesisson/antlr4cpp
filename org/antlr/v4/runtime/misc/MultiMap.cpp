@@ -36,6 +36,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
+#ifdef TODO
                     virtual void MultiMap::map(K key, V value) {
                         std::vector<V> elementsForKey = get(key);
                         if (elementsForKey.empty()) {
@@ -53,6 +54,7 @@ namespace org {
                         }
                         return pairs;
                     }
+#endif
                 }
             }
         }

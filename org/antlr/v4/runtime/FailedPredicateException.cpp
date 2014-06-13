@@ -40,13 +40,18 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                FailedPredicateException::FailedPredicateException(Parser *recognizer) {
+                FailedPredicateException::FailedPredicateException(Parser *recognizer) : RecognitionException() {
                 }
 
-                FailedPredicateException::FailedPredicateException(Parser *recognizer, const std::wstring &predicate) {
+                FailedPredicateException::FailedPredicateException(Parser *recognizer, const std::wstring &predicate): RecognitionException() {
                 }
 
-                FailedPredicateException::FailedPredicateException(Parser *recognizer, const std::wstring &predicate, const std::wstring &message) : RecognitionException(formatMessage(predicate, message), recognizer, recognizer->getInputStream(), recognizer->_ctx), ruleIndex((static_cast<atn::PredicateTransition*>(trans))->ruleIndex), predicateIndex((static_cast<atn::PredicateTransition*>(trans))->predIndex), predicate(predicate) {
+                FailedPredicateException::FailedPredicateException(Parser *recognizer, const std::wstring &predicate, const std::wstring &message)
+#ifdef TODO
+                // This crud was added by the translater
+                : RecognitionException(formatMessage(predicate, message), recognizer, recognizer->getInputStream(), recognizer->_ctx), ruleIndex((static_cast<atn::PredicateTransition*>(trans))->ruleIndex), predicateIndex((static_cast<atn::PredicateTransition*>(trans))->predIndex), predicate(predicate)
+#endif
+                {
                     atn::ATNState *s = recognizer->getInterpreter()->atn->states[recognizer->getState()];
 
                     atn::AbstractPredicateTransition *trans = static_cast<atn::AbstractPredicateTransition*>(s->transition(0));

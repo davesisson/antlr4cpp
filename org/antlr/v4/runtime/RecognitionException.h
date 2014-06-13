@@ -80,7 +80,9 @@ namespace org {
 
                     template<typename T1, typename T2>
                     RecognitionException(const std::wstring &message, Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx);
-
+                    
+                    RecognitionException() : ctx(nullptr), recognizer(nullptr), input(nullptr) {}
+                    
                     /// <summary>
                     /// Get the ATN state number the parser was in at the time the error
                     /// occurred. For <seealso cref="NoViableAltException"/> and

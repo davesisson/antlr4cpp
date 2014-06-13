@@ -15,6 +15,7 @@
 #include "PrecedencePredicateTransition.h"
 #include "PredicateTransition.h"
 #include "LoopEndState.h"
+#include "FailedPredicateException.h"
 
 #include <deque>
 /*
@@ -195,7 +196,7 @@ namespace org {
                         {
                             atn::PredicateTransition *predicateTransition = (atn::PredicateTransition*)(transition);
                             if (!sempred(_ctx, predicateTransition->ruleIndex, predicateTransition->predIndex)) {
-                                throw FailedPredicateException(this);
+                                throw new FailedPredicateException(this);
                             }
                         }
                             break;

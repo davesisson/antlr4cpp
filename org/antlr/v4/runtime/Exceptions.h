@@ -64,15 +64,6 @@ namespace org {
                     IOException(const std::wstring msg);
                     IOException();
                 };
-                class FailedPredicateException :public ANTLRException {
-                public:
-                    FailedPredicateException(const std::wstring msg);
-                    FailedPredicateException(Parser*);
-                    FailedPredicateException(Parser*, const std::wstring msg);
-                    FailedPredicateException();
-                };
-                
-                
                 
             }
         }
