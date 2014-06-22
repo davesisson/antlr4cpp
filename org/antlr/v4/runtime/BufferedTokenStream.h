@@ -1,14 +1,15 @@
 ﻿#pragma once
 
+#include "Token.h"
+#include "Interval.h"
 #include "TokenStream.h"
 #include "TokenSource.h"
-#include "Token.h"
-#include "misc/Interval.h"
 #include "RuleContext.h"
+#include "vectorhelper.h"
+
 #include <string>
 #include <vector>
 #include <set>
-#include "vectorhelper.h"
 
 /*
  * [The "BSD license"]
@@ -44,11 +45,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
-
-
                 /// <summary>
                 /// Buffer all input tokens but do on-demand fetching of new tokens from lexer.
                 /// Useful when the parser or lexer has to set context/mode info before proper
@@ -224,7 +220,7 @@ namespace org {
                     virtual std::wstring getSourceName() override;
                     virtual std::wstring getText() override;
 
-                    virtual std::wstring getText(Interval *interval) override;
+                    virtual std::wstring getText(misc::Interval *interval) override;
 
                     virtual std::wstring getText(RuleContext *ctx) override;
 

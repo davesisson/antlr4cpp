@@ -1,18 +1,50 @@
 ﻿#include "BufferedTokenStream.h"
-#include "Java/src/org/antlr/v4/runtime/WritableToken.h"
-#include "Java/src/org/antlr/v4/runtime/Lexer.h"
+#include "WritableToken.h"
+#include "Lexer.h"
+#include "Exceptions.h"
+#include "StringBuilder.h"
+
+#include <assert.h>
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::NotNull;
 
                 BufferedTokenStream::BufferedTokenStream(TokenSource *tokenSource) {
                     InitializeInstanceFields();
                     if (tokenSource == nullptr) {
-                        throw NullPointerException(L"tokenSource cannot be null");
+                        throw new NullPointerException(L"tokenSource cannot be null");
                     }
                     this->tokenSource = tokenSource;
                 }
@@ -47,8 +79,8 @@ namespace org {
                 }
 
                 void BufferedTokenStream::consume() {
-                    if (LA(1) == EOF) {
-                        throw IllegalStateException(L"cannot consume EOF");
+                    if (LA(1) == _EOF) {
+                        throw new IllegalStateException(L"cannot consume EOF");
                     }
 
                     if (sync(p + 1)) {
@@ -79,7 +111,7 @@ namespace org {
                             (static_cast<WritableToken*>(t))->setTokenIndex(tokens.size());
                         }
                         tokens.push_back(t);
-                        if (t->getType() == Token::EOF) {
+                        if (t->getType() == Token::_EOF) {
                             fetchedEOF = true;
                             return i + 1;
                         }
@@ -90,14 +122,17 @@ namespace org {
 
                 org::antlr::v4::runtime::Token *BufferedTokenStream::get(int i) {
                     if (i < 0 || i >= tokens.size()) {
-                        throw IndexOutOfBoundsException(std::wstring(L"token index ") + i + std::wstring(L" out of range 0..") + (tokens.size() - 1));
+                        throw IndexOutOfBoundsException(std::wstring(L"token index ") +
+                                                        std::to_wstring(i) +
+                                                        std::wstring(L" out of range 0..") +
+                                                        std::to_wstring(tokens.size() - 1));
                     }
                     return tokens[i];
                 }
 
                 std::vector<Token*> BufferedTokenStream::get(int start, int stop) {
                     if (start < 0 || stop < 0) {
-                        return nullptr;
+                        return std::vector<Token*>();
                     }
                     lazyInit();
                     std::vector<Token*> subset = std::vector<Token*>();
@@ -106,7 +141,7 @@ namespace org {
                     }
                     for (int i = start; i <= stop; i++) {
                         Token *t = tokens[i];
-                        if (t->getType() == Token::EOF) {
+                        if (t->getType() == Token::_EOF) {
                             break;
                         }
                         subset.push_back(t);
@@ -173,20 +208,25 @@ namespace org {
                     return getTokens(start, stop, nullptr);
                 }
 
-                std::vector<Token*> BufferedTokenStream::getTokens(int start, int stop, Set<int> *types) {
+                std::vector<Token*> BufferedTokenStream::getTokens(int start, int stop, std::vector<int> *types) {
                     lazyInit();
                     if (start < 0 || stop >= tokens.size() || stop < 0 || start >= tokens.size()) {
-                        throw IndexOutOfBoundsException(std::wstring(L"start ") + start + std::wstring(L" or stop ") + stop + std::wstring(L" not in 0..") + (tokens.size() - 1));
+                        throw new IndexOutOfBoundsException(std::wstring(L"start ") +
+                                                            std::to_wstring(start) +
+                                                            std::wstring(L" or stop ") +
+                                                            std::to_wstring(stop) +
+                                                            std::wstring(L" not in 0..") +
+                                                            std::to_wstring(tokens.size() - 1));
                     }
                     if (start > stop) {
-                        return nullptr;
+                        return std::vector<Token*>();
                     }
 
                     // list = tokens[start:stop]:{T t, t.getType() in types}
                     std::vector<Token*> filteredTokens = std::vector<Token*>();
                     for (int i = start; i <= stop; i++) {
                         Token *t = tokens[i];
-                        if (types == nullptr || types->contains(t->getType())) {
+                        if (types == nullptr || std::find(types->begin(), types->end(), t)/*.operator->()*/) {
                             filteredTokens.push_back(t);
                         }
                     }
@@ -197,7 +237,7 @@ namespace org {
                 }
 
                 std::vector<Token*> BufferedTokenStream::getTokens(int start, int stop, int ttype) {
-                    std::set<int> s = std::set<int>(ttype);
+                    std::set<int> s = std::set<int>();
                     s.insert(ttype);
                     return getTokens(start,stop, s);
                 }
@@ -209,7 +249,7 @@ namespace org {
                         return -1;
                     }
                     while (token->getChannel() != channel) {
-                        if (token->getType() == Token::EOF) {
+                        if (token->getType() == Token::_EOF) {
                             return -1;
                         }
                         i++;
@@ -229,7 +269,9 @@ namespace org {
                 std::vector<Token*> BufferedTokenStream::getHiddenTokensToRight(int tokenIndex, int channel) {
                     lazyInit();
                     if (tokenIndex < 0 || tokenIndex >= tokens.size()) {
-                        throw IndexOutOfBoundsException(tokenIndex + std::wstring(L" not in 0..") + (tokens.size() - 1));
+                        throw new IndexOutOfBoundsException(std::to_wstring(tokenIndex) +
+                                                            std::wstring(L" not in 0..") +
+                                                            std::to_wstring(tokens.size() - 1));
                     }
 
                     int nextOnChannel = nextTokenOnChannel(tokenIndex + 1, Lexer::DEFAULT_TOKEN_CHANNEL);
@@ -252,12 +294,14 @@ namespace org {
                 std::vector<Token*> BufferedTokenStream::getHiddenTokensToLeft(int tokenIndex, int channel) {
                     lazyInit();
                     if (tokenIndex < 0 || tokenIndex >= tokens.size()) {
-                        throw IndexOutOfBoundsException(tokenIndex + std::wstring(L" not in 0..") + (tokens.size() - 1));
+                        throw new IndexOutOfBoundsException(std::to_wstring(tokenIndex) +
+                                                            std::wstring(L" not in 0..") +
+                                                            std::to_wstring(tokens.size() - 1));
                     }
 
                     int prevOnChannel = previousTokenOnChannel(tokenIndex - 1, Lexer::DEFAULT_TOKEN_CHANNEL);
                     if (prevOnChannel == tokenIndex - 1) {
-                        return nullptr;
+                        return std::vector<Token*>();
                     }
                     // if none onchannel to left, prevOnChannel=-1 then from=0
                     int from = prevOnChannel + 1;
@@ -285,7 +329,7 @@ namespace org {
                         }
                     }
                     if (hidden.empty()) {
-                        return nullptr;
+                        return std::vector<Token*>();
                     }
                     return hidden;
                 }
@@ -300,10 +344,10 @@ namespace org {
                 std::wstring BufferedTokenStream::getText() {
                     lazyInit();
                     fill();
-                    return getText(Interval::of(0,size() - 1));
+                    return getText(misc::Interval::of(0,size() - 1));
                 }
 
-                std::wstring BufferedTokenStream::getText(Interval *interval) {
+                std::wstring BufferedTokenStream::getText(misc::Interval *interval) {
                     int start = interval->a;
                     int stop = interval->b;
                     if (start < 0 || stop < 0) {
@@ -317,12 +361,11 @@ namespace org {
                     StringBuilder *buf = new StringBuilder();
                     for (int i = start; i <= stop; i++) {
                         Token *t = tokens[i];
-                        if (t->getType() == Token::EOF) {
+                        if (t->getType() == Token::_EOF) {
                             break;
                         }
                         buf->append(t->getText());
                     }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                     return buf->toString();
                 }
 
@@ -332,7 +375,7 @@ namespace org {
 
                 std::wstring BufferedTokenStream::getText(Token *start, Token *stop) {
                     if (start != nullptr && stop != nullptr) {
-                        return getText(Interval::of(start->getTokenIndex(), stop->getTokenIndex()));
+                        return getText(misc::Interval::of(start->getTokenIndex(), stop->getTokenIndex()));
                     }
 
                     return L"";

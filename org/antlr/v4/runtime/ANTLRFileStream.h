@@ -32,6 +32,7 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -47,12 +48,11 @@ namespace org {
                     std::wstring fileName;
 
                 public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ANTLRFileStream(const std::wstring &fileName) throw(IOException); //this(fileName, nullptr);
+                    ANTLRFileStream(const std::wstring &fileName); //this(fileName, nullptr);
 
-                    ANTLRFileStream(const std::wstring &fileName, const std::wstring &encoding) throw(IOException);
+                    ANTLRFileStream(const std::wstring &fileName, const std::wstring &encoding);
 
-                    virtual void load(const std::wstring &fileName, const std::wstring &encoding) throw(IOException);
+                    virtual void load(const std::wstring &fileName, const std::wstring &encoding);
 
                     virtual std::wstring getSourceName() override;
                 };

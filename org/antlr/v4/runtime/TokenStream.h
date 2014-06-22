@@ -98,7 +98,7 @@ namespace org {
                     /// stream.
                     /// </returns>
                     /// <exception cref="NullPointerException"> if {@code interval} is {@code null} </exception>
-                    virtual std::wstring getText(org::antlr::v4::runtime::misc::Interval *interval) = 0;
+                    virtual std::wstring getText(misc::Interval *interval) = 0;
 
                     /// <summary>
                     /// Return the text of all tokens in the stream. This method behaves like the

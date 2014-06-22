@@ -61,7 +61,7 @@ namespace org {
                     /// reached.
                     /// </summary>
                 public:
-//                    Conflict with OS X
+//                    EOF Conflict with OS X, change to _EOF
                     static const int _EOF = std::ios::eofbit;
 
                     /// <summary>

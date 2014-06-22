@@ -36,8 +36,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                
-
                 template<typename T1, typename T2>
                 RecognitionException::RecognitionException(Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx) : recognizer(recognizer), ctx((RuleContext*)ctx), input(input) {
                     InitializeInstanceFields();
