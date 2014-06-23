@@ -1,5 +1,40 @@
-﻿#include "ATNConfigSet.h"
-#include "ATN.h"
+﻿#include "ATN.h"
+#include "ATNState.h"
+#include "ATNConfig.h"
+#include "Exceptions.h"
+#include "ATNConfigSet.h"
+#include "SemanticContext.h"
+#include "PredictionContext.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
@@ -7,39 +42,35 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public AbstractConfigHashSet(org.antlr.v4.runtime.misc.AbstractEqualityComparator<? super ATNConfig> comparator)
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ATNConfigSet::AbstractConfigHashSet::AbstractConfigHashSet(AbstractEqualityComparator<T1> *comparator) {
+                    template<typename T1>
+                    ATNConfigSet::AbstractConfigHashSet::AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator) {
                     }
 
-template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public AbstractConfigHashSet(org.antlr.v4.runtime.misc.AbstractEqualityComparator<? super ATNConfig> comparator, int initialCapacity, int initialBucketCapacity)
-                    ATNConfigSet::AbstractConfigHashSet::AbstractConfigHashSet(AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity) : org::antlr::v4::runtime::misc::Array2DHashSet<ATNConfig>(comparator, initialCapacity, initialBucketCapacity) {
+                    template<typename T1>
+                    ATNConfigSet::AbstractConfigHashSet::AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity) : org::antlr::v4::runtime::misc::Array2DHashSet<ATNConfig>(comparator, initialCapacity, initialBucketCapacity) {
                     }
 
                     org::antlr::v4::runtime::atn::ATNConfig *ATNConfigSet::AbstractConfigHashSet::asElementType(void *o) {
-                        if (!(dynamic_cast<ATNConfig*>(o) != nullptr)) {
+                        if (!(static_cast<ATNConfig*>(o) != nullptr)) {
                             return nullptr;
                         }
 
                         return static_cast<ATNConfig*>(o);
                     }
 
-                    ATNConfig **ATNConfigSet::AbstractConfigHashSet::createBuckets(int capacity) {
-                        return new ATNConfig[capacity][];
+                    std::vector<std::vector<ATNConfig*>> *
+                    ATNConfigSet::AbstractConfigHashSet::createBuckets(int capacity) {
+                        return new std::vector<std::vector<ATNConfig*>>();
                     }
 
-                    ATNConfig *ATNConfigSet::AbstractConfigHashSet::createBucket(int capacity) {
-                        return new ATNConfig[capacity];
+                    std::vector<ATNConfig*> *ATNConfigSet::AbstractConfigHashSet::createBucket(int capacity) {
+                        return new std::vector<ATNConfig*>();
                     }
 
                     ATNConfigSet::ConfigHashSet::ConfigHashSet() : AbstractConfigHashSet(ConfigEqualityComparator::INSTANCE) {
                     }
 
-ConfigEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE = new ConfigEqualityComparator();
+                    misc::ObjectEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE = new misc::ObjectEqualityComparator();
 
                     ATNConfigSet::ConfigEqualityComparator::ConfigEqualityComparator() {
                     }
@@ -62,17 +93,15 @@ ConfigEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE
                         return a->state->stateNumber == b->state->stateNumber && a->alt == b->alt && a->semanticContext->equals(b->semanticContext);
                     }
 
-                    ATNConfigSet::ATNConfigSet(bool fullCtx) : fullCtx(fullCtx), configs(new java::util::ArrayList<ATNConfig>(7)) {
+                    ATNConfigSet::ATNConfigSet(bool fullCtx) : fullCtx(fullCtx), configs(*new std::vector<ATNConfig*>(/*7*/)) {
                         InitializeInstanceFields();
                         configLookup = new ConfigHashSet();
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ATNConfigSet::ATNConfigSet() : configs(new java::util::ArrayList<ATNConfig>(7)) {
+                    ATNConfigSet::ATNConfigSet() : fullCtx(nullptr), configs(*new std::vector<ATNConfig*>(/*7*/)) {
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ATNConfigSet::ATNConfigSet(ATNConfigSet *old) : configs(new java::util::ArrayList<ATNConfig>(7)) {
+                    ATNConfigSet::ATNConfigSet(ATNConfigSet *old) : fullCtx(nullptr), configs(*new std::vector<ATNConfig*>(/*7*/)) {
                         addAll(old);
                         this->uniqueAlt = old->uniqueAlt;
                         this->conflictingAlts = old->conflictingAlts;
@@ -84,9 +113,9 @@ ConfigEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE
                         return add(config, nullptr);
                     }
 
-                    bool ATNConfigSet::add(ATNConfig *config, DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                    bool ATNConfigSet::add(ATNConfig *config, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
                         if (readonly) {
-                            throw IllegalStateException(L"This set is readonly");
+                            throw new IllegalStateException(L"This set is readonly");
                         }
                         if (config->semanticContext != SemanticContext::NONE) {
                             hasSemanticContext = true;
@@ -115,10 +144,10 @@ ConfigEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE
                         return configs;
                     }
 
-                    Set<ATNState*> *ATNConfigSet::getStates() {
-                        Set<ATNState*> *states = std::set<ATNState*>();
+                    std::vector<ATNState*> *ATNConfigSet::getStates() {
+                        std::vector<ATNState*> *states = new std::vector<ATNState*>();
                         for (auto c : configs) {
-                            states->add(c.state);
+                            states->push_back(c->state);
                         }
                         return states;
                     }
@@ -126,8 +155,8 @@ ConfigEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE
                     std::vector<SemanticContext*> ATNConfigSet::getPredicates() {
                         std::vector<SemanticContext*> preds = std::vector<SemanticContext*>();
                         for (auto c : configs) {
-                            if (c.semanticContext != SemanticContext::NONE) {
-                                preds.push_back(c.semanticContext);
+                            if (c->semanticContext != SemanticContext::NONE) {
+                                preds.push_back(c->semanticContext);
                             }
                         }
                         return preds;
@@ -147,16 +176,15 @@ ConfigEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE
 
                         for (auto config : configs) {
                                         //			int before = PredictionContext.getAllContextNodes(config.context).size();
-                            config.context = interpreter->getCachedContext(config.context);
+                            config->context = interpreter->getCachedContext(config->context);
                                         //			int after = PredictionContext.getAllContextNodes(config.context).size();
                                         //			System.out.println("configs "+before+"->"+after);
                         }
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-template<typename T1> where T1 : ATNConfig
-                    bool ATNConfigSet::addAll(Collection<T1> *coll) {
-                        for (auto c : coll) {
+                    template<typename T1> //where T1 : ATNConfig
+                    bool ATNConfigSet::addAll(ATNConfigSet *coll) {
+                        for (auto c : *coll) {
                             add(c);
                         }
                         return false;
@@ -165,7 +193,7 @@ template<typename T1> where T1 : ATNConfig
                     bool ATNConfigSet::equals(void *o) {
                         if (o == this) {
                             return true;
-                        } else if (!(dynamic_cast<ATNConfigSet*>(o) != nullptr)) {
+                        } else if (!(static_cast<ATNConfigSet*>(o) != nullptr)) {
                             return false;
                         }
 
@@ -213,8 +241,8 @@ template<typename T1> where T1 : ATNConfig
                         return configLookup->containsFast(obj);
                     }
 
-                    Iterator<ATNConfig*> *ATNConfigSet::iterator() {
-                        return configs.begin();
+                    std::iterator<std::forward_iterator_tag, ATNConfig*> *ATNConfigSet::iterator() {
+                        return configs  // .begin();
                     }
 
                     void ATNConfigSet::clear() {
@@ -232,13 +260,14 @@ template<typename T1> where T1 : ATNConfig
 
                     void ATNConfigSet::setReadonly(bool readonly) {
                         this->readonly = readonly;
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+#ifdef TODO
+                        review memory managment, delete was autogenerated here
+#endif
                         delete configLookup; // can't mod, no need for lookup cache
                     }
 
                     std::wstring ATNConfigSet::toString() {
                         StringBuilder *buf = new StringBuilder();
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         buf->append(elements().toString());
                         if (hasSemanticContext) {
                             buf->append(L",hasSemanticContext=")->append(hasSemanticContext);
@@ -252,7 +281,6 @@ template<typename T1> where T1 : ATNConfig
                         if (dipsIntoOuterContext) {
                             buf->append(L",dipsIntoOuterContext");
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
 
@@ -260,7 +288,7 @@ template<typename T1> where T1 : ATNConfig
                         return configLookup->toArray();
                     }
 
-template<typename T>
+                    template<typename T>
                     T *ATNConfigSet::toArray(T a[]) {
                         return configLookup->toArray(a);
                     }
@@ -269,17 +297,17 @@ template<typename T>
                         throw UnsupportedOperationException();
                     }
 
-template<typename T1>
+                    template<typename T1>
                     bool ATNConfigSet::containsAll(Collection<T1> *c) {
                         throw UnsupportedOperationException();
                     }
 
-template<typename T1>
+                    template<typename T1>
                     bool ATNConfigSet::retainAll(Collection<T1> *c) {
                         throw UnsupportedOperationException();
                     }
 
-template<typename T1>
+                    template<typename T1>
                     bool ATNConfigSet::removeAll(Collection<T1> *c) {
                         throw UnsupportedOperationException();
                     }

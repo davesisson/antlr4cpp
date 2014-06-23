@@ -1,17 +1,16 @@
 ﻿#pragma once
 
 
+#include "DoubleKeyMap.h"
+#include "Declarations.h"
 #include "Array2DHashSet.h"
 #include "AbstractEqualityComparator.h"
-#include "DoubleKeyMap.h"
 
 #include <string>
 #include <vector>
 #include <set>
 #include <bitset>
 #include <vector>
-
-#include "Declarations.h"
 
 /*
  * [The "BSD license"]
@@ -64,15 +63,10 @@ namespace org {
 
                         public:
                             
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public AbstractConfigHashSet(org.antlr.v4.runtime.misc.AbstractEqualityComparator<? super ATNConfig> comparator)
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                             template<typename T1>
-                            AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator); //this(comparator, 16, 2);
+                            AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator);
 
                             template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public AbstractConfigHashSet(org.antlr.v4.runtime.misc.AbstractEqualityComparator<? super ATNConfig> comparator, int initialCapacity, int initialBucketCapacity)
                             AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity);
 
                         protected:
@@ -155,10 +149,8 @@ namespace org {
 
                     public:
                         ATNConfigSet(bool fullCtx);
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ATNConfigSet(); //this(true);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ATNConfigSet(ATNConfigSet *old); //this(old.fullCtx);
 
                         virtual bool add(ATNConfig *config);
@@ -179,7 +171,7 @@ namespace org {
                         /// Return a List holding list of configs </summary>
                         virtual std::vector<ATNConfig*> elements();
 
-                        virtual std::set<ATNState*> *getStates();
+                        virtual std::vector<ATNState*> *getStates();
 
                         virtual std::vector<SemanticContext*> getPredicates();
 
@@ -187,9 +179,8 @@ namespace org {
 
                         virtual void optimizeConfigs(ATNSimulator *interpreter);
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                         template<typename T1>// where T1 : ATNConfig
-                        bool addAll(std::set<T1> *coll);
+                        bool addAll(ATNConfigSet *coll);
 
                         virtual bool equals(void *o);
 
@@ -203,7 +194,7 @@ namespace org {
 
                         virtual bool containsFast(ATNConfig *obj);
 
-                        virtual std::iterator<std::forward_iterator_tag, ATNConfig*> *iterator();
+                        virtual std::iterator<std::forward_iterator_tag, ATNConfig*> const *iterator();
 
                         virtual void clear();
 
