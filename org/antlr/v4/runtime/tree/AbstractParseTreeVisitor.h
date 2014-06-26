@@ -1,6 +1,8 @@
 ﻿#pragma once
 
+#include "Declarations.h"
 #include "ParseTreeVisitor.h"
+
 #include "ParseTree.h"
 #include "RuleNode.h"
 #include "TerminalNode.h"
@@ -41,8 +43,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-
-                    using org::antlr::v4::runtime::misc::NotNull;
 
                     template<typename T>
                     class AbstractParseTreeVisitor : public ParseTreeVisitor<T> {

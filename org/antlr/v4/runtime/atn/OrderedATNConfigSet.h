@@ -38,8 +38,6 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    using org::antlr::v4::runtime::misc::ObjectEqualityComparator;
-
                     /// 
                     /// <summary>
                     /// @author Sam Harwell

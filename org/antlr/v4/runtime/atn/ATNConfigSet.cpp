@@ -6,6 +6,7 @@
 #include "SemanticContext.h"
 #include "PredictionContext.h"
 
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -70,7 +71,7 @@ namespace org {
                     ATNConfigSet::ConfigHashSet::ConfigHashSet() : AbstractConfigHashSet(ConfigEqualityComparator::INSTANCE) {
                     }
 
-                    misc::ObjectEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE = new misc::ObjectEqualityComparator();
+                    misc::AbstractEqualityComparator<ATNConfig *>::ObjectEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE = new misc::ObjectEqualityComparator<void*>();
 
                     ATNConfigSet::ConfigEqualityComparator::ConfigEqualityComparator() {
                     }
@@ -206,6 +207,9 @@ namespace org {
                     }
 
                     int ATNConfigSet::hashCode() {
+                        std::hash<std::vector<ATNConfig*>> bar;
+                        std::hash<int> foo;
+                        
                         if (isReadonly()) {
                             if (cachedHashCode == -1) {
                                 cachedHashCode = configs.hashCode();
@@ -241,8 +245,8 @@ namespace org {
                         return configLookup->containsFast(obj);
                     }
 
-                    std::iterator<std::forward_iterator_tag, ATNConfig*> *ATNConfigSet::iterator() {
-                        return configs  // .begin();
+                    std::iterator<std::forward_iterator_tag, ATNConfig*> const *ATNConfigSet::iterator() {
+                        return configs.begin();  // .begin();
                     }
 
                     void ATNConfigSet::clear() {

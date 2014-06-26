@@ -1,4 +1,4 @@
-﻿i98#include "ObjectEqualityComparator.h"
+﻿#include "ObjectEqualityComparator.h"
 
 /*
  * [The "BSD license"]

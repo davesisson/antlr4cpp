@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "EqualityComparator.h"
 
 /*
  * [The "BSD license"]
@@ -43,7 +44,8 @@ namespace org {
                     /// 
                     /// @author Sam Harwell
                     /// </summary>
-                    class ObjectEqualityComparator : public AbstractEqualityComparator<void*> {
+//                    template <typename T>
+                    class ObjectEqualityComparator : public EqualityComparator<void*> {
                     public:
                         static ObjectEqualityComparator *const INSTANCE;
 
@@ -53,7 +55,7 @@ namespace org {
                         /// This implementation returns
                         /// {@code obj.}<seealso cref="Object#hashCode hashCode()"/>.
                         /// </summary>
-                        int hashCode(void *obj);
+                        int hashCode(void *obj) override;
 
                         /// <summary>
                         /// {@inheritDoc}
@@ -64,7 +66,7 @@ namespace org {
                         /// this method returns the result of
                         /// {@code a.}<seealso cref="Object#equals equals"/>{@code (b)}.
                         /// </summary>
-                        bool equals(void *a, void *b);
+                        bool equals(void *a, void *b) override;
 
                     };
 

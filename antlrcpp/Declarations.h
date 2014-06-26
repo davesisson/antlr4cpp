@@ -172,7 +172,7 @@ namespace org {
                     class LexerDFASerializer;
                 }
                 namespace tree {
-                    class AbstractParseTreeVisitor;
+                    template <typename t> class AbstractParseTreeVisitor;
                     class ErrorNode;
                     class ErrorNodeImpl;
                     class ParseTree;
