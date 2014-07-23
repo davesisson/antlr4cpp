@@ -53,7 +53,7 @@ namespace org {
                         /// <param name="obj"> The object. </param>
                         /// <returns> The hash code for {@code obj}. </returns>
                     public:
-                        virtual int hashCode(T *obj) = 0;
+                        virtual int hashCode(T *obj);
 
                         /// <summary>
                         /// This method tests if two objects are equal.
@@ -61,7 +61,7 @@ namespace org {
                         /// <param name="a"> The first object to compare. </param>
                         /// <param name="b"> The second object to compare. </param>
                         /// <returns> {@code true} if {@code a} equals {@code b}, otherwise {@code false}. </returns>
-                        virtual bool equals(T *a, T *b) = 0;
+                        virtual bool equals(T *a, T *b);
 
                     };
 

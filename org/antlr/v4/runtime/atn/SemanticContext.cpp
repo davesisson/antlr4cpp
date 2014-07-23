@@ -52,6 +52,14 @@ namespace org {
 #endif
                         return nullptr;
                     }
+                    
+                    int SemanticContext::hashCode() {
+#ifdef TODO
+                        WRITE ME
+#endif
+                        return 0;
+                    }
+                    
                     bool SemanticContext::equals(void *obj) {
                         // "SemanticContext::equals should have been called on a daughter class"
                         throw new std::exception();

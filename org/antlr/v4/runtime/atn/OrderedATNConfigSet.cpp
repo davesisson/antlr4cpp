@@ -36,9 +36,9 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    using org::antlr::v4::runtime::misc::ObjectEqualityComparator;
 
-                    OrderedATNConfigSet::LexerConfigHashSet::LexerConfigHashSet() : AbstractConfigHashSet(ObjectEqualityComparator::INSTANCE) {
+                    OrderedATNConfigSet::LexerConfigHashSet::LexerConfigHashSet() :
+                                 AbstractConfigHashSet(misc::ObjectEqualityComparator::INSTANCE) {
                     }
 
                     OrderedATNConfigSet::OrderedATNConfigSet() {

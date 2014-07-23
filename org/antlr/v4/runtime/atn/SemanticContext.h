@@ -58,6 +58,8 @@ namespace org {
                     public:
                         static SemanticContext *const NONE;
                         
+                        virtual int hashCode() ;
+                        
                         class Predicate;
                         class PrecedencePredicate;
                         class AND;

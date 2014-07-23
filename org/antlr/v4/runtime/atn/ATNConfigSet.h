@@ -6,11 +6,11 @@
 #include "Array2DHashSet.h"
 #include "AbstractEqualityComparator.h"
 
+#include <set>
 #include <string>
 #include <vector>
-#include <set>
 #include <bitset>
-#include <vector>
+
 
 /*
  * [The "BSD license"]

@@ -6,6 +6,7 @@
 #include "SemanticContext.h"
 #include "PredictionContext.h"
 
+#include <functional>
 
 /*
  * [The "BSD license"]
@@ -71,9 +72,10 @@ namespace org {
                     ATNConfigSet::ConfigHashSet::ConfigHashSet() : AbstractConfigHashSet(ConfigEqualityComparator::INSTANCE) {
                     }
 
-                    misc::AbstractEqualityComparator<ATNConfig *>::ObjectEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE = new misc::ObjectEqualityComparator<void*>();
+                    ATNConfigSet::ConfigEqualityComparator *const ATNConfigSet::ConfigEqualityComparator::INSTANCE = new ATNConfigSet::ConfigEqualityComparator();
 
                     ATNConfigSet::ConfigEqualityComparator::ConfigEqualityComparator() {
+                        
                     }
 
                     int ATNConfigSet::ConfigEqualityComparator::hashCode(ATNConfig *o) {
@@ -103,7 +105,7 @@ namespace org {
                     }
 
                     ATNConfigSet::ATNConfigSet(ATNConfigSet *old) : fullCtx(nullptr), configs(*new std::vector<ATNConfig*>(/*7*/)) {
-                        addAll(old);
+                        this->addAll<ATNConfigSet*>(old);
                         this->uniqueAlt = old->uniqueAlt;
                         this->conflictingAlts = old->conflictingAlts;
                         this->hasSemanticContext = old->hasSemanticContext;
@@ -127,7 +129,7 @@ namespace org {
                         ATNConfig *existing = configLookup->getOrAdd(config);
                         if (existing == config) { // we added this new one
                             cachedHashCode = -1;
-                            configs.push_back(config); // track order here
+                            configs.insert(configs.back(), config); // track order here
                             return true;
                         }
                         // a previous (s,i,pi,_), merge with it and save result

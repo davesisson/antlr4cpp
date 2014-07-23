@@ -108,6 +108,7 @@ namespace org {
                     class MurmurHash;
                     class NotNull;
                     class Nullable;
+//                    template<typename t> class ObjectEqualityComparator;
                     class ObjectEqualityComparator;
                     class OrderedHashSet;
                     template<typename A, typename B> class Pair;
