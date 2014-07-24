@@ -5,6 +5,7 @@
 #include "ATNConfigSet.h"
 #include "SemanticContext.h"
 #include "PredictionContext.h"
+#include "StringBuilder.h"
 
 #include <functional>
 
@@ -129,6 +130,9 @@ namespace org {
                         ATNConfig *existing = configLookup->getOrAdd(config);
                         if (existing == config) { // we added this new one
                             cachedHashCode = -1;
+#ifdef TODO
+                            I really don't get why this is failing
+#endif
                             configs.insert(configs.back(), config); // track order here
                             return true;
                         }
@@ -202,13 +206,32 @@ namespace org {
 
                                         //		System.out.print("equals " + this + ", " + o+" = ");
                         ATNConfigSet *other = static_cast<ATNConfigSet*>(o);
-                        bool same = configs.size() > 0 && configs.equals(other->configs) && this->fullCtx == other->fullCtx && this->uniqueAlt == other->uniqueAlt && this->conflictingAlts == other->conflictingAlts && this->hasSemanticContext == other->hasSemanticContext && this->dipsIntoOuterContext == other->dipsIntoOuterContext; // includes stack context
+                        
+                        bool configEquals = true;
+                        
+                        if (configs.size() == other->configs.size()) {
+                            for (int i = 0; i < configs.size(); i++) {
+                                if (other->configs.size() < i) {
+                                    configEquals = false;
+                                    break;
+                                }
+                                if (configs.at(i) != other->configs.at(i)) {
+                                    configEquals = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            configEquals = false;
+                        }
+                        
+                        bool same = configs.size() > 0 && configEquals && this->fullCtx == other->fullCtx && this->uniqueAlt == other->uniqueAlt && this->conflictingAlts == other->conflictingAlts && this->hasSemanticContext == other->hasSemanticContext && this->dipsIntoOuterContext == other->dipsIntoOuterContext; // includes stack context
 
                                         //		System.out.println(same);
                         return same;
                     }
 
                     int ATNConfigSet::hashCode() {
+#ifdef TODO
                         std::hash<std::vector<ATNConfig*>> bar;
                         std::hash<int> foo;
                         
@@ -221,6 +244,8 @@ namespace org {
                         }
 
                         return configs.hashCode();
+#endif
+                        return 0;
                     }
 
                     int ATNConfigSet::size() {
@@ -248,12 +273,17 @@ namespace org {
                     }
 
                     std::iterator<std::forward_iterator_tag, ATNConfig*> const *ATNConfigSet::iterator() {
-                        return configs.begin();  // .begin();
+#ifdef TODO
+                        std::iterator<std::forward_iterator_tag, ATNConfig*> itr;
+                        
+                        return configs.begin();
+#endif
+                        return nullptr;
                     }
 
                     void ATNConfigSet::clear() {
                         if (readonly) {
-                            throw IllegalStateException(L"This set is readonly");
+                            throw new IllegalStateException(L"This set is readonly");
                         }
                         configs.clear();
                         cachedHashCode = -1;
@@ -274,15 +304,21 @@ namespace org {
 
                     std::wstring ATNConfigSet::toString() {
                         StringBuilder *buf = new StringBuilder();
-                        buf->append(elements().toString());
+                        for (int i = 0; i < elements().size(); i++) {
+                            buf->append(elements().at(i)->toString());
+                        }
+                        
                         if (hasSemanticContext) {
-                            buf->append(L",hasSemanticContext=")->append(hasSemanticContext);
+                            buf->append(L",hasSemanticContext=").append(hasSemanticContext);
                         }
                         if (uniqueAlt != ATN::INVALID_ALT_NUMBER) {
-                            buf->append(L",uniqueAlt=")->append(uniqueAlt);
+                            buf->append(L",uniqueAlt=").append(uniqueAlt);
                         }
                         if (conflictingAlts != nullptr) {
-                            buf->append(L",conflictingAlts=")->append(conflictingAlts);
+                            buf->append(L",conflictingAlts=");
+#ifdef TODO
+                            buf->append(conflictingAlts->to_string());
+#endif
                         }
                         if (dipsIntoOuterContext) {
                             buf->append(L",dipsIntoOuterContext");
@@ -291,7 +327,7 @@ namespace org {
                     }
 
                     ATNConfig *ATNConfigSet::toArray() {
-                        return configLookup->toArray();
+                        return (ATNConfig*)configLookup->toArray();
                     }
 
                     template<typename T>
@@ -304,18 +340,18 @@ namespace org {
                     }
 
                     template<typename T1>
-                    bool ATNConfigSet::containsAll(Collection<T1> *c) {
-                        throw UnsupportedOperationException();
+                    bool ATNConfigSet::containsAll(std::vector<T1> *c) {
+                        throw new UnsupportedOperationException();
                     }
 
                     template<typename T1>
-                    bool ATNConfigSet::retainAll(Collection<T1> *c) {
-                        throw UnsupportedOperationException();
+                    bool ATNConfigSet::retainAll(std::vector<T1> *c) {
+                        throw new UnsupportedOperationException();
                     }
 
                     template<typename T1>
-                    bool ATNConfigSet::removeAll(Collection<T1> *c) {
-                        throw UnsupportedOperationException();
+                    bool ATNConfigSet::removeAll(std::vector<T1> *c) {
+                        throw new UnsupportedOperationException();
                     }
 
                     void ATNConfigSet::InitializeInstanceFields() {

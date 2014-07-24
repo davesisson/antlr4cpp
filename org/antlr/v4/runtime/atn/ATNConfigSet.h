@@ -123,7 +123,7 @@ namespace org {
 
                         /// <summary>
                         /// Track the elements as they are added to the set; supports get(i) </summary>
-                        const std::vector<ATNConfig*> configs;
+                        std::vector<ATNConfig*> configs;
 
                         // TODO: these fields make me pretty uncomfortable but nice to pack up info together, saves recomputation
                         // TODO: can we track conflicts as they are added to save scanning configs later?
@@ -214,13 +214,13 @@ namespace org {
                         virtual bool remove(void *o);
 
                         template<typename T1>
-                        bool containsAll(std::set<T1> *c);
+                        bool containsAll(std::vector<T1> *c);
 
                         template<typename T1>
-                        bool retainAll(std::set<T1> *c);
+                        bool retainAll(std::vector<T1> *c);
 
                         template<typename T1>
-                        bool removeAll(std::set<T1> *c);
+                        bool removeAll(std::vector<T1> *c);
 
 
                     private:
