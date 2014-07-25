@@ -38,7 +38,7 @@ namespace org {
                 namespace atn {
 
                     OrderedATNConfigSet::LexerConfigHashSet::LexerConfigHashSet() :
-                                 AbstractConfigHashSet(misc::ObjectEqualityComparator::INSTANCE) {
+                    AbstractConfigHashSet(misc::ObjectEqualityComparator::INSTANCE){
                     }
 
                     OrderedATNConfigSet::OrderedATNConfigSet() {

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "EqualityComparator.h"
+#include "AbstractEqualityComparator.h"
 
 /*
  * [The "BSD license"]
@@ -44,7 +44,7 @@ namespace org {
                     /// 
                     /// @author Sam Harwell
                     /// </summary>
-                    class ObjectEqualityComparator : public EqualityComparator<void *> {
+                    class ObjectEqualityComparator : public AbstractEqualityComparator<void *> {
                     public:
                         static ObjectEqualityComparator *const INSTANCE;
 
