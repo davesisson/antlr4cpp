@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "Exceptions.h"
+
 #include <string>
 #include <vector>
 
@@ -38,7 +40,11 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-
+                    template <typename T>
+                    class LinkedHashSet {
+                        T remove(T);
+                        bool add(T);
+                    };
 
                     /// <summary>
                     /// A HashMap that remembers the order that the elements were added.
@@ -66,14 +72,14 @@ namespace org {
                         virtual T set(int i, T value) {
                             T oldElement = elements_Renamed[i];
                             elements_Renamed[i] = value; // update list
-                            LinkedHashSet<T>::remove(oldElement); // now update the set: remove/add
-                            LinkedHashSet<T>::add(value);
+                            remove(oldElement); // now update the set: remove/add
+                            add(value);
                             return oldElement;
                         }
 
                         virtual bool remove(int i) {
                             T o = elements_Renamed.remove(i);
-                            return LinkedHashSet<T>::remove(o);
+                            return remove(o);
                         }
 
                         /// <summary>
@@ -82,7 +88,7 @@ namespace org {
                         ///  a list of strings.
                         /// </summary>
                         virtual bool add(T value) override {
-                            bool result = LinkedHashSet<T>::add(value);
+                            bool result = add(value);
                             if (result) { // only track if new element not in set
                                 elements_Renamed.push_back(value);
                             }
@@ -90,7 +96,7 @@ namespace org {
                         }
 
                         virtual bool remove(void *o) override {
-                            throw UnsupportedOperationException();
+                            throw new UnsupportedOperationException();
                         }
 
                         virtual void clear() override {
@@ -103,20 +109,20 @@ namespace org {
                         }
 
                         virtual bool equals(void *o) override {
-                            if (!(dynamic_cast<OrderedHashSet<?>*>(o) != nullptr)) {
+                            if (!(dynamic_cast<OrderedHashSet<T>*>(o) != nullptr)) {
                                 return false;
                             }
 
                     //		System.out.print("equals " + this + ", " + o+" = ");
-                            bool same = elements_Renamed.size() > 0 && elements_Renamed.equals((static_cast<OrderedHashSet<?>*>(o))->elements_Renamed);
+                            bool same = elements_Renamed.size() > 0 && elements_Renamed.equals((static_cast<OrderedHashSet<T>*>(o))->elements_Renamed);
                     //		System.out.println(same);
                             return same;
                         }
-
-                        virtual Iterator<T> *iterator() override {
+#ifdef TODO
+                        virtual std::iterator<T> *iterator() override {
                             return elements_Renamed.begin();
                         }
-
+#endif
                         /// <summary>
                         /// Return the List holding list of table elements.  Note that you are
                         ///  NOT getting a copy so don't write to the list.
@@ -136,7 +142,6 @@ namespace org {
                         }
 
                         virtual std::wstring toString() override {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             return elements_Renamed.toString();
                         }
 

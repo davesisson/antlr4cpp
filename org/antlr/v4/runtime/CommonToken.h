@@ -2,9 +2,9 @@
 
 #include "WritableToken.h"
 #include "CharStream.h"
-#include <string>
-
 #include "Declarations.h"
+
+#include <string>
 
 /*
  * [The "BSD license"]
@@ -42,7 +42,7 @@ namespace org {
             namespace runtime {
 
                 
-                class CommonToken : public WritableToken/*, public Serializable*/ {
+                class CommonToken : public WritableToken {
                 protected:
                     static misc::Pair<TokenSource*, CharStream*> *const EMPTY_SOURCE;
 

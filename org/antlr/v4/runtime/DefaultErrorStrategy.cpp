@@ -10,6 +10,8 @@
 #include "Strings.h"
 #include "RuleTransition.h"
 #include "TokenSource.h"
+#include "FailedPredicateException.h"
+
 
 /*
  * [The "BSD license"]
@@ -286,14 +288,14 @@ namespace org {
                     if (expectedTokenType == Token::_EOF) {
                         tokenText = L"<missing EOF>";
                     } else {
-                        tokenText = std::wstring(L"<missing ") + recognizer->getTokenNames()[expectedTokenType]/*.at(expectedTokenType)*/ + std::wstring(L">");
+                        tokenText = std::wstring(L"<missing ") + recognizer->getTokenNames()[expectedTokenType].at(expectedTokenType) + std::wstring(L">");
                     }
                     Token *current = currentSymbol;
                     Token *lookback = recognizer->getInputStream()->LT(-1);
                     if (current->getType() == Token::_EOF && lookback != nullptr) {
                         current = lookback;
                     }
-                    return recognizer->getTokenFactory()->create(new misc::Pair<TokenSource*, CharStream*>(current->getTokenSource(), current->getTokenSource()->getInputStream()), expectedTokenType, tokenText, Token::DEFAULT_CHANNEL, -1, -1, current->getLine(), current->getCharPositionInLine());
+                    return (Token*)recognizer->getTokenFactory()->create(new misc::Pair<TokenSource*, CharStream*>(current->getTokenSource(), current->getTokenSource()->getInputStream()), expectedTokenType, tokenText, Token::DEFAULT_CHANNEL, -1, -1, current->getLine(), current->getCharPositionInLine());
                 }
 
                 org::antlr::v4::runtime::misc::IntervalSet *DefaultErrorStrategy::getExpectedTokens(Parser *recognizer) {

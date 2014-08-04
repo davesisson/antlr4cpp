@@ -132,8 +132,9 @@ namespace org {
                             cachedHashCode = -1;
 #ifdef TODO
                             I really don't get why this is failing
-#endif
                             configs.insert(configs.back(), config); // track order here
+#endif
+                            
                             return true;
                         }
                         // a previous (s,i,pi,_), merge with it and save result
