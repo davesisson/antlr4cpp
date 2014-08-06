@@ -226,7 +226,8 @@ namespace org {
                     std::vector<Token*> filteredTokens = std::vector<Token*>();
                     for (int i = start; i <= stop; i++) {
                         Token *t = tokens[i];
-                        if (types == nullptr || std::find(types->begin(), types->end(), t) /*.operator->()*/) {
+                        
+                        if (types == nullptr || *std::find(types->begin(), types->end(), t) /*.operator->()*/) {
                             filteredTokens.push_back(t);
                         }
                     }
@@ -238,7 +239,7 @@ namespace org {
 
                 std::vector<Token*> BufferedTokenStream::getTokens(int start, int stop, int ttype) {
                     std::vector<int> *s = new std::vector<int>();
-                    s->insert(0, ttype);
+                    s->insert(s->begin(), ttype);
                     return getTokens(start,stop, s);
                 }
 

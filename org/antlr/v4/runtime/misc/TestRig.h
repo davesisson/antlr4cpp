@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include "Java/src/org/antlr/v4/runtime/Lexer.h"
-#include "Java/src/org/antlr/v4/runtime/Parser.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -43,15 +41,6 @@ namespace org {
             namespace runtime {
                 namespace misc {
 
-                    using org::antlr::v4::runtime::ANTLRInputStream;
-                    using org::antlr::v4::runtime::CharStream;
-                    using org::antlr::v4::runtime::CommonTokenStream;
-                    using org::antlr::v4::runtime::DiagnosticErrorListener;
-                    using org::antlr::v4::runtime::Lexer;
-                    using org::antlr::v4::runtime::Parser;
-                    using org::antlr::v4::runtime::ParserRuleContext;
-                    using org::antlr::v4::runtime::TokenStream;
-                    using org::antlr::v4::runtime::atn::PredictionMode;
 
 
                     /// <summary>
@@ -91,8 +80,9 @@ namespace org {
                         virtual void process() throw(std::exception);
 
                     protected:
+#ifdef TODO
                         virtual void process(Lexer *lexer, Class *parserClass, Parser *parser, InputStream *is, Reader *r) throw(IOException, IllegalAccessException, InvocationTargetException, PrintException);
-
+#endif
                     private:
                         void InitializeInstanceFields();
                     };

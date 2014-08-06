@@ -47,12 +47,13 @@ namespace org {
                         class Record {
                         public:
                             long long timestamp;
-                            StackTraceElement *location;
+                            // This is used nowhere
+                            //StackTraceElement *location;
                             std::wstring component;
                             std::wstring msg;
                             Record();
 
-                            virtual std::wstring toString() override;
+                            virtual std::wstring toString();
 
                         private:
                             void InitializeInstanceFields();
@@ -66,13 +67,13 @@ namespace org {
 
                         virtual void log(const std::wstring &msg);
 
-                        virtual void save(const std::wstring &filename) throw(IOException);
+                        virtual void save(const std::wstring &filename);
 
-                        virtual std::wstring save() throw(IOException);
+                        virtual std::wstring save();
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
-                        static void main(std::wstring args[]) throw(IOException);
+                        static void main(std::wstring args[]);
                     };
 
                 }
