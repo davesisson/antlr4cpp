@@ -1,6 +1,7 @@
 ﻿#include "ParseTreeWalker.h"
 #include "TerminalNode.h"
 #include "ErrorNode.h"
+#include "ParserRuleContext.h"
 
 /*
 * [The "BSD license"]
@@ -43,7 +44,7 @@ namespace org {
 
                     void ParseTreeWalker::walk(ParseTreeListener *listener, ParseTree *t) {
                         if (dynamic_cast<ErrorNode*>(t) != nullptr) {
-                            listener->visitErrorNode(static_cast<ErrorNode*>(t));
+                            listener->visitErrorNode(dynamic_cast<ErrorNode*>(t));
                             return;
                         } else if (dynamic_cast<TerminalNode*>(t) != nullptr) {
                             listener->visitTerminal(static_cast<TerminalNode*>(t));
@@ -59,13 +60,13 @@ namespace org {
                     }
 
                     void ParseTreeWalker::enterRule(ParseTreeListener *listener, RuleNode *r) {
-                        ParserRuleContext *ctx = static_cast<ParserRuleContext*>(r->getRuleContext());
+                        ParserRuleContext *ctx = dynamic_cast<ParserRuleContext*>(r->getRuleContext());
                         listener->enterEveryRule(ctx);
                         ctx->enterRule(listener);
                     }
 
                     void ParseTreeWalker::exitRule(ParseTreeListener *listener, RuleNode *r) {
-                        ParserRuleContext *ctx = static_cast<ParserRuleContext*>(r->getRuleContext());
+                        ParserRuleContext *ctx = dynamic_cast<ParserRuleContext*>(r->getRuleContext());
                         ctx->exitRule(listener);
                         listener->exitEveryRule(ctx);
                     }

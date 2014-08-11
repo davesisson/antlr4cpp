@@ -1,14 +1,37 @@
-﻿#include "ParserATNSimulator.h"
-//#include "Java/src/org/antlr/v4/runtime/IntStream.h"
-//#include "Java/src/org/antlr/v4/runtime/atn/RuleStopState.h"
-//#include "Java/src/org/antlr/v4/runtime/misc/IntervalSet.h"
-//#include "Java/src/org/antlr/v4/runtime/Token.h"
-//#include "Java/src/org/antlr/v4/runtime/atn/SingletonPredictionContext.h"
-//#include "Java/src/org/antlr/v4/runtime/CommonTokenStream.h"
-//#include "Java/src/org/antlr/v4/runtime/atn/AtomTransition.h"
-//#include "Java/src/org/antlr/v4/runtime/atn/SetTransition.h"
-//#include "Java/src/org/antlr/v4/runtime/atn/NotSetTransition.h"
-//#include "Java/src/org/antlr/v4/runtime/misc/Interval.h"
+﻿#include "Token.h"
+#include "DFA.h"
+#include "TokenStream.h"
+#include "ParserATNSimulator.h"
+
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
@@ -16,9 +39,8 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    ParserATNSimulator::ParserATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) {
+                    ParserATNSimulator::ParserATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache):
+                    parser(nullptr) {
                     }
 
                     ParserATNSimulator::ParserATNSimulator(Parser *parser, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), parser(parser), decisionToDFA(decisionToDFA) {
@@ -39,7 +61,7 @@ namespace org {
                         _input = input;
                         _startIndex = input->index();
                         _outerContext = outerContext;
-                        DFA *dfa = decisionToDFA[decision];
+                        dfa::DFA dfa = decisionToDFA[decision];
 
                         int m = input->mark();
                         int index = input->index();
@@ -52,7 +74,7 @@ namespace org {
                                     outerContext = ParserRuleContext::EMPTY;
                                 }
                                 if (debug || debug_list_atn_decisions) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+
                                     std::cout << std::wstring(L"predictATN decision ") << dfa->decision << std::wstring(L" exec LA(1)==") << getLookaheadName(input) << std::wstring(L", outerContext=") << outerContext->toString(parser) << std::endl;
                                 }
                                 bool fullCtx = false;

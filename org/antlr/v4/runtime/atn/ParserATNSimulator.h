@@ -2,16 +2,16 @@
 
 #include "ATNSimulator.h"
 #include "PredictionMode.h"
-#include "DoubleKeyMap.h"
 #include "DFAState.h"
+#include "stringconverter.h"
+#include "Declarations.h"
 
 #include <string>
 #include <vector>
 #include <set>
 #include <iostream>
-#include "stringconverter.h"
 #include <bitset>
-#include "Declarations.h"
+
 
 
 /*
@@ -260,9 +260,7 @@ namespace org {
                         Parser *const parser;
 
                     public:
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: @NotNull public final org.antlr.v4.runtime.dfa.DFA[] decisionToDFA;
-                        dfa::DFA *decisionToDFA;
+                        dfa::DFA * decisionToDFA;
 
                         /// <summary>
                         /// SLL, LL, or LL + exact ambig detection? </summary>
@@ -289,7 +287,6 @@ namespace org {
                         /// <summary>
                         /// Testing only! </summary>
                     public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ParserATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache); //this(nullptr, atn, decisionToDFA, sharedContextCache);
 
                         ParserATNSimulator(Parser *parser, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache);

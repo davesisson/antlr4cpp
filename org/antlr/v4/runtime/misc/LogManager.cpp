@@ -41,12 +41,15 @@ namespace org {
 
                     LogManager::Record::Record() {
                         InitializeInstanceFields();
+#ifdef TODO
                         timestamp = System::currentTimeMillis();
                         location = (std::exception())->getStackTrace()[0];
+#endif
                     }
 
                     std::wstring LogManager::Record::toString() {
                         StringBuilder *buf = new StringBuilder();
+#ifdef TODO
                         buf->append((new SimpleDateFormat(L"yyyy-MM-dd HH:mm:ss:SSS"))->format(Date(timestamp)));
                         buf->append(L" ");
                         buf->append(component);
@@ -56,7 +59,7 @@ namespace org {
                         buf->append(location->getLineNumber());
                         buf->append(L" ");
                         buf->append(msg);
-
+#endif
                         return buf->toString();
                     }
 
@@ -75,10 +78,11 @@ namespace org {
                     }
 
                     void LogManager::log(const std::wstring &msg) {
-                        log(L"",);
+                        log(L"");
                     }
 
-                    void LogManager::save(const std::wstring &filename) throw(IOException) {
+                    void LogManager::save(const std::wstring &filename) {
+#ifdef TODO
                         FileWriter *fw = new FileWriter(filename);
                         BufferedWriter *bw = new BufferedWriter(fw);
                         try {
@@ -86,17 +90,23 @@ namespace org {
                         } finally {
                             bw->close();
                         }
+#endif
                     }
 
-                    std::wstring LogManager::save() throw(IOException) {
+                    std::wstring LogManager::save() {
+#ifdef TODO
                         //String dir = System.getProperty("java.io.tmpdir");
                         std::wstring dir = L".";
                         std::wstring defaultFilename = dir + std::wstring(L"/antlr-") + (new SimpleDateFormat(L"yyyy-MM-dd-HH.mm.ss"))->format(Date()) + std::wstring(L".log");
                         save(defaultFilename);
                         return defaultFilename;
+#else
+                        return nullptr;
+#endif
                     }
 
                     std::wstring LogManager::toString() {
+#ifdef TODO
                         if (records.empty()) {
                             return L"";
                         }
@@ -106,11 +116,13 @@ namespace org {
                             buf->append(r);
                             buf->append(nl);
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
+#else
+                        return nullptr;
+#endif
                     }
 
-                    void LogManager::main(std::wstring args[]) throw(IOException) {
+                    void LogManager::main(std::wstring args[]) {
                         LogManager *mgr = new LogManager();
                         mgr->log(L"atn", L"test msg");
                         mgr->log(L"dfa", L"test msg 2");
