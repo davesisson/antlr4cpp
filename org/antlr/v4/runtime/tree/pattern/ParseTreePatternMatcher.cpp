@@ -1,14 +1,19 @@
-﻿#include "ParseTreePatternMatcher.h"
-#include "ListTokenSource.h"
-#include "CommonTokenStream.h"
-#include "ParserInterpreter.h"
-#include "TerminalNode.h"
-#include "TokenTagToken.h"
-#include "ParserRuleContext.h"
-#include "RuleNode.h"
-#include "TagChunk.h"
-#include "TextChunk.h"
-#include "ANTLRInputStream.h"
+﻿
+#include "ParseTreePatternMatcher.h"
+#include "Exceptions.h"
+#include "MultiMap.h"
+
+//#include "ListTokenSource.h"
+//#include "CommonTokenStream.h"
+//#include "ParserInterpreter.h"
+//#include "TerminalNode.h"
+//#include "TokenTagToken.h"
+//#include "ParserRuleContext.h"
+//#include "RuleNode.h"
+//#include "TagChunk.h"
+//#include "TextChunk.h"
+//#include "ANTLRInputStream.h"
+
 
 /*
  * [The "BSD license"]
@@ -47,7 +52,7 @@ namespace org {
             namespace runtime {
                 namespace tree {
                     namespace pattern {
-                        ParseTreePatternMatcher::CannotInvokeStartRule::CannotInvokeStartRule(std::exception e) : RuntimeException(e) {
+                        ParseTreePatternMatcher::CannotInvokeStartRule::CannotInvokeStartRule(std::exception e) {
                         }
 
                         ParseTreePatternMatcher::ParseTreePatternMatcher(Lexer *lexer, Parser *parser) : lexer(lexer), parser(parser) {
@@ -55,12 +60,12 @@ namespace org {
                         }
 
                         void ParseTreePatternMatcher::setDelimiters(const std::wstring &start, const std::wstring &stop, const std::wstring &escapeLeft) {
-                            if (start == L"" || start.isEmpty()) {
-                                throw IllegalArgumentException(L"start cannot be null or empty");
+                            if (start == L"" || start.length() == 0) {
+                                throw new IllegalArgumentException(L"start cannot be null or empty");
                             }
 
-                            if (stop == L"" || stop.isEmpty()) {
-                                throw IllegalArgumentException(L"stop cannot be null or empty");
+                            if (stop == L"" || stop.length() == 0) {
+                                throw new IllegalArgumentException(L"stop cannot be null or empty");
                             }
 
                             this->start = start;
