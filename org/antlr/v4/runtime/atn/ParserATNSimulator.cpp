@@ -1,6 +1,14 @@
 ﻿#include "Token.h"
+#include "ATN.h"
 #include "DFA.h"
+#include "Parser.h"
+#include "Exceptions.h"
+#include "NoViableAltException.h"
+#include "DoubleKeyMap.h"
+#include "ATNState.h"
 #include "TokenStream.h"
+#include "DecisionState.h"
+#include "ParserRuleContext.h"
 #include "ParserATNSimulator.h"
 
 /*
@@ -55,7 +63,7 @@ namespace org {
 
                     int ParserATNSimulator::adaptivePredict(TokenStream *input, int decision, ParserRuleContext *outerContext) {
                         if (debug || debug_list_atn_decisions) {
-                            std::cout << std::wstring(L"adaptivePredict decision ") << decision << std::wstring(L" exec LA(1)==") << getLookaheadName(input) << std::wstring(L" line ") << input->LT(1)->getLine() << std::wstring(L":") << input->LT(1)->getCharPositionInLine() << std::endl;
+                            std::wcout << std::wstring(L"adaptivePredict decision ") << decision << std::wstring(L" exec LA(1)==") << getLookaheadName(input) << std::wstring(L" line ") << input->LT(1)->getLine() << std::wstring(L":") << input->LT(1)->getCharPositionInLine() << std::endl;
                         }
 
                         _input = input;
@@ -69,49 +77,60 @@ namespace org {
                         // Now we are certain to have a specific decision's DFA
                         // But, do we still need an initial state?
                         try {
-                            if (dfa->s0 == nullptr) {
+                            if (dfa.s0 == nullptr) {
                                 if (outerContext == nullptr) {
                                     outerContext = ParserRuleContext::EMPTY;
                                 }
                                 if (debug || debug_list_atn_decisions) {
 
-                                    std::cout << std::wstring(L"predictATN decision ") << dfa->decision << std::wstring(L" exec LA(1)==") << getLookaheadName(input) << std::wstring(L", outerContext=") << outerContext->toString(parser) << std::endl;
+                                    std::wcout << std::wstring(L"predictATN decision ") << dfa.decision << std::wstring(L" exec LA(1)==") << getLookaheadName(input) << std::wstring(L", outerContext=") << outerContext->toString(parser) << std::endl;
                                 }
                                 bool fullCtx = false;
-                                ATNConfigSet *s0_closure = computeStartState(dfa->atnStartState, ParserRuleContext::EMPTY, fullCtx);
-                                dfa->s0 = addDFAState(dfa, new DFAState(s0_closure));
+                                ATNConfigSet *s0_closure = computeStartState(dynamic_cast<ATNState*>(dfa.atnStartState),
+                                                                             ParserRuleContext::EMPTY, fullCtx);
+                                dfa.s0 = addDFAState(&dfa, new dfa::DFAState(s0_closure));
                             }
 
                             // We can start with an existing DFA
-                            int alt = execATN(dfa, dfa->s0, input, index, outerContext);
+                            int alt = execATN(&dfa, dfa.s0, input, index, outerContext);
                             if (debug) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                                std::cout << std::wstring(L"DFA after predictATN: ") << dfa->toString(parser->getTokenNames()) << std::endl;
+
+                                std::wcout << std::wstring(L"DFA after predictATN: ") << dfa.toString(parser->getTokenNames()) << std::endl;
                             }
                             return alt;
-                        } finally {
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+                        }
+                        catch (void*) {
+#ifdef TODO
+                            C++ requires a catch block
+#endif
+                        }
+#ifdef TODO
+                        finally {
+#endif
+                            //JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                             delete mergeCache; // wack cache after each prediction
                             input->seek(index);
                             input->release(m);
+#ifdef TODO
                         }
+#endif
                     }
 
-                    int ParserATNSimulator::execATN(DFA *dfa, DFAState *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext) {
+                    int ParserATNSimulator::execATN(dfa::DFA *dfa, dfa::DFAState *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext) {
                         if (debug || debug_list_atn_decisions) {
-                            std::cout << std::wstring(L"execATN decision ") << dfa->decision << std::wstring(L" exec LA(1)==") << getLookaheadName(input) << std::wstring(L" line ") << input->LT(1)->getLine() << std::wstring(L":") << input->LT(1)->getCharPositionInLine() << std::endl;
+                            std::wcout << std::wstring(L"execATN decision ") << dfa->decision << std::wstring(L" exec LA(1)==") << getLookaheadName(input) << std::wstring(L" line ") << input->LT(1)->getLine() << std::wstring(L":") << input->LT(1)->getCharPositionInLine() << std::endl;
                         }
 
-                        DFAState *previousD = s0;
+                        dfa::DFAState *previousD = s0;
 
                         if (debug) {
-                            std::cout << std::wstring(L"s0 = ") << s0 << std::endl;
+                            std::wcout << std::wstring(L"s0 = ") << s0 << std::endl;
                         }
 
                         int t = input->LA(1);
 
                         while (true) { // while more work
-                            DFAState *D = getExistingTargetState(previousD, t);
+                            dfa::DFAState *D = getExistingTargetState(previousD, t);
                             if (D == nullptr) {
                                 D = computeTargetState(dfa, previousD, t);
                             }
