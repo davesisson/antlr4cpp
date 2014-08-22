@@ -156,10 +156,10 @@ namespace org {
 
                             if (D->requiresFullContext && mode != PredictionMode::SLL) {
                                 // IF PREDS, MIGHT RESOLVE TO SINGLE ALT => SLL (or syntax error)
-                                BitSet *conflictingAlts = nullptr;
-                                if (D->predicates != nullptr) {
+                                std::bitset<BITSET_SIZE> *conflictingAlts = nullptr;
+                                if (D->predicates.size() != 0) {
                                     if (debug) {
-                                        std::cout << std::wstring(L"DFA state has preds in DFA sim LL failover") << std::endl;
+                                        std::wcout << std::wstring(L"DFA state has preds in DFA sim LL failover") << std::endl;
                                     }
                                     int conflictIndex = input->index();
                                     if (conflictIndex != startIndex) {
@@ -169,7 +169,7 @@ namespace org {
                                     conflictingAlts = evalSemanticContext(D->predicates, outerContext, true);
                                     if (conflictingAlts->cardinality() == 1) {
                                         if (debug) {
-                                            std::cout << std::wstring(L"Full LL avoided") << std::endl;
+                                            std::wcout << std::wstring(L"Full LL avoided") << std::endl;
                                         }
                                         return conflictingAlts->nextSetBit(0);
                                     }
@@ -182,7 +182,7 @@ namespace org {
                                 }
 
                                 if (dfa_debug) {
-                                    std::cout << std::wstring(L"ctx sensitive state ") << outerContext << std::wstring(L" in ") << D << std::endl;
+                                    std::wcout << std::wstring(L"ctx sensitive state ") << outerContext << std::wstring(L" in ") << D << std::endl;
                                 }
                                 bool fullCtx = true;
                                 ATNConfigSet *s0_closure = computeStartState(dfa->atnStartState, outerContext, fullCtx);
@@ -192,13 +192,13 @@ namespace org {
                             }
 
                             if (D->isAcceptState) {
-                                if (D->predicates == nullptr) {
+                                if (D->predicates.size() == 0) {
                                     return D->prediction;
                                 }
 
                                 int stopIndex = input->index();
                                 input->seek(startIndex);
-                                BitSet *alts = evalSemanticContext(D->predicates, outerContext, true);
+                                std::bitset<BITSET_SIZE> *alts = evalSemanticContext(D->predicates, outerContext, true);
                                 switch (alts->cardinality()) {
                                 case 0:
                                     throw noViableAlt(input, outerContext, D->configs, startIndex);
@@ -216,17 +216,17 @@ namespace org {
 
                             previousD = D;
 
-                            if (t != IntStream::EOF) {
+                            if (t != IntStream::_EOF) {
                                 input->consume();
                                 t = input->LA(1);
                             }
                         }
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *ParserATNSimulator::getExistingTargetState(DFAState *previousD, int t) {
+                    dfa::DFAState *ParserATNSimulator::getExistingTargetState(dfa::DFAState *previousD, int t) {
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: org.antlr.v4.runtime.dfa.DFAState[] edges = previousD.edges;
-                        DFAState *edges = previousD->edges;
+                        dfa::DFAState *edges = previousD->edges;
                         if (edges == nullptr || t + 1 < 0 || t + 1 >= edges->length) {
                             return nullptr;
                         }
@@ -234,7 +234,7 @@ namespace org {
                         return edges[t + 1];
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *ParserATNSimulator::computeTargetState(DFA *dfa, DFAState *previousD, int t) {
+                    dfa::DFAState *ParserATNSimulator::computeTargetState(DFA *dfa, DFAState *previousD, int t) {
                         ATNConfigSet *reach = computeReachSet(previousD->configs, t, false);
                         if (reach == nullptr) {
                             addDFAEdge(dfa, previousD, t, ERROR);
@@ -242,13 +242,13 @@ namespace org {
                         }
 
                         // create new target state; we'll add to DFA after it's complete
-                        DFAState *D = new DFAState(reach);
+                        dfa::DFAState *D = new dfa::DFAState(reach);
 
                         int predictedAlt = getUniqueAlt(reach);
 
                         if (debug) {
-                            Collection<BitSet*> *altSubSets = PredictionMode::getConflictingAltSubsets(reach);
-                            std::cout << std::wstring(L"SLL altSubSets=") << altSubSets << std::wstring(L", configs=") << reach << std::wstring(L", predict=") << predictedAlt << std::wstring(L", allSubsetsConflict=") << PredictionMode::allSubsetsConflict(altSubSets) << std::wstring(L", conflictingAlts=") << getConflictingAlts(reach) << std::endl;
+                            std::vector<std::bitset<BITSET_SIZE>*> *altSubSets = PredictionMode::getConflictingAltSubsets(reach);
+                            std::wcout << std::wstring(L"SLL altSubSets=") << altSubSets << std::wstring(L", configs=") << reach << std::wstring(L", predict=") << predictedAlt << std::wstring(L", allSubsetsConflict=") << PredictionMode::allSubsetsConflict(altSubSets) << std::wstring(L", conflictingAlts=") << getConflictingAlts(reach) << std::endl;
                         }
 
                         if (predictedAlt != ATN::INVALID_ALT_NUMBER) {
@@ -362,7 +362,7 @@ namespace org {
                             }
 
                             previous = reach;
-                            if (t != IntStream::EOF) {
+                            if (t != IntStream::_EOF) {
                                 input->consume();
                                 t = input->LA(1);
                             }
@@ -440,7 +440,7 @@ namespace org {
 
                             if (dynamic_cast<RuleStopState*>(c->state) != nullptr) {
                                 assert(c->context->isEmpty());
-                                if (fullCtx || t == IntStream::EOF) {
+                                if (fullCtx || t == IntStream::_EOF) {
                                     if (skippedStopStates.empty()) {
                                         skippedStopStates = std::vector<ATNConfig*>();
                                     }
@@ -499,7 +499,7 @@ namespace org {
                             }
                         }
 
-                        if (t == IntStream::EOF) {
+                        if (t == IntStream::_EOF) {
                             /* After consuming EOF no additional input is possible, so we are
                              * only interested in configurations which reached the end of the
                              * decision rule (local context) or end of the start rule (full
@@ -709,7 +709,6 @@ namespace org {
 
                     void ParserATNSimulator::closureCheckingStopState(ATNConfig *config, ATNConfigSet *configs, Set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth) {
                         if (debug) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             std::cout << std::wstring(L"closure(") << config->toString(parser,true) << std::wstring(L")") << std::endl;
                         }
 
@@ -938,7 +937,7 @@ namespace org {
                     }
 
                     std::wstring ParserATNSimulator::getTokenName(int t) {
-                        if (t == Token::EOF) {
+                        if (t == Token::_EOF) {
                             return L"EOF";
                         }
                         if (parser != nullptr && parser->getTokenNames() != nullptr) {
@@ -972,11 +971,9 @@ namespace org {
                                 } else if (dynamic_cast<SetTransition*>(t) != nullptr) {
                                     SetTransition *st = static_cast<SetTransition*>(t);
                                     bool not = dynamic_cast<NotSetTransition*>(st) != nullptr;
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                                     trans = (not?L"~":L"") + std::wstring(L"Set ") + st->set->toString();
                                 }
                             }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             System::err::println(c->toString(parser, true) + std::wstring(L":") + trans);
                         }
                     }
@@ -1021,7 +1018,6 @@ namespace org {
                         }
 
                         if (debug) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             std::cout << std::wstring(L"DFA=\n") << dfa->toString(parser != nullptr?parser->getTokenNames():nullptr) << std::endl;
                         }
 
