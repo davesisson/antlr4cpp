@@ -234,7 +234,7 @@ namespace org {
                         return edges[t + 1];
                     }
 
-                    dfa::DFAState *ParserATNSimulator::computeTargetState(DFA *dfa, DFAState *previousD, int t) {
+                    dfa::DFAState *ParserATNSimulator::computeTargetState(dfa::DFA *dfa, dfa::DFAState *previousD, int t) {
                         ATNConfigSet *reach = computeReachSet(previousD->configs, t, false);
                         if (reach == nullptr) {
                             addDFAEdge(dfa, previousD, t, ERROR);

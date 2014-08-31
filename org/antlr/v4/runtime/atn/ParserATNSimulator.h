@@ -399,7 +399,7 @@ namespace org {
                         ///  then we stop at the first predicate that evaluates to true. This
                         ///  includes pairs with null predicates.
                         /// </summary>
-                        virtual std::bitset<BITSET_SIZE> *evalSemanticContext(dfa::DFAState::PredPrediction predPredictions[], ParserRuleContext *outerContext, bool complete);
+                        virtual std::bitset<BITSET_SIZE> *evalSemanticContext(std::vector<dfa::DFAState::PredPrediction*> predPredictions, ParserRuleContext *outerContext, bool complete);
 
 
                         /* TODO: If we are doing predicates, there is no point in pursuing
