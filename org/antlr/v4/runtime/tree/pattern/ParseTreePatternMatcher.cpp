@@ -2,6 +2,7 @@
 #include "ParseTreePatternMatcher.h"
 #include "Exceptions.h"
 #include "MultiMap.h"
+#include "ParseTreePattern.h"
 
 //#include "ListTokenSource.h"
 //#include "CommonTokenStream.h"
@@ -84,21 +85,19 @@ namespace org {
                             return mismatchedNode == nullptr;
                         }
 
-                        org::antlr::v4::runtime::tree::pattern::ParseTreeMatch *ParseTreePatternMatcher::match(ParseTree *tree, const std::wstring &pattern, int patternRuleIndex) {
+                        ParseTreeMatch *ParseTreePatternMatcher::match(ParseTree *tree, const std::wstring &pattern, int patternRuleIndex) {
                             ParseTreePattern *p = compile(pattern, patternRuleIndex);
                             return match(tree, p);
                         }
 
-                        org::antlr::v4::runtime::tree::pattern::ParseTreeMatch *ParseTreePatternMatcher::match(ParseTree *tree, ParseTreePattern *pattern) {
+                        ParseTreeMatch *ParseTreePatternMatcher::match(ParseTree *tree, ParseTreePattern *pattern) {
                             MultiMap<std::wstring, ParseTree*> *labels = new MultiMap<std::wstring, ParseTree*>();
                             ParseTree *mismatchedNode = matchImpl(tree, pattern->getPatternTree(), labels);
                             return new ParseTreeMatch(tree, pattern, labels, mismatchedNode);
                         }
 
-                        org::antlr::v4::runtime::tree::pattern::ParseTreePattern *ParseTreePatternMatcher::compile(const std::wstring &pattern, int patternRuleIndex) {
-//JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
-//ORIGINAL LINE: java.util.List<? extends org.antlr.v4.runtime.Token> tokenList = tokenize(pattern);
-                            std::vector<? extends Token> tokenList = tokenize(pattern);
+                        ParseTreePattern *ParseTreePatternMatcher::compile(const std::wstring &pattern, int patternRuleIndex) {
+                            std::vector<Token*> tokenList = tokenize(pattern);
                             ListTokenSource *tokenSrc = new ListTokenSource(tokenList);
                             CommonTokenStream *tokens = new CommonTokenStream(tokenSrc);
 
@@ -115,7 +114,7 @@ namespace org {
                             return new ParseTreePattern(this, pattern, patternRuleIndex, tree);
                         }
 
-                        org::antlr::v4::runtime::Lexer *ParseTreePatternMatcher::getLexer() {
+                        runtime::Lexer *ParseTreePatternMatcher::getLexer() {
                             return lexer;
                         }
 
@@ -210,7 +209,7 @@ namespace org {
                             return tree;
                         }
 
-                        org::antlr::v4::runtime::tree::pattern::RuleTagToken *ParseTreePatternMatcher::getRuleTagToken(ParseTree *t) {
+                        RuleTagToken *ParseTreePatternMatcher::getRuleTagToken(ParseTree *t) {
                             if (dynamic_cast<RuleNode*>(t) != nullptr) {
                                 RuleNode *r = static_cast<RuleNode*>(t);
                                 if (r->getChildCount() == 1 && dynamic_cast<TerminalNode*>(r->getChild(0)) != nullptr) {

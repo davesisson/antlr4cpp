@@ -226,8 +226,8 @@ namespace org {
                     dfa::DFAState *ParserATNSimulator::getExistingTargetState(dfa::DFAState *previousD, int t) {
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: org.antlr.v4.runtime.dfa.DFAState[] edges = previousD.edges;
-                        dfa::DFAState *edges = previousD->edges;
-                        if (edges == nullptr || t + 1 < 0 || t + 1 >= edges->length) {
+                        std::vector<dfa::DFAState *>edges = previousD->edges;
+                        if (edges.size() == 0 || t + 1 < 0 || t + 1 >= edges.size()) {
                             return nullptr;
                         }
 
@@ -247,8 +247,10 @@ namespace org {
                         int predictedAlt = getUniqueAlt(reach);
 
                         if (debug) {
+#ifdef TODO
                             std::vector<std::bitset<BITSET_SIZE>*> *altSubSets = PredictionMode::getConflictingAltSubsets(reach);
                             std::wcout << std::wstring(L"SLL altSubSets=") << altSubSets << std::wstring(L", configs=") << reach << std::wstring(L", predict=") << predictedAlt << std::wstring(L", allSubsetsConflict=") << PredictionMode::allSubsetsConflict(altSubSets) << std::wstring(L", conflictingAlts=") << getConflictingAlts(reach) << std::endl;
+#endif
                         }
 
                         if (predictedAlt != ATN::INVALID_ALT_NUMBER) {
@@ -434,8 +436,7 @@ namespace org {
                         // First figure out where we can reach on input t
                         for (auto c : closure) {
                             if (debug) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                                std::cout << std::wstring(L"testing ") << getTokenName(t) << std::wstring(L" at ") << c->toString() << std::endl;
+                                std::wcout << std::wstring(L"testing ") << getTokenName(t) << std::wstring(L" at ") << c->toString() << std::endl;
                             }
 
                             if (dynamic_cast<RuleStopState*>(c->state) != nullptr) {
@@ -627,8 +628,7 @@ namespace org {
                             altToPred = nullptr;
                         }
                         if (debug) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                            std::cout << std::wstring(L"getPredsForAmbigAlts result ") << Arrays->toString(altToPred) << std::endl;
+                            std::wcout << std::wstring(L"getPredsForAmbigAlts result ") << Arrays->toString(altToPred) << std::endl;
                         }
                         return altToPred;
                     }
@@ -945,7 +945,6 @@ namespace org {
 //ORIGINAL LINE: String[] tokensNames = parser.getTokenNames();
                             std::wstring *tokensNames = parser->getTokenNames();
                             if (t >= tokensNames->length) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                                 System::err::println(t + std::wstring(L" ttype out of range: ") + Arrays->toString(tokensNames));
                                 System::err::println((static_cast<CommonTokenStream*>(parser->getInputStream()))->getTokens());
                             } else {

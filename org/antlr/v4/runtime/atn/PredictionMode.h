@@ -61,53 +61,51 @@ namespace org {
                         ///  it has already figured out which alternative to predict.
                         /// </summary>
                         LL_EXACT_AMBIG_DETECTION
+                    };
 
-#ifdef TODO
                         /// <summary>
                         /// A Map that uses just the state and the stack context as the key. </summary>
-//JAVA TO C++ CONVERTER TODO TASK: The following line could not be converted:
                         static class AltAndContextMap extends FlexibleHashMap<ATNConfig,java.util.BitSet> {
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                            public AltAndContextMap()
-                    //        {
-                    //            super(AltAndContextConfigEqualityComparator.INSTANCE);
-                    //        }
+
+                            public AltAndContextMap()
+                            {
+                                super(AltAndContextConfigEqualityComparator.INSTANCE);
+                            }
                         }
 
-//JAVA TO C++ CONVERTER TODO TASK: The following line could not be converted:
                         private static final class AltAndContextConfigEqualityComparator extends org.antlr.v4.runtime.misc.AbstractEqualityComparator<ATNConfig> {
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain fields in C++:
-//                            public static final AltAndContextConfigEqualityComparator INSTANCE = new AltAndContextConfigEqualityComparator();
 
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                            private AltAndContextConfigEqualityComparator()
-                    //        {
-                    //        }
+                            public static final AltAndContextConfigEqualityComparator INSTANCE = new AltAndContextConfigEqualityComparator();
+
+
+                            private AltAndContextConfigEqualityComparator()
+                            {
+                            }
 
                             /// <summary>
                             /// Code is function of (s, _, ctx, _) </summary>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                            public int hashCode(ATNConfig o)
-                    //        {
-                    //            int hashCode = MurmurHash.initialize(7);
-                    //            hashCode = MurmurHash.update(hashCode, o.state.stateNumber);
-                    //            hashCode = MurmurHash.update(hashCode, o.context);
-                    //            hashCode = MurmurHash.finish(hashCode, 2);
-                    //            return hashCode;
-                    //        }
 
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                            public boolean equals(ATNConfig a, ATNConfig b)
-                    //        {
-                    //            if (a==b)
-                    //                return true;
-                    //            if (a==nullptr || b==nullptr)
-                    //                return false;
-                    //            return a.state.stateNumber==b.state.stateNumber && a.context.equals(b.context);
-                    //        }
+                            public int hashCode(ATNConfig o)
+                            {
+                                int hashCode = MurmurHash.initialize(7);
+                                hashCode = MurmurHash.update(hashCode, o.state.stateNumber);
+                                hashCode = MurmurHash.update(hashCode, o.context);
+                                hashCode = MurmurHash.finish(hashCode, 2);
+                                return hashCode;
+                            }
+
+
+                            public boolean equals(ATNConfig a, ATNConfig b)
+                            {
+                                if (a==b)
+                                    return true;
+                                if (a==nullptr || b==nullptr)
+                                    return false;
+                                return a.state.stateNumber==b.state.stateNumber && a.context.equals(b.context);
+                            }
 
                         }
-#endif
+
 
                         /// <summary>
                         /// Computes the SLL prediction termination condition.
@@ -242,45 +240,44 @@ namespace org {
                         /// the configurations to strip out all of the predicates so that a standard
                         /// <seealso cref="ATNConfigSet"/> will merge everything ignoring predicates.
                         /// </summary>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static boolean hasSLLConflictTerminatingPrediction(PredictionMode mode, @@NotNull ATNConfigSet configs)
-                    //    {
-                    // /* Configs in rule stop states indicate reaching the end of the decision
-                    //  * rule (local context) or end of start rule (full context). If all
-                    //  * configs meet this condition, then none of the configurations is able
-                    //  * to match additional input so we terminate prediction.
-                    //  */
-                    //        if (allConfigsInRuleStopStates(configs))
-                    //        {
-                    //            return true;
-                    //        }
-                    //
-                    //        // pure SLL mode parsing
-                    //        if (mode == PredictionMode.SLL)
-                    //        {
-                    //            // Don't bother with combining configs from different semantic
-                    //            // contexts if we can fail over to full LL; costs more time
-                    //            // since we'll often fail over anyway.
-                    //            if (configs.hasSemanticContext)
-                    //            {
-                    //                // dup configs, tossing out semantic predicates
-                    //                ATNConfigSet dup = new ATNConfigSet();
-                    //                for (ATNConfig c : configs)
-                    //                {
-                    //                    c = new ATNConfig(c,SemanticContext.NONE);
-                    //                    dup.add(c);
-                    //                }
-                    //                configs = dup;
-                    //            }
-                    //            // now we have combined contexts for configs with dissimilar preds
-                    //        }
-                    //
-                    //        // pure SLL or combined SLL+LL mode parsing
-                    //
-                    //        Collection<BitSet> altsets = getConflictingAltSubsets(configs);
-                    //        boolean heuristic = hasConflictingAltSet(altsets) && !hasStateAssociatedWithOneAlt(configs);
-                    //        return heuristic;
-                    //    }
+                        public static boolean hasSLLConflictTerminatingPrediction(PredictionMode mode, ATNConfigSet configs)
+                        {
+                     /* Configs in rule stop states indicate reaching the end of the decision
+                      * rule (local context) or end of start rule (full context). If all
+                      * configs meet this condition, then none of the configurations is able
+                      * to match additional input so we terminate prediction.
+                      */
+                            if (allConfigsInRuleStopStates(configs))
+                            {
+                                return true;
+                            }
+                    
+                            // pure SLL mode parsing
+                            if (mode == PredictionMode.SLL)
+                            {
+                                // Don't bother with combining configs from different semantic
+                                // contexts if we can fail over to full LL; costs more time
+                                // since we'll often fail over anyway.
+                                if (configs.hasSemanticContext)
+                                {
+                                    // dup configs, tossing out semantic predicates
+                                    ATNConfigSet dup = new ATNConfigSet();
+                                    for (ATNConfig c : configs)
+                                    {
+                                        c = new ATNConfig(c,SemanticContext.NONE);
+                                        dup.add(c);
+                                    }
+                                    configs = dup;
+                                }
+                                // now we have combined contexts for configs with dissimilar preds
+                            }
+                    
+                            // pure SLL or combined SLL+LL mode parsing
+                    
+                            Collection<BitSet> altsets = getConflictingAltSubsets(configs);
+                            boolean heuristic = hasConflictingAltSet(altsets) && !hasStateAssociatedWithOneAlt(configs);
+                            return heuristic;
+                        }
 
                         /// <summary>
                         /// Checks if any configuration in {@code configs} is in a
@@ -291,19 +288,18 @@ namespace org {
                         /// <param name="configs"> the configuration set to test </param>
                         /// <returns> {@code true} if any configuration in {@code configs} is in a
                         /// <seealso cref="RuleStopState"/>, otherwise {@code false} </returns>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static boolean hasConfigInRuleStopState(ATNConfigSet configs)
-                    //    {
-                    //        for (ATNConfig c : configs)
-                    //        {
-                    //            if (c.state instanceof RuleStopState)
-                    //            {
-                    //                return true;
-                    //            }
-                    //        }
-                    //
-                    //        return false;
-                    //    }
+                        public static boolean hasConfigInRuleStopState(ATNConfigSet configs)
+                        {
+                            for (ATNConfig c : configs)
+                            {
+                                if (c.state instanceof RuleStopState)
+                                {
+                                    return true;
+                                }
+                            }
+                    
+                            return false;
+                        }
 
                         /// <summary>
                         /// Checks if all configurations in {@code configs} are in a
@@ -314,19 +310,18 @@ namespace org {
                         /// <param name="configs"> the configuration set to test </param>
                         /// <returns> {@code true} if all configurations in {@code configs} are in a
                         /// <seealso cref="RuleStopState"/>, otherwise {@code false} </returns>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static boolean allConfigsInRuleStopStates(@@NotNull ATNConfigSet configs)
-                    //    {
-                    //        for (ATNConfig config : configs)
-                    //        {
-                    //            if (!(config.state instanceof RuleStopState))
-                    //            {
-                    //                return false;
-                    //            }
-                    //        }
-                    //
-                    //        return true;
-                    //    }
+                        public static boolean allConfigsInRuleStopStates(@@NotNull ATNConfigSet configs)
+                        {
+                            for (ATNConfig config : configs)
+                            {
+                                if (!(config.state instanceof RuleStopState))
+                                {
+                                    return false;
+                                }
+                            }
+                    
+                            return true;
+                        }
 
                         /// <summary>
                         /// Full LL prediction termination.
@@ -509,11 +504,11 @@ namespace org {
                         /// we need exact ambiguity detection when the sets look like
                         /// {@code A={{1,2}}} or {@code {{1,2},{1,2}}}, etc...
                         /// </summary>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static int resolvesToJustOneViableAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
-                    //    {
-                    //        return getSingleViableAlt(altsets);
-                    //    }
+
+                        public static int resolvesToJustOneViableAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                        {
+                            return getSingleViableAlt(altsets);
+                        }
 
                         /// <summary>
                         /// Determines if every alternative subset in {@code altsets} contains more
@@ -522,11 +517,11 @@ namespace org {
                         /// <param name="altsets"> a collection of alternative subsets </param>
                         /// <returns> {@code true} if every <seealso cref="BitSet"/> in {@code altsets} has
                         /// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code false} </returns>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static boolean allSubsetsConflict(@@NotNull java.util.Collection<java.util.BitSet> altsets)
-                    //    {
-                    //        return !hasNonConflictingAltSet(altsets);
-                    //    }
+
+                        public static boolean allSubsetsConflict(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                        {
+                            return !hasNonConflictingAltSet(altsets);
+                        }
 
                         /// <summary>
                         /// Determines if any single alternative subset in {@code altsets} contains
@@ -535,18 +530,18 @@ namespace org {
                         /// <param name="altsets"> a collection of alternative subsets </param>
                         /// <returns> {@code true} if {@code altsets} contains a <seealso cref="BitSet"/> with
                         /// <seealso cref="BitSet#cardinality cardinality"/> 1, otherwise {@code false} </returns>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static boolean hasNonConflictingAltSet(@@NotNull java.util.Collection<java.util.BitSet> altsets)
-                    //    {
-                    //        for (BitSet alts : altsets)
-                    //        {
-                    //            if (alts.cardinality()==1)
-                    //            {
-                    //                return true;
-                    //            }
-                    //        }
-                    //        return false;
-                    //    }
+
+                        public static boolean hasNonConflictingAltSet(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                        {
+                            for (BitSet alts : altsets)
+                            {
+                                if (alts.cardinality()==1)
+                                {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
 
                         /// <summary>
                         /// Determines if any single alternative subset in {@code altsets} contains
@@ -555,18 +550,17 @@ namespace org {
                         /// <param name="altsets"> a collection of alternative subsets </param>
                         /// <returns> {@code true} if {@code altsets} contains a <seealso cref="BitSet"/> with
                         /// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code false} </returns>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static boolean hasConflictingAltSet(@@NotNull java.util.Collection<java.util.BitSet> altsets)
-                    //    {
-                    //        for (BitSet alts : altsets)
-                    //        {
-                    //            if (alts.cardinality()>1)
-                    //            {
-                    //                return true;
-                    //            }
-                    //        }
-                    //        return false;
-                    //    }
+                        public static boolean hasConflictingAltSet(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                        {
+                            for (BitSet alts : altsets)
+                            {
+                                if (alts.cardinality()>1)
+                                {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
 
                         /// <summary>
                         /// Determines if every alternative subset in {@code altsets} is equivalent.
@@ -574,19 +568,18 @@ namespace org {
                         /// <param name="altsets"> a collection of alternative subsets </param>
                         /// <returns> {@code true} if every member of {@code altsets} is equal to the
                         /// others, otherwise {@code false} </returns>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static boolean allSubsetsEqual(@@NotNull java.util.Collection<java.util.BitSet> altsets)
-                    //    {
-                    //        Iterator<BitSet> it = altsets.iterator();
-                    //        BitSet first = it.next();
-                    //        while (it.hasNext())
-                    //        {
-                    //            BitSet next = it.next();
-                    //            if (!next.equals(first))
-                    //                return false;
-                    //        }
-                    //        return true;
-                    //    }
+                        public static boolean allSubsetsEqual(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                        {
+                            Iterator<BitSet> it = altsets.iterator();
+                            BitSet first = it.next();
+                            while (it.hasNext())
+                            {
+                                BitSet next = it.next();
+                                if (!next.equals(first))
+                                    return false;
+                            }
+                            return true;
+                        }
 
                         /// <summary>
                         /// Returns the unique alternative predicted by all alternative subsets in
@@ -594,14 +587,14 @@ namespace org {
                         /// <seealso cref="ATN#INVALID_ALT_NUMBER"/>.
                         /// </summary>
                         /// <param name="altsets"> a collection of alternative subsets </param>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static int getUniqueAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
-                    //    {
-                    //        BitSet all = getAlts(altsets);
-                    //        if (all.cardinality()==1)
-                    //            return all.nextSetBit(0);
-                    //        return ATN.INVALID_ALT_NUMBER;
-                    //    }
+
+                        public static int getUniqueAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                        {
+                            BitSet all = getAlts(altsets);
+                            if (all.cardinality()==1)
+                                return all.nextSetBit(0);
+                            return ATN.INVALID_ALT_NUMBER;
+                        }
 
                         /// <summary>
                         /// Gets the complete set of represented alternatives for a collection of
@@ -610,16 +603,15 @@ namespace org {
                         /// </summary>
                         /// <param name="altsets"> a collection of alternative subsets </param>
                         /// <returns> the set of represented alternatives in {@code altsets} </returns>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static java.util.BitSet getAlts(@@NotNull java.util.Collection<java.util.BitSet> altsets)
-                    //    {
-                    //        BitSet all = new BitSet();
-                    //        for (BitSet alts : altsets)
-                    //        {
-                    //            all.or(alts);
-                    //        }
-                    //        return all;
-                    //    }
+                        public static java.util.BitSet getAlts(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                        {
+                            BitSet all = new BitSet();
+                            for (BitSet alts : altsets)
+                            {
+                                all.or(alts);
+                            }
+                            return all;
+                        }
 
                         /// <summary>
                         /// This function gets the conflicting alt subsets from a configuration set.
@@ -630,22 +622,21 @@ namespace org {
                         /// alt and not pred
                         /// </pre>
                         /// </summary>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static java.util.Collection<java.util.BitSet> getConflictingAltSubsets(ATNConfigSet configs)
-                    //    {
-                    //        AltAndContextMap configToAlts = new AltAndContextMap();
-                    //        for (ATNConfig c : configs)
-                    //        {
-                    //            BitSet alts = configToAlts.get(c);
-                    //            if (alts==nullptr)
-                    //            {
-                    //                alts = new BitSet();
-                    //                configToAlts.put(c, alts);
-                    //            }
-                    //            alts.set(c.alt);
-                    //        }
-                    //        return configToAlts.values();
-                    //    }
+                        public static java.util.Collection<java.util.BitSet> getConflictingAltSubsets(ATNConfigSet configs)
+                        {
+                            AltAndContextMap configToAlts = new AltAndContextMap();
+                            for (ATNConfig c : configs)
+                            {
+                                BitSet alts = configToAlts.get(c);
+                                if (alts==nullptr)
+                                {
+                                    alts = new BitSet();
+                                    configToAlts.put(c, alts);
+                                }
+                                alts.set(c.alt);
+                            }
+                            return configToAlts.values();
+                        }
 
                         /// <summary>
                         /// Get a map from state to alt subset from a configuration set. For each
@@ -655,52 +646,51 @@ namespace org {
                         /// map[c.<seealso cref="ATNConfig#state state"/>] U= c.<seealso cref="ATNConfig#alt alt"/>
                         /// </pre>
                         /// </summary>
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static java.util.Map<ATNState, java.util.BitSet> getStateToAltMap(@@NotNull ATNConfigSet configs)
-                    //    {
-                    //        Map<ATNState, BitSet> m = new HashMap<ATNState, BitSet>();
-                    //        for (ATNConfig c : configs)
-                    //        {
-                    //            BitSet alts = m.get(c.state);
-                    //            if (alts==nullptr)
-                    //            {
-                    //                alts = new BitSet();
-                    //                m.put(c.state, alts);
-                    //            }
-                    //            alts.set(c.alt);
-                    //        }
-                    //        return m;
-                    //    }
+                        public static java.util.Map<ATNState, java.util.BitSet> getStateToAltMap(@@NotNull ATNConfigSet configs)
+                        {
+                            Map<ATNState, BitSet> m = new HashMap<ATNState, BitSet>();
+                            for (ATNConfig c : configs)
+                            {
+                                BitSet alts = m.get(c.state);
+                                if (alts==nullptr)
+                                {
+                                    alts = new BitSet();
+                                    m.put(c.state, alts);
+                                }
+                                alts.set(c.alt);
+                            }
+                            return m;
+                        }
 
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static boolean hasStateAssociatedWithOneAlt(@@NotNull ATNConfigSet configs)
-                    //    {
-                    //        Map<ATNState, BitSet> x = getStateToAltMap(configs);
-                    //        for (BitSet alts : x.values())
-                    //        {
-                    //            if (alts.cardinality()==1)
-                    //                return true;
-                    //        }
-                    //        return false;
-                    //    }
 
-//JAVA TO C++ CONVERTER TODO TASK: Enums cannot contain methods in C++:
-//                        public static int getSingleViableAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
-                    //    {
-                    //        BitSet viableAlts = new BitSet();
-                    //        for (BitSet alts : altsets)
-                    //        {
-                    //            int minAlt = alts.nextSetBit(0);
-                    //            viableAlts.set(minAlt);
-                    //            if (viableAlts.cardinality()>1) // more than 1 viable alt
-                    //            {
-                    //                return ATN.INVALID_ALT_NUMBER;
-                    //            }
-                    //        }
-                    //        return viableAlts.nextSetBit(0);
-                    //    }
+                        public static boolean hasStateAssociatedWithOneAlt(@@NotNull ATNConfigSet configs)
+                        {
+                            Map<ATNState, BitSet> x = getStateToAltMap(configs);
+                            for (BitSet alts : x.values())
+                            {
+                                if (alts.cardinality()==1)
+                                    return true;
+                            }
+                            return false;
+                        }
 
-                    };
+
+                        public static int getSingleViableAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                        {
+                            BitSet viableAlts = new BitSet();
+                            for (BitSet alts : altsets)
+                            {
+                                int minAlt = alts.nextSetBit(0);
+                                viableAlts.set(minAlt);
+                                if (viableAlts.cardinality()>1) // more than 1 viable alt
+                                {
+                                    return ATN.INVALID_ALT_NUMBER;
+                                }
+                            }
+                            return viableAlts.nextSetBit(0);
+                        }
+
+
 
                 }
             }
