@@ -122,9 +122,9 @@ namespace org {
                             return parser;
                         }
 
-                        org::antlr::v4::runtime::tree::ParseTree *ParseTreePatternMatcher::matchImpl(ParseTree *tree, ParseTree *patternTree, MultiMap<std::wstring, ParseTree*> *labels) {
+                        tree::ParseTree *ParseTreePatternMatcher::matchImpl(ParseTree *tree, ParseTree *patternTree, MultiMap<std::wstring, ParseTree*> *labels) {
                             if (tree == nullptr) {
-                                throw IllegalArgumentException(L"tree cannot be null");
+                                throw new IllegalArgumentException(L"tree cannot be null");
                             }
 
                             if (patternTree == nullptr) {

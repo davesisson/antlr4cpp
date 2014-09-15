@@ -1,36 +1,18 @@
 ﻿#pragma once
 
 #include "MultiMap.h"
+#include "Declarations.h"
 
 #include <string>
 #include <vector>
 #include <cctype>
 #include <stdexcept>
 
-class ANTLRInputStream;
-class CommonTokenStream;
-class Lexer;
-class ListTokenSource;
-class Parser;
-class ParserInterpreter;
-class ParserRuleContext;
-class Token;
-class ATN;
-class Chunk;
-class MultiMap;
-class NotNull;
-class Nullable;
-class ParseTree;
-class RuleNode;
-class TerminalNode;
-class ParseTreePattern;
-class ParseTreeMatch;
-class RuleTagToken;
 
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
- * Copyright (c) 2013 Sam Harwell
+ * Copyright (c) 2013 Dan McLaughlin
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
