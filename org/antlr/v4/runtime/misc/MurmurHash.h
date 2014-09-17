@@ -40,7 +40,7 @@ namespace org {
                     /// <summary>
                     /// @author Sam Harwell
                     /// </summary>
-                    class MurmurHash final {
+                    class MurmurHash {
 
                     private:
                         static const int DEFAULT_SEED = 0;

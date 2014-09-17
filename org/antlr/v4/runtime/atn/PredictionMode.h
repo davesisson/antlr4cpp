@@ -3,6 +3,7 @@
 #include "AbstractEqualityComparator.h"
 #include "Declarations.h"
 #include "FlexibleHashMap.h"
+#include "MurmurHash.h"
 
 #include <vector>
 #include <bitset>
@@ -70,40 +71,36 @@ namespace org {
                         LL_EXACT_AMBIG_DETECTION
                     };
                     
-                    /// <summary>
-                    /// A Map that uses just the state and the stack context as the key. </summary>
-                    class AltAndContextMap : misc::FlexibleHashMap<ATNConfig,std::bitset<1024>> {
-                        
-                    public:
-                        AltAndContextMap(): comparator(AltAndContextConfigEqualityComparator.INSTANCE)
-                        {
-                        }
-                    };
+                    const int BITSET_SIZE = 1024;
                     
-                private:
+                    class AltAndContextConfigEqualityComparator;
+                    
                     class AltAndContextConfigEqualityComparator : misc::AbstractEqualityComparator<ATNConfig> {
                         
-                        public static final AltAndContextConfigEqualityComparator INSTANCE = new AltAndContextConfigEqualityComparator();
+                    public:
+                        static AltAndContextConfigEqualityComparator *INSTANCE = new AltAndContextConfigEqualityComparator();
                         
                         
-                        private AltAndContextConfigEqualityComparator()
+                    private:
+                        AltAndContextConfigEqualityComparator()
                         {
                         }
                         
                         /// <summary>
                         /// Code is function of (s, _, ctx, _) </summary>
                         
-                        public int hashCode(ATNConfig o)
+                    public:
+                        int hashCode(ATNConfig *o)
                         {
                             int hashCode = MurmurHash.initialize(7);
-                            hashCode = MurmurHash.update(hashCode, o.state.stateNumber);
-                            hashCode = MurmurHash.update(hashCode, o.context);
+                            hashCode = MurmurHash.update(hashCode, o->state.stateNumber);
+                            hashCode = MurmurHash.update(hashCode, o->context);
                             hashCode = MurmurHash.finish(hashCode, 2);
                             return hashCode;
                         }
                         
                         
-                        public boolean equals(ATNConfig a, ATNConfig b)
+                        bool equals(ATNConfig *a, ATNConfig *b)
                         {
                             if (a==b)
                                 return true;
@@ -112,9 +109,18 @@ namespace org {
                             return a.state.stateNumber==b.state.stateNumber && a.context.equals(b.context);
                         }
                         
-                    }
+                    };
                     
-                    
+                    /// <summary>
+                    /// A Map that uses just the state and the stack context as the key. </summary>
+                    class AltAndContextMap : misc::FlexibleHashMap<ATNConfig,std::bitset<BITSET_SIZE>> {
+                        
+                    public:
+                        AltAndContextMap(): comparator(AltAndContextConfigEqualityComparator.INSTANCE)
+                        {
+                        }
+                    };
+
                     /// <summary>
                     /// Computes the SLL prediction termination condition.
                     ///
@@ -248,7 +254,7 @@ namespace org {
                     /// the configurations to strip out all of the predicates so that a standard
                     /// <seealso cref="ATNConfigSet"/> will merge everything ignoring predicates.
                     /// </summary>
-                    public static boolean hasSLLConflictTerminatingPrediction(PredictionMode mode, ATNConfigSet configs)
+                    static bool hasSLLConflictTerminatingPrediction(PredictionMode * mode, ATNConfigSet *configs)
                     {
                         /* Configs in rule stop states indicate reaching the end of the decision
                          * rule (local context) or end of start rule (full context). If all
@@ -282,8 +288,8 @@ namespace org {
                         
                         // pure SLL or combined SLL+LL mode parsing
                         
-                        std::vector<std::bitset<1024>> altsets = getConflictingAltSubsets(configs);
-                        boolean heuristic = hasConflictingAltSet(altsets) && !hasStateAssociatedWithOneAlt(configs);
+                        std::vector<std::bitset<BITSET_SIZE>> altsets = getConflictingAltSubsets(configs);
+                        bool heuristic = hasConflictingAltSet(altsets) && !hasStateAssociatedWithOneAlt(configs);
                         return heuristic;
                     }
                     
@@ -296,7 +302,7 @@ namespace org {
                     /// <param name="configs"> the configuration set to test </param>
                     /// <returns> {@code true} if any configuration in {@code configs} is in a
                     /// <seealso cref="RuleStopState"/>, otherwise {@code false} </returns>
-                    public static boolean hasConfigInRuleStopState(ATNConfigSet configs)
+                    bool hasConfigInRuleStopState(ATNConfigSet * configs)
                     {
                         for (ATNConfig c : configs)
                         {
@@ -318,7 +324,7 @@ namespace org {
                     /// <param name="configs"> the configuration set to test </param>
                     /// <returns> {@code true} if all configurations in {@code configs} are in a
                     /// <seealso cref="RuleStopState"/>, otherwise {@code false} </returns>
-                    public static boolean allConfigsInRuleStopStates(@@NotNull ATNConfigSet configs)
+                    static bool allConfigsInRuleStopStates(ATNConfigSet * configs)
                     {
                         for (ATNConfig config : configs)
                         {
@@ -513,7 +519,7 @@ namespace org {
                     /// {@code A={{1,2}}} or {@code {{1,2},{1,2}}}, etc...
                     /// </summary>
                     
-                    public static int resolvesToJustOneViableAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                    static int resolvesToJustOneViableAlt( std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         return getSingleViableAlt(altsets);
                     }
@@ -526,7 +532,7 @@ namespace org {
                     /// <returns> {@code true} if every <seealso cref="BitSet"/> in {@code altsets} has
                     /// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code false} </returns>
                     
-                    public static boolean allSubsetsConflict(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                    static bool allSubsetsConflict(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         return !hasNonConflictingAltSet(altsets);
                     }
@@ -539,7 +545,7 @@ namespace org {
                     /// <returns> {@code true} if {@code altsets} contains a <seealso cref="BitSet"/> with
                     /// <seealso cref="BitSet#cardinality cardinality"/> 1, otherwise {@code false} </returns>
                     
-                    public static boolean hasNonConflictingAltSet(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                    static bool hasNonConflictingAltSet(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         for (BitSet alts : altsets)
                         {
@@ -558,7 +564,7 @@ namespace org {
                     /// <param name="altsets"> a collection of alternative subsets </param>
                     /// <returns> {@code true} if {@code altsets} contains a <seealso cref="BitSet"/> with
                     /// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code false} </returns>
-                    public static boolean hasConflictingAltSet(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                    static bool hasConflictingAltSet(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         for (BitSet alts : altsets)
                         {
@@ -576,7 +582,7 @@ namespace org {
                     /// <param name="altsets"> a collection of alternative subsets </param>
                     /// <returns> {@code true} if every member of {@code altsets} is equal to the
                     /// others, otherwise {@code false} </returns>
-                    public static boolean allSubsetsEqual(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                    static bool allSubsetsEqual(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         Iterator<BitSet> it = altsets.iterator();
                         BitSet first = it.next();
@@ -596,7 +602,7 @@ namespace org {
                     /// </summary>
                     /// <param name="altsets"> a collection of alternative subsets </param>
                     
-                    public static int getUniqueAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                    static int getUniqueAlt(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         BitSet all = getAlts(altsets);
                         if (all.cardinality()==1)
@@ -611,7 +617,7 @@ namespace org {
                     /// </summary>
                     /// <param name="altsets"> a collection of alternative subsets </param>
                     /// <returns> the set of represented alternatives in {@code altsets} </returns>
-                    public static java.util.BitSet getAlts(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                    static std::bitset<BITSET_SIZE> getAlts(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         BitSet all = new BitSet();
                         for (BitSet alts : altsets)
@@ -630,9 +636,9 @@ namespace org {
                     /// alt and not pred
                     /// </pre>
                     /// </summary>
-                    public static java.util.Collection<java.util.BitSet> getConflictingAltSubsets(ATNConfigSet configs)
+                    static std::vector<std::bitset<BITSET_SIZE>> getConflictingAltSubsets(ATNConfigSet *configs)
                     {
-                        AltAndContextMap configToAlts = new AltAndContextMap();
+                        AltAndContextMap *configToAlts = new AltAndContextMap();
                         for (ATNConfig c : configs)
                         {
                             BitSet alts = configToAlts.get(c);
@@ -654,7 +660,7 @@ namespace org {
                     /// map[c.<seealso cref="ATNConfig#state state"/>] U= c.<seealso cref="ATNConfig#alt alt"/>
                     /// </pre>
                     /// </summary>
-                    public static java.util.Map<ATNState, java.util.BitSet> getStateToAltMap(@@NotNull ATNConfigSet configs)
+                    static java.util.Map<ATNState, std::bitset<BITSET_SIZE>> getStateToAltMap(ATNConfigSet *configs)
                     {
                         Map<ATNState, BitSet> m = new HashMap<ATNState, BitSet>();
                         for (ATNConfig c : configs)
@@ -671,7 +677,7 @@ namespace org {
                     }
                     
                     
-                    public static boolean hasStateAssociatedWithOneAlt(@@NotNull ATNConfigSet configs)
+                    static bool hasStateAssociatedWithOneAlt(ATNConfigSet *configs)
                     {
                         Map<ATNState, BitSet> x = getStateToAltMap(configs);
                         for (BitSet alts : x.values())
@@ -683,7 +689,7 @@ namespace org {
                     }
                     
                     
-                    public static int getSingleViableAlt(@@NotNull java.util.Collection<java.util.BitSet> altsets)
+                    static int getSingleViableAlt(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         BitSet viableAlts = new BitSet();
                         for (BitSet alts : altsets)

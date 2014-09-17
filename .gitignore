@@ -14,3 +14,21 @@ antlrcpp/antlr4_cpp/antlr4_cpp/Debug/antlr4_cpp.tlog/unsuccessfulbuild
 antlrcpp/antlr4_cpp/antlr4_cpp/Debug/vc120.idb
 *.o
 
+.gitattributes
+Windows/Debug/AbstractEqualityComparator.obj
+Windows/Debug/antlr4cpp.log
+Windows/Debug/antlr4cpp.unsuccessfulbuild
+Windows/Debug/antlr4cpp.vcxprojResolveAssemblyReference.cache
+Windows/Debug/ATNDeserializationOptions.obj
+Windows/Debug/Chunk.obj
+Windows/Debug/EqualityComparator.obj
+Windows/Debug/IntSet.obj
+Windows/Debug/IntStream.obj
+Windows/Debug/NotNull.obj
+Windows/Debug/ObjectEqualityComparator.obj
+Windows/Debug/Pair.obj
+Windows/Debug/ParseCancellationException.obj
+Windows/Debug/Tree.obj
+Windows/Debug/Triple.obj
+Windows/Debug/vc100.pdb
+Windows/Debug/XPathElement.obj
