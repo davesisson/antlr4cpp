@@ -201,16 +201,14 @@ namespace org {
                             /// was successful. The specific node returned depends on the matching
                             /// algorithm used by the implementation, and may be overridden. </returns>
                         protected:
-#ifdef TODO
                             // I don't know why this is failing to compile
-                            virtual ParseTree *matchImpl(ParseTree *tree, ParseTree *patternTree, MultiMap<std::wstring, ParseTree*> *labels);
-#endif
+                          virtual ParseTree *matchImpl(ParseTree *tree, ParseTree *patternTree, misc::MultiMap<std::wstring, ParseTree*> *labels);
                             /// <summary>
                             /// Is {@code t} {@code (expr <expr>)} subtree? </summary>
                             virtual RuleTagToken *getRuleTagToken(ParseTree *t);
 
                         public:
-                            virtual std::vector<void *> tokenize(const std::wstring &pattern);
+                            virtual std::vector<Token> tokenize(const std::wstring &pattern);
 
                             /// <summary>
                             /// Split {@code <ID> = <e:expr> ;} into 4 chunks for tokenizing by <seealso cref="#tokenize"/>. </summary>
