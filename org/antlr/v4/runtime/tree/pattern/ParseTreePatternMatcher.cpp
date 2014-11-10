@@ -3,17 +3,24 @@
 #include "Exceptions.h"
 #include "MultiMap.h"
 #include "ParseTreePattern.h"
+#include "ParseTreeMatch.h"
+#include "TerminalNode.h"
+#include "Token.h"
+#include "CommonTokenStream.h"
+#include "Parser.h"
+#include "ParserInterpreter.h"
+#include "TokenTagToken.h"
+#include "ParserRuleContext.h"
+#include "RuleTagToken.h"
+#include "TagChunk.h"
+#include "ATN.h"
+#include "Lexer.h"
 
-//#include "ListTokenSource.h"
-//#include "CommonTokenStream.h"
-//#include "ParserInterpreter.h"
-//#include "TerminalNode.h"
+#include "ListTokenSource.h"
 //#include "TokenTagToken.h"
-//#include "ParserRuleContext.h"
 //#include "RuleNode.h"
-//#include "TagChunk.h"
-//#include "TextChunk.h"
-//#include "ANTLRInputStream.h"
+#include "TextChunk.h"
+#include "ANTLRInputStream.h"
 
 
 /*
@@ -80,7 +87,7 @@ namespace org {
                         }
 
                         bool ParseTreePatternMatcher::matches(ParseTree *tree, ParseTreePattern *pattern) {
-                            MultiMap<std::wstring, ParseTree*> *labels = new MultiMap<std::wstring, ParseTree*>();
+                          misc::MultiMap<std::wstring, ParseTree*> *labels = new misc::MultiMap<std::wstring, ParseTree*>();
                             ParseTree *mismatchedNode = matchImpl(tree, pattern->getPatternTree(), labels);
                             return mismatchedNode == nullptr;
                         }
@@ -91,13 +98,13 @@ namespace org {
                         }
 
                         ParseTreeMatch *ParseTreePatternMatcher::match(ParseTree *tree, ParseTreePattern *pattern) {
-                            MultiMap<std::wstring, ParseTree*> *labels = new MultiMap<std::wstring, ParseTree*>();
+                            misc::MultiMap<std::wstring, ParseTree*> *labels = new misc::MultiMap<std::wstring, ParseTree*>();
                             ParseTree *mismatchedNode = matchImpl(tree, pattern->getPatternTree(), labels);
                             return new ParseTreeMatch(tree, pattern, labels, mismatchedNode);
                         }
 
                         ParseTreePattern *ParseTreePatternMatcher::compile(const std::wstring &pattern, int patternRuleIndex) {
-                            std::vector<Token*> tokenList = tokenize(pattern);
+                            std::vector<Token> tokenList = tokenize(pattern);
                             ListTokenSource *tokenSrc = new ListTokenSource(tokenList);
                             CommonTokenStream *tokens = new CommonTokenStream(tokenSrc);
 
@@ -122,7 +129,7 @@ namespace org {
                             return parser;
                         }
 
-                        tree::ParseTree *ParseTreePatternMatcher::matchImpl(ParseTree *tree, ParseTree *patternTree, MultiMap<std::wstring, ParseTree*> *labels) {
+                        tree::ParseTree *ParseTreePatternMatcher::matchImpl(ParseTree *tree, ParseTree *patternTree, misc::MultiMap<std::wstring, ParseTree*> *labels) {
                             if (tree == nullptr) {
                                 throw new IllegalArgumentException(L"tree cannot be null");
                             }
@@ -223,12 +230,12 @@ namespace org {
                             return nullptr;
                         }
 
-                        std::vector<? extends Token> ParseTreePatternMatcher::tokenize(const std::wstring &pattern) {
+                        std::vector<Token> ParseTreePatternMatcher::tokenize(const std::wstring &pattern) {
                             // split pattern into chunks: sea (raw input) and islands (<ID>, <expr>)
                             std::vector<Chunk*> chunks = split(pattern);
 
                             // create token stream from text and tags
-                            std::vector<Token*> tokens = std::vector<Token*>();
+                            std::vector<Token> tokens;
                             for (auto chunk : chunks) {
                                 if (dynamic_cast<TagChunk*>(chunk) != nullptr) {
                                     TagChunk *tagChunk = static_cast<TagChunk*>(chunk);
@@ -239,14 +246,14 @@ namespace org {
                                             throw IllegalArgumentException(std::wstring(L"Unknown token ") + tagChunk->getTag() + std::wstring(L" in pattern: ") + pattern);
                                         }
                                         TokenTagToken *t = new TokenTagToken(tagChunk->getTag(), ttype, tagChunk->getLabel());
-                                        tokens.push_back(t);
+                                        tokens.push_back(*t);
                                     } else if (islower(tagChunk->getTag()[0])) {
                                         int ruleIndex = parser->getRuleIndex(tagChunk->getTag());
                                         if (ruleIndex == -1) {
                                             throw IllegalArgumentException(std::wstring(L"Unknown rule ") + tagChunk->getTag() + std::wstring(L" in pattern: ") + pattern);
                                         }
                                         int ruleImaginaryTokenType = parser->getATNWithBypassAlts()->ruleToTokenType[ruleIndex];
-                                        tokens.push_back(new RuleTagToken(tagChunk->getTag(), ruleImaginaryTokenType, tagChunk->getLabel()));
+                                        tokens.push_back(*(new RuleTagToken(tagChunk->getTag(), ruleImaginaryTokenType, tagChunk->getLabel())));
                                     } else {
                                         throw IllegalArgumentException(std::wstring(L"invalid tag: ") + tagChunk->getTag() + std::wstring(L" in pattern: ") + pattern);
                                     }
@@ -255,8 +262,8 @@ namespace org {
                                     ANTLRInputStream *in_Renamed = new ANTLRInputStream(textChunk->getText());
                                     lexer->setInputStream(in_Renamed);
                                     Token *t = lexer->nextToken();
-                                    while (t->getType() != Token::EOF) {
-                                        tokens.push_back(t);
+                                    while (t->getType() != Token::_EOF) {
+                                        tokens.push_back(*t);
                                         t = lexer->nextToken();
                                     }
                                 }
