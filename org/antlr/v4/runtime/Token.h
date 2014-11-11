@@ -61,6 +61,8 @@ namespace org {
 
                     static const int _EOF = IntStream::_EOF;
 
+                    virtual ~Token() = 0;
+
                     /// <summary>
                     /// All tokens go to the parser (unless skip() is called in that rule)
                     ///  on a particular "channel".  The parser tunes to a particular channel
