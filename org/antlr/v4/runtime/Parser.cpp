@@ -16,6 +16,7 @@
 #include "Token.h"
 #include "TerminalNode.h"
 #include "TokenStream.h"
+#include "ANTLRErrorStrategy.h"
 
 /*
  * [The "BSD license"]
@@ -105,7 +106,7 @@ namespace org {
 
                 void Parser::TrimToSizeListener::exitEveryRule(ParserRuleContext *ctx) {
                     // TODO: Need to figure out what type this is going to be.  In Java we expect it to be set by the generator.
-                    if (dynamic_cast<std::vector<void*>>(ctx->children) != nullptr) {
+                    if (dynamic_cast<std::vector<tree::ParseTree*>>(ctx->children) != nullptr) {
                         (static_cast<std::vector<void*>>(ctx->children))->trimToSize();
                     }
                 }
@@ -114,9 +115,9 @@ namespace org {
                     InitializeInstanceFields();
                     setInputStream(input);
 
-                    // TODO: Convert to a standard C++ map type and initialize this safely.
+                    // TODO: Convert to a standard C++ map type (done) and initialize this safely.
                     // TODO: For now treat this as a member variable but it should be shared across instances for speed.
-                    const java::util::Map<std::wstring, org::antlr::v4::runtime::atn::ATN*> * Parser::bypassAltsAtnCache =
+                    const std::map<std::wstring, atn::ATN*> * Parser::bypassAltsAtnCache =
                     new java::util::WeakHashMap<std::wstring, org::antlr::v4::runtime::atn::ATN*>();
                 }
 
@@ -131,13 +132,13 @@ namespace org {
                     setTrace(false);
                     _precedenceStack->clear();
                     _precedenceStack->push(0);
-                    ATNSimulator *interpreter = getInterpreter();
+                    atn::ATNSimulator *interpreter = getInterpreter();
                     if (interpreter != nullptr) {
                         interpreter->reset();
                     }
                 }
 
-                org::antlr::v4::runtime::Token *Parser::match(int ttype) throw(RecognitionException) {
+                runtime::Token *Parser::match(int ttype) {
                     Token *t = getCurrentToken();
                     if (t->getType() == ttype) {
                         _errHandler->reportMatch(this);
@@ -153,7 +154,7 @@ namespace org {
                     return t;
                 }
 
-                org::antlr::v4::runtime::Token *Parser::matchWildcard() throw(RecognitionException) {
+                runtime::Token *Parser::matchWildcard() {
                     Token *t = getCurrentToken();
                     if (t->getType() > 0) {
                         _errHandler->reportMatch(this);
