@@ -6,6 +6,7 @@
 #include "FlexibleHashMap.h"
 #include "MurmurHash.h"
 #include "PredictionContext.h"
+#include "AltAndContextConfigEqualityComparator.h"
 
 #include <vector>
 #include <bitset>
@@ -106,7 +107,7 @@ namespace org {
                                 return true;
                             if (a==nullptr || b==nullptr)
                                 return false;
-                            return a->state->stateNumber==b->state->stateNumber && a.context.equals(b.context);
+                            return a->state->stateNumber==b->state->stateNumber && a->context.equals(b.context);
                         }
                         
                     };

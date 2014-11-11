@@ -40,3 +40,9 @@ void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring&
         start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
     }
 }
+
+StringReader::StringReader(std::wstring path) {
+#ifdef TODO
+    Fill me out
+#endif
+};

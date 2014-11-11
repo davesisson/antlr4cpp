@@ -10,6 +10,8 @@
 #include "ParserRuleContext.h"
 #include "Token.h"
 #include "Exceptions.h"
+#include "Strings.h"
+#include "ANTLRInputStream.h"
 
 /*
  * [The "BSD license"]
