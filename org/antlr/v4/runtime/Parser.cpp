@@ -1,4 +1,6 @@
-﻿#include <vector>
+﻿#include <codecvt>
+#include <locale>
+#include <vector>
 
 #include "Parser.h"
 #include "ATNSimulator.h"
@@ -49,22 +51,45 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
+            // TODO: Put this someplace we can share from reasonably (and rename to match library conventions).
+            namespace {
+              std::string ws2s(const std::wstring& wstr) {
+                typedef std::codecvt_utf8<wchar_t> convert_typeX;
+                std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+                return converterX.to_bytes(wstr);
+              }
+            }  // namespace
+
                 Parser::TraceListener::TraceListener(Parser *outerInstance) : outerInstance(outerInstance) {
                 }
 
                 void Parser::TraceListener::enterEveryRule(ParserRuleContext *ctx) {
-                    std::cout << "enter   " << outerInstance->getRuleNames()[ctx->getRuleIndex()] << ", LT(1)=" << outerInstance->_input->LT(1)->getText() << std::endl;
+                  std::cout << "enter   ";
+                  for (std::wstring wstr : outerInstance->getRuleNames()[ctx->getRuleIndex()]) {
+                    std::cout << ws2s(wstr);
+                  }
+                  std::cout << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText()) << std::endl;
                 }
 
                 void Parser::TraceListener::visitTerminal(tree::TerminalNode *node) {
-                    std::cout << "consume " << node->getSymbol() << " rule " << outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()] << std::endl;
+                    std::cout << "consume ";
+                    std::cout << node->getSymbol() << " rule ";
+                  for (std::wstring wstr : outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()]) {
+                    std::cout << ws2s(wstr);
+                  }
+                  std::cout << std::endl;
                 }
 
                 void Parser::TraceListener::visitErrorNode(tree::ErrorNode *node) {
                 }
 
                 void Parser::TraceListener::exitEveryRule(ParserRuleContext *ctx) {
-                    std::cout << "exit    " << outerInstance->getRuleNames()[ctx->getRuleIndex()] << ", LT(1)=" << outerInstance->_input->LT(1)->getText() << std::endl;
+                  std::cout << "exit    ";
+                  for (std::wstring wstr : outerInstance->getRuleNames()[ctx->getRuleIndex()]) {
+                    std::cout << ws2s(wstr);
+                  }
+                  std::cout << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText()) << std::endl;
                 }
 
                 Parser::TrimToSizeListener *const Parser::TrimToSizeListener::INSTANCE = new Parser::TrimToSizeListener();
