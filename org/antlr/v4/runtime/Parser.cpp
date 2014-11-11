@@ -1,4 +1,8 @@
-﻿#include "Parser.h"
+﻿#include <codecvt>
+#include <locale>
+#include <vector>
+
+#include "Parser.h"
 #include "ATNSimulator.h"
 #include "ATNDeserializationOptions.h"
 #include "ATNDeserializer.h"
@@ -8,6 +12,11 @@
 #include "ATNState.h"
 #include "RuleTransition.h"
 #include "DFA.h"
+#include "ParserRuleContext.h"
+#include "Token.h"
+#include "TerminalNode.h"
+#include "TokenStream.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -42,47 +51,73 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
+            // TODO: Put this someplace we can share from reasonably (and rename to match library conventions).
+            namespace {
+              std::string ws2s(const std::wstring& wstr) {
+                typedef std::codecvt_utf8<wchar_t> convert_typeX;
+                std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+                return converterX.to_bytes(wstr);
+              }
+            }  // namespace
 
                 Parser::TraceListener::TraceListener(Parser *outerInstance) : outerInstance(outerInstance) {
                 }
 
                 void Parser::TraceListener::enterEveryRule(ParserRuleContext *ctx) {
-                    std::cout << std::wstring(L"enter   ") << outerInstance->getRuleNames()[ctx->getRuleIndex()] << std::wstring(L", LT(1)=") << outerInstance->_input->LT(1)->getText() << std::endl;
+                  std::cout << "enter   ";
+                  for (std::wstring wstr : outerInstance->getRuleNames()[ctx->getRuleIndex()]) {
+                    std::cout << ws2s(wstr);
+                  }
+                  std::cout << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText()) << std::endl;
                 }
 
-                void Parser::TraceListener::visitTerminal(TerminalNode *node) {
-                    std::cout << std::wstring(L"consume ") << node->getSymbol() << std::wstring(L" rule ") << outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()] << std::endl;
+                void Parser::TraceListener::visitTerminal(tree::TerminalNode *node) {
+                    std::cout << "consume ";
+                    std::cout << node->getSymbol() << " rule ";
+                  for (std::wstring wstr : outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()]) {
+                    std::cout << ws2s(wstr);
+                  }
+                  std::cout << std::endl;
                 }
 
-                void Parser::TraceListener::visitErrorNode(ErrorNode *node) {
+                void Parser::TraceListener::visitErrorNode(tree::ErrorNode *node) {
                 }
 
                 void Parser::TraceListener::exitEveryRule(ParserRuleContext *ctx) {
-                    std::cout << std::wstring(L"exit    ") << outerInstance->getRuleNames()[ctx->getRuleIndex()] << std::wstring(L", LT(1)=") << outerInstance->_input->LT(1)->getText() << std::endl;
+                  std::cout << "exit    ";
+                  for (std::wstring wstr : outerInstance->getRuleNames()[ctx->getRuleIndex()]) {
+                    std::cout << ws2s(wstr);
+                  }
+                  std::cout << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText()) << std::endl;
                 }
 
-TrimToSizeListener *const Parser::TrimToSizeListener::INSTANCE = new TrimToSizeListener();
+                Parser::TrimToSizeListener *const Parser::TrimToSizeListener::INSTANCE = new Parser::TrimToSizeListener();
 
                 void Parser::TrimToSizeListener::enterEveryRule(ParserRuleContext *ctx) {
                 }
 
-                void Parser::TrimToSizeListener::visitTerminal(TerminalNode *node) {
+                void Parser::TrimToSizeListener::visitTerminal(tree::TerminalNode *node) {
                 }
 
-                void Parser::TrimToSizeListener::visitErrorNode(ErrorNode *node) {
+                void Parser::TrimToSizeListener::visitErrorNode(tree::ErrorNode *node) {
                 }
 
                 void Parser::TrimToSizeListener::exitEveryRule(ParserRuleContext *ctx) {
-                    if (dynamic_cast<std::vector>(ctx->children) != nullptr) {
+                    // TODO: Need to figure out what type this is going to be.  In Java we expect it to be set by the generator.
+                    if (dynamic_cast<std::vector<?>>(ctx->children) != nullptr) {
                         (static_cast<std::vector<?>>(ctx->children))->trimToSize();
                     }
                 }
 
-java::util::Map<std::wstring, org::antlr::v4::runtime::atn::ATN*> *const Parser::bypassAltsAtnCache = new java::util::WeakHashMap<std::wstring, org::antlr::v4::runtime::atn::ATN*>();
-
-                Parser::Parser(TokenStream *input) {
+                Parser::Parser(TokenStream* input) {
                     InitializeInstanceFields();
                     setInputStream(input);
+
+                    // TODO: Convert to a standard C++ map type and initialize this safely.
+                    // TODO: For now treat this as a member variable but it should be shared across instances for speed.
+                    const java::util::Map<std::wstring, org::antlr::v4::runtime::atn::ATN*> * Parser::bypassAltsAtnCache =
+                    new java::util::WeakHashMap<std::wstring, org::antlr::v4::runtime::atn::ATN*>();
                 }
 
                 void Parser::reset() {

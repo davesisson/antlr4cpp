@@ -1,4 +1,5 @@
-﻿
+﻿#include <algorithm>
+
 #include "ParseTreePatternMatcher.h"
 #include "Exceptions.h"
 #include "MultiMap.h"
@@ -21,6 +22,7 @@
 //#include "RuleNode.h"
 #include "TextChunk.h"
 #include "ANTLRInputStream.h"
+#include "Arrays.h"
 
 
 /*
@@ -108,7 +110,9 @@ namespace org {
                             ListTokenSource *tokenSrc = new ListTokenSource(tokenList);
                             CommonTokenStream *tokens = new CommonTokenStream(tokenSrc);
 
-                            ParserInterpreter *parserInterp = new ParserInterpreter(parser->getGrammarFileName(), Arrays::asList(parser->getTokenNames()), Arrays::asList(parser->getRuleNames()), parser->getATNWithBypassAlts(), tokens);
+                            ParserInterpreter *parserInterp = new ParserInterpreter(
+                              parser->getGrammarFileName(), parser->getTokenNames(),
+                              parser->getRuleNames(), parser->getATNWithBypassAlts(), tokens);
 
                             ParseTree *tree = nullptr;
                             try {
@@ -275,9 +279,8 @@ namespace org {
 
                         std::vector<Chunk*> ParseTreePatternMatcher::split(const std::wstring &pattern) {
                             int p = 0;
-                            int n = pattern.length();
+                            size_t n = pattern.length();
                             std::vector<Chunk*> chunks = std::vector<Chunk*>();
-                            StringBuilder *buf = new StringBuilder();
                             // find all start and stop indexes first, then collect
                             std::vector<int> starts = std::vector<int>();
                             std::vector<int> stops = std::vector<int>();
@@ -308,7 +311,7 @@ namespace org {
                                 throw IllegalArgumentException(std::wstring(L"missing start tag in pattern: ") + pattern);
                             }
 
-                            int ntags = starts.size();
+                            size_t ntags = starts.size();
                             for (int i = 0; i < ntags; i++) {
                                 if (starts[i] >= stops[i]) {
                                     throw IllegalArgumentException(std::wstring(L"tag delimiters out of order in pattern: ") + pattern);
@@ -330,8 +333,8 @@ namespace org {
                                 std::wstring tag = pattern.substr(starts[i] + start.length(), stops[i] - (starts[i] + start.length()));
                                 std::wstring ruleOrToken = tag;
                                 std::wstring label = L"";
-                                int colon = tag.find(L':');
-                                if (colon >= 0) {
+                                size_t colon = tag.find(L':');
+                                if (colon != std::wstring::npos) {
                                     label = tag.substr(0,colon);
                                     ruleOrToken = tag.substr(colon + 1, tag.length() - (colon + 1));
                                 }
@@ -343,7 +346,7 @@ namespace org {
                                 }
                             }
                             if (ntags > 0) {
-                                int afterLastTag = stops[ntags - 1] + stop.length();
+                                size_t afterLastTag = stops[ntags - 1] + stop.length();
                                 if (afterLastTag < n) { // copy text from end of last tag to end
                                     std::wstring text = pattern.substr(afterLastTag, n - afterLastTag);
                                     chunks.push_back(new TextChunk(text));
@@ -355,8 +358,9 @@ namespace org {
                                 Chunk *c = chunks[i];
                                 if (dynamic_cast<TextChunk*>(c) != nullptr) {
                                     TextChunk *tc = static_cast<TextChunk*>(c);
-//JAVA TO C++ CONVERTER TODO TASK: There is no direct native C++ equivalent to the Java String 'replace' method:
-                                    std::wstring unescaped = tc->getText().replace(escape, L"");
+                                    std::wstring unescaped = tc->getText();
+                                    std::wstring nothing = L"";
+                                    std::replace(unescaped.begin(), unescaped.end(), escape, nothing);
                                     if (unescaped.length() < tc->getText().length()) {
                                         chunks[i] = new TextChunk(unescaped);
                                     }

@@ -1,9 +1,11 @@
 ﻿#pragma once
 
 #include "AbstractEqualityComparator.h"
+#include "ATNConfig.h"
 #include "Declarations.h"
 #include "FlexibleHashMap.h"
 #include "MurmurHash.h"
+#include "PredictionContext.h"
 
 #include <vector>
 #include <bitset>
@@ -73,8 +75,6 @@ namespace org {
                     
                     const int BITSET_SIZE = 1024;
                     
-                    class AltAndContextConfigEqualityComparator;
-                    
                     class AltAndContextConfigEqualityComparator : misc::AbstractEqualityComparator<ATNConfig> {
                         
                     public:
@@ -90,13 +90,13 @@ namespace org {
                         /// Code is function of (s, _, ctx, _) </summary>
                         
                     public:
+                        // TODO:  Lots of code here -- move to CPP file?
                         int hashCode(ATNConfig *o)
                         {
-                            int hashCode = MurmurHash.initialize(7);
-                            hashCode = MurmurHash.update(hashCode, o->state.stateNumber);
-                            hashCode = MurmurHash.update(hashCode, o->context);
-                            hashCode = MurmurHash.finish(hashCode, 2);
-                            return hashCode;
+                          int hashCode = runtime::misc::MurmurHash::initialize(7);
+                          hashCode = runtime::misc::MurmurHash::update(hashCode, o->state->stateNumber);
+                          hashCode = runtime::misc::MurmurHash::update(hashCode, o->context);
+                          return runtime::misc::MurmurHash::finish(hashCode, 2);
                         }
                         
                         
@@ -106,7 +106,7 @@ namespace org {
                                 return true;
                             if (a==nullptr || b==nullptr)
                                 return false;
-                            return a.state.stateNumber==b.state.stateNumber && a.context.equals(b.context);
+                            return a->state->stateNumber==b->state->stateNumber && a.context.equals(b.context);
                         }
                         
                     };
@@ -272,7 +272,7 @@ namespace org {
                             // Don't bother with combining configs from different semantic
                             // contexts if we can fail over to full LL; costs more time
                             // since we'll often fail over anyway.
-                            if (configs.hasSemanticContext)
+                            if (configs->hasSemanticContext)
                             {
                                 // dup configs, tossing out semantic predicates
                                 ATNConfigSet dup = new ATNConfigSet();

@@ -58,6 +58,8 @@ namespace org {
                     /// getting the text of the specified interval </exception>
                 public:
                     virtual std::wstring getText(misc::Interval *interval) = 0;
+
+                    virtual ~CharStream() = 0;
                 };
 
             }
