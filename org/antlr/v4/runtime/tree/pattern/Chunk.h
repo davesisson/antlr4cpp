@@ -60,7 +60,7 @@ namespace org {
                           virtual std::wstring toString() {
                             std::wstring str;
                             return str;
-                          };
+                          }
                         };
                     }
                 }

@@ -1,4 +1,6 @@
-﻿#include "Parser.h"
+﻿#include <vector>
+
+#include "Parser.h"
 #include "ATNSimulator.h"
 #include "ATNDeserializationOptions.h"
 #include "ATNDeserializer.h"
@@ -8,6 +10,10 @@
 #include "ATNState.h"
 #include "RuleTransition.h"
 #include "DFA.h"
+#include "ParserRuleContext.h"
+#include "Token.h"
+#include "TerminalNode.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -42,38 +48,37 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-
                 Parser::TraceListener::TraceListener(Parser *outerInstance) : outerInstance(outerInstance) {
                 }
 
                 void Parser::TraceListener::enterEveryRule(ParserRuleContext *ctx) {
-                    std::cout << std::wstring(L"enter   ") << outerInstance->getRuleNames()[ctx->getRuleIndex()] << std::wstring(L", LT(1)=") << outerInstance->_input->LT(1)->getText() << std::endl;
+                    std::cout << std::wstring(L"enter   "). << outerInstance->getRuleNames()[ctx->getRuleIndex()] << std::wstring(L", LT(1)=") << outerInstance->_input->LT(1)->getText() << std::endl;
                 }
 
-                void Parser::TraceListener::visitTerminal(TerminalNode *node) {
+                void Parser::TraceListener::visitTerminal(tree::TerminalNode *node) {
                     std::cout << std::wstring(L"consume ") << node->getSymbol() << std::wstring(L" rule ") << outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()] << std::endl;
                 }
 
-                void Parser::TraceListener::visitErrorNode(ErrorNode *node) {
+                void Parser::TraceListener::visitErrorNode(tree::ErrorNode *node) {
                 }
 
                 void Parser::TraceListener::exitEveryRule(ParserRuleContext *ctx) {
                     std::cout << std::wstring(L"exit    ") << outerInstance->getRuleNames()[ctx->getRuleIndex()] << std::wstring(L", LT(1)=") << outerInstance->_input->LT(1)->getText() << std::endl;
                 }
 
-TrimToSizeListener *const Parser::TrimToSizeListener::INSTANCE = new TrimToSizeListener();
+                Parser::TrimToSizeListener *const Parser::TrimToSizeListener::INSTANCE = new Parser::TrimToSizeListener();
 
                 void Parser::TrimToSizeListener::enterEveryRule(ParserRuleContext *ctx) {
                 }
 
-                void Parser::TrimToSizeListener::visitTerminal(TerminalNode *node) {
+                void Parser::TrimToSizeListener::visitTerminal(tree::TerminalNode *node) {
                 }
 
-                void Parser::TrimToSizeListener::visitErrorNode(ErrorNode *node) {
+                void Parser::TrimToSizeListener::visitErrorNode(tree::ErrorNode *node) {
                 }
 
                 void Parser::TrimToSizeListener::exitEveryRule(ParserRuleContext *ctx) {
-                    if (dynamic_cast<std::vector>(ctx->children) != nullptr) {
+                    if (dynamic_cast<std::vector<?>>(ctx->children) != nullptr) {
                         (static_cast<std::vector<?>>(ctx->children))->trimToSize();
                     }
                 }
