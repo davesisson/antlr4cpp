@@ -17,6 +17,11 @@
 #include "TerminalNode.h"
 #include "TokenStream.h"
 #include "ANTLRErrorStrategy.h"
+#include "Exceptions.h"
+#include "ParseTreeListener.h"
+#include "ParseTree.h"
+#include "IntegerStack.h"
+
 
 /*
  * [The "BSD license"]
@@ -107,18 +112,18 @@ namespace org {
                 void Parser::TrimToSizeListener::exitEveryRule(ParserRuleContext *ctx) {
                     // TODO: Need to figure out what type this is going to be.  In Java we expect it to be set by the generator.
                     if (dynamic_cast<std::vector<tree::ParseTree*>>(ctx->children) != nullptr) {
-                        (static_cast<std::vector<void*>>(ctx->children))->trimToSize();
+                        (static_cast<std::vector<tree::ParseTree*>>(ctx->children)).trimToSize();
                     }
                 }
 
-                Parser::Parser(TokenStream* input) {
+                 Parser::Parser(TokenStream* input) {
                     InitializeInstanceFields();
                     setInputStream(input);
 
-                    // TODO: Convert to a standard C++ map type (done) and initialize this safely.
+                    // TODO: Initialize this safely and handle concurrent accesses.
                     // TODO: For now treat this as a member variable but it should be shared across instances for speed.
-                    const std::map<std::wstring, atn::ATN*> * Parser::bypassAltsAtnCache =
-                    new java::util::WeakHashMap<std::wstring, org::antlr::v4::runtime::atn::ATN*>();
+                    Parser::bypassAltsAtnCache =
+                       new std::map<std::wstring, org::antlr::v4::runtime::atn::ATN*>();
                 }
 
                 void Parser::reset() {
@@ -194,8 +199,8 @@ namespace org {
                     return std::find(getParseListeners().begin(), getParseListeners().end(), TrimToSizeListener::INSTANCE) != getParseListeners().end();
                 }
 
-                std::vector<ParseTreeListener*> Parser::getParseListeners() {
-                    std::vector<ParseTreeListener*> listeners = _parseListeners;
+                std::vector<tree::ParseTreeListener*> Parser::getParseListeners() {
+                  std::vector<tree::ParseTreeListener*> listeners = _parseListeners;
                     if (listeners.empty()) {
                         return Collections::emptyList();
                     }
@@ -203,19 +208,19 @@ namespace org {
                     return listeners;
                 }
 
-                void Parser::addParseListener(ParseTreeListener *listener) {
+              void Parser::addParseListener(tree::ParseTreeListener *listener) {
                     if (listener == nullptr) {
                         throw NullPointerException(L"listener");
                     }
 
                     if (_parseListeners.empty()) {
-                        _parseListeners = std::vector<ParseTreeListener*>();
+                      _parseListeners = std::vector<tree::ParseTreeListener*>();
                     }
 
                     this->_parseListeners.push_back(listener);
                 }
 
-                void Parser::removeParseListener(ParseTreeListener *listener) {
+              void Parser::removeParseListener(tree::ParseTreeListener *listener) {
                     if (_parseListeners.size() > 0) {
                         if (_parseListeners.remove(listener)) {
                             if (_parseListeners.empty()) {
@@ -231,7 +236,7 @@ namespace org {
 
                 void Parser::triggerEnterRuleEvent() {
                     for (auto listener : _parseListeners) {
-                        listener.enterEveryRule(_ctx);
+                        listener->enterEveryRule(_ctx);
                         _ctx->enterRule(listener);
                     }
                 }
@@ -239,7 +244,7 @@ namespace org {
                 void Parser::triggerExitRuleEvent() {
                     // reverse order walk of listeners
                     for (int i = _parseListeners.size() - 1; i >= 0; i--) {
-                        ParseTreeListener *listener = _parseListeners[i];
+                      tree::ParseTreeListener *listener = _parseListeners[i];
                         _ctx->exitRule(listener);
                         listener->exitEveryRule(_ctx);
                     }
