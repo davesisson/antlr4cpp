@@ -1,12 +1,14 @@
 ﻿#pragma once
 
+#include <bitset>
+
 #include "AbstractEqualityComparator.h"
 #include "ATNConfig.h"
+#include "ATNConfigSet.h"
 #include "Declarations.h"
 #include "FlexibleHashMap.h"
 #include "MurmurHash.h"
 #include "PredictionContext.h"
-#include "AltAndContextConfigEqualityComparator.h"
 
 #include <vector>
 #include <bitset>
@@ -79,37 +81,14 @@ namespace org {
                     class AltAndContextConfigEqualityComparator : misc::AbstractEqualityComparator<ATNConfig> {
                         
                     public:
-                        static AltAndContextConfigEqualityComparator *INSTANCE = new AltAndContextConfigEqualityComparator();
+                      int hashCode(ATNConfig *o);
+                      bool equals(ATNConfig *a, ATNConfig *b);
+
+                      static AltAndContextConfigEqualityComparator *INSTANCE;
                         
                         
                     private:
-                        AltAndContextConfigEqualityComparator()
-                        {
-                        }
-                        
-                        /// <summary>
-                        /// Code is function of (s, _, ctx, _) </summary>
-                        
-                    public:
-                        // TODO:  Lots of code here -- move to CPP file?
-                        int hashCode(ATNConfig *o)
-                        {
-                          int hashCode = runtime::misc::MurmurHash::initialize(7);
-                          hashCode = runtime::misc::MurmurHash::update(hashCode, o->state->stateNumber);
-                          hashCode = runtime::misc::MurmurHash::update(hashCode, o->context);
-                          return runtime::misc::MurmurHash::finish(hashCode, 2);
-                        }
-                        
-                        
-                        bool equals(ATNConfig *a, ATNConfig *b)
-                        {
-                            if (a==b)
-                                return true;
-                            if (a==nullptr || b==nullptr)
-                                return false;
-                            return a->state->stateNumber==b->state->stateNumber && a->context.equals(b.context);
-                        }
-                        
+                        AltAndContextConfigEqualityComparator() {}
                     };
                     
                     /// <summary>
@@ -276,11 +255,11 @@ namespace org {
                             if (configs->hasSemanticContext)
                             {
                                 // dup configs, tossing out semantic predicates
-                                ATNConfigSet dup = new ATNConfigSet();
-                                for (ATNConfig c : configs)
+                                ATNConfigSet* dup = new ATNConfigSet();
+                                for (ATNConfig c : *configs)
                                 {
                                     c = new ATNConfig(c,SemanticContext.NONE);
-                                    dup.add(c);
+                                    dup->add(c);
                                 }
                                 configs = dup;
                             }

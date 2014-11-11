@@ -35,7 +35,24 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                }
+                  // TODO: Handle this singleton better.
+                  AltAndContextConfigEqualityComparator::INSTANCE = new AltAndContextConfigEqualityComparator();
+
+                  int AltAndContextConfigEqualityComparator::hashCode(ATNConfig *o) {
+                    int hashCode = runtime::misc::MurmurHash::initialize(7);
+                    hashCode = runtime::misc::MurmurHash::update(hashCode, o->state->stateNumber);
+                    hashCode = runtime::misc::MurmurHash::update(hashCode, o->context);
+                    return runtime::misc::MurmurHash::finish(hashCode, 2);
+                  }
+
+
+                  bool AltAndContextConfigEqualityComparator::equals(ATNConfig *a, ATNConfig *b) {
+                    if (a==b)
+                      return true;
+                    if (a==nullptr || b==nullptr)
+                      return false;
+                    return a->state->stateNumber==b->state->stateNumber && a->context.equals(b.context);
+                  }
             }
         }
     }
