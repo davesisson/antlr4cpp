@@ -86,7 +86,7 @@ namespace org {
                     /// </summary>
                     /// <seealso cref= ATNDeserializationOptions#isGenerateRuleBypassTransitions() </seealso>
                 private:
-                    static std::map<std::wstring, atn::ATN*> *const bypassAltsAtnCache;
+                    static std::map<std::wstring, atn::ATN*> * bypassAltsAtnCache;
 
                     /// <summary>
                     /// The error handling strategy for the parser. The default value is a new
