@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <string>
+
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
@@ -49,8 +51,17 @@ namespace org {
                         /// regular tokens of the text surrounding the tags.
                         /// </summary>
                         class Chunk {
-                        };
 
+                          /// <summary>
+                          /// This method returns a text representation of the tag chunk. Labeled tags
+                          /// are returned in the form {@code label:tag}, and unlabeled tags are
+                          /// returned as just the tag name.
+                          /// </summary>
+                          virtual std::wstring toString() {
+                            std::wstring str;
+                            return str;
+                          };
+                        };
                     }
                 }
             }

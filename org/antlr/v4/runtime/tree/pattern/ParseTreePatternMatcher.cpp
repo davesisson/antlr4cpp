@@ -21,6 +21,7 @@
 //#include "RuleNode.h"
 #include "TextChunk.h"
 #include "ANTLRInputStream.h"
+#include "Arrays.h"
 
 
 /*
@@ -108,7 +109,9 @@ namespace org {
                             ListTokenSource *tokenSrc = new ListTokenSource(tokenList);
                             CommonTokenStream *tokens = new CommonTokenStream(tokenSrc);
 
-                            ParserInterpreter *parserInterp = new ParserInterpreter(parser->getGrammarFileName(), Arrays::asList(parser->getTokenNames()), Arrays::asList(parser->getRuleNames()), parser->getATNWithBypassAlts(), tokens);
+                            ParserInterpreter *parserInterp = new ParserInterpreter(
+                              parser->getGrammarFileName(), parser->getTokenNames(),
+                              parser->getRuleNames(), parser->getATNWithBypassAlts(), tokens);
 
                             ParseTree *tree = nullptr;
                             try {
