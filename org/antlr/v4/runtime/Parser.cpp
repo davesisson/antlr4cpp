@@ -83,7 +83,9 @@ namespace org {
                     }
                 }
 
-java::util::Map<std::wstring, org::antlr::v4::runtime::atn::ATN*> *const Parser::bypassAltsAtnCache = new java::util::WeakHashMap<std::wstring, org::antlr::v4::runtime::atn::ATN*>();
+                // TODO: Convert to a standard C++ map type and initialize this safely.
+                const java::util::Map<std::wstring, org::antlr::v4::runtime::atn::ATN*> * Parser::bypassAltsAtnCache =
+                    new java::util::WeakHashMap<std::wstring, org::antlr::v4::runtime::atn::ATN*>();
 
                 Parser::Parser(TokenStream *input) {
                     InitializeInstanceFields();
