@@ -247,7 +247,7 @@ namespace org {
                         }
                         
                         // pure SLL mode parsing
-                        if (mode == PredictionMode.SLL)
+                        if (mode == PredictionMode::SLL)
                         {
                             // Don't bother with combining configs from different semantic
                             // contexts if we can fail over to full LL; costs more time
@@ -284,7 +284,7 @@ namespace org {
                     /// <seealso cref="RuleStopState"/>, otherwise {@code false} </returns>
                     bool hasConfigInRuleStopState(ATNConfigSet * configs)
                     {
-                        for (ATNConfig c : configs)
+                        for (ATNConfig c : *configs)
                         {
                             if (c.state instanceof RuleStopState)
                             {
@@ -306,7 +306,7 @@ namespace org {
                     /// <seealso cref="RuleStopState"/>, otherwise {@code false} </returns>
                     static bool allConfigsInRuleStopStates(ATNConfigSet * configs)
                     {
-                        for (ATNConfig config : configs)
+                        for (ATNConfig config : *configs)
                         {
                             if (!(config.state instanceof RuleStopState))
                             {

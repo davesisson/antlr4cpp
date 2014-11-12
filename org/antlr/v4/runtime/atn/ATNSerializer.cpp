@@ -149,10 +149,10 @@ namespace org {
                         data->add(nsets);
                         for (auto set : sets) {
                             bool containsEof = set->contains(Token::_EOF);
-                            if (containsEof && set->getIntervals().get(0)->b == Token::_EOF) {
-                                data->add(set.getIntervals()->size() - 1);
+                            if (containsEof && set->getIntervals().at(0)->b == Token::_EOF) {
+                                data->add(set->getIntervals().size() - 1);
                             } else {
-                                data->add(set.getIntervals()->size());
+                                data->add(set->getIntervals().size());
                             }
 
                             data->add(containsEof ? 1 : 0);
