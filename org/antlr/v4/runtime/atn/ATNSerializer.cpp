@@ -1,4 +1,6 @@
-﻿#include "ATNSerializer.h"
+﻿#include <unordered_map>
+
+#include "ATNSerializer.h"
 #include "ATNDeserializer.h"
 #include "IntervalSet.h"
 #include "ATNState.h"
@@ -49,13 +51,13 @@ namespace org {
                         data->add(atn->maxTokenType);
                         int nedges = 0;
 
-                        Map<IntervalSet*, int> *setIndices = std::unordered_map<IntervalSet*, int>();
+                        std::unordered_map<IntervalSet*, int> *setIndices = new std::unordered_map<IntervalSet*, int>();
                         std::vector<IntervalSet*> sets = std::vector<IntervalSet*>();
 
                         // dump states, count edges and collect sets while doing so
                         IntegerList *nonGreedyStates = new IntegerList();
                         IntegerList *precedenceStates = new IntegerList();
-                        data->add(atn->states->size());
+                        data->add(atn->states.size());
                         for (ATNState *s : atn->states) {
                             if (s == nullptr) { // might be optimized away
                                 data->add(ATNState::INVALID_TYPE);
@@ -115,13 +117,13 @@ namespace org {
                             data->add(precedenceStates->get(i));
                         }
 
-                        int nrules = atn->ruleToStartState->length;
+                        int nrules = atn->ruleToStartState.size();
                         data->add(nrules);
                         for (int r = 0; r < nrules; r++) {
                             ATNState *ruleStartState = atn->ruleToStartState[r];
                             data->add(ruleStartState->stateNumber);
                             if (atn->grammarType == ATNType::LEXER) {
-                                if (atn->ruleToTokenType[r] == Token::EOF) {
+                                if (atn->ruleToTokenType[r] == Token::_EOF) {
                                     data->add(wchar_t::MAX_VALUE);
                                 } else {
                                     data->add(atn->ruleToTokenType[r]);
@@ -138,7 +140,7 @@ namespace org {
                         int nmodes = atn->modeToStartState->size();
                         data->add(nmodes);
                         if (nmodes > 0) {
-                            for (ATNState *modeStartState : atn->modeToStartState) {
+                            for (ATNState* modeStartState : *atn->modeToStartState) {
                                 data->add(modeStartState.stateNumber);
                             }
                         }
@@ -146,8 +148,8 @@ namespace org {
                         int nsets = sets.size();
                         data->add(nsets);
                         for (auto set : sets) {
-                            bool containsEof = set.contains(Token::EOF);
-                            if (containsEof && set.getIntervals()->get(0)->b == Token::EOF) {
+                            bool containsEof = set->contains(Token::_EOF);
+                            if (containsEof && set->getIntervals().get(0)->b == Token::_EOF) {
                                 data->add(set.getIntervals()->size() - 1);
                             } else {
                                 data->add(set.getIntervals()->size());
@@ -155,8 +157,8 @@ namespace org {
 
                             data->add(containsEof ? 1 : 0);
                             for (Interval *I : set.getIntervals()) {
-                                if (I.a == Token::EOF) {
-                                    if (I.b == Token::EOF) {
+                                if (I.a == Token::_EOF) {
+                                    if (I.b == Token::_EOF) {
                                         continue;
                                     } else {
                                         data->add(0);
@@ -213,7 +215,7 @@ namespace org {
                                     case Transition::RANGE :
                                         arg1 = (static_cast<RangeTransition*>(t))->from;
                                         arg2 = (static_cast<RangeTransition*>(t))->to;
-                                        if (arg1 == Token::EOF) {
+                                        if (arg1 == Token) {
                                             arg1 = 0;
                                             arg3 = 1;
                                         }
@@ -221,7 +223,7 @@ namespace org {
                                         break;
                                     case Transition::ATOM :
                                         arg1 = (static_cast<AtomTransition*>(t))->label_Renamed;
-                                        if (arg1 == Token::EOF) {
+                                        if (arg1 == Token::_EOF) {
                                             arg1 = 0;
                                             arg3 = 1;
                                         }
@@ -353,7 +355,7 @@ namespace org {
                             buf->append(i)->append(L":");
                             bool containsEof = data[p++] != 0;
                             if (containsEof) {
-                                buf->append(getTokenName(Token::EOF));
+                                buf->append(getTokenName(Token::_EOF));
                             }
 
                             for (int j = 0; j < nintervals; j++) {

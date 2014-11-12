@@ -7,6 +7,7 @@
 #include <vector>
 #include <cctype>
 #include "stringconverter.h"
+#include "UUID.h"
 
 /*
  * [The "BSD license"]
