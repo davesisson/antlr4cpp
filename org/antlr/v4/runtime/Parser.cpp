@@ -21,6 +21,7 @@
 #include "ParseTreeListener.h"
 #include "ParseTree.h"
 #include "IntegerStack.h"
+#include "Lexer.h"
 
 
 /*
@@ -295,7 +296,7 @@ template<typename T1>
                 }
 
                 org::antlr::v4::runtime::tree::pattern::ParseTreePattern *Parser::compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex, Lexer *lexer) {
-                    ParseTreePatternMatcher *m = new ParseTreePatternMatcher(lexer, this);
+                    tree::pattern::ParseTreePatternMatcher *m = new ParseTreePatternMatcher(lexer, this);
                     return m->compile(pattern, patternRuleIndex);
                 }
 
@@ -353,14 +354,14 @@ template<typename T1>
                     bool hasListener = _parseListeners.size() > 0 && !_parseListeners.empty();
                     if (_buildParseTrees || hasListener) {
                         if (_errHandler->inErrorRecoveryMode(this)) {
-                            ErrorNode *node = _ctx->addErrorNode(o);
+                            tree::ErrorNode *node = _ctx->addErrorNode(o);
                             if (_parseListeners.size() > 0) {
                                 for (auto listener : _parseListeners) {
-                                    listener.visitErrorNode(node);
+                                    listener->visitErrorNode(node);
                                 }
                             }
                         } else {
-                            TerminalNode *node = _ctx->addChild(o);
+                            tree::TerminalNode *node = _ctx->addChild(o);
                             if (_parseListeners.size() > 0) {
                                 for (auto listener : _parseListeners) {
                                     listener.visitTerminal(node);

@@ -20,6 +20,7 @@
 #include "AtomTransition.h"
 #include "ActionTransition.h"
 #include "Utils.h"
+#include "Exceptions.h"
 
 namespace org {
     namespace antlr {
@@ -156,18 +157,18 @@ namespace org {
                             }
 
                             data->add(containsEof ? 1 : 0);
-                            for (Interval *I : set.getIntervals()) {
-                                if (I.a == Token::_EOF) {
-                                    if (I.b == Token::_EOF) {
+                            for (Interval *I : set->getIntervals()) {
+                                if (I->a == Token::_EOF) {
+                                    if (I->b == Token::_EOF) {
                                         continue;
                                     } else {
                                         data->add(0);
                                     }
                                 } else {
-                                    data->add(I.a);
+                                    data->add(I->a);
                                 }
 
-                                data->add(I.b);
+                                data->add(I->b);
                             }
                         }
 
@@ -178,18 +179,18 @@ namespace org {
                                 continue;
                             }
 
-                            if (s.getStateType() == ATNState::RULE_STOP) {
+                            if (s->getStateType() == ATNState::RULE_STOP) {
                                 continue;
                             }
 
-                            for (int i = 0; i < s.getNumberOfTransitions(); i++) {
-                                Transition *t = s.transition(i);
+                            for (int i = 0; i < s->getNumberOfTransitions(); i++) {
+                                Transition *t = s->transition(i);
 
                                 if (atn->states[t->target->stateNumber] == nullptr) {
                                     throw IllegalStateException(L"Cannot serialize a transition to a removed state.");
                                 }
 
-                                int src = s.stateNumber;
+                                int src = s->stateNumber;
                                 int trg = t->target->stateNumber;
                                 int edgeType = Transition::serializationTypes->get(t->getClass());
                                 int arg1 = 0;
