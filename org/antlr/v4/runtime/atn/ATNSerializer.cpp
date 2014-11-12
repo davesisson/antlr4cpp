@@ -31,12 +31,10 @@ namespace org {
                     using org::antlr::v4::runtime::misc::Utils;
 
                     ATNSerializer::ATNSerializer(ATN *atn) {
-                        assert(atn->grammarType != nullptr);
                         this->atn = atn;
                     }
 
                     ATNSerializer::ATNSerializer(ATN *atn, std::vector<std::wstring> &tokenNames) {
-                        assert(atn->grammarType != nullptr);
                         this->atn = atn;
                         this->tokenNames = tokenNames;
                     }
@@ -64,36 +62,36 @@ namespace org {
                                 continue;
                             }
 
-                            int stateType = s.getStateType();
+                            int stateType = s->getStateType();
                             if (dynamic_cast<DecisionState*>(s) != nullptr && (static_cast<DecisionState*>(s))->nonGreedy) {
-                                nonGreedyStates->add(s.stateNumber);
+                                nonGreedyStates->add(s->stateNumber);
                             }
 
                             if (dynamic_cast<RuleStartState*>(s) != nullptr && (static_cast<RuleStartState*>(s))->isPrecedenceRule) {
-                                precedenceStates->add(s.stateNumber);
+                                precedenceStates->add(s->stateNumber);
                             }
 
                             data->add(stateType);
 
-                            if (s.ruleIndex == -1) {
+                            if (s->ruleIndex == -1) {
                                 data->add(wchar_t::MAX_VALUE);
                             } else {
-                                data->add(s.ruleIndex);
+                                data->add(s->ruleIndex);
                             }
 
-                            if (s.getStateType() == ATNState::LOOP_END) {
+                            if (s->getStateType() == ATNState::LOOP_END) {
                                 data->add((static_cast<LoopEndState*>(s))->loopBackState->stateNumber);
                             } else if (dynamic_cast<BlockStartState*>(s) != nullptr) {
                                 data->add((static_cast<BlockStartState*>(s))->endState->stateNumber);
                             }
 
-                            if (s.getStateType() != ATNState::RULE_STOP) {
+                            if (s->getStateType() != ATNState::RULE_STOP) {
                                 // the deserializer can trivially derive these edges, so there's no need to serialize them
-                                nedges += s.getNumberOfTransitions();
+                                nedges += s->getNumberOfTransitions();
                             }
 
-                            for (int i = 0; i < s.getNumberOfTransitions(); i++) {
-                                Transition *t = s.transition(i);
+                            for (int i = 0; i < s->getNumberOfTransitions(); i++) {
+                                Transition *t = s->transition(i);
                                 int edgeType = Transition::serializationTypes->get(t->getClass());
                                 if (edgeType == Transition::SET || edgeType == Transition::NOT_SET) {
                                     SetTransition *st = static_cast<SetTransition*>(t);
