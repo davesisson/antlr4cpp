@@ -9,6 +9,7 @@
 #include "FlexibleHashMap.h"
 #include "MurmurHash.h"
 #include "PredictionContext.h"
+#include "SemanticContext.h"
 
 #include <vector>
 #include <bitset>
@@ -96,7 +97,7 @@ namespace org {
                     class AltAndContextMap : misc::FlexibleHashMap<ATNConfig,std::bitset<BITSET_SIZE>> {
                         
                     public:
-                        AltAndContextMap(): comparator(AltAndContextConfigEqualityComparator.INSTANCE)
+                      AltAndContextMap(): comparator(AltAndContextConfigEqualityComparator::INSTANCE)
                         {
                         }
                     };
@@ -247,7 +248,7 @@ namespace org {
                         }
                         
                         // pure SLL mode parsing
-                        if (mode == PredictionMode::SLL)
+                        if (*mode == PredictionMode::SLL)
                         {
                             // Don't bother with combining configs from different semantic
                             // contexts if we can fail over to full LL; costs more time
@@ -258,7 +259,7 @@ namespace org {
                                 ATNConfigSet* dup = new ATNConfigSet();
                                 for (ATNConfig c : *configs)
                                 {
-                                    c = new ATNConfig(c,SemanticContext.NONE);
+                                    c = new ATNConfig(c, SemanticContext::NONE);
                                     dup->add(c);
                                 }
                                 configs = dup;

@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "ATNState.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr

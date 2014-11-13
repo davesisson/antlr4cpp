@@ -29,6 +29,7 @@
  */
 
 #include "PredictionMode.h"
+#include "ATNConfig.h"
 
 namespace org {
     namespace antlr {
