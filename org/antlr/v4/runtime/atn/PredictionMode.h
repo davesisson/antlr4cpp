@@ -10,6 +10,7 @@
 #include "MurmurHash.h"
 #include "PredictionContext.h"
 #include "SemanticContext.h"
+#include "RuleStopState.h"
 
 #include <vector>
 #include <bitset>
@@ -287,7 +288,7 @@ namespace org {
                     {
                         for (ATNConfig c : *configs)
                         {
-                            if (c.state instanceof RuleStopState)
+                            if (dynamic_cast<RuleStopState*>(c.state) != NULL)
                             {
                                 return true;
                             }
@@ -309,7 +310,7 @@ namespace org {
                     {
                         for (ATNConfig config : *configs)
                         {
-                            if (!(config.state instanceof RuleStopState))
+                            if (dynamic_cast<RuleStopState*>(config.state) == NULL)
                             {
                                 return false;
                             }
@@ -528,7 +529,7 @@ namespace org {
                     
                     static bool hasNonConflictingAltSet(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                        for (std::bitset<BITSET_SIZE> alts : altsets)
+                        for (std::bitset<BITSET_SIZE> alts : *altsets)
                         {
                             if (alts.cardinality()==1)
                             {
@@ -547,7 +548,7 @@ namespace org {
                     /// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code false} </returns>
                     static bool hasConflictingAltSet(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                        for (std::bitset<BITSET_SIZE> alts : altsets)
+                        for (std::bitset<BITSET_SIZE> alts : *altsets)
                         {
                             if (alts.cardinality()>1)
                             {
@@ -565,8 +566,8 @@ namespace org {
                     /// others, otherwise {@code false} </returns>
                     static bool allSubsetsEqual(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                      std::bitset<BITSET_SIZE> first = altsets->begin();
-                      if (first = std::vector<std::bitset<BITSET_SIZE>>::end() {
+                      std::bitset<BITSET_SIZE> first = *altsets->begin();
+                      if (first = *std::vector<std::bitset<BITSET_SIZE>>::end() {
                         // TODO -- Determine if this should return true or false when there are no sets available based on the original code.
                         return true;
                       }
