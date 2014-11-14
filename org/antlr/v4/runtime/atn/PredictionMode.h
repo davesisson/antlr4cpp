@@ -528,7 +528,7 @@ namespace org {
                     
                     static bool hasNonConflictingAltSet(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                        for (BitSet alts : altsets)
+                        for (std::bitset<BITSET_SIZE> alts : altsets)
                         {
                             if (alts.cardinality()==1)
                             {
@@ -547,7 +547,7 @@ namespace org {
                     /// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code false} </returns>
                     static bool hasConflictingAltSet(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                        for (BitSet alts : altsets)
+                        for (std::bitset<BITSET_SIZE> alts : altsets)
                         {
                             if (alts.cardinality()>1)
                             {
@@ -565,15 +565,17 @@ namespace org {
                     /// others, otherwise {@code false} </returns>
                     static bool allSubsetsEqual(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                        Iterator<BitSet> it = altsets.iterator();
-                        BitSet first = it.next();
-                        while (it.hasNext())
-                        {
-                            BitSet next = it.next();
-                            if (!next.equals(first))
-                                return false;
-                        }
+                      std::bitset<BITSET_SIZE> first = altsets->begin();
+                      if (first = std::vector<std::bitset<BITSET_SIZE>>::end() {
+                        // TODO -- Determine if this should return true or false when there are no sets available based on the original code.
                         return true;
+                      }
+                      for (std::bitset<BITSET_SIZE> alts : altsets) {
+                        if (alts != first) {
+                          return false;
+                        }
+                      }
+                      return true;
                     }
                     
                     /// <summary>
@@ -585,7 +587,7 @@ namespace org {
                     
                     static int getUniqueAlt(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                        BitSet all = getAlts(altsets);
+                        std::bitset<BITSET_SIZE> all = getAlts(altsets);
                         if (all.cardinality()==1)
                             return all.nextSetBit(0);
                         return ATN.INVALID_ALT_NUMBER;
@@ -600,9 +602,8 @@ namespace org {
                     /// <returns> the set of represented alternatives in {@code altsets} </returns>
                     static std::bitset<BITSET_SIZE> getAlts(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                        BitSet all = new BitSet();
-                        for (BitSet alts : altsets)
-                        {
+                        std::bitset<BITSET_SIZE> all;
+                        for (std::bitset<BITSET_SIZE> alts : altsets) {
                             all.or(alts);
                         }
                         return all;
@@ -672,8 +673,8 @@ namespace org {
                     
                     static int getSingleViableAlt(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                        BitSet viableAlts = new BitSet();
-                        for (BitSet alts : altsets)
+                        std::bitset<BITSET_SIZE> viableAlts = new BitSet();
+                        for (std::bitset<BITSET_SIZE> alts : altsets)
                         {
                             int minAlt = alts.nextSetBit(0);
                             viableAlts.set(minAlt);
