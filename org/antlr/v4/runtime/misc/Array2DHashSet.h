@@ -77,8 +77,8 @@ namespace org {
                     public:
                         static const int INITAL_CAPACITY = 16; // must be power of 2
                         static const int INITAL_BUCKET_CAPACITY = 8;
-#define LOAD_FACTOR 0.75
-                        
+                        static const double LOAD_FACTOR;
+
                     protected:
 //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
 //ORIGINAL LINE: @NotNull protected final AbstractEqualityComparator<? super T> comparator;

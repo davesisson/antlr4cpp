@@ -38,6 +38,9 @@ namespace org {
             namespace runtime {
                 namespace misc {
                     template<typename T>
+                    const double Array2DHashSet<T>::LOAD_FACTOR = 0.75;
+
+                    template<typename T>
                     Array2DHashSet<T>::SetIterator::SetIterator(Array2DHashSet<T> *outerInstance, T data[]) : data(data), outerInstance(outerInstance) {
 
                         InitializeInstanceFields();
