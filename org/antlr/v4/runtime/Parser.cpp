@@ -22,6 +22,8 @@
 #include "ParseTree.h"
 #include "IntegerStack.h"
 #include "Lexer.h"
+#include "ATN.h"
+#include "ParserATNSimulator.h"
 
 
 /*
@@ -112,8 +114,8 @@ namespace org {
 
                 void Parser::TrimToSizeListener::exitEveryRule(ParserRuleContext *ctx) {
                     // TODO: Need to figure out what type this is going to be.  In Java we expect it to be set by the generator.
-                    if (dynamic_cast<std::vector<tree::ParseTree*>>(ctx->children) != nullptr) {
-                        (static_cast<std::vector<tree::ParseTree*>>(ctx->children)).trimToSize();
+                    if (dynamic_cast<std::vector<tree::ParseTree*>*>(ctx->children) != nullptr) {
+                        (static_cast<std::vector<tree::ParseTree*>*>(ctx->children)).trimToSize();
                     }
                 }
 
@@ -201,9 +203,10 @@ namespace org {
                 }
 
                 std::vector<tree::ParseTreeListener*> Parser::getParseListeners() {
-                  std::vector<tree::ParseTreeListener*> listeners = _parseListeners;
+                    std::vector<tree::ParseTreeListener*> listeners = _parseListeners;
                     if (listeners.empty()) {
-                        return Collections::emptyList();
+                        std::vector<tree::ParseTreeListener*> emptyList;
+                        return emptyList;
                     }
 
                     return listeners;
@@ -296,7 +299,7 @@ template<typename T1>
                 }
 
                 org::antlr::v4::runtime::tree::pattern::ParseTreePattern *Parser::compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex, Lexer *lexer) {
-                    tree::pattern::ParseTreePatternMatcher *m = new ParseTreePatternMatcher(lexer, this);
+                    tree::pattern::ParseTreePatternMatcher *m = new tree::pattern::ParseTreePatternMatcher(lexer, this);
                     return m->compile(pattern, patternRuleIndex);
                 }
 
@@ -364,7 +367,7 @@ template<typename T1>
                             tree::TerminalNode *node = _ctx->addChild(o);
                             if (_parseListeners.size() > 0) {
                                 for (auto listener : _parseListeners) {
-                                    listener.visitTerminal(node);
+                                    listener->visitTerminal(node);
                                 }
                             }
                         }
@@ -500,9 +503,9 @@ template<typename T1>
 
                 bool Parser::isExpectedToken(int symbol) {
                                 //   		return getInterpreter().atn.nextTokens(_ctx);
-                    ATN *atn = getInterpreter()->atn;
+                    atn::ATN *atn = getInterpreter()->atn;
                     ParserRuleContext *ctx = _ctx;
-                    ATNState *s = atn->states[getState()];
+                    atn::ATNStateState *s = atn->states[getState()];
                     IntervalSet *following = atn->nextTokens(s);
                     if (following->contains(symbol)) {
                         return true;

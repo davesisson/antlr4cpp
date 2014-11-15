@@ -258,9 +258,9 @@ namespace org {
                             {
                                 // dup configs, tossing out semantic predicates
                                 ATNConfigSet* dup = new ATNConfigSet();
-                                for (ATNConfig c : *configs)
+                                for (ATNConfig config : *configs)
                                 {
-                                    c = new ATNConfig(c, SemanticContext::NONE);
+                                    ATNConfig* c = new ATNConfig(&config, SemanticContext::NONE);
                                     dup->add(c);
                                 }
                                 configs = dup;
@@ -531,7 +531,7 @@ namespace org {
                     {
                         for (std::bitset<BITSET_SIZE> alts : *altsets)
                         {
-                            if (alts.cardinality()==1)
+                            if (alts.count()==1)
                             {
                                 return true;
                             }
@@ -550,7 +550,7 @@ namespace org {
                     {
                         for (std::bitset<BITSET_SIZE> alts : *altsets)
                         {
-                            if (alts.cardinality()>1)
+                            if (alts.count()>1)
                             {
                                 return true;
                             }
@@ -566,12 +566,12 @@ namespace org {
                     /// others, otherwise {@code false} </returns>
                     static bool allSubsetsEqual(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
-                      std::bitset<BITSET_SIZE> first = *altsets->begin();
-                      if (first = *std::vector<std::bitset<BITSET_SIZE>>::end() {
+                      if (altsets->size() == 0) {
                         // TODO -- Determine if this should return true or false when there are no sets available based on the original code.
                         return true;
                       }
-                      for (std::bitset<BITSET_SIZE> alts : altsets) {
+                      const std::bitset<BITSET_SIZE>& first = *altsets->begin();
+                      for (const std::bitset<BITSET_SIZE>& alts : *altsets) {
                         if (alts != first) {
                           return false;
                         }
@@ -589,9 +589,9 @@ namespace org {
                     static int getUniqueAlt(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         std::bitset<BITSET_SIZE> all = getAlts(altsets);
-                        if (all.cardinality()==1)
+                        if (all.count()==1)
                             return all.nextSetBit(0);
-                        return ATN.INVALID_ALT_NUMBER;
+                      return ATN::INVALID_ALT_NUMBER;
                     }
                     
                     /// <summary>
@@ -604,7 +604,7 @@ namespace org {
                     static std::bitset<BITSET_SIZE> getAlts(std::vector<std::bitset<BITSET_SIZE>> *altsets)
                     {
                         std::bitset<BITSET_SIZE> all;
-                        for (std::bitset<BITSET_SIZE> alts : altsets) {
+                        for (std::bitset<BITSET_SIZE> alts : *altsets) {
                             all.or(alts);
                         }
                         return all;
@@ -622,7 +622,7 @@ namespace org {
                     static std::vector<std::bitset<BITSET_SIZE>> getConflictingAltSubsets(ATNConfigSet *configs)
                     {
                         AltAndContextMap *configToAlts = new AltAndContextMap();
-                        for (ATNConfig c : configs)
+                        for (ATNConfig c : *configs)
                         {
                             BitSet alts = configToAlts.get(c);
                             if (alts==nullptr)
