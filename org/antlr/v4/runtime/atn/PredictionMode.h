@@ -11,6 +11,7 @@
 #include "PredictionContext.h"
 #include "SemanticContext.h"
 #include "RuleStopState.h"
+#include "ATN.h"
 
 #include <vector>
 #include <bitset>
@@ -621,18 +622,18 @@ namespace org {
                     /// </summary>
                     static std::vector<std::bitset<BITSET_SIZE>> getConflictingAltSubsets(ATNConfigSet *configs)
                     {
-                        AltAndContextMap *configToAlts = new AltAndContextMap();
+                        AltAndContextMap* configToAlts = new AltAndContextMap();
                         for (ATNConfig c : *configs)
                         {
-                            BitSet alts = configToAlts.get(c);
+                            std::bitset<BITSET_SIZE>* alts = configToAlts->get(c);
                             if (alts==nullptr)
                             {
-                                alts = new BitSet();
-                                configToAlts.put(c, alts);
+                                alts = new std::bitset<BITSET_SIZE>();
+                                configToAlts->put(c, alts);
                             }
                             alts.set(c.alt);
                         }
-                        return configToAlts.values();
+                        return configToAlts->values();
                     }
                     
                     /// <summary>
@@ -643,9 +644,9 @@ namespace org {
                     /// map[c.<seealso cref="ATNConfig#state state"/>] U= c.<seealso cref="ATNConfig#alt alt"/>
                     /// </pre>
                     /// </summary>
-                    static java.util.Map<ATNState, std::bitset<BITSET_SIZE>> getStateToAltMap(ATNConfigSet *configs)
+                    static std::map<ATNState, std::bitset<BITSET_SIZE>> getStateToAltMap(ATNConfigSet *configs)
                     {
-                        Map<ATNState, BitSet> m = new HashMap<ATNState, BitSet>();
+                        std::map<ATNState, BitSet> m = new std::hash_map<ATNState, BitSet>();
                         for (ATNConfig c : configs)
                         {
                             BitSet alts = m.get(c.state);
