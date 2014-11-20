@@ -369,14 +369,14 @@ namespace org {
                     void PredictionContext::combineCommonParents(PredictionContext *parents[]) {
                         std::unordered_map<PredictionContext*, PredictionContext*> uniqueParents = std::unordered_map<PredictionContext*, PredictionContext*>();
                         
-                        for (size_t p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
+                        for (size_t p = 0; p < sizeof(*parents) / sizeof(parents[0]); p++) {
                             PredictionContext *parent = parents[p];
                             if (uniqueParents.find(parent) == uniqueParents.end()) { // don't replace
                                 uniqueParents[parent] = parent;
                             }
                         }
                         
-                        for (size_t p = 0; p < sizeof(parents) / sizeof(parents[0]); p++) {
+                        for (size_t p = 0; p < sizeof(*parents) / sizeof(parents[0]); p++) {
                             parents[p] = uniqueParents.at(parents[p]);
                         }
                     }

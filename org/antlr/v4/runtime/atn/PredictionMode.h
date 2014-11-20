@@ -215,7 +215,7 @@ typedef std::bitset<BITSET_SIZE> BitSet;  // TODO -- Put into a header file for
 /// the configurations to strip out all of the predicates so that a standard
 /// <seealso cref="ATNConfigSet"/> will merge everything ignoring predicates.
 /// </summary>
-static bool hasSLLConflictTerminatingPrediction(PredictionMode *mode,
+bool hasSLLConflictTerminatingPrediction(PredictionMode *mode,
                                                 ATNConfigSet *configs);
 
 /// <summary>
@@ -240,7 +240,7 @@ bool hasConfigInRuleStopState(ATNConfigSet *configs);
 /// <param name="configs"> the configuration set to test </param>
 /// <returns> {@code true} if all configurations in {@code configs} are in a
 /// <seealso cref="RuleStopState"/>, otherwise {@code false} </returns>
-static bool allConfigsInRuleStopStates(ATNConfigSet *configs);
+bool allConfigsInRuleStopStates(ATNConfigSet *configs);
 
 /// <summary>
 /// Full LL prediction termination.
@@ -426,7 +426,7 @@ static bool allConfigsInRuleStopStates(ATNConfigSet *configs);
 /// we need exact ambiguity detection when the sets look like
 /// {@code A={{1,2}}} or {@code {{1,2},{1,2}}}, etc...
 /// </summary>
-static int resolvesToJustOneViableAlt(const std::vector<BitSet> &altsets);
+int resolvesToJustOneViableAlt(const std::vector<BitSet> &altsets);
 
 /// <summary>
 /// Determines if every alternative subset in {@code altsets} contains more
@@ -437,7 +437,7 @@ static int resolvesToJustOneViableAlt(const std::vector<BitSet> &altsets);
 /// has
 /// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code
 /// false} </returns>
-static bool allSubsetsConflict(const std::vector<BitSet> &altsets);
+bool allSubsetsConflict(const std::vector<BitSet> &altsets);
 
 /// <summary>
 /// Determines if any single alternative subset in {@code altsets} contains
@@ -448,7 +448,7 @@ static bool allSubsetsConflict(const std::vector<BitSet> &altsets);
 /// cref="BitSet"/> with
 /// <seealso cref="BitSet#cardinality cardinality"/> 1, otherwise {@code false}
 /// </returns>
-static bool hasNonConflictingAltSet(const std::vector<BitSet> &altsets);
+bool hasNonConflictingAltSet(const std::vector<BitSet> &altsets);
 
 /// <summary>
 /// Determines if any single alternative subset in {@code altsets} contains
@@ -459,7 +459,7 @@ static bool hasNonConflictingAltSet(const std::vector<BitSet> &altsets);
 /// cref="BitSet"/> with
 /// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code
 /// false} </returns>
-static bool hasConflictingAltSet(const std::vector<BitSet> &altsets);
+bool hasConflictingAltSet(const std::vector<BitSet> &altsets);
 
 /// <summary>
 /// Determines if every alternative subset in {@code altsets} is equivalent.
@@ -467,7 +467,7 @@ static bool hasConflictingAltSet(const std::vector<BitSet> &altsets);
 /// <param name="altsets"> a collection of alternative subsets </param>
 /// <returns> {@code true} if every member of {@code altsets} is equal to the
 /// others, otherwise {@code false} </returns>
-static bool allSubsetsEqual(const std::vector<BitSet> &altsets);
+bool allSubsetsEqual(const std::vector<BitSet> &altsets);
 
 /// <summary>
 /// Returns the unique alternative predicted by all alternative subsets in
@@ -475,7 +475,7 @@ static bool allSubsetsEqual(const std::vector<BitSet> &altsets);
 /// <seealso cref="ATN#INVALID_ALT_NUMBER"/>.
 /// </summary>
 /// <param name="altsets"> a collection of alternative subsets </param>
-static int getUniqueAlt(const std::vector<BitSet> &altsets);
+int getUniqueAlt(const std::vector<BitSet> &altsets);
 
 /// <summary>
 /// Gets the complete set of represented alternatives for a collection of
@@ -485,7 +485,7 @@ static int getUniqueAlt(const std::vector<BitSet> &altsets);
 /// </summary>
 /// <param name="altsets"> a collection of alternative subsets </param>
 /// <returns> the set of represented alternatives in {@code altsets} </returns>
-static BitSet getAlts(const std::vector<BitSet> &altsets);
+BitSet getAlts(const std::vector<BitSet> &altsets);
 
 /// <summary>
 /// This function gets the conflicting alt subsets from a configuration set.
@@ -497,7 +497,7 @@ static BitSet getAlts(const std::vector<BitSet> &altsets);
 /// alt and not pred
 /// </pre>
 /// </summary>
-static std::vector<BitSet> getConflictingAltSubsets(ATNConfigSet *configs);
+std::vector<BitSet> getConflictingAltSubsets(ATNConfigSet *configs);
 
 /// <summary>
 /// Get a map from state to alt subset from a configuration set. For each
@@ -508,11 +508,13 @@ static std::vector<BitSet> getConflictingAltSubsets(ATNConfigSet *configs);
 /// cref="ATNConfig#alt alt"/>
 /// </pre>
 /// </summary>
-static std::map<ATNState, BitSet> getStateToAltMap(ATNConfigSet *configs);
+std::map<ATNState, BitSet> getStateToAltMap(ATNConfigSet *configs);
 
-static bool hasStateAssociatedWithOneAlt(ATNConfigSet *configs);
+// TODO -- Add docs.
+bool hasStateAssociatedWithOneAlt(ATNConfigSet *configs);
 
-static int getSingleViableAlt(const std::vector<BitSet> &altsets);
+// TODO -- Add docs.
+int getSingleViableAlt(const std::vector<BitSet> &altsets);
 
 }  // namespace atn
 }  // namespace runtime

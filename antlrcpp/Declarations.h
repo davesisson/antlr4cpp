@@ -94,7 +94,6 @@ namespace org {
                     template<typename T> class Array2DHashSet;
                     template<typename Key1, typename Key2, typename Value> class DoubleKeyMap;
                     template<typename T> class EqualityComparator;
-                    template<typename K, typename V> class FlexibleHashMap;
                     
                     class GraphicsSupport;
                     class IntSet;

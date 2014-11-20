@@ -175,8 +175,6 @@
 		37D1C492186A31140041671A /* DoubleKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C360186A31130041671A /* DoubleKeyMap.h */; };
 		37D1C493186A31140041671A /* EqualityComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C361186A31130041671A /* EqualityComparator.cpp */; };
 		37D1C494186A31140041671A /* EqualityComparator.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C362186A31130041671A /* EqualityComparator.h */; };
-		37D1C495186A31140041671A /* FlexibleHashMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C363186A31130041671A /* FlexibleHashMap.cpp */; };
-		37D1C496186A31140041671A /* FlexibleHashMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C364186A31130041671A /* FlexibleHashMap.h */; };
 		37D1C497186A31140041671A /* GraphicsSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C365186A31130041671A /* GraphicsSupport.cpp */; };
 		37D1C498186A31140041671A /* GraphicsSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C366186A31130041671A /* GraphicsSupport.h */; };
 		37D1C499186A31140041671A /* IntegerList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C367186A31130041671A /* IntegerList.cpp */; };
@@ -482,8 +480,6 @@
 		37D1C360186A31130041671A /* DoubleKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleKeyMap.h; sourceTree = "<group>"; };
 		37D1C361186A31130041671A /* EqualityComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EqualityComparator.cpp; sourceTree = "<group>"; };
 		37D1C362186A31130041671A /* EqualityComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EqualityComparator.h; sourceTree = "<group>"; };
-		37D1C363186A31130041671A /* FlexibleHashMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FlexibleHashMap.cpp; sourceTree = "<group>"; };
-		37D1C364186A31130041671A /* FlexibleHashMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlexibleHashMap.h; sourceTree = "<group>"; };
 		37D1C365186A31130041671A /* GraphicsSupport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicsSupport.cpp; sourceTree = "<group>"; };
 		37D1C366186A31130041671A /* GraphicsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsSupport.h; sourceTree = "<group>"; };
 		37D1C367186A31130041671A /* IntegerList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntegerList.cpp; sourceTree = "<group>"; };
@@ -853,8 +849,6 @@
 				37D1C360186A31130041671A /* DoubleKeyMap.h */,
 				37D1C361186A31130041671A /* EqualityComparator.cpp */,
 				37D1C362186A31130041671A /* EqualityComparator.h */,
-				37D1C363186A31130041671A /* FlexibleHashMap.cpp */,
-				37D1C364186A31130041671A /* FlexibleHashMap.h */,
 				37D1C365186A31130041671A /* GraphicsSupport.cpp */,
 				37D1C366186A31130041671A /* GraphicsSupport.h */,
 				37D1C367186A31130041671A /* IntegerList.cpp */,
@@ -1158,7 +1152,6 @@
 				37D1C472186A31140041671A /* DefaultErrorStrategy.h in Headers */,
 				37D1C4F2186A31140041671A /* ParseTreeVisitor.h in Headers */,
 				37D1C438186A31140041671A /* ParserATNSimulator.h in Headers */,
-				37D1C496186A31140041671A /* FlexibleHashMap.h in Headers */,
 				37D1C470186A31140041671A /* ConsoleErrorListener.h in Headers */,
 				37D1C492186A31140041671A /* DoubleKeyMap.h in Headers */,
 				37D1C446186A31140041671A /* PredictionMode.h in Headers */,
@@ -1306,7 +1299,6 @@
 				37D1C487186A31140041671A /* LexerInterpreter.cpp in Sources */,
 				37D1C4FB186A31140041671A /* ParseTreePatternMatcher.cpp in Sources */,
 				37D1C435186A31140041671A /* OrderedATNConfigSet.cpp in Sources */,
-				37D1C495186A31140041671A /* FlexibleHashMap.cpp in Sources */,
 				37D1C4C9186A31140041671A /* Recognizer.cpp in Sources */,
 				37D1C45F186A31140041671A /* WildcardTransition.cpp in Sources */,
 				37D1C471186A31140041671A /* DefaultErrorStrategy.cpp in Sources */,
