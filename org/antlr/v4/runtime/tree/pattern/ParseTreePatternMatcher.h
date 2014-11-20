@@ -1,12 +1,13 @@
 ﻿#pragma once
 
-#include "MultiMap.h"
 #include "Declarations.h"
+#include "MultiMap.h"
+#include "Token.h"
 
-#include <string>
-#include <vector>
 #include <cctype>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 
 /*

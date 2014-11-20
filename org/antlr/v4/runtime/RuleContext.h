@@ -160,7 +160,7 @@ namespace org {
                     template<typename T1, typename T2>
                     std::wstring toString(Recognizer<T1, T2> *recog, RuleContext *stop);
 
-                    virtual std::wstring toString(std::vector<std::wstring> &ruleNames, RuleContext *stop);
+                    virtual std::wstring toString(const std::vector<std::wstring> &ruleNames, RuleContext *stop);
 
                 private:
                     void InitializeInstanceFields();

@@ -196,7 +196,7 @@ namespace org {
                     return toString(ruleNamesList, stop);
                 }
 
-                std::wstring RuleContext::toString(std::vector<std::wstring> &ruleNames, RuleContext *stop) {
+                std::wstring RuleContext::toString(const std::vector<std::wstring> &ruleNames, RuleContext *stop) {
                     StringBuilder *buf = new StringBuilder();
                     RuleContext *p = this;
                     buf->append(L"[");
