@@ -1,11 +1,12 @@
 ﻿#pragma once
 
-#include "ATN.h"
-#include "IntegerList.h"
-#include <string>
-#include <unordered_map>
 #include <vector>
 #include <cctype>
+#include <string>
+#include <unordered_map>
+
+#include "ATN.h"
+#include "IntegerList.h"
 #include "stringconverter.h"
 #include "UUID.h"
 
@@ -44,14 +45,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
-                    using org::antlr::v4::runtime::Token;
-                    using org::antlr::v4::runtime::misc::IntegerList;
-                    using org::antlr::v4::runtime::misc::Interval;
-                    using org::antlr::v4::runtime::misc::IntervalSet;
-                    using org::antlr::v4::runtime::misc::Utils;
-
-
                     class ATNSerializer {
                     public:
                         ATN *atn;

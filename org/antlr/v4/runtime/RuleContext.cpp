@@ -122,7 +122,6 @@ namespace org {
                     return 0;
                 }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                 template<typename T, typename T1>
                 T RuleContext::accept(tree::ParseTreeVisitor<T1> *visitor) {
                     return visitor->visitChildren(this);
@@ -207,8 +206,8 @@ namespace org {
                             }
                         } else {
                             int ruleIndex = p->getRuleIndex();
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                            std::wstring ruleName = ruleIndex >= 0 && ruleIndex < ruleNames.size() ? ruleNames[ruleIndex] : int::toString(ruleIndex);
+
+                            std::wstring ruleName = ruleIndex >= 0 && ruleIndex < ruleNames.size() ? ruleNames[ruleIndex] : std::to_wstring(ruleIndex);
                             buf->append(ruleName);
                         }
 
@@ -220,7 +219,7 @@ namespace org {
                     }
 
                     buf->append(L"]");
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+    
                     return buf->toString();
                 }
 

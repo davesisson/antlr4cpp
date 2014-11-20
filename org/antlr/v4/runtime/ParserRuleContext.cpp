@@ -5,6 +5,7 @@
 #include "Parser.h"
 
 #include <typeinfo>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
