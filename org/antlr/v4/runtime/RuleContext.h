@@ -154,7 +154,7 @@ namespace org {
                     template<typename T1, typename T2>
                     std::wstring toString(Recognizer<T1, T2> *recog);
 
-                    std::wstring toString(std::vector<std::wstring> &ruleNames);
+                    std::wstring toString(const std::vector<std::wstring> &ruleNames);
 
                     // recog null unless ParserRuleContext, in which case we use subclass toString(...)
                     template<typename T1, typename T2>

@@ -1,4 +1,7 @@
-﻿#include "RuleContext.h"
+﻿#include <string>
+#include <vector>
+
+#include "RuleContext.h"
 #include "Trees.h"
 #include "Interval.h"
 #include "StringBuilder.h"
@@ -137,55 +140,59 @@ namespace org {
                     return viewer->open();
                 }
 #endif
-                void RuleContext::save(Parser *parser, const std::wstring &fileName)  {
-                    std::vector<std::wstring> ruleNames = parser != nullptr ? Arrays::asList(parser->getRuleNames()) : nullptr;
-                    save(ruleNames, fileName);
+                void RuleContext::save(Parser *parser, const std::wstring &fileName) {
+                    std::vector<std::wstring>* ruleNames = parser != nullptr ? parser->getRuleNames() : nullptr;
+                    save(*ruleNames, fileName);
                 }
 
                 void RuleContext::save(Parser *parser, const std::wstring &fileName, const std::wstring &fontName, int fontSize) {
-                    std::vector<std::wstring> ruleNames = parser != nullptr ? Arrays::asList(parser->getRuleNames()) : nullptr;
-                    save(ruleNames, fileName, fontName, fontSize);
+                    std::vector<std::wstring>* ruleNames = parser != nullptr ? parser->getRuleNames() : nullptr;
+                    save(*ruleNames, fileName, fontName, fontSize);
                 }
 
                 void RuleContext::save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName) {
                     tree::Trees::writePS(this, ruleNames, fileName);
                 }
 
-                void RuleContext::save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName, const std::wstring &fontName, int fontSize) throw(IOException) {
+                void RuleContext::save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName, const std::wstring &fontName, int fontSize) {
                     tree::Trees::writePS(this, ruleNames, fileName, fontName, fontSize);
                 }
 
                 std::wstring RuleContext::toStringTree(Parser *recog) {
-                    return Trees::toStringTree(this, recog);
+                    return tree::Trees::toStringTree(this, recog);
                 }
 
                 std::wstring RuleContext::toStringTree(std::vector<std::wstring> &ruleNames) {
-                    return Trees::toStringTree(this, ruleNames);
+                    return tree::Trees::toStringTree(this, ruleNames);
                 }
 
                 std::wstring RuleContext::toStringTree() {
-                    return toStringTree(static_cast<std::vector<std::wstring>>(nullptr));
+                    return toStringTree(nullptr);
                 }
 
                 std::wstring RuleContext::toString() {
-                    return toString(static_cast<std::vector<std::wstring>>(nullptr), static_cast<RuleContext*>(nullptr));
+                    std::vector<std::wstring> emptyList;
+                    return toString(emptyList, static_cast<RuleContext*>(nullptr));
                 }
 
-template<typename T1, typename T1>
-                std::wstring RuleContext::toString(Recognizer<T1> *recog) {
+                template<typename T1, typename T2>
+                std::wstring RuleContext::toString(Recognizer<T1, T2> *recog) {
                     return toString(recog, ParserRuleContext::EMPTY);
                 }
 
-                std::wstring RuleContext::toString(std::vector<std::wstring> &ruleNames) {
-                    return toString(ruleNames, nullptr);
+                std::wstring RuleContext::toString(const std::vector<std::wstring> &ruleNames) {
+                    return toString(ruleNames, static_cast<RuleContext*>(nullptr));
                 }
 
-template<typename T1, typename T1>
-                std::wstring RuleContext::toString(Recognizer<T1> *recog, RuleContext *stop) {
+                template<typename T1, typename T2>
+                std::wstring RuleContext::toString(Recognizer<T1, T2> *recog, RuleContext *stop) {
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: String[] ruleNames = recog != nullptr ? recog.getRuleNames() : nullptr;
                     std::wstring *ruleNames = recog != nullptr ? recog->getRuleNames() : nullptr;
-                    std::vector<std::wstring> ruleNamesList = ruleNames != nullptr ? Arrays::asList(ruleNames) : nullptr;
+                    std::vector<std::wstring> ruleNamesList;
+                    if (ruleNames) {
+                        ruleNamesList.push_back(*ruleNames);
+                    }
                     return toString(ruleNamesList, stop);
                 }
 
