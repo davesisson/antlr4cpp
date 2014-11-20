@@ -1,6 +1,7 @@
-﻿#include <algorithm>
+﻿#include "ParseTreePatternMatcher.h"
 
-#include "ParseTreePatternMatcher.h"
+#include <algorithm>
+
 #include "Exceptions.h"
 #include "MultiMap.h"
 #include "ParseTreePattern.h"
