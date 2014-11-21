@@ -41,69 +41,75 @@
  */
 
 namespace org {
-    namespace antlr {
-        namespace v4 {
-            namespace runtime {
-                namespace atn {
-                    class ATNSerializer {
-                    public:
-                        ATN *atn;
-                    private:
-                        std::vector<std::wstring> tokenNames;
+namespace antlr {
+namespace v4 {
+namespace runtime {
+namespace atn {
 
-                    public:
-                        ATNSerializer(ATN *atn);
+class ATNSerializer {
+ public:
+  ATN *atn;
 
-                        ATNSerializer(ATN *atn, std::vector<std::wstring> &tokenNames);
+ private:
+  std::vector<std::wstring> tokenNames;
 
-                        /// <summary>
-                        /// Serialize state descriptors, edge descriptors, and decision->state map
-                        ///  into list of ints:
-                        /// 
-                        /// 		grammar-type, (ANTLRParser.LEXER, ...)
-                        ///  	max token type,
-                        ///  	num states,
-                        ///  	state-0-type ruleIndex, state-1-type ruleIndex, ... state-i-type ruleIndex optional-arg ...
-                        ///  	num rules,
-                        ///  	rule-1-start-state rule-1-args, rule-2-start-state  rule-2-args, ...
-                        ///  	(args are token type,actionIndex in lexer else 0,0)
-                        ///      num modes,
-                        ///      mode-0-start-state, mode-1-start-state, ... (parser has 0 modes)
-                        ///      num sets
-                        ///      set-0-interval-count intervals, set-1-interval-count intervals, ...
-                        ///  	num total edges,
-                        ///      src, trg, edge-type, edge arg1, optional edge arg2 (present always), ...
-                        ///      num decisions,
-                        ///      decision-0-start-state, decision-1-start-state, ...
-                        /// 
-                        ///  Convenient to pack into unsigned shorts to make as Java string.
-                        /// </summary>
-                        virtual IntegerList *serialize();
+ public:
+  ATNSerializer(ATN *atn);
 
-                        virtual std::wstring decode(wchar_t data[]);
+  ATNSerializer(ATN *atn, std::vector<std::wstring> &tokenNames);
 
-                        virtual std::wstring getTokenName(int t);
+  /// <summary>
+  /// Serialize state descriptors, edge descriptors, and decision->state map
+  ///  into list of ints:
+  ///
+  /// 		grammar-type, (ANTLRParser.LEXER, ...)
+  ///  	max token type,
+  ///  	num states,
+  ///  	state-0-type ruleIndex, state-1-type ruleIndex, ... state-i-type
+  ///  ruleIndex optional-arg ...
+  ///  	num rules,
+  ///  	rule-1-start-state rule-1-args, rule-2-start-state  rule-2-args, ...
+  ///  	(args are token type,actionIndex in lexer else 0,0)
+  ///      num modes,
+  ///      mode-0-start-state, mode-1-start-state, ... (parser has 0 modes)
+  ///      num sets
+  ///      set-0-interval-count intervals, set-1-interval-count intervals, ...
+  ///  	num total edges,
+  ///      src, trg, edge-type, edge arg1, optional edge arg2 (present always),
+  ///      ...
+  ///      num decisions,
+  ///      decision-0-start-state, decision-1-start-state, ...
+  ///
+  ///  Convenient to pack into unsigned shorts to make as Java string.
+  /// </summary>
+  virtual misc::IntegerList *serialize();
 
-                        /// <summary>
-                        /// Used by Java target to encode short/int array as chars in string. </summary>
-                        static std::wstring getSerializedAsString(ATN *atn);
+  virtual std::wstring decode(wchar_t data[]);
 
-                        static IntegerList *getSerialized(ATN *atn);
+  virtual std::wstring getTokenName(int t);
 
-                        static wchar_t *getSerializedAsChars(ATN *atn);
+  /// <summary>
+  /// Used by Java target to encode short/int array as chars in string.
+  /// </summary>
+  static std::wstring getSerializedAsString(ATN *atn);
 
-                        static std::wstring getDecoded(ATN *atn, std::vector<std::wstring> &tokenNames);
+  static misc::IntegerList *getSerialized(ATN *atn);
 
-                    private:
-                        void serializeUUID(IntegerList *data, UUID *uuid);
+  static wchar_t *getSerializedAsChars(ATN *atn);
 
-                        void serializeLong(IntegerList *data, long long value);
+  static std::wstring getDecoded(ATN *atn,
+                                 std::vector<std::wstring> &tokenNames);
 
-                        void serializeInt(IntegerList *data, int value);
-                    };
+ private:
+  void serializeUUID(misc::IntegerList *data, UUID *uuid);
 
-                }
-            }
-        }
-    }
-}
+  void serializeLong(misc::IntegerList *data, long long value);
+
+  void serializeInt(misc::IntegerList *data, int value);
+};
+
+}  // namespace org
+}  // namespace antlr
+}  // namespace v4
+}  // namespace runtime
+}  // namespace atn
