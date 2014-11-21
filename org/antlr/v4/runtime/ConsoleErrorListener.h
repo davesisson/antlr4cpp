@@ -1,9 +1,10 @@
 ﻿#pragma once
 
+#include <string>
+
 #include "BaseErrorListener.h"
 #include "RecognitionException.h"
 #include "Recognizer.h"
-#include <string>
 
 /*
  * [The "BSD license"]
@@ -35,24 +36,25 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace org {
-    namespace antlr {
-        namespace v4 {
-            namespace runtime {
+namespace antlr {
+namespace v4 {
+namespace runtime {
 
-                /// 
-                /// <summary>
-                /// @author Sam Harwell
-                /// </summary>
-                class ConsoleErrorListener : public BaseErrorListener {
-                public:
-                    static ConsoleErrorListener *const INSTANCE;
+///
+/// <summary>
+/// @author Sam Harwell
+/// </summary>
+class ConsoleErrorListener : public BaseErrorListener {
+ public:
+  static ConsoleErrorListener *const INSTANCE;
 
-                    template<typename T1, typename T2>
-                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
+  template <typename T1, typename T2>
+  void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol,
+                   int line, int charPositionInLine, const std::wstring &msg,
+                   RecognitionException *e);
+};
 
-                };
-
-            }
-        }
-    }
-}
+}  // namespace runtime
+}  // namespace v4
+}  // namespace antlr
+}  // namespace org
