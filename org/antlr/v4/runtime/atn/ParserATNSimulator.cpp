@@ -91,11 +91,11 @@ namespace org {
                                 dfa.s0 = addDFAState(&dfa, new dfa::DFAState(s0_closure));
                             }
 
-                            // We can start with an existing DFA
+                            // We can start with an existing DFA.
                             int alt = execATN(&dfa, dfa.s0, input, index, outerContext);
                             if (debug) {
 
-                                std::wcout << std::wstring(L"DFA after predictATN: ") << dfa.toString(parser->getTokenNames()) << std::endl;
+                                std::wcout << "DFA after predictATN: " << dfa.toString(parser->getTokenNames()) << std::endl;
                             }
                             return alt;
                         }
@@ -167,7 +167,7 @@ namespace org {
                                     }
 
                                     conflictingAlts = evalSemanticContext(D->predicates, outerContext, true);
-                                    if (conflictingAlts->cardinality() == 1) {
+                                    if (conflictingAlts->count() == 1) {
                                         if (debug) {
                                             std::wcout << std::wstring(L"Full LL avoided") << std::endl;
                                         }
@@ -199,7 +199,7 @@ namespace org {
                                 int stopIndex = input->index();
                                 input->seek(startIndex);
                                 std::bitset<BITSET_SIZE> *alts = evalSemanticContext(D->predicates, outerContext, true);
-                                switch (alts->cardinality()) {
+                                switch (alts->count()) {
                                 case 0:
                                     throw noViableAlt(input, outerContext, D->configs, startIndex);
 
@@ -258,7 +258,7 @@ namespace org {
                             D->isAcceptState = true;
                             D->configs->uniqueAlt = predictedAlt;
                             D->prediction = predictedAlt;
-                        } else if (PredictionMode::hasSLLConflictTerminatingPrediction(mode, reach)) {
+                        } else if (hasSLLConflictTerminatingPrediction(&mode, reach)) {
                             // MORE THAN ONE VIABLE ALTERNATIVE
                             D->configs->conflictingAlts = getConflictingAlts(reach);
                             D->requiresFullContext = true;
@@ -279,7 +279,7 @@ namespace org {
                         return D;
                     }
 
-                    void ParserATNSimulator::predicateDFAState(DFAState *dfaState, DecisionState *decisionState) {
+                    void ParserATNSimulator::predicateDFAState(dfa::DFAState *dfaState, DecisionState *decisionState) {
                         // We need to test all predicates, even in DFA states that
                         // uniquely predict alternative.
                         int nalts = decisionState->getNumberOfTransitions();
@@ -300,9 +300,9 @@ namespace org {
                         }
                     }
 
-                    int ParserATNSimulator::execATNWithFullContext(DFA *dfa, DFAState *D, ATNConfigSet *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext) {
+                    int ParserATNSimulator::execATNWithFullContext(dfa::DFA *dfa, dfa::DFAState *D, ATNConfigSet *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext) {
                         if (debug || debug_list_atn_decisions) {
-                            std::cout << std::wstring(L"execATNWithFullContext ") << s0 << std::endl;
+                            std::cout << "execATNWithFullContext " << s0 << std::endl;
                         }
                         bool fullCtx = true;
                         bool foundExactAmbig = false;

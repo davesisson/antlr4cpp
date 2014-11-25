@@ -14,7 +14,7 @@ void ConsoleErrorListener::syntaxError(Recognizer<T1, T2> *recognizer,
                                        int charPositionInLine,
                                        const std::wstring &msg,
                                        RecognitionException *e) {
-  cerr << "line " << line << ":" << charPositionInLine << " " << msg);
+  std::cerr << "line " << line << ":" << charPositionInLine << " " << msg);
 }
 
 }  // namespace runtime
