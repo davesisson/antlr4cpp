@@ -54,9 +54,9 @@ namespace org {
 //
 //                        template<typename T>
 //                        static void removeAllElements(Collection<T> *data, T value);
-//
-//                        static std::wstring escapeWhitespace(const std::wstring &s, bool escapeSpaces);
-//
+
+                        static std::wstring escapeWhitespace(const std::wstring &s, bool escapeSpaces);
+
 //                        static void writeFile(const std::wstring &fileName, const std::wstring &content) throw(IOException);
 //
 //                        static void waitForClose(Window *const window) throw(InterruptedException);

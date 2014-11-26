@@ -1,6 +1,6 @@
 ﻿#include "LexerNoViableAltException.h"
 #include "Interval.h"
-#include "Utils.h"
+#include "misc/Utils.h"
 
 /*
  * [The "BSD license"]
@@ -56,8 +56,8 @@ namespace org {
                 std::wstring LexerNoViableAltException::toString() {
                     std::wstring symbol = L"";
                     if (startIndex >= 0 && startIndex < getInputStream()->size()) {
-                        symbol = getInputStream()->getText(Interval::of(startIndex,startIndex));
-                        symbol = Utils::escapeWhitespace(symbol, false);
+                        symbol = getInputStream()->getText(misc::Interval::of(startIndex,startIndex));
+                        symbol = misc::Utils::escapeWhitespace(symbol, false);
                     }
 
                     return std::wstring::format(Locale::getDefault(), L"%s('%s')", LexerNoViableAltException::typeid::getSimpleName(), symbol);
