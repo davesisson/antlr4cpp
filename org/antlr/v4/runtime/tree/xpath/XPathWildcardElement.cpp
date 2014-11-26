@@ -46,9 +46,9 @@ namespace org {
                             if (invert) { // !* is weird but valid (empty)
                                 return new std::vector<ParseTree*>();
                             }
-                            std::vector<ParseTree*> kids = std::vector<ParseTree*>();
+                            std::vector<ParseTree*> *kids = new std::vector<ParseTree*>();
 							for (auto c : Trees::getChildren((Tree*)t)) {
-                                kids.push_back((ParseTree*)(c));
+                                kids->push_back((ParseTree*)(c));
                             }
                             return kids;
                         }

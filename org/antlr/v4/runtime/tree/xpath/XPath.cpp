@@ -12,6 +12,8 @@
 #include "Exceptions.h"
 #include "Strings.h"
 #include "ANTLRInputStream.h"
+#include "LexerNoViableAltException.h"
+#include "XPathElement.h"
 
 /*
  * [The "BSD license"]
@@ -144,7 +146,7 @@ namespace org {
                                 case XPathLexer::TOKEN_REF :
                                 case XPathLexer::STRING :
                                     if (ttype == Token::INVALID_TYPE) {
-                                        throw IllegalArgumentException(word + std::wstring(L" at index ") + wordToken->getStartIndex() + std::wstring(L" isn't a valid token name"));
+                                        throw IllegalArgumentException(word + " at index " + wordToken->getStartIndex() + " isn't a valid token name");
                                     }
                                     return anywhere ? new XPathTokenAnywhereElement(word, ttype) : new XPathTokenElement(word, ttype);
                                 default :
