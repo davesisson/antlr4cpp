@@ -119,11 +119,6 @@ namespace org {
 
                     UnbufferedCharStream(std::ifstream *input); //this(input, 256);
 
-					UnbufferedCharStream(std::ifstream *input); //this(input, 256);
-
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-					UnbufferedCharStream(std::ifstream *input, int bufferSize); //this(bufferSize);
-
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
 					UnbufferedCharStream(std::ifstream *input, int bufferSize); //this(bufferSize);
 

@@ -1,4 +1,5 @@
 ﻿#include "UnbufferedCharStream.h"
+
 #include "IntStream.h"
 #include "ANTLRInputStream.h"
 #include "Exceptions.h"
@@ -48,14 +49,6 @@ namespace org {
                 }
 
 				UnbufferedCharStream::UnbufferedCharStream(std::ifstream *input) {
-                }
-
-				UnbufferedCharStream::UnbufferedCharStream(std::ifstream *input) {
-                }
-
-				UnbufferedCharStream::UnbufferedCharStream(std::ifstream *input, int bufferSize) {
-					this->input = new  std::iostream(input);
-                    fill(1); // prime
                 }
 
 				UnbufferedCharStream::UnbufferedCharStream(std::ifstream *input, int bufferSize) {
@@ -182,7 +175,7 @@ namespace org {
                     if (i < 0) {
                         throw IllegalArgumentException(std::wstring(L"cannot seek to negative index ") + std::to_wstring(index));
                     } else if (i >= n) {
-                        throw UnsupportedOperationException(std::wstring(L"seek to index outside buffer: ") + std::to_wstring(index) + std::wstring(L" not in ") + getBufferStartIndex() + std::wstring(L"..") + (getBufferStartIndex() + n));
+                        throw UnsupportedOperationException(std::wstring(L"seek to index outside buffer: ") + std::to_wstring(index) + std::wstring(L" not in ") + std::to_wstring(getBufferStartIndex()) + std::wstring(L"..") + std::to_wstring(getBufferStartIndex() + n));
                     }
 
                     p = i;
@@ -195,27 +188,27 @@ namespace org {
                 }
 
                 int UnbufferedCharStream::size() { 
-                    throw UnsupportedOperationException(L"Unbuffered stream cannot know its size");
+                    throw UnsupportedOperationException(std::wstring(L"Unbuffered stream cannot know its size"));
                 }
 
                 std::wstring UnbufferedCharStream::getSourceName() {
                     return name;
                 }
 
-                std::wstring UnbufferedCharStream::getText(Interval *interval) {
+                std::wstring UnbufferedCharStream::getText(misc::Interval *interval) {
                     if (interval->a < 0 || interval->b < interval->a - 1) {
-                        throw IllegalArgumentException(L"invalid interval");
+                        throw IllegalArgumentException(std::wstring(L"invalid interval"));
                     }
 
                     int bufferStartIndex = getBufferStartIndex();
                     if (n > 0 && data[n - 1] == wchar_t::MAX_VALUE) {
                         if (interval->a + interval->length() > bufferStartIndex + n) {
-                            throw IllegalArgumentException(L"the interval extends past the end of the stream");
+                            throw IllegalArgumentException(std::wstring(L"the interval extends past the end of the stream"));
                         }
                     }
 
                     if (interval->a < bufferStartIndex || interval->b >= bufferStartIndex + n) {
-                        throw UnsupportedOperationException(std::wstring(L"interval ") + interval + std::wstring(L" outside buffer: ") + bufferStartIndex + std::wstring(L"..") + (bufferStartIndex + n - 1));
+                        throw UnsupportedOperationException(std::wstring(L"interval ") + interval->toString() + std::wstring(L" outside buffer: ") + std::to_wstring(bufferStartIndex) + std::wstring(L"..") + std::to_wstring(bufferStartIndex + n - 1));
                     }
                     // convert from absolute to local index
                     int i = interval->a - bufferStartIndex;
