@@ -175,6 +175,8 @@ namespace org {
                         bool onlyHasEpsilonTransitions();
 
                         virtual void setRuleIndex(int ruleIndex);
+                        
+                        virtual ~ATNState() = 0;
 
                     private:
                         void InitializeInstanceFields();
