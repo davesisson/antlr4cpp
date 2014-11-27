@@ -106,7 +106,6 @@ namespace org {
                     template<typename K, typename V> class MultiMap;
                     class MurmurHash;
                     class NotNull;
-                    class Nullable;
 //                    template<typename t> class ObjectEqualityComparator;
                     class ObjectEqualityComparator;
                     template<typename T> class OrderedHashSet;

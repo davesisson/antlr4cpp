@@ -5,7 +5,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::Nullable;
 
                 TokenStreamRewriter::RewriteOperation::RewriteOperation(TokenStreamRewriter *outerInstance, int index) : outerInstance(outerInstance) {
 

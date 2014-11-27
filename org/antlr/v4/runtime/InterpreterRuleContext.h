@@ -36,8 +36,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                using org::antlr::v4::runtime::misc::Nullable;
-
                 /// <summary>
                 /// This object is used by the ParserInterpreter and is the same as a regular
                 ///  ParserRuleContext except that we need to track the rule index of the

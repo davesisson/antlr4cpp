@@ -44,7 +44,6 @@ namespace org {
             namespace runtime {
 
                 using org::antlr::v4::runtime::misc::Interval;
-                using org::antlr::v4::runtime::misc::Nullable;
 
 
                 /// <summary>

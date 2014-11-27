@@ -6,7 +6,6 @@ namespace org {
             namespace runtime {
                 using org::antlr::v4::runtime::atn::ATNConfigSet;
                 using org::antlr::v4::runtime::misc::NotNull;
-                using org::antlr::v4::runtime::misc::Nullable;
 
 //JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                 NoViableAltException::NoViableAltException(Parser *recognizer) {

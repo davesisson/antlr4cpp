@@ -195,8 +195,6 @@
 		37D1C4AA186A31140041671A /* MurmurHash.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C378186A31130041671A /* MurmurHash.h */; };
 		37D1C4AB186A31140041671A /* NotNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C379186A31130041671A /* NotNull.cpp */; };
 		37D1C4AC186A31140041671A /* NotNull.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C37A186A31130041671A /* NotNull.h */; };
-		37D1C4AD186A31140041671A /* Nullable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C37B186A31130041671A /* Nullable.cpp */; };
-		37D1C4AE186A31140041671A /* Nullable.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C37C186A31130041671A /* Nullable.h */; };
 		37D1C4AF186A31140041671A /* ObjectEqualityComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C37D186A31130041671A /* ObjectEqualityComparator.cpp */; };
 		37D1C4B0186A31140041671A /* ObjectEqualityComparator.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C37E186A31130041671A /* ObjectEqualityComparator.h */; };
 		37D1C4B1186A31140041671A /* OrderedHashSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C37F186A31130041671A /* OrderedHashSet.cpp */; };
@@ -500,8 +498,6 @@
 		37D1C378186A31130041671A /* MurmurHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MurmurHash.h; sourceTree = "<group>"; };
 		37D1C379186A31130041671A /* NotNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotNull.cpp; sourceTree = "<group>"; };
 		37D1C37A186A31130041671A /* NotNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotNull.h; sourceTree = "<group>"; };
-		37D1C37B186A31130041671A /* Nullable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Nullable.cpp; sourceTree = "<group>"; };
-		37D1C37C186A31130041671A /* Nullable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nullable.h; sourceTree = "<group>"; };
 		37D1C37D186A31130041671A /* ObjectEqualityComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectEqualityComparator.cpp; sourceTree = "<group>"; };
 		37D1C37E186A31130041671A /* ObjectEqualityComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectEqualityComparator.h; sourceTree = "<group>"; };
 		37D1C37F186A31130041671A /* OrderedHashSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrderedHashSet.cpp; sourceTree = "<group>"; };
@@ -869,8 +865,6 @@
 				37D1C378186A31130041671A /* MurmurHash.h */,
 				37D1C379186A31130041671A /* NotNull.cpp */,
 				37D1C37A186A31130041671A /* NotNull.h */,
-				37D1C37B186A31130041671A /* Nullable.cpp */,
-				37D1C37C186A31130041671A /* Nullable.h */,
 				37D1C37D186A31130041671A /* ObjectEqualityComparator.cpp */,
 				37D1C37E186A31130041671A /* ObjectEqualityComparator.h */,
 				37D1C37F186A31130041671A /* OrderedHashSet.cpp */,
@@ -1068,7 +1062,6 @@
 				37D1C42A186A31140041671A /* EpsilonTransition.h in Headers */,
 				37D1C51A186A31140041671A /* XPathRuleElement.h in Headers */,
 				37D1C464186A31140041671A /* BaseErrorListener.h in Headers */,
-				37D1C4AE186A31140041671A /* Nullable.h in Headers */,
 				37D1C466186A31140041671A /* BufferedTokenStream.h in Headers */,
 				37D1C488186A31140041671A /* LexerInterpreter.h in Headers */,
 				37D1C480186A31140041671A /* InputMismatchException.h in Headers */,
@@ -1389,7 +1382,6 @@
 				37D1C521186A31140041671A /* XPathWildcardElement.cpp in Sources */,
 				37D1C40B186A31140041671A /* ATNConfig.cpp in Sources */,
 				37D1C44B186A31140041671A /* RuleStopState.cpp in Sources */,
-				37D1C4AD186A31140041671A /* Nullable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
