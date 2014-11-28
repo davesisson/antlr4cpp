@@ -24,6 +24,7 @@
 #include "Lexer.h"
 #include "ATN.h"
 #include "ParserATNSimulator.h"
+#include "IntervalSet.h"
 
 
 /*
@@ -505,8 +506,8 @@ template<typename T1>
                                 //   		return getInterpreter().atn.nextTokens(_ctx);
                     atn::ATN *atn = getInterpreter()->atn;
                     ParserRuleContext *ctx = _ctx;
-                    atn::ATNStateState *s = atn->states[getState()];
-                    IntervalSet *following = atn->nextTokens(s);
+                    atn::ATNState *s = atn->states[getState()];
+                    misc::IntervalSet *following = atn->nextTokens(s);
                     if (following->contains(symbol)) {
                         return true;
                     }
@@ -516,7 +517,7 @@ template<typename T1>
                     }
 
                     while (ctx != nullptr && ctx->invokingState >= 0 && following->contains(Token::EPSILON)) {
-                        ATNState *invokingState = atn->states[ctx->invokingState];
+                        atn::ATNState *invokingState = atn->states[ctx->invokingState];
                         RuleTransition *rt = static_cast<RuleTransition*>(invokingState->transition(0));
                         following = atn->nextTokens(rt->followState);
                         if (following->contains(symbol)) {

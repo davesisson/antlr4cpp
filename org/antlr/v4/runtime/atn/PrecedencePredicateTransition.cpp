@@ -27,7 +27,7 @@ namespace org {
                     }
 
                     std::wstring PrecedencePredicateTransition::toString() {
-                        return precedence + std::wstring(L" >= _p");
+                        return std::to_wstring(precedence) + std::wstring(L" >= _p");
                     }
                 }
             }

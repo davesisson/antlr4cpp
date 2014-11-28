@@ -14,6 +14,7 @@
 #include "ANTLRInputStream.h"
 #include "LexerNoViableAltException.h"
 #include "XPathElement.h"
+#include "Parser.h"
 
 /*
  * [The "BSD license"]
