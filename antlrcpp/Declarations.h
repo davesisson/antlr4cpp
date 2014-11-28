@@ -111,7 +111,6 @@ namespace org {
                     template<typename A, typename B> class Pair;
                     class ParseCancellationException;
                     class TestRig;
-                    class Triple;
                     class Utils;
                 }
                 namespace atn {

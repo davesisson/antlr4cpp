@@ -203,8 +203,6 @@
 		37D1C4B6186A31140041671A /* ParseCancellationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C384186A31130041671A /* ParseCancellationException.h */; };
 		37D1C4B7186A31140041671A /* TestRig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C385186A31130041671A /* TestRig.cpp */; };
 		37D1C4B8186A31140041671A /* TestRig.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C386186A31130041671A /* TestRig.h */; };
-		37D1C4B9186A31140041671A /* Triple.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C387186A31130041671A /* Triple.cpp */; };
-		37D1C4BA186A31140041671A /* Triple.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C388186A31130041671A /* Triple.h */; };
 		37D1C4BB186A31140041671A /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C389186A31130041671A /* Utils.cpp */; };
 		37D1C4BC186A31140041671A /* Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C38A186A31130041671A /* Utils.h */; };
 		37D1C4BD186A31140041671A /* NoViableAltException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C38B186A31130041671A /* NoViableAltException.cpp */; };
@@ -504,8 +502,6 @@
 		37D1C384186A31130041671A /* ParseCancellationException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseCancellationException.h; sourceTree = "<group>"; };
 		37D1C385186A31130041671A /* TestRig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestRig.cpp; sourceTree = "<group>"; };
 		37D1C386186A31130041671A /* TestRig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRig.h; sourceTree = "<group>"; };
-		37D1C387186A31130041671A /* Triple.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triple.cpp; sourceTree = "<group>"; };
-		37D1C388186A31130041671A /* Triple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triple.h; sourceTree = "<group>"; };
 		37D1C389186A31130041671A /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
 		37D1C38A186A31130041671A /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		37D1C38B186A31130041671A /* NoViableAltException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoViableAltException.cpp; sourceTree = "<group>"; };
@@ -869,8 +865,6 @@
 				37D1C384186A31130041671A /* ParseCancellationException.h */,
 				37D1C385186A31130041671A /* TestRig.cpp */,
 				37D1C386186A31130041671A /* TestRig.h */,
-				37D1C387186A31130041671A /* Triple.cpp */,
-				37D1C388186A31130041671A /* Triple.h */,
 				37D1C389186A31130041671A /* Utils.cpp */,
 				37D1C38A186A31130041671A /* Utils.h */,
 			);
@@ -1048,7 +1042,6 @@
 				37D1C402186A31140041671A /* ANTLRInputStream.h in Headers */,
 				37D1C416186A31140041671A /* ATNSimulator.h in Headers */,
 				37D1C4EE186A31140041671A /* ParseTreeListener.h in Headers */,
-				37D1C4BA186A31140041671A /* Triple.h in Headers */,
 				37D1C48A186A31140041671A /* LexerNoViableAltException.h in Headers */,
 				37D1C422186A31140041671A /* BlockEndState.h in Headers */,
 				37D1C41A186A31140041671A /* ATNType.h in Headers */,
@@ -1257,7 +1250,6 @@
 				37D1C45B186A31140041671A /* TokensStartState.cpp in Sources */,
 				37D1C47B186A31140041671A /* DiagnosticErrorListener.cpp in Sources */,
 				37D1C485186A31140041671A /* Lexer.cpp in Sources */,
-				37D1C4B9186A31140041671A /* Triple.cpp in Sources */,
 				37D1C441186A31140041671A /* PredictionContext.cpp in Sources */,
 				37D1C401186A31140041671A /* ANTLRInputStream.cpp in Sources */,
 				37D1C4C1186A31140041671A /* ParserInterpreter.cpp in Sources */,
