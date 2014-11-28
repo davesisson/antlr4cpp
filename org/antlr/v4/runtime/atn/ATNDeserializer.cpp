@@ -3,7 +3,6 @@
 #include "Declarations.h"
 #include "ATNState.h"
 #include "ATN.h"
-#include "Pair.h"
 #include "LoopEndState.h"
 #include "Token.h"
 #include "BlockStartState.h"
@@ -35,6 +34,7 @@
 
 #include <exception>
 #include <cstdint>
+#include <utility>
 
 /*
  * [The "BSD license"]
@@ -133,8 +133,8 @@ namespace org {
                         //
                         // STATES
                         //
-                        std::vector<misc::Pair<LoopEndState*, int>*> loopBackStateNumbers = std::vector<misc::Pair<LoopEndState*, int>*>();
-                        std::vector<misc::Pair<BlockStartState*, int>*> endStateNumbers = std::vector<misc::Pair<BlockStartState*, int>*>();
+                        std::vector<std::pair<LoopEndState*, int>*> loopBackStateNumbers = std::vector<std::pair<LoopEndState*, int>*>();
+                        std::vector<std::pair<BlockStartState*, int>*> endStateNumbers = std::vector<std::pair<BlockStartState*, int>*>();
                         int nstates = toInt(data[p++]);
                         for (int i = 0; i < nstates; i++) {
                             int stype = toInt(data[p++]);
@@ -152,21 +152,21 @@ namespace org {
                             ATNState *s = stateFactory(stype, ruleIndex);
                             if (stype == ATNState::LOOP_END) { // special case
                                 int loopBackStateNumber = toInt(data[p++]);
-                                loopBackStateNumbers.push_back(new misc::Pair<LoopEndState*, int>(/*static_cast<LoopEndState*>(*/(LoopEndState*)s/*)*/, loopBackStateNumber));
+                                loopBackStateNumbers.push_back(new std::pair<LoopEndState*, int>((LoopEndState*) s,  loopBackStateNumber));
                             } else if (/*dynamic_cast<BlockStartState*>(*/s/*)*/ != nullptr) {
                                 int endStateNumber = toInt(data[p++]);
-                                endStateNumbers.push_back(new misc::Pair<BlockStartState*, int>(/*static_cast<BlockStartState*>(*/(BlockStartState*)s, endStateNumber));
+                                endStateNumbers.push_back(new std::pair<BlockStartState*, int>((BlockStartState*) s, endStateNumber));
                             }
                             atn->addState(s);
                         }
 
                         // delay the assignment of loop back and end states until we know all the state instances have been initialized
                         for (auto pair : loopBackStateNumbers) {
-                            pair->a->loopBackState = atn->states.at(pair->b);
+                            pair->first->loopBackState = atn->states.at(pair->second);
                         }
 
                         for (auto pair : endStateNumbers) {
-                            pair->a->endState = (BlockEndState*)atn->states.at(pair->b);//static_cast<BlockEndState*>(atn->states[pair->b]);
+                            pair->first->endState = (BlockEndState*)atn->states.at(pair->second);
                         }
 
                         int numNonGreedyStates = toInt(data[p++]);

@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#include "Pair.h"
 #include "Declarations.h"
 
-#include <map>
-#include <vector>
 #include <list>
+#include <map>
+#include <utility>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -51,7 +51,7 @@ namespace org {
                     public:
                         virtual void map(K key, V value);
 
-                        virtual std::vector<Pair<K, V>*> getPairs();
+                        virtual std::vector<std::pair<K, V>*> getPairs();
                     };
 
                 }

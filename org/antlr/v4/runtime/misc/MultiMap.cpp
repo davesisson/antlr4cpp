@@ -45,11 +45,11 @@ namespace org {
                         }
                         elementsForKey.push_back(value);
                     }
-                    virtual std::vector<Pair<K, V>*> getPairs() {
-                        std::vector<Pair<K, V>*> pairs = std::vector<Pair<K, V>*>();
+                    virtual std::vector<std::pair<K, V>*> getPairs() {
+                        std::vector<std::pair<K, V>*> pairs = std::vector<std::pair<K, V>*>();
                         for (K key : keySet()) {
                             for (V value : get(key)) {
-                                pairs.push_back(new Pair<K, V>(key, value));
+                                pairs.push_back(new std::pair<K, V>(key, value));
                             }
                         }
                         return pairs;

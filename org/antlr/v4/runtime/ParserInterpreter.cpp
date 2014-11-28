@@ -55,7 +55,7 @@ namespace org {
 
 #ifdef TODO 
                 this is a mess
-                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new std::bitset<DEFAULT_BITSET_SIZE>()), decisionToDFA(new dfa::DFA()/*[atn->getNumberOfDecisions()]*/), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), sharedContextCache(new /*org::antlr::v4::runtime->atn->*/PredictionContextCache()), _parentContextStack(new std::deque<misc::Pair<ParserRuleContext, int>>()) {
+                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new std::bitset<DEFAULT_BITSET_SIZE>()), decisionToDFA(new dfa::DFA()/*[atn->getNumberOfDecisions()]*/), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), sharedContextCache(new /*org::antlr::v4::runtime->atn->*/PredictionContextCache()), _parentContextStack(new std::deque<std::pair<ParserRuleContext, int>>()) {
               
 
                     for (int i = 0; i < decisionToDFA->length(); i++) {
@@ -134,7 +134,7 @@ namespace org {
                 }
 
                 void ParserInterpreter::enterRecursionRule(ParserRuleContext *localctx, int state, int ruleIndex, int precedence) {
-                    _parentContextStack->push_back(new misc::Pair<ParserRuleContext*, int>(_ctx, localctx->invokingState));
+                    _parentContextStack->push_back(new std::pair<ParserRuleContext*, int>(_ctx, localctx->invokingState));
                     Parser::enterRecursionRule(localctx, state, ruleIndex, precedence);
                 }
 
@@ -154,7 +154,7 @@ namespace org {
                     switch (transition->getSerializationType()) {
                         case atn::Transition::EPSILON:
                             if (pushRecursionContextStates[p->stateNumber] == 1 && !(dynamic_cast<atn::LoopEndState*>(transition->target) != nullptr)) {
-                            InterpreterRuleContext *ctx = new InterpreterRuleContext(_parentContextStack->front()->a, _parentContextStack->front()->b, _ctx->getRuleIndex());
+                            InterpreterRuleContext *ctx = new InterpreterRuleContext(_parentContextStack->front()->first, _parentContextStack->front()->second, _ctx->getRuleIndex());
                             pushNewRecursionContext(ctx, atn->ruleToStartState[p->ruleIndex]->stateNumber, _ctx->getRuleIndex());
                         }
                         break;
@@ -226,10 +226,10 @@ namespace org {
                 void ParserInterpreter::visitRuleStopState(atn::ATNState *p) {
                     atn::RuleStartState *ruleStartState = atn->ruleToStartState[p->ruleIndex];
                     if (ruleStartState->isPrecedenceRule) {
-                        misc::Pair<ParserRuleContext*, int> *parentContext = _parentContextStack->back(); // Dan - make sure this is equivalent
+                        std::pair<ParserRuleContext*, int> *parentContext = _parentContextStack->back(); // Dan - make sure this is equivalent
                         _parentContextStack->pop_back();
-                        unrollRecursionContexts(parentContext->a);
-                        setState(parentContext->b);
+                        unrollRecursionContexts(parentContext->first);
+                        setState(parentContext->second);
                     } else {
                         exitRule();
                     }

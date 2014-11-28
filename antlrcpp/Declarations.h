@@ -108,7 +108,6 @@ namespace org {
 //                    template<typename t> class ObjectEqualityComparator;
                     class ObjectEqualityComparator;
                     template<typename T> class OrderedHashSet;
-                    template<typename A, typename B> class Pair;
                     class ParseCancellationException;
                     class TestRig;
                     class Utils;

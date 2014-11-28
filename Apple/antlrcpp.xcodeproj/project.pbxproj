@@ -197,8 +197,6 @@
 		37D1C4B0186A31140041671A /* ObjectEqualityComparator.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C37E186A31130041671A /* ObjectEqualityComparator.h */; };
 		37D1C4B1186A31140041671A /* OrderedHashSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C37F186A31130041671A /* OrderedHashSet.cpp */; };
 		37D1C4B2186A31140041671A /* OrderedHashSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C380186A31130041671A /* OrderedHashSet.h */; };
-		37D1C4B3186A31140041671A /* Pair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C381186A31130041671A /* Pair.cpp */; };
-		37D1C4B4186A31140041671A /* Pair.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C382186A31130041671A /* Pair.h */; };
 		37D1C4B5186A31140041671A /* ParseCancellationException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C383186A31130041671A /* ParseCancellationException.cpp */; };
 		37D1C4B6186A31140041671A /* ParseCancellationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C384186A31130041671A /* ParseCancellationException.h */; };
 		37D1C4B7186A31140041671A /* TestRig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C385186A31130041671A /* TestRig.cpp */; };
@@ -496,8 +494,6 @@
 		37D1C37E186A31130041671A /* ObjectEqualityComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectEqualityComparator.h; sourceTree = "<group>"; };
 		37D1C37F186A31130041671A /* OrderedHashSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OrderedHashSet.cpp; sourceTree = "<group>"; };
 		37D1C380186A31130041671A /* OrderedHashSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderedHashSet.h; sourceTree = "<group>"; };
-		37D1C381186A31130041671A /* Pair.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pair.cpp; sourceTree = "<group>"; };
-		37D1C382186A31130041671A /* Pair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pair.h; sourceTree = "<group>"; };
 		37D1C383186A31130041671A /* ParseCancellationException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParseCancellationException.cpp; sourceTree = "<group>"; };
 		37D1C384186A31130041671A /* ParseCancellationException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseCancellationException.h; sourceTree = "<group>"; };
 		37D1C385186A31130041671A /* TestRig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestRig.cpp; sourceTree = "<group>"; };
@@ -859,8 +855,6 @@
 				37D1C37E186A31130041671A /* ObjectEqualityComparator.h */,
 				37D1C37F186A31130041671A /* OrderedHashSet.cpp */,
 				37D1C380186A31130041671A /* OrderedHashSet.h */,
-				37D1C381186A31130041671A /* Pair.cpp */,
-				37D1C382186A31130041671A /* Pair.h */,
 				37D1C383186A31130041671A /* ParseCancellationException.cpp */,
 				37D1C384186A31130041671A /* ParseCancellationException.h */,
 				37D1C385186A31130041671A /* TestRig.cpp */,
@@ -1126,7 +1120,6 @@
 				37D1C45C186A31140041671A /* TokensStartState.h in Headers */,
 				37D1C426186A31140041671A /* DecisionState.h in Headers */,
 				37D1C490186A31140041671A /* Array2DHashSet.h in Headers */,
-				37D1C4B4186A31140041671A /* Pair.h in Headers */,
 				37D1C40A186A31140041671A /* ATN.h in Headers */,
 				37D1C472186A31140041671A /* DefaultErrorStrategy.h in Headers */,
 				37D1C4F2186A31140041671A /* ParseTreeVisitor.h in Headers */,
@@ -1332,7 +1325,6 @@
 				37D1C439186A31140041671A /* PlusBlockStartState.cpp in Sources */,
 				37D1C515186A31140041671A /* XPathLexerErrorListener.cpp in Sources */,
 				37D1C50D186A31140041671A /* Tree.cpp in Sources */,
-				37D1C4B3186A31140041671A /* Pair.cpp in Sources */,
 				37D1C4BD186A31140041671A /* NoViableAltException.cpp in Sources */,
 				37D1C4EB186A31140041671A /* ParseTree.cpp in Sources */,
 				37D1C445186A31140041671A /* PredictionMode.cpp in Sources */,

@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "Pair.h"
 #include <string>
+#include <utility>
 #include "Declarations.h"
 
 
@@ -54,7 +54,7 @@ namespace org {
                     ///  are wiped to -1 in the text override is set in the CommonToken.
                     /// </summary>
                 public:
-                    virtual Symbol create(misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) = 0;
+                    virtual Symbol create(std::pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) = 0;
 
                     /// <summary>
                     /// Generically useful </summary>

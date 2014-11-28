@@ -1,7 +1,7 @@
 ﻿#include "CommonToken.h"
 #include "Interval.h"
-#include "Pair.h"
 #include "TokenSource.h"
+
 #include "Strings.h"
 
 /*
@@ -39,23 +39,23 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                misc::Pair<TokenSource*, CharStream*> *const CommonToken::EMPTY_SOURCE = new misc::Pair<TokenSource*, CharStream*>(nullptr, nullptr);
+                std::pair<TokenSource*, CharStream*> *const CommonToken::EMPTY_SOURCE = new std::pair<TokenSource*, CharStream*>(nullptr, nullptr);
 
                 CommonToken::CommonToken(int type) {
                     InitializeInstanceFields();
                     this->type = type;
                 }
 
-                CommonToken::CommonToken(misc::Pair<TokenSource*, CharStream*> *source, int type, int channel, int start, int stop) {
+                CommonToken::CommonToken(std::pair<TokenSource*, CharStream*> *source, int type, int channel, int start, int stop) {
                     InitializeInstanceFields();
                     this->source = source;
                     this->type = type;
                     this->channel = channel;
                     this->start = start;
                     this->stop = stop;
-                    if (source->a != nullptr) {
-                        this->line = source->a->getLine();
-                        this->charPositionInLine = source->a->getCharPositionInLine();
+                    if (source->first != nullptr) {
+                        this->line = source->first->getLine();
+                        this->charPositionInLine = source->first->getCharPositionInLine();
                     }
                 }
 
@@ -81,7 +81,7 @@ namespace org {
                     if (dynamic_cast<CommonToken*>(oldToken) != nullptr) {
                         source = (static_cast<CommonToken*>(oldToken))->source;
                     } else {
-                        source = new misc::Pair<TokenSource*, CharStream*>(oldToken->getTokenSource(), oldToken->getInputStream());
+                        source = new std::pair<TokenSource*, CharStream*>(oldToken->getTokenSource(), oldToken->getInputStream());
                     }
                 }
 
@@ -163,11 +163,11 @@ namespace org {
                 }
 
                 org::antlr::v4::runtime::TokenSource *CommonToken::getTokenSource() {
-                    return source->a;
+                    return source->first;
                 }
 
                 org::antlr::v4::runtime::CharStream *CommonToken::getInputStream() {
-                    return source->b;
+                    return source->second;
                 }
 
                 std::wstring CommonToken::toString() {

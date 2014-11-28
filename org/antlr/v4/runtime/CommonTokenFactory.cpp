@@ -43,14 +43,14 @@ namespace org {
                 CommonTokenFactory::CommonTokenFactory() : CommonTokenFactory(false) {
                 }
 
-                CommonToken *CommonTokenFactory::create(misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) {
+                CommonToken *CommonTokenFactory::create(std::pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) {
                     CommonToken *t = new CommonToken(source, type, channel, start, stop);
                     t->setLine(line);
                     t->setCharPositionInLine(charPositionInLine);
                     if (text != L"") {
                         t->setText(text);
-                    } else if (copyText && source->b != nullptr) {
-                        t->setText(source->b->getText(misc::Interval::of(start,stop)));
+                    } else if (copyText && source->second != nullptr) {
+                        t->setText(source->second->getText(misc::Interval::of(start,stop)));
                     }
 
                     return t;

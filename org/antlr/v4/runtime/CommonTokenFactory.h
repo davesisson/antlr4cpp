@@ -4,8 +4,9 @@
 #include "TokenFactory.h"
 #include "CharStream.h"
 #include "TokenSource.h"
-#include "Pair.h"
+
 #include <string>
+#include <utility>
 
 
 /*
@@ -63,7 +64,7 @@ namespace org {
 
                     CommonTokenFactory();
 
-                    virtual CommonToken *create(misc::Pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) override;
+                    virtual CommonToken *create(std::pair<TokenSource*, CharStream*> *source, int type, const std::wstring &text, int channel, int start, int stop, int line, int charPositionInLine) override;
 
                     virtual CommonToken *create(int type, const std::wstring &text) override;
                 };

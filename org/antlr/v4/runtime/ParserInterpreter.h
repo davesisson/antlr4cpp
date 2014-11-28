@@ -70,7 +70,7 @@ namespace org {
                     std::vector<std::wstring> *tokenNames;
                     std::vector<std::wstring> *ruleNames;
 
-                    std::deque<misc::Pair<ParserRuleContext*, int>*> *const _parentContextStack;
+                    std::deque<std::pair<ParserRuleContext*, int>*> *const _parentContextStack;
 
                 public:
                     ParserInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, atn::ATN *atn, TokenStream *input);

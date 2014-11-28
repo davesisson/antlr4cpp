@@ -51,7 +51,7 @@ namespace org {
                 Lexer::Lexer(CharStream *input) {
                     InitializeInstanceFields();
                     this->_input = input;
-                    this->_tokenFactorySourcePair = new misc::Pair<TokenSource*, CharStream*>(this, input);
+                    this->_tokenFactorySourcePair = new std::pair<TokenSource*, CharStream*>(this, input);
                 }
 
                 void Lexer::reset() {
@@ -179,10 +179,10 @@ namespace org {
 
                 void Lexer::setInputStream(IntStream *input) {
                     delete this->_input;
-                    this->_tokenFactorySourcePair = new misc::Pair<TokenSource*, CharStream*>(this, _input);
+                    this->_tokenFactorySourcePair = new std::pair<TokenSource*, CharStream*>(this, _input);
                     reset();
                     this->_input = static_cast<CharStream*>(input);
-                    this->_tokenFactorySourcePair = new misc::Pair<TokenSource*, CharStream*>(this, _input);
+                    this->_tokenFactorySourcePair = new std::pair<TokenSource*, CharStream*>(this, _input);
                 }
 
                 std::wstring Lexer::getSourceName() {

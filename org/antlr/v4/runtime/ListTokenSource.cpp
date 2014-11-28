@@ -1,5 +1,4 @@
 ﻿#include "ListTokenSource.h"
-#include "Pair.h"
 #include "Token.h"
 
 /*
@@ -87,7 +86,7 @@ namespace org {
                             }
 
                             int stop = std::max(-1, start - 1);
-                            eofToken = _factory->create(new misc::Pair<TokenSource*, CharStream*>(this, getInputStream()), Token::_EOF, L"EOF", Token::DEFAULT_CHANNEL, start, stop, getLine(), getCharPositionInLine());
+                            eofToken = _factory->create(new std::pair<TokenSource*, CharStream*>(this, getInputStream()), Token::_EOF, L"EOF", Token::DEFAULT_CHANNEL, start, stop, getLine(), getCharPositionInLine());
                         }
 
                         return eofToken;

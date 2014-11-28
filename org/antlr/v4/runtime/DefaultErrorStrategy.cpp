@@ -295,7 +295,7 @@ namespace org {
                     if (current->getType() == Token::_EOF && lookback != nullptr) {
                         current = lookback;
                     }
-                    return (Token*)recognizer->getTokenFactory()->create(new misc::Pair<TokenSource*, CharStream*>(current->getTokenSource(), current->getTokenSource()->getInputStream()), expectedTokenType, tokenText, Token::DEFAULT_CHANNEL, -1, -1, current->getLine(), current->getCharPositionInLine());
+                    return (Token*)recognizer->getTokenFactory()->create(new std::pair<TokenSource*, CharStream*>(current->getTokenSource(), current->getTokenSource()->getInputStream()), expectedTokenType, tokenText, Token::DEFAULT_CHANNEL, -1, -1, current->getLine(), current->getCharPositionInLine());
                 }
 
                 org::antlr::v4::runtime::misc::IntervalSet *DefaultErrorStrategy::getExpectedTokens(Parser *recognizer) {

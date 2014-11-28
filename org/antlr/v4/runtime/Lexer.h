@@ -1,16 +1,15 @@
 ﻿#pragma once
 
+#include "Declarations.h"
 #include "Recognizer.h"
-
 #include "Token.h"
 #include "TokenSource.h"
-
-
-#include <string>
-#include <vector>
-#include <iostream>
 #include "stringconverter.h"
-#include "Declarations.h"
+
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -65,7 +64,7 @@ namespace org {
 
                     CharStream *_input;
                 protected:
-                    misc::Pair<TokenSource*, CharStream*> *_tokenFactorySourcePair;
+                    std::pair<TokenSource*, CharStream*> *_tokenFactorySourcePair;
 
                     /// <summary>
                     /// How to create token objects </summary>

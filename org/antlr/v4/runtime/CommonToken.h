@@ -5,6 +5,7 @@
 #include "Declarations.h"
 
 #include <string>
+#include <utility>
 
 /*
  * [The "BSD license"]
@@ -44,13 +45,13 @@ namespace org {
                 
                 class CommonToken : public WritableToken {
                 protected:
-                    static misc::Pair<TokenSource*, CharStream*> *const EMPTY_SOURCE;
+                    static std::pair<TokenSource*, CharStream*> *const EMPTY_SOURCE;
 
                     int type;
                     int line;
                     int charPositionInLine; // set to invalid position
                     int channel;
-                    misc::Pair<TokenSource*, CharStream*> *source;
+                    std::pair<TokenSource*, CharStream*> *source;
 
                     /// <summary>
                     /// We need to be able to change the text once in a while.  If
@@ -75,7 +76,7 @@ namespace org {
                 public:
                     CommonToken(int type);
 
-                    CommonToken(misc::Pair<TokenSource*, CharStream*> *source, int type, int channel, int start, int stop);
+                    CommonToken(std::pair<TokenSource*, CharStream*> *source, int type, int channel, int start, int stop);
 
                     CommonToken(int type, const std::wstring &text);
 
