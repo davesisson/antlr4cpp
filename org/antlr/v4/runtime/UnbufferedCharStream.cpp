@@ -1,5 +1,7 @@
 ﻿#include "UnbufferedCharStream.h"
 
+#include <wchar_t.h>
+
 #include "IntStream.h"
 #include "ANTLRInputStream.h"
 #include "Exceptions.h"
@@ -201,7 +203,7 @@ namespace org {
                     }
 
                     int bufferStartIndex = getBufferStartIndex();
-                    if (n > 0 && data[n - 1] == wchar_t::MAX_VALUE) {
+                    if (n > 0 && data[n - 1] == WCHAR_MAX) {
                         if (interval->a + interval->length() > bufferStartIndex + n) {
                             throw IllegalArgumentException(std::wstring(L"the interval extends past the end of the stream"));
                         }

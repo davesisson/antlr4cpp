@@ -25,6 +25,12 @@ namespace org {
 
                 };
                 
+                class IllegalClassException : public ANTLRException {
+                public:
+                    IllegalClassException(const std::wstring msg);
+                    IllegalClassException();
+                };
+
                 class IllegalStateException : public ANTLRException {
                 public:
                     IllegalStateException(const std::wstring msg);

@@ -1,4 +1,5 @@
 ﻿#include <unordered_map>
+#include <wchar.h>
 
 #include "ATNSerializer.h"
 #include "ATNDeserializer.h"
@@ -22,6 +23,7 @@
 #include "Utils.h"
 #include "Exceptions.h"
 #include "IntegerList.h"
+#include "TokensStartState.h"
 
 /*
  * [The "BSD license"]
@@ -72,7 +74,7 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
   serializeUUID(data, ATNDeserializer::SERIALIZED_UUID);
 
   // convert grammar type to ATN const to avoid dependence on ANTLRParser
-  data->add(atn->grammarType->ordinal());
+  data->add(static_cast<int>(atn->grammarType));
   data->add(atn->maxTokenType);
   int nedges = 0;
 
@@ -104,7 +106,7 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
     data->add(stateType);
 
     if (s->ruleIndex == -1) {
-      data->add(wchar_t::MAX_VALUE);
+      data->add(WCHAR_MAX);
     } else {
       data->add(s->ruleIndex);
     }
@@ -153,13 +155,13 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
     data->add(ruleStartState->stateNumber);
     if (atn->grammarType == ATNType::LEXER) {
       if (atn->ruleToTokenType[r] == Token::_EOF) {
-        data->add(wchar_t::MAX_VALUE);
+        data->add(WCHAR_MAX);
       } else {
         data->add(atn->ruleToTokenType[r]);
       }
 
       if (atn->ruleToActionIndex[r] == -1) {
-        data->add(wchar_t::MAX_VALUE);
+        data->add(WCHAR_MAX);
       } else {
         data->add(atn->ruleToActionIndex[r]);
       }
@@ -169,8 +171,8 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
   int nmodes = atn->modeToStartState->size();
   data->add(nmodes);
   if (nmodes > 0) {
-    for (ATNState *modeStartState : *atn->modeToStartState) {
-      data->add(modeStartState.stateNumber);
+    for (const auto& modeStartState : *atn->modeToStartState) {
+      data->add(modeStartState->stateNumber);
     }
   }
 
@@ -288,16 +290,15 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
       data->add(arg3);
     }
   }
-  int ndecisions = atn->decisionToState->size();
+  int ndecisions = atn->decisionToState.size();
   data->add(ndecisions);
   for (DecisionState *decStartState : atn->decisionToState) {
-    data->add(decStartState.stateNumber);
+    data->add(decStartState->stateNumber);
   }
 
   // don't adjust the first value since that's the version number
   for (int i = 1; i < data->size(); i++) {
-    if (data->get(i) < wchar_t::MIN_VALUE ||
-        data->get(i) > wchar_t::MAX_VALUE) {
+    if (data->get(i) < WCHAR_MIN || data->get(i) > WCHAR_MAX) {
       throw UnsupportedOperationException(
           L"Serialized ATN data element out of range.");
     }
@@ -324,7 +325,7 @@ std::wstring ATNSerializer::decode(wchar_t data[]) {
         L"Could not deserialize ATN with version %d (expected %d).", version,
         ATNDeserializer::SERIALIZED_VERSION);
     throw UnsupportedOperationException(
-        InvalidClassException(ATN::typeid ::getName(), reason));
+        InvalidClassException(ATN::typeid::getName(), reason));
   }
 
   UUID *uuid = ATNDeserializer::toUUID(data, p);
@@ -335,7 +336,7 @@ std::wstring ATNSerializer::decode(wchar_t data[]) {
         L"Could not deserialize ATN with UUID %s (expected %s).", uuid,
         ATNDeserializer::SERIALIZED_UUID);
     throw UnsupportedOperationException(
-        InvalidClassException(ATN::typeid ::getName(), reason));
+        InvalidClassException(ATN::typeid::getName(), reason));
   }
 
   p++;  // skip grammarType
@@ -348,7 +349,7 @@ std::wstring ATNSerializer::decode(wchar_t data[]) {
       continue;
     }
     int ruleIndex = ATNDeserializer::toInt(data[p++]);
-    if (ruleIndex == wchar_t::MAX_VALUE) {
+    if (ruleIndex == WCHAR_MAX) {
       ruleIndex = -1;
     }
 
@@ -384,7 +385,7 @@ std::wstring ATNSerializer::decode(wchar_t data[]) {
     if (atn->grammarType == ATNType::LEXER) {
       int arg1 = ATNDeserializer::toInt(data[p++]);
       int arg2 = ATNDeserializer::toInt(data[p++]);
-      if (arg2 == wchar_t::MAX_VALUE) {
+      if (arg2 == WCHAR_MAX) {
         arg2 = -1;
       }
       buf->append(L"rule ")
@@ -463,8 +464,8 @@ std::wstring ATNSerializer::getTokenName(int t) {
     return L"EOF";
   }
 
-  if (atn->grammarType == ATNType::LEXER && t >= wchar_t::MIN_VALUE &&
-      t <= wchar_t::MAX_VALUE) {
+  if (atn->grammarType == ATNType::LEXER && t >= WCHAR_MIN &&
+      t <= WCHAR_MAX) {
     switch (t) {
       case L'\n':
         return L"'\\n'";
@@ -481,12 +482,12 @@ std::wstring ATNSerializer::getTokenName(int t) {
       case L'\'':
         return L"'\\''";
       default:
-        if (wchar_t::UnicodeBlock::of(static_cast<wchar_t>(t)) ==
-                wchar_t::UnicodeBlock::BASIC_LATIN &&
+        if (UnicodeBlock::of(static_cast<wchar_t>(t)) ==
+                UnicodeBlock::BASIC_LATIN &&
             !iscntrl(static_cast<wchar_t>(t))) {
           // JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent
           // to 'toString':
-          return L'\'' + wchar_t::toString(static_cast<wchar_t>(t)) + L'\'';
+          return L'\'' + toString(static_cast<wchar_t>(t)) + L'\'';
         }
         // turn on the bit above max "\uFFFF" value so that we pad with zeros
         // then only take last 4 digits
