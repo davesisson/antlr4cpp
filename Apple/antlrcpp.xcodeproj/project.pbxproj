@@ -179,8 +179,6 @@
 		37D1C498186A31140041671A /* GraphicsSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C366186A31130041671A /* GraphicsSupport.h */; };
 		37D1C499186A31140041671A /* IntegerList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C367186A31130041671A /* IntegerList.cpp */; };
 		37D1C49A186A31140041671A /* IntegerList.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C368186A31130041671A /* IntegerList.h */; };
-		37D1C49B186A31140041671A /* IntegerStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C369186A31130041671A /* IntegerStack.cpp */; };
-		37D1C49C186A31140041671A /* IntegerStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C36A186A31130041671A /* IntegerStack.h */; };
 		37D1C49D186A31140041671A /* Interval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C36B186A31130041671A /* Interval.cpp */; };
 		37D1C49E186A31140041671A /* Interval.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C36C186A31130041671A /* Interval.h */; };
 		37D1C49F186A31140041671A /* IntervalSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C36D186A31130041671A /* IntervalSet.cpp */; };
@@ -482,8 +480,6 @@
 		37D1C366186A31130041671A /* GraphicsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsSupport.h; sourceTree = "<group>"; };
 		37D1C367186A31130041671A /* IntegerList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntegerList.cpp; sourceTree = "<group>"; };
 		37D1C368186A31130041671A /* IntegerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegerList.h; sourceTree = "<group>"; };
-		37D1C369186A31130041671A /* IntegerStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntegerStack.cpp; sourceTree = "<group>"; };
-		37D1C36A186A31130041671A /* IntegerStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegerStack.h; sourceTree = "<group>"; };
 		37D1C36B186A31130041671A /* Interval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interval.cpp; sourceTree = "<group>"; };
 		37D1C36C186A31130041671A /* Interval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interval.h; sourceTree = "<group>"; };
 		37D1C36D186A31130041671A /* IntervalSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntervalSet.cpp; sourceTree = "<group>"; };
@@ -849,8 +845,6 @@
 				37D1C366186A31130041671A /* GraphicsSupport.h */,
 				37D1C367186A31130041671A /* IntegerList.cpp */,
 				37D1C368186A31130041671A /* IntegerList.h */,
-				37D1C369186A31130041671A /* IntegerStack.cpp */,
-				37D1C36A186A31130041671A /* IntegerStack.h */,
 				37D1C36B186A31130041671A /* Interval.cpp */,
 				37D1C36C186A31130041671A /* Interval.h */,
 				37D1C36D186A31130041671A /* IntervalSet.cpp */,
@@ -1040,7 +1034,6 @@
 				37D1C51C186A31140041671A /* XPathTokenAnywhereElement.h in Headers */,
 				37D1C4D8186A31140041671A /* AbstractParseTreeVisitor.h in Headers */,
 				37D1C4A6186A31140041671A /* LogManager.h in Headers */,
-				37D1C49C186A31140041671A /* IntegerStack.h in Headers */,
 				3789F5051870E074003E0A30 /* Arrays.h in Headers */,
 				37D1C4D6186A31140041671A /* TokenStreamRewriter.h in Headers */,
 				37D1C51E186A31140041671A /* XPathTokenElement.h in Headers */,
@@ -1321,7 +1314,6 @@
 				37D1C41D186A31140041671A /* BasicBlockStartState.cpp in Sources */,
 				37D1C3FB186A31140041671A /* ANTLRErrorListener.cpp in Sources */,
 				37D1C47D186A31140041671A /* FailedPredicateException.cpp in Sources */,
-				37D1C49B186A31140041671A /* IntegerStack.cpp in Sources */,
 				37D1C4A5186A31140041671A /* LogManager.cpp in Sources */,
 				37D1C4B7186A31140041671A /* TestRig.cpp in Sources */,
 				37D1C42B186A31140041671A /* LexerATNConfig.cpp in Sources */,

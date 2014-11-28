@@ -5,6 +5,7 @@
 #include "TokenStream.h"
 
 
+#include <stack>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -104,7 +105,7 @@ namespace org {
                     /// <seealso cref= #setInputStream </seealso>
                     TokenStream *_input;
 
-                    misc::IntegerStack *const _precedenceStack;
+                    std::vector<int> _precedenceStack;
 
                     /// <summary>
                     /// The <seealso cref="ParserRuleContext"/> object for the currently executing rule.

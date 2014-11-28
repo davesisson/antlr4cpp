@@ -98,7 +98,6 @@ namespace org {
                     class GraphicsSupport;
                     class IntSet;
                     class IntegerList;
-                    class IntegerStack;
                     class Interval;
                     class IntervalSet;
                     class JFileChooserConfirmOverwrite;

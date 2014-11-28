@@ -6,7 +6,6 @@
 #include "TokenSource.h"
 
 
-
 #include <string>
 #include <vector>
 #include <iostream>
@@ -113,7 +112,8 @@ namespace org {
                     /// The token type for the current token </summary>
                     int _type;
 
-                    misc::IntegerStack *const _modeStack;
+                    // Use the vector as a stack.
+                    std::vector<int> _modeStack;
                     int _mode;
 
                     /// <summary>

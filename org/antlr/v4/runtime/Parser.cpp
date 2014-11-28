@@ -20,7 +20,6 @@
 #include "Exceptions.h"
 #include "ParseTreeListener.h"
 #include "ParseTree.h"
-#include "IntegerStack.h"
 #include "Lexer.h"
 #include "ATN.h"
 #include "ParserATNSimulator.h"
@@ -631,8 +630,8 @@ template<typename T1>
 
                 void Parser::InitializeInstanceFields() {
                     _errHandler = new DefaultErrorStrategy();
-                    _precedenceStack = new IntegerStack();
-                    _precedenceStack->push(0);
+                    _precedenceStack.clear();
+                    _precedenceStack.push_back(0);
                     _buildParseTrees = true;
                     _syntaxErrors = 0;
                 }

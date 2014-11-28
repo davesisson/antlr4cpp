@@ -1,5 +1,5 @@
 ﻿#include "Lexer.h"
-#include "IntegerStack.h"
+
 #include "LexerATNSimulator.h"
 #include "Exceptions.h"
 #include "ANTLRErrorListener.h"
@@ -44,11 +44,11 @@ namespace org {
             namespace runtime {
 
 
-                Lexer::Lexer() : _modeStack(new misc::IntegerStack()) {
+                Lexer::Lexer() {
                     InitializeInstanceFields();
                 }
 
-                Lexer::Lexer(CharStream *input) : _modeStack(new misc::IntegerStack()) {
+                Lexer::Lexer(CharStream *input) {
                     InitializeInstanceFields();
                     this->_input = input;
                     this->_tokenFactorySourcePair = new misc::Pair<TokenSource*, CharStream*>(this, input);
@@ -69,7 +69,7 @@ namespace org {
 
                     _hitEOF = false;
                     _mode = Lexer::DEFAULT_MODE;
-                    _modeStack->clear();
+                    _modeStack.clear();
 
                     getInterpreter()->reset();
                 }
@@ -152,18 +152,19 @@ namespace org {
                     if (atn::LexerATNSimulator::debug) {
                         std::wcout << std::wstring(L"pushMode ") << m << std::endl;
                     }
-                    _modeStack->push(_mode);
+                    _modeStack.push_back(_mode);
                     mode(m);
                 }
 
                 int Lexer::popMode() {
-                    if (_modeStack->isEmpty()) {
+                    if (_modeStack.empty()) {
                         throw EmptyStackException();
                     }
                     if (atn::LexerATNSimulator::debug) {
-                        std::wcout << std::wstring(L"popMode back to ") << _modeStack->peek() << std::endl;
+                        std::wcout << std::wstring(L"popMode back to ") << _modeStack.back() << std::endl;
                     }
-                    mode(_modeStack->pop());
+                    mode(_modeStack.back());
+                    _modeStack.pop_back();
                     return _mode;
                 }
                 
