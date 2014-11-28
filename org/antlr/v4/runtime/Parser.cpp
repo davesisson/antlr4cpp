@@ -24,6 +24,8 @@
 #include "ATN.h"
 #include "ParserATNSimulator.h"
 #include "IntervalSet.h"
+#include "RuleStartState.h"
+#include "DefaultErrorStrategy.h"
 
 
 /*
@@ -138,8 +140,8 @@ namespace org {
                     delete _ctx;
                     _syntaxErrors = 0;
                     setTrace(false);
-                    _precedenceStack->clear();
-                    _precedenceStack->push(0);
+                    _precedenceStack.clear();
+                    _precedenceStack.push_back(0);
                     atn::ATNSimulator *interpreter = getInterpreter();
                     if (interpreter != nullptr) {
                         interpreter->reset();
@@ -424,7 +426,7 @@ template<typename T1>
 
                 void Parser::enterRecursionRule(ParserRuleContext *localctx, int state, int ruleIndex, int precedence) {
                     setState(state);
-                    _precedenceStack->push(precedence);
+                    _precedenceStack.push_back(precedence);
                     _ctx = localctx;
                     _ctx->start = _input->LT(1);
                     if (_parseListeners.size() > 0) {
@@ -450,7 +452,7 @@ template<typename T1>
                 }
 
                 void Parser::unrollRecursionContexts(ParserRuleContext *_parentctx) {
-                    _precedenceStack->pop();
+                    _precedenceStack.pop_back();
                     _ctx->stop = _input->LT(-1);
                     ParserRuleContext *retctx = _ctx; // save current ctx (return value)
 
@@ -493,7 +495,7 @@ template<typename T1>
                 }
 
                 bool Parser::precpred(RuleContext *localctx, int precedence) {
-                    return precedence >= _precedenceStack->peek();
+                    return precedence >= _precedenceStack.back();
                 }
 
                 bool Parser::inContext(const std::wstring &context) {
@@ -517,7 +519,7 @@ template<typename T1>
 
                     while (ctx != nullptr && ctx->invokingState >= 0 && following->contains(Token::EPSILON)) {
                         atn::ATNState *invokingState = atn->states[ctx->invokingState];
-                        RuleTransition *rt = static_cast<RuleTransition*>(invokingState->transition(0));
+                        atn::RuleTransition *rt = static_cast<atn::RuleTransition*>(invokingState->transition(0));
                         following = atn->nextTokens(rt->followState);
                         if (following->contains(symbol)) {
                             return true;
@@ -538,8 +540,8 @@ template<typename T1>
                 }
 
                 org::antlr::v4::runtime::misc::IntervalSet *Parser::getExpectedTokensWithinCurrentRule() {
-                    ATN *atn = getInterpreter()->atn;
-                    ATNState *s = atn->states[getState()];
+                    atn::ATN *atn = getInterpreter()->atn;
+                    atn::ATNState *s = atn->states[getState()];
                        return atn->nextTokens(s);
                 }
 
