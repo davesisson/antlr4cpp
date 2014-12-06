@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "IntegerList.h"
 #include <string>
 #include <unordered_map>
 
@@ -49,11 +48,6 @@ namespace org {
 //
 //                        template<typename T>
 //                        static std::wstring join(T array_Renamed[], const std::wstring &separator);
-//
-//                        static int numNonnull(Object data[]);
-//
-//                        template<typename T>
-//                        static void removeAllElements(Collection<T> *data, T value);
 
                         static std::wstring escapeWhitespace(const std::wstring &s, bool escapeSpaces);
 
@@ -91,8 +85,8 @@ namespace org {
 //                        /// </summary>
 //                    public:
 //                        static Map<std::wstring, int> *toMap(std::wstring keys[]);
-//
-//                        static wchar_t *toCharArray(IntegerList *data);
+
+                        static wchar_t *toCharArray(const vector<int> *data);
                     };
 
                 }

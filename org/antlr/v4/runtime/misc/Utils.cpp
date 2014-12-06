@@ -34,29 +34,6 @@ template<typename T>
                         return builder->toString();
                     }
 
-                    int Utils::numNonnull(Object data[]) {
-                        int n = 0;
-                        if (data == nullptr) {
-                            return n;
-                        }
-                        for (auto o : data) {
-                            if (o != nullptr) {
-                                n++;
-                            }
-                        }
-                        return n;
-                    }
-
-template<typename T>
-                    void Utils::removeAllElements(Collection<T> *data, T value) {
-                        if (data == nullptr) {
-                            return;
-                        }
-                        while (data->contains(value)) {
-                            data->remove(value);
-                        }
-                    }
-
                     std::wstring Utils::escapeWhitespace(const std::wstring &s, bool escapeSpaces) {
                         StringBuilder *buf = new StringBuilder();
                         for (auto c : s.toCharArray()) {
@@ -136,7 +113,7 @@ template<typename T>
                         return m;
                     }
 
-                    wchar_t *Utils::toCharArray(IntegerList *data) {
+                    wchar_t *Utils::toCharArray(const vector<int> *data) {
                         if (data == nullptr) {
                             return nullptr;
                         }
