@@ -191,8 +191,6 @@ namespace org {
                     public:
                         virtual int size() override;
 
-                        virtual IntegerList *toIntegerList();
-
                         virtual std::vector<int> toList() override;
 
                         virtual std::set<int> *toSet();
@@ -203,8 +201,6 @@ namespace org {
                         ///  ANTLR code gen target.
                         /// </summary>
                         virtual int get(int i);
-
-                        virtual int *toArray();
 
                         virtual void remove(int el) override;
 

@@ -177,8 +177,6 @@
 		37D1C494186A31140041671A /* EqualityComparator.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C362186A31130041671A /* EqualityComparator.h */; };
 		37D1C497186A31140041671A /* GraphicsSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C365186A31130041671A /* GraphicsSupport.cpp */; };
 		37D1C498186A31140041671A /* GraphicsSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C366186A31130041671A /* GraphicsSupport.h */; };
-		37D1C499186A31140041671A /* IntegerList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C367186A31130041671A /* IntegerList.cpp */; };
-		37D1C49A186A31140041671A /* IntegerList.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C368186A31130041671A /* IntegerList.h */; };
 		37D1C49D186A31140041671A /* Interval.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C36B186A31130041671A /* Interval.cpp */; };
 		37D1C49E186A31140041671A /* Interval.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C36C186A31130041671A /* Interval.h */; };
 		37D1C49F186A31140041671A /* IntervalSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C36D186A31130041671A /* IntervalSet.cpp */; };
@@ -474,8 +472,6 @@
 		37D1C362186A31130041671A /* EqualityComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EqualityComparator.h; sourceTree = "<group>"; };
 		37D1C365186A31130041671A /* GraphicsSupport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphicsSupport.cpp; sourceTree = "<group>"; };
 		37D1C366186A31130041671A /* GraphicsSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsSupport.h; sourceTree = "<group>"; };
-		37D1C367186A31130041671A /* IntegerList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntegerList.cpp; sourceTree = "<group>"; };
-		37D1C368186A31130041671A /* IntegerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegerList.h; sourceTree = "<group>"; };
 		37D1C36B186A31130041671A /* Interval.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interval.cpp; sourceTree = "<group>"; };
 		37D1C36C186A31130041671A /* Interval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interval.h; sourceTree = "<group>"; };
 		37D1C36D186A31130041671A /* IntervalSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntervalSet.cpp; sourceTree = "<group>"; };
@@ -835,8 +831,6 @@
 				37D1C362186A31130041671A /* EqualityComparator.h */,
 				37D1C365186A31130041671A /* GraphicsSupport.cpp */,
 				37D1C366186A31130041671A /* GraphicsSupport.h */,
-				37D1C367186A31130041671A /* IntegerList.cpp */,
-				37D1C368186A31130041671A /* IntegerList.h */,
 				37D1C36B186A31130041671A /* Interval.cpp */,
 				37D1C36C186A31130041671A /* Interval.h */,
 				37D1C36D186A31130041671A /* IntervalSet.cpp */,
@@ -1099,7 +1093,6 @@
 				37D1C44A186A31140041671A /* RuleStartState.h in Headers */,
 				37D1C4C8186A31140041671A /* RecognitionException.h in Headers */,
 				37D1C486186A31140041671A /* Lexer.h in Headers */,
-				37D1C49A186A31140041671A /* IntegerList.h in Headers */,
 				37D1C404186A31140041671A /* AbstractPredicateTransition.h in Headers */,
 				37D1C4A8186A31140041671A /* MultiMap.h in Headers */,
 				37D1C524186A31140041671A /* UnbufferedCharStream.h in Headers */,
@@ -1321,7 +1314,6 @@
 				37D1C429186A31140041671A /* EpsilonTransition.cpp in Sources */,
 				37D1C493186A31140041671A /* EqualityComparator.cpp in Sources */,
 				37D1C4D5186A31140041671A /* TokenStreamRewriter.cpp in Sources */,
-				37D1C499186A31140041671A /* IntegerList.cpp in Sources */,
 				37D1C439186A31140041671A /* PlusBlockStartState.cpp in Sources */,
 				37D1C515186A31140041671A /* XPathLexerErrorListener.cpp in Sources */,
 				37D1C50D186A31140041671A /* Tree.cpp in Sources */,

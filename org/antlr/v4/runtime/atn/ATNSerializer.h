@@ -6,7 +6,6 @@
 #include <unordered_map>
 
 #include "ATN.h"
-#include "IntegerList.h"
 #include "stringconverter.h"
 #include "UUID.h"
 
@@ -82,7 +81,7 @@ class ATNSerializer {
   ///
   ///  Convenient to pack into unsigned shorts to make as Java string.
   /// </summary>
-  virtual misc::IntegerList *serialize();
+  virtual std::vector<int> *serialize();
 
   virtual std::wstring decode(wchar_t data[]);
 
@@ -93,7 +92,7 @@ class ATNSerializer {
   /// </summary>
   static std::wstring getSerializedAsString(ATN *atn);
 
-  static misc::IntegerList *getSerialized(ATN *atn);
+  static std::vector<int> *getSerialized(ATN *atn);
 
   static wchar_t *getSerializedAsChars(ATN *atn);
 
@@ -101,11 +100,11 @@ class ATNSerializer {
                                  std::vector<std::wstring> &tokenNames);
 
  private:
-  void serializeUUID(misc::IntegerList *data, UUID *uuid);
+  void serializeUUID(std::vector<int> *data, UUID *uuid);
 
-  void serializeLong(misc::IntegerList *data, long long value);
+  void serializeLong(std::vector<int> *data, long long value);
 
-  void serializeInt(misc::IntegerList *data, int value);
+  void serializeInt(std::vector<int> *data, int value);
 };
 
 }  // namespace org

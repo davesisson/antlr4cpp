@@ -22,7 +22,6 @@
 #include "ActionTransition.h"
 #include "Utils.h"
 #include "Exceptions.h"
-#include "IntegerList.h"
 #include "TokensStartState.h"
 
 /*
@@ -68,14 +67,14 @@ ATNSerializer::ATNSerializer(ATN *atn, std::vector<std::wstring> &tokenNames) {
   this->tokenNames = tokenNames;
 }
 
-org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
-  misc::IntegerList *data = new misc::IntegerList();
-  data->add(ATNDeserializer::SERIALIZED_VERSION);
+std::vector<int>* ATNSerializer::serialize() {
+  std::vector<int>* data = new std::vector<int>();
+  data->push_back(ATNDeserializer::SERIALIZED_VERSION);
   serializeUUID(data, ATNDeserializer::SERIALIZED_UUID);
 
   // convert grammar type to ATN const to avoid dependence on ANTLRParser
-  data->add(static_cast<int>(atn->grammarType));
-  data->add(atn->maxTokenType);
+  data->push_back(static_cast<int>(atn->grammarType));
+  data->push_back(atn->maxTokenType);
   int nedges = 0;
 
   std::unordered_map<misc::IntervalSet *, int> *setIndices =
@@ -83,38 +82,38 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
   std::vector<misc::IntervalSet *> sets = std::vector<misc::IntervalSet *>();
 
   // dump states, count edges and collect sets while doing so
-  misc::IntegerList *nonGreedyStates = new misc::IntegerList();
-  misc::IntegerList *precedenceStates = new misc::IntegerList();
-  data->add(atn->states.size());
+  std::vector<int> nonGreedyStates;
+  std::vector<int> precedenceStates;
+  data->push_back(atn->states.size());
   for (ATNState *s : atn->states) {
     if (s == nullptr) {  // might be optimized away
-      data->add(ATNState::INVALID_TYPE);
+      data->push_back(ATNState::INVALID_TYPE);
       continue;
     }
 
     int stateType = s->getStateType();
     if (dynamic_cast<DecisionState *>(s) != nullptr &&
         (static_cast<DecisionState *>(s))->nonGreedy) {
-      nonGreedyStates->add(s->stateNumber);
+      nonGreedyStates.push_back(s->stateNumber);
     }
 
     if (dynamic_cast<RuleStartState *>(s) != nullptr &&
         (static_cast<RuleStartState *>(s))->isPrecedenceRule) {
-      precedenceStates->add(s->stateNumber);
+      precedenceStates.push_back(s->stateNumber);
     }
 
-    data->add(stateType);
+    data->push_back(stateType);
 
     if (s->ruleIndex == -1) {
-      data->add(WCHAR_MAX);
+      data->push_back(WCHAR_MAX);
     } else {
-      data->add(s->ruleIndex);
+      data->push_back(s->ruleIndex);
     }
 
     if (s->getStateType() == ATNState::LOOP_END) {
-      data->add((static_cast<LoopEndState *>(s))->loopBackState->stateNumber);
+      data->push_back((static_cast<LoopEndState *>(s))->loopBackState->stateNumber);
     } else if (dynamic_cast<BlockStartState *>(s) != nullptr) {
-      data->add((static_cast<BlockStartState *>(s))->endState->stateNumber);
+      data->push_back((static_cast<BlockStartState *>(s))->endState->stateNumber);
     }
 
     if (s->getStateType() != ATNState::RULE_STOP) {
@@ -137,72 +136,72 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
   }
 
   // non-greedy states
-  data->add(nonGreedyStates->size());
-  for (int i = 0; i < nonGreedyStates->size(); i++) {
-    data->add(nonGreedyStates->get(i));
+  data->push_back(nonGreedyStates.size());
+  for (int i = 0; i < nonGreedyStates.size(); i++) {
+    data->push_back(nonGreedyStates.at(i));
   }
 
   // precedence states
-  data->add(precedenceStates->size());
-  for (int i = 0; i < precedenceStates->size(); i++) {
-    data->add(precedenceStates->get(i));
+  data->push_back(precedenceStates.size());
+  for (int i = 0; i < precedenceStates.size(); i++) {
+    data->push_back(precedenceStates.at(i));
   }
 
   int nrules = atn->ruleToStartState.size();
-  data->add(nrules);
+  data->push_back(nrules);
   for (int r = 0; r < nrules; r++) {
     ATNState *ruleStartState = atn->ruleToStartState[r];
-    data->add(ruleStartState->stateNumber);
+    data->push_back(ruleStartState->stateNumber);
     if (atn->grammarType == ATNType::LEXER) {
       if (atn->ruleToTokenType[r] == Token::_EOF) {
-        data->add(WCHAR_MAX);
+        data->push_back(WCHAR_MAX);
       } else {
-        data->add(atn->ruleToTokenType[r]);
+        data->push_back(atn->ruleToTokenType[r]);
       }
 
       if (atn->ruleToActionIndex[r] == -1) {
-        data->add(WCHAR_MAX);
+        data->push_back(WCHAR_MAX);
       } else {
-        data->add(atn->ruleToActionIndex[r]);
+        data->push_back(atn->ruleToActionIndex[r]);
       }
     }
   }
 
   int nmodes = atn->modeToStartState->size();
-  data->add(nmodes);
+  data->push_back(nmodes);
   if (nmodes > 0) {
     for (const auto& modeStartState : *atn->modeToStartState) {
-      data->add(modeStartState->stateNumber);
+      data->push_back(modeStartState->stateNumber);
     }
   }
 
   int nsets = sets.size();
-  data->add(nsets);
+  data->push_back(nsets);
   for (auto set : sets) {
     bool containsEof = set->contains(Token::_EOF);
     if (containsEof && set->getIntervals().at(0)->b == Token::_EOF) {
-      data->add(set->getIntervals().size() - 1);
+      data->push_back(set->getIntervals().size() - 1);
     } else {
-      data->add(set->getIntervals().size());
+      data->push_back(set->getIntervals().size());
     }
 
-    data->add(containsEof ? 1 : 0);
+    data->push_back(containsEof ? 1 : 0);
     for (misc::Interval *I : set->getIntervals()) {
       if (I->a == Token::_EOF) {
         if (I->b == Token::_EOF) {
           continue;
         } else {
-          data->add(0);
+          data->push_back(0);
         }
       } else {
-        data->add(I->a);
+        data->push_back(I->a);
       }
 
-      data->add(I->b);
+      data->push_back(I->b);
     }
   }
 
-  data->add(nedges);
+  data->push_back(nedges);
   for (ATNState *s : atn->states) {
     if (s == nullptr) {
       // might be optimized away
@@ -282,12 +281,12 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
           break;
       }
 
-      data->add(src);
-      data->add(trg);
-      data->add(edgeType);
-      data->add(arg1);
-      data->add(arg2);
-      data->add(arg3);
+      data->push_back(src);
+      data->push_back(trg);
+      data->push_back(edgeType);
+      data->push_back(arg1);
+      data->push_back(arg2);
+      data->push_back(arg3);
     }
   }
   int ndecisions = atn->decisionToState.size();
@@ -298,12 +297,12 @@ org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::serialize() {
 
   // don't adjust the first value since that's the version number
   for (int i = 1; i < data->size(); i++) {
-    if (data->get(i) < WCHAR_MIN || data->get(i) > WCHAR_MAX) {
+    if (data->at(i) < WCHAR_MIN || data->at(i) > WCHAR_MAX) {
       throw UnsupportedOperationException(
           L"Serialized ATN data element out of range.");
     }
 
-    int value = (data->get(i) + 2) & 0xFFFF;
+    int value = (data->at(i) + 2) & 0xFFFF;
     data->set(i, value);
   }
 
@@ -510,8 +509,7 @@ std::wstring ATNSerializer::getSerializedAsString(ATN *atn) {
   return std::wstring(getSerializedAsChars(atn));
 }
 
-org::antlr::v4::runtime::misc::IntegerList *ATNSerializer::getSerialized(
-    ATN *atn) {
+std::vector<int> *ATNSerializer::getSerialized(ATN *atn) {
   return (new ATNSerializer(atn))->serialize();
 }
 
@@ -521,7 +519,7 @@ wchar_t *ATNSerializer::getSerializedAsChars(ATN *atn) {
 
 std::wstring ATNSerializer::getDecoded(ATN *atn,
                                        std::vector<std::wstring> &tokenNames) {
-  IntegerList *serialized = getSerialized(atn);
+  std::vector<int> *serialized = getSerialized(atn);
   // JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this
   // declaration, Java to C++ Converter has converted this array to a pointer.
   // You will need to call 'delete[]' where appropriate:
@@ -531,22 +529,23 @@ std::wstring ATNSerializer::getDecoded(ATN *atn,
   return (new ATNSerializer(atn, tokenNames))->decode(data);
 }
 
-void ATNSerializer::serializeUUID(IntegerList *data, UUID *uuid) {
+void ATNSerializer::serializeUUID(std::vector<int> *data, UUID *uuid) {
   serializeLong(data, uuid->getLeastSignificantBits());
   serializeLong(data, uuid->getMostSignificantBits());
 }
 
-void ATNSerializer::serializeLong(IntegerList *data, long long value) {
+void ATNSerializer::serializeLong(std::vector<int> *data, long long value) {
   serializeInt(data, static_cast<int>(value));
   serializeInt(data, static_cast<int>(value >> 32));
 }
 
-void ATNSerializer::serializeInt(IntegerList *data, int value) {
+void ATNSerializer::serializeInt(std::vector<int> *data, int value) {
   data->add(static_cast<wchar_t>(value));
   data->add(static_cast<wchar_t>(value >> 16));
 }
-}
-}
-}
-}
-}
+
+}  // namespace atn
+}  // namespace runtime
+}  // namespace v4
+}  // namespace antlr
+}  // namespace org

@@ -5,8 +5,9 @@
 #include "interval.h"
 #include "Lexer.h"
 #include "StringBuilder.h"
-#include "IntegerList.h"
+
 #include <algorithm>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -489,20 +490,6 @@ namespace org {
                         return n;
                     }
 
-                    org::antlr::v4::runtime::misc::IntegerList *IntervalSet::toIntegerList() {
-                        IntegerList *values = new IntegerList(size());
-                        int n = intervals.size();
-                        for (int i = 0; i < n; i++) {
-                            Interval *I = intervals[i];
-                            int a = I->a;
-                            int b = I->b;
-                            for (int v = a; v <= b; v++) {
-                                values->add(v);
-                            }
-                        }
-                        return values;
-                    }
-
                     std::vector<int> IntervalSet::toList() {
                         std::vector<int> values = std::vector<int>();
                         int n = intervals.size();
@@ -544,10 +531,6 @@ namespace org {
                             }
                         }
                         return -1;
-                    }
-
-                    int *IntervalSet::toArray() {
-                        return toIntegerList()->toArray();
                     }
 
                     void IntervalSet::remove(int el) {
