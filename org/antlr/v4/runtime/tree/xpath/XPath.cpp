@@ -78,7 +78,7 @@ namespace org {
                                 tokenStream->fill();
                             } catch (LexerNoViableAltException e) {
                                 int pos = lexer->getCharPositionInLine();
-                                std::wstring msg = std::wstring(L"Invalid tokens or characters at index ") + pos + std::wstring(L" in path '") + path + std::wstring(L"'");
+                                std::wstring msg = std::wstring(L"Invalid tokens or characters at index ") + std::to_wstring(pos) + std::wstring(L" in path '") + path + std::wstring(L"'");
                                 throw IllegalArgumentException(msg, e);
                             }
 
@@ -147,12 +147,12 @@ namespace org {
                                 case XPathLexer::TOKEN_REF :
                                 case XPathLexer::STRING :
                                     if (ttype == Token::INVALID_TYPE) {
-                                        throw IllegalArgumentException(word + " at index " + wordToken->getStartIndex() + " isn't a valid token name");
+                                        throw IllegalArgumentException(word + std::wstring(L" at index ") + std::to_wstring(wordToken->getStartIndex()) + std::wstring(L" isn't a valid token name"));
                                     }
                                     return anywhere ? new XPathTokenAnywhereElement(word, ttype) : new XPathTokenElement(word, ttype);
                                 default :
                                     if (ruleIndex == -1) {
-                                        throw IllegalArgumentException(word + std::wstring(L" at index ") + wordToken->getStartIndex() + std::wstring(L" isn't a valid rule name"));
+                                        throw IllegalArgumentException(word + std::wstring(L" at index ") + std::to_wstring(wordToken->getStartIndex()) + std::wstring(L" isn't a valid rule name"));
                                     }
                                     return anywhere ? new XPathRuleAnywhereElement(word, ruleIndex) : new XPathRuleElement(word, ruleIndex);
                             }
