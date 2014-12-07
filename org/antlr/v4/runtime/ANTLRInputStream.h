@@ -131,7 +131,7 @@ namespace org {
 
                     virtual std::wstring getText(misc::Interval *interval) override;
 
-                    virtual std::wstring getSourceName() override;
+                    virtual std::string getSourceName() override;
 
                     virtual std::wstring toString();
 

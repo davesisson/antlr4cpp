@@ -45,16 +45,16 @@ namespace org {
                 /// </summary>
                 class ANTLRFileStream : public ANTLRInputStream {
                 protected:
-                    std::wstring fileName;
+                    std::string fileName;
 
                 public:
-                    ANTLRFileStream(const std::wstring &fileName); //this(fileName, nullptr);
+                    ANTLRFileStream(const std::string &fileName); //this(fileName, nullptr);
 
-                    ANTLRFileStream(const std::wstring &fileName, const std::wstring &encoding);
+                    ANTLRFileStream(const std::string &fileName, const std::string &encoding);
 
-                    virtual void load(const std::wstring &fileName, const std::wstring &encoding);
+                    virtual void load(const std::string &fileName, const std::string &encoding);
 
-                    virtual std::wstring getSourceName() override;
+                    virtual std::string getSourceName() override;
                 };
 
             }

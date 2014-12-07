@@ -1,4 +1,8 @@
-﻿#include "ANTLRFileStream.h"
+﻿#include <iostream>
+#include <fstream>
+#include <sstream>
+
+#include "ANTLRFileStream.h"
 
 /*
  * [The "BSD license"]
@@ -34,39 +38,47 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                ANTLRFileStream::ANTLRFileStream(const std::wstring &fileName)  {
+                ANTLRFileStream::ANTLRFileStream(const std::string &fileName)  {
                 }
 
-                ANTLRFileStream::ANTLRFileStream(const std::wstring &fileName, const std::wstring &encoding) {
+                ANTLRFileStream::ANTLRFileStream(const std::string &fileName, const std::string &encoding) {
                     this->fileName = fileName;
                     load(fileName, encoding);
                 }
 
-                void ANTLRFileStream::load(const std::wstring &fileName, const std::wstring &encoding) {
-                    if (fileName == L"") {
+                /*
+                 Issue: is seems that file name in C++ are considered to be not
+                 wide for the reason that not all systems support wchar file
+                 names. Win32 is good about this but not all others. 
+                 TODO: this could be a place to have platform specific build
+                 flags
+                 */
+                void ANTLRFileStream::load(const std::string &fileName, const std::string &encoding) {
+                    if (fileName == "") {
                         return;
                     }
-                    File *f = new File(fileName);
-                    int size = static_cast<int>(f->length());
-                    InputStreamReader *isr;
-                    FileInputStream *fis = new FileInputStream(fileName);
-                    if (encoding != L"") {
-                        isr = new InputStreamReader(fis, encoding);
-                    } else {
-                        isr = new InputStreamReader(fis);
+                    
+                    std::stringstream ss;
+                    std::wifstream f;
+                    
+                    // Open as a byte stream
+                    f.open(fileName, std::ios::binary);
+                    ss<<f.rdbuf();
+                    
+                    std::string const &s = ss.str();
+                    if (s.size()%sizeof(wchar_t) != 0)
+                    {
+                        std::cerr << "file not the right size\n"; // must be even, two bytes per code unit
+                        // TODO - error handle
+                        exit(1);
                     }
-                    try {
-                        data = new wchar_t[size];
-                        n = isr->read(data);
-                        if (n < data->length) {
-                            data = Arrays::copyOf(data, n);
-                        }
-                    } finally {
-                        isr->close();
-                    }
+                    std::wstring ws;
+                    ws.resize(s.size()/sizeof(wchar_t));
+                    std::memcpy(&ws[0],s.c_str(),s.size()); // copy data into wstring
+                    data=ws;
                 }
 
-                std::wstring ANTLRFileStream::getSourceName() {
+                std::string ANTLRFileStream::getSourceName() {
                     return fileName;
                 }
             }
