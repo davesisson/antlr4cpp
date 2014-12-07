@@ -41,7 +41,7 @@ namespace org {
                 }
 
                 template<typename T1>
-                ListTokenSource::ListTokenSource(std::vector<T1> tokens, const std::wstring &sourceName) : tokens(tokens), sourceName(sourceName) {
+                ListTokenSource::ListTokenSource(std::vector<T1> tokens, const std::string &sourceName) : tokens(tokens), sourceName(sourceName) {
                     InitializeInstanceFields();
                     if (tokens.empty()) {
                         throw L"tokens cannot be null";
@@ -143,8 +143,8 @@ namespace org {
                     return nullptr;
                 }
 
-                std::wstring ListTokenSource::getSourceName() {
-                    if (sourceName != L"") {
+                std::string ListTokenSource::getSourceName() {
+                    if (sourceName != "") {
                         return sourceName;
                     }
 
@@ -153,7 +153,7 @@ namespace org {
                         return inputStream->getSourceName();
                     }
 
-                    return L"List";
+                    return "List";
                 }
 
                 template<typename T1>

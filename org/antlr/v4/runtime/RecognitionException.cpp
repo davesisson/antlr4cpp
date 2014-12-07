@@ -60,7 +60,7 @@ namespace org {
                     this->offendingState = offendingState;
                 }
 
-                org::antlr::v4::runtime::misc::IntervalSet *RecognitionException::getExpectedTokens() {
+                runtime::misc::IntervalSet *RecognitionException::getExpectedTokens() {
                     if (recognizer != nullptr) {
                         return recognizer->getATN()->getExpectedTokens(offendingState, ctx);
                     }
@@ -68,15 +68,15 @@ namespace org {
                     return nullptr;
                 }
 
-                org::antlr::v4::runtime::RuleContext *RecognitionException::getCtx() {
+                runtime::RuleContext *RecognitionException::getCtx() {
                     return ctx;
                 }
 
-                org::antlr::v4::runtime::IntStream *RecognitionException::getInputStream() {
+                runtime::IntStream *RecognitionException::getInputStream() {
                     return input;
                 }
 
-                org::antlr::v4::runtime::Token *RecognitionException::getOffendingToken() {
+                runtime::Token *RecognitionException::getOffendingToken() {
                     return offendingToken;
                 }
 
@@ -84,7 +84,7 @@ namespace org {
                     this->offendingToken = offendingToken;
                 }
 
-                org::antlr::v4::runtime::Recognizer<void*, void*> *RecognitionException::getRecognizer() {
+                runtime::Recognizer<void*, void*> *RecognitionException::getRecognizer() {
                     return recognizer;
                 }
 

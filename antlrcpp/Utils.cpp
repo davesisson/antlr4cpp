@@ -1,3 +1,9 @@
+#include "Utils.h"
+#include <stdarg.h>  // for va_start, etc
+#include <memory>    // for std::unique_ptr
+#include <stdlib.h>
+#include <vector>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2014 Dan McLaughlin
@@ -27,7 +33,7 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Utils.h"
+
 namespace Utils {
 #ifdef TODO
     Add the body
@@ -39,4 +45,37 @@ namespace Utils {
 #endif
         return nullptr;
     }
+    
+    std::wstring escapeWhitespace() {
+#ifdef TODO
+        
+#endif
+        return nullptr;
+    }
+    
+    std::wstring stringFormat(const wchar_t* fmt, ...)
+    {
+        if (!fmt) {
+            return L"";
+        }
+        
+        std::vector<wchar_t> buff;
+        size_t size = wcslen(fmt) * 2;
+        buff.resize(size);
+        va_list ap;
+        va_start(ap, fmt);
+        while (true) {
+            int ret = _vsnwprintf_s(buff.data(), size, _TRUNCATE, fmt, ap);
+            if (ret != -1)
+                break;
+            else {
+                size *= 2;
+                buff.resize(size);
+            }
+        }
+        va_end(ap);
+        return std::wstring(buff.data());
+    }
+        
+
 }

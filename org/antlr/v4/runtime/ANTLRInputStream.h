@@ -69,7 +69,7 @@ namespace org {
                     /// <summary>
                     /// What is name or source of this char stream? </summary>
                 public:
-                    std::wstring name;
+                    std::string name;
 
                     ANTLRInputStream();
 

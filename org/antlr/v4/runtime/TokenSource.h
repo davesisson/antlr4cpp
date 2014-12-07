@@ -93,7 +93,7 @@ namespace org {
                     /// non-null, non-empty string. If such a name is not known, this method
                     /// returns <seealso cref="IntStream#UNKNOWN_SOURCE_NAME"/>.
                     /// </summary>
-                    virtual std::wstring getSourceName() = 0;
+                    virtual std::string getSourceName() = 0;
 
                     /// <summary>
                     /// Set the <seealso cref="TokenFactory"/> this token source should use for creating

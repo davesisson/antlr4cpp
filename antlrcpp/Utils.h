@@ -1,5 +1,8 @@
 #pragma once
 
+#include <iostream>
+#include <map>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2014 Dan McLaughlin
@@ -29,9 +32,6 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <iostream>
-#include <map>
-
 namespace Utils {
     template<typename T1>
     class CopyOnWriteArrayList {
@@ -43,4 +43,7 @@ namespace Utils {
     
     std::map<std::wstring, int>* toMap(std::wstring *);
 
+    std::wstring escapeWhitespace(std::wstring str, bool TODO);
+    
+    std::wstring stringFormat(const wchar_t* fmt, ...);
 }

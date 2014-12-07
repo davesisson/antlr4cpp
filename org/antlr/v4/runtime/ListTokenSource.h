@@ -65,7 +65,7 @@ namespace org {
                     /// the input has been reached).
                     /// </summary>
                 private:
-                    const std::wstring sourceName;
+                    const std::string sourceName;
 
                     /// <summary>
                     /// The index into <seealso cref="#tokens"/> of token to return by the next call to
@@ -113,7 +113,7 @@ namespace org {
                     /// <exception cref="NullPointerException"> if {@code tokens} is {@code null} </exception>
 
                     template<typename T1> //where T1 : Token
-                    ListTokenSource(std::vector<T1> tokens, const std::wstring &sourceName);
+                    ListTokenSource(std::vector<T1> tokens, const std::string &sourceName);
 
                     /// <summary>
                     /// @inheritDoc
@@ -138,7 +138,7 @@ namespace org {
                     /// <summary>
                     /// @inheritDoc
                     /// </summary>
-                    virtual std::wstring getSourceName() override;
+                    virtual std::string getSourceName() override;
 
                     /// <summary>
                     /// @inheritDoc

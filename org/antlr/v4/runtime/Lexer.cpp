@@ -185,7 +185,7 @@ namespace org {
                     this->_tokenFactorySourcePair = new std::pair<TokenSource*, CharStream*>(this, _input);
                 }
 
-                std::wstring Lexer::getSourceName() {
+                std::string Lexer::getSourceName() {
                     return _input->getSourceName();
                 }
 

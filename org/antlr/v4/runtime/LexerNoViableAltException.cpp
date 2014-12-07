@@ -1,6 +1,7 @@
 ﻿#include "LexerNoViableAltException.h"
 #include "Interval.h"
-#include "misc/Utils.h"
+#include "Utils.h"
+#include "CharStream.h"
 
 /*
  * [The "BSD license"]
@@ -45,22 +46,22 @@ namespace org {
                     return startIndex;
                 }
 
-                org::antlr::v4::runtime::atn::ATNConfigSet *LexerNoViableAltException::getDeadEndConfigs() {
+                atn::ATNConfigSet *LexerNoViableAltException::getDeadEndConfigs() {
                     return deadEndConfigs;
                 }
 
-                org::antlr::v4::runtime::CharStream *LexerNoViableAltException::getInputStream() {
-                    return static_cast<CharStream*>(RecognitionException::getInputStream());
+                runtime::CharStream *LexerNoViableAltException::getInputStream() {
+                    return (CharStream*)(RecognitionException::getInputStream());
                 }
 
                 std::wstring LexerNoViableAltException::toString() {
                     std::wstring symbol = L"";
                     if (startIndex >= 0 && startIndex < getInputStream()->size()) {
                         symbol = getInputStream()->getText(misc::Interval::of(startIndex,startIndex));
-                        symbol = misc::Utils::escapeWhitespace(symbol, false);
+                        symbol = Utils::escapeWhitespace(symbol, false);
                     }
-
-                    return std::wstring::format(Locale::getDefault(), L"%s('%s')", LexerNoViableAltException::typeid::getSimpleName(), symbol);
+                    
+                    return fmt::sprintf(std::locale::classic(), L"%s('%s')", LexerNoViableAltException::typeid::getSimpleName(), symbol);
                 }
             }
         }

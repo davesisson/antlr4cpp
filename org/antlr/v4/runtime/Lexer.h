@@ -159,7 +159,7 @@ namespace org {
                     /// Set the char stream and reset the lexer </summary>
                     virtual void setInputStream(IntStream *input);
 
-                    virtual std::wstring getSourceName() override;
+                    virtual std::string getSourceName() override;
 
                     virtual CharStream *getInputStream() override;
 

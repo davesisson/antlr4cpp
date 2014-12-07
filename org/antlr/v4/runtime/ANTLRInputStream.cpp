@@ -193,7 +193,7 @@ namespace org {
                     return std::wstring(data, start, count);
                 }
 
-                std::wstring ANTLRInputStream::getSourceName() {
+                std::string ANTLRInputStream::getSourceName() {
                     return name;
                 }
 

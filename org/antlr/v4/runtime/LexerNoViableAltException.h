@@ -1,9 +1,10 @@
 ﻿#pragma once
 
+#include <string>
+
 #include "RecognitionException.h"
 #include "Declarations.h"
-#include <string>
-#include "CharStream.h"
+
 
 /*
  * [The "BSD license"]
