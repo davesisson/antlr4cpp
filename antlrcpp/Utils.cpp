@@ -53,29 +53,7 @@ namespace Utils {
         return nullptr;
     }
     
-    std::wstring stringFormat(const wchar_t* fmt, ...)
+    std::wstring stringFormat(const std::wstring fmt_str, ...)
     {
-        if (!fmt) {
-            return L"";
-        }
-        
-        std::vector<wchar_t> buff;
-        size_t size = wcslen(fmt) * 2;
-        buff.resize(size);
-        va_list ap;
-        va_start(ap, fmt);
-        while (true) {
-            int ret = _vsnwprintf_s(buff.data(), size, _TRUNCATE, fmt, ap);
-            if (ret != -1)
-                break;
-            else {
-                size *= 2;
-                buff.resize(size);
-            }
-        }
-        va_end(ap);
-        return std::wstring(buff.data());
+        // Not sure this is needed, just use swprintf
     }
-        
-
-}

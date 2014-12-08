@@ -60,8 +60,9 @@ namespace org {
                         symbol = getInputStream()->getText(misc::Interval::of(startIndex,startIndex));
                         symbol = Utils::escapeWhitespace(symbol, false);
                     }
-                    
-                    return fmt::sprintf(std::locale::classic(), L"%s('%s')", LexerNoViableAltException::typeid::getSimpleName(), symbol);
+                    // TODO: this might be OS X specific
+                    std::wstring format = L"%s('%s')";
+                    return swprintf(format, format.size(), L"LexerNoViableAltException", symbol);
                 }
             }
         }
