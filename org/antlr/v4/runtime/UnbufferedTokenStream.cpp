@@ -256,7 +256,7 @@ namespace org {
 				}
                 
 				template<typename T>
-                std::wstring UnbufferedTokenStream<T>::getSourceName()  {
+                std::string UnbufferedTokenStream<T>::getSourceName()  {
 					return tokenSource->getSourceName();
 				}
                 

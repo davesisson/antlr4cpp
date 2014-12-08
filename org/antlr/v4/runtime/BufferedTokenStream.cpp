@@ -335,9 +335,10 @@ namespace org {
                     return hidden;
                 }
 
-                std::wstring BufferedTokenStream::getSourceName()
-                /// <summary>
-                /// Get the text of all tokens in this buffer. </summary>
+                /**
+                 * Get the text of all tokens in this buffer.
+                 */
+                std::string BufferedTokenStream::getSourceName()
                 {
                     return tokenSource->getSourceName();
                 }

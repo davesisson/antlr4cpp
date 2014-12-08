@@ -217,7 +217,7 @@ namespace org {
                     virtual std::vector<Token*> filterForChannel(int from, int to, int channel);
 
                 public:
-                    virtual std::wstring getSourceName() override;
+                    virtual std::string getSourceName() override;
                     virtual std::wstring getText() override;
 
                     virtual std::wstring getText(misc::Interval *interval) override;

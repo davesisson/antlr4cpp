@@ -154,7 +154,7 @@ namespace org {
 
                     virtual int size() override;
 
-                    virtual std::wstring getSourceName() override;
+                    virtual std::string getSourceName() override;
 
                     virtual std::wstring getText(misc::Interval *interval) ;
 
