@@ -36,6 +36,8 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CharStream.h"
+
 namespace org {
     namespace antlr {
         namespace v4 {

@@ -1,11 +1,11 @@
 ﻿#include "UnbufferedCharStream.h"
 
-#include <wchar_t.h>
+#include <wchar.h>
 
+#include "Interval.h"
 #include "IntStream.h"
 #include "ANTLRInputStream.h"
 #include "Exceptions.h"
-#include "Interval.h"
 
 /*
 * [The "BSD license"]
@@ -193,7 +193,7 @@ namespace org {
                     throw UnsupportedOperationException(std::wstring(L"Unbuffered stream cannot know its size"));
                 }
 
-                std::wstring UnbufferedCharStream::getSourceName() {
+                std::string UnbufferedCharStream::getSourceName() {
                     return name;
                 }
 

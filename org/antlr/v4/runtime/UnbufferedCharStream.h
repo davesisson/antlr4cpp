@@ -105,7 +105,7 @@ namespace org {
                     /// <summary>
                     /// The name or source of this char stream. </summary>
                 public:
-                    std::wstring name;
+                    std::string name;
 
                     /// <summary>
                     /// Useful for subclasses that pull char from other than this.input. </summary>
@@ -175,7 +175,7 @@ namespace org {
 
                     virtual int size() override;
 
-                    virtual std::wstring getSourceName() override;
+                    virtual std::string getSourceName() override;
 
                     virtual std::wstring getText(misc::Interval *interval) override;
 
