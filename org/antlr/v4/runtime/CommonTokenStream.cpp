@@ -40,7 +40,7 @@ namespace org {
                 }
 
                 CommonTokenStream::CommonTokenStream(TokenSource *tokenSource, int channel)
-                : BufferedTokenStream()
+                : BufferedTokenStream(tokenSource)
                 {
                     this->channel = channel;
                 }

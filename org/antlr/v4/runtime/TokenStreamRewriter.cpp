@@ -1,4 +1,5 @@
 ﻿#include "TokenStreamRewriter.h"
+#include "Interval.h"
 
 namespace org {
     namespace antlr {
@@ -19,7 +20,7 @@ namespace org {
                     this->text = text;
                 }
 
-                int TokenStreamRewriter::RewriteOperation::execute(StringBuilder *buf) {
+                int TokenStreamRewriter::RewriteOperation::execute(std::wstring *buf) {
                     return index;
                 }
 
@@ -27,7 +28,7 @@ namespace org {
                     std::wstring opName = getClass()->getName();
                     int $index = opName.find(L'$');
                     opName = opName.substr($index + 1, opName.length() - ($index + 1));
-                    return std::wstring(L"<") + opName + std::wstring(L"@") + outerInstance->tokens->get(index) + std::wstring(L":\"") + text + std::wstring(L"\">");
+                    return std::wstring(L"<") + opName + std::wstring(L"@") + outerInstance->tokens->get(index)->getText() + std::wstring(L":\"") + text + std::wstring(L"\">");
                 }
 
                 void TokenStreamRewriter::RewriteOperation::InitializeInstanceFields() {
@@ -38,7 +39,7 @@ namespace org {
                 TokenStreamRewriter::InsertBeforeOp::InsertBeforeOp(TokenStreamRewriter *outerInstance, int index, void *text) : RewriteOperation(outerInstance, index,text), outerInstance(outerInstance) {
                 }
 
-                int TokenStreamRewriter::InsertBeforeOp::execute(StringBuilder *buf) {
+                int TokenStreamRewriter::InsertBeforeOp::execute(std::wstring *buf) {
                     buf->append(text);
                     if (outerInstance->tokens->get(index)->getType() != Token::EOF) {
                         buf->append(outerInstance->tokens->get(index)->getText());
@@ -52,7 +53,7 @@ namespace org {
                     lastIndex = to;
                 }
 
-                int TokenStreamRewriter::ReplaceOp::execute(StringBuilder *buf) {
+                int TokenStreamRewriter::ReplaceOp::execute(std::wstring *buf) {
                     if (text != nullptr) {
                         buf->append(text);
                     }
@@ -61,9 +62,9 @@ namespace org {
 
                 std::wstring TokenStreamRewriter::ReplaceOp::toString() {
                     if (text == nullptr) {
-                        return std::wstring(L"<DeleteOp@") + outerInstance->tokens->get(index) + std::wstring(L"..") + outerInstance->tokens->get(lastIndex) + std::wstring(L">");
+                        return std::wstring(L"<DeleteOp@") + outerInstance->tokens->get(index)->getText() + std::wstring(L"..") + outerInstance->tokens->get(lastIndex)->getText() + std::wstring(L">");
                     }
-                    return std::wstring(L"<ReplaceOp@") + outerInstance->tokens->get(index) + std::wstring(L"..") + outerInstance->tokens->get(lastIndex) + std::wstring(L":\"") + text + std::wstring(L"\">");
+                    return std::wstring(L"<ReplaceOp@") + outerInstance->tokens->get(index)->getText() + std::wstring(L"..") + outerInstance->tokens->get(lastIndex)->getText() + std::wstring(L":\"") + text + std::wstring(L"\">");
                 }
 
                 void TokenStreamRewriter::ReplaceOp::InitializeInstanceFields() {

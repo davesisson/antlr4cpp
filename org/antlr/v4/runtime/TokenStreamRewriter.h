@@ -131,9 +131,9 @@ namespace org {
                         ///  Return the index of the next token to operate on.
                         /// </summary>
                     public:
-                        virtual int execute(StringBuilder *buf);
+                        virtual int execute(std::wstring *buf);
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString();
 
                     private:
                         void InitializeInstanceFields();
@@ -147,7 +147,7 @@ namespace org {
                     public:
                         InsertBeforeOp(TokenStreamRewriter *outerInstance, int index, void *text);
 
-                        virtual int execute(StringBuilder *buf) override;
+                        virtual int execute(std::wstring *buf) override;
                     };
 
                 public:
@@ -159,7 +159,7 @@ namespace org {
                         int lastIndex;
                     public:
                         ReplaceOp(TokenStreamRewriter *outerInstance, int from, int to, void *text);
-                        virtual int execute(StringBuilder *buf) override;
+                        virtual int execute(std::wstring *buf) override;
                         virtual std::wstring toString() override;
 
                     private:
@@ -187,11 +187,11 @@ namespace org {
                     ///  I'm calling these things "programs."
                     ///  Maps String (name) -> rewrite (List)
                     /// </summary>
-                    Map<std::wstring, std::vector<RewriteOperation*>> *const programs;
+                    std::hash_map<std::wstring, std::vector<RewriteOperation*>> *const programs;
 
                     /// <summary>
                     /// Map String (program name) -> Integer index </summary>
-                    Map<std::wstring, int> *const lastRewriteTokenIndexes;
+                    std::hash_map<std::wstring, int> *const lastRewriteTokenIndexes;
 
                 public:
                     TokenStreamRewriter(TokenStream *tokens);
@@ -337,15 +337,14 @@ namespace org {
                     ///  Return a map from token index to operation.
                     /// </summary>
                 protected:
-                    virtual Map<int, RewriteOperation*> *reduceToSingleOperationPerIndex(std::vector<RewriteOperation*> &rewrites);
+                    virtual std::unordered_map<int, RewriteOperation*> *reduceToSingleOperationPerIndex(std::vector<RewriteOperation*> &rewrites);
 
                     virtual std::wstring catOpText(void *a, void *b);
 
                     /// <summary>
                     /// Get all operations before an index of a particular kind </summary>
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T, typename T1> where T : RewriteOperation where T1 : RewriteOperation
-                    virtual std::vector<? extends T> getKindOfOps(std::vector<T1> rewrites, Class *kind, int before);
+                    template <typename T>
+                    std::vector<RewriteOperation> getKindOfOps(std::vector<RewriteOperation> rewrites, T *kind, int before);
 
                 };
 

@@ -87,7 +87,7 @@ namespace org {
 //                    public:
 //                        static Map<std::wstring, int> *toMap(std::wstring keys[]);
 
-                        static wchar_t *toCharArray(const vector<int> *data);
+                        static wchar_t *toCharArray(const std::vector<int> *data);
                     };
 
                 }
