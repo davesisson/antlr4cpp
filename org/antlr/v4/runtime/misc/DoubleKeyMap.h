@@ -49,28 +49,28 @@ namespace org {
                     class DoubleKeyMap {
                     public:
                         std::map<Key1, std::map<Key2, Value>*> *data;
-                        virtual Value put(Key1 k1, Key2 k2, Value v);
+                        Value put(Key1 k1, Key2 k2, Value v);
 
-                        virtual Value get(Key1 k1, Key2 k2);
+                        Value get(Key1 k1, Key2 k2);
 
-                        virtual std::map<Key2, Value> *get(Key1 k1);
+                        std::map<Key2, Value> *get(Key1 k1);
 
                         /// <summary>
                         /// Get all values associated with primary key </summary>
-                        virtual std::set<Value> *values(Key1 k1) ;
+                        std::set<Value> *values(Key1 k1) ;
 
                         /// <summary>
                         /// get all primary keys </summary>
-                        virtual std::set<Key1> *keySet();
+                        std::set<Key1> *keySet();
 
                         /// <summary>
                         /// get all secondary keys associated with a primary key </summary>
-                        virtual std::set<Key2> *keySet(Key1 k1);
+                        std::set<Key2> *keySet(Key1 k1);
 
                     private:
                         void InitializeInstanceFields();
 
-public:
+                    public:
                         DoubleKeyMap() {
                             InitializeInstanceFields();
                         }
