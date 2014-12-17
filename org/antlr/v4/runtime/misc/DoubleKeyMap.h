@@ -49,26 +49,76 @@ namespace org {
                     class DoubleKeyMap {
                     public:
                         std::map<Key1, std::map<Key2, Value>*> *data;
-                        Value put(Key1 k1, Key2 k2, Value v);
+                        
+                        Value put(Key1 k1, Key2 k2, Value v) {
+                            auto subdata = data->find(k1);
+                            Value prev = nullptr;
+                            std::map<Key2, Value> *data2;
+                            if (subdata == data->end()) {
+                                data2 = new std::map<Key2, Value>();
+                                data->insert ( std::pair<Key1, std::map<Key2, Value>*>(k1, data2) );
+                            } else {
+                                data2 = subdata->second;
+                                auto elem = data2->find(k2);
+                                if (elem != data2->end()) {
+                                    prev = elem->second;
+                                }
+                            }
+                            data2->insert ( std::pair<Key2, Value>(k2, v) );
+                            return prev;
+                        }
 
-                        Value get(Key1 k1, Key2 k2);
+                        Value get(Key1 k1, Key2 k2) {
+                            auto interior = data->find(k1);
+                            if (interior == data->end()) {
+                                return nullptr;
+                            }
+                            std::map<Key1, Value> *data2 = interior->second;
+                            auto v = data2->find(k2);
+                            if (v == data2->end()) {
+                                return nullptr;
+                            }
+                            return v->second;
+                        }
 
-                        std::map<Key2, Value> *get(Key1 k1);
+                        std::map<Key2, Value> *get(Key1 k1) {
+                            auto data2 = data->find(k1);
+                            if (data2 == data->end()) {
+                                return nullptr;
+                            }
+                            return *data2;
+                        }
 
                         /// <summary>
                         /// Get all values associated with primary key </summary>
-                        std::set<Value> *values(Key1 k1) ;
+                        std::set<Value> *values(Key1 k1) {
+                            auto data2 = data->find(k1);
+                            if (data2 == data->end()) {
+                                return nullptr;
+                            }
+                            return data2->values();
+                        }
 
                         /// <summary>
                         /// get all primary keys </summary>
-                        std::set<Key1> *keySet();
+                        std::set<Key1> *keySet() {
+                            return data->keySet();
+                        }
 
                         /// <summary>
                         /// get all secondary keys associated with a primary key </summary>
-                        std::set<Key2> *keySet(Key1 k1);
+                        std::set<Key2> *keySet(Key1 k1) {
+                            std::map<Key2, Value> *data2 = data->get(k1);
+                            if (data2 == nullptr) {
+                                return nullptr;
+                            }
+                            return data2->keySet();
+                        }
 
                     private:
-                        void InitializeInstanceFields();
+                        void InitializeInstanceFields() {
+                            data = new std::map<Key1, std::map<Key2, Value>*>();
+                        }
 
                     public:
                         DoubleKeyMap() {
