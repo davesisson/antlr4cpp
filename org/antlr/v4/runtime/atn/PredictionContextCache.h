@@ -35,6 +35,8 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "PredictionContext.h"
+
 namespace org {
 namespace antlr {
 namespace v4 {

@@ -75,11 +75,7 @@ namespace org {
                     }
 
                     std::wstring Trees::toStringTree(Tree *t, Parser *recog) {
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: String[] ruleNames = recog != nullptr ? recog.getRuleNames() : nullptr;
-                        std::wstring *ruleNames = recog != nullptr ? recog->getRuleNames() : nullptr;
-                        std::vector<std::wstring> ruleNamesList = ruleNames != nullptr ? Arrays::asList(ruleNames) : nullptr;
-                        return toStringTree(t, ruleNamesList);
+                        return toStringTree(t, recog->getRuleNames());
                     }
 
                     std::wstring Trees::toStringTree(Tree *t, std::vector<std::wstring> &ruleNames) {
@@ -103,9 +99,7 @@ namespace org {
                     }
                     
                     std::wstring Trees::getNodeText(Tree *t, Parser *recog) {
-                        std::wstring *ruleNames = recog != nullptr ? recog->getRuleNames() : nullptr;
-                        std::vector<std::wstring> ruleNamesList = ruleNames != nullptr ? Arrays::asList(ruleNames) : nullptr;
-                        return getNodeText(t, ruleNamesList);
+                        return getNodeText(t, recog->getRuleNames());
                     }
 
                     std::wstring Trees::getNodeText(Tree *t, std::vector<std::wstring> &ruleNames) {

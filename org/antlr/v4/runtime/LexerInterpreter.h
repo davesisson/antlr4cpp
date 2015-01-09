@@ -45,11 +45,11 @@ namespace org {
                     atn::ATN *const atn;
 
 
-                    std::vector<std::wstring> *tokenNames;
+                    std::vector<std::wstring> _tokenNames;
 
-                    std::vector<std::wstring> *ruleNames;
+                    std::vector<std::wstring> _ruleNames;
 
-                    std::wstring *modeNames;
+                    std::vector<std::wstring> _modeNames;
 
                     std::vector<dfa::DFA*> _decisionToDFA;
                     
@@ -62,11 +62,11 @@ namespace org {
 
                     virtual std::wstring getGrammarFileName() override;
 
-                    virtual std::vector<std::wstring> *getTokenNames() override;
+                    virtual std::vector<std::wstring> getTokenNames() override;
 
-                    virtual std::vector<std::wstring> *getRuleNames() override;
+                    virtual std::vector<std::wstring> getRuleNames() override;
 
-                    virtual std::wstring *getModeNames() override;
+                    virtual std::vector<std::wstring> getModeNames() override;
                 };
 
             }

@@ -562,9 +562,7 @@ template<typename T1>
                 }
 
                 std::vector<std::wstring> Parser::getRuleInvocationStack(RuleContext *p) {
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: String[] ruleNames = getRuleNames();
-                    std::wstring *ruleNames = getRuleNames();
+                    std::vector<std::wstring> ruleNames = getRuleNames();
                     std::vector<std::wstring> stack = std::vector<std::wstring>();
                     while (p != nullptr) {
                         // compute what follows who invoked us

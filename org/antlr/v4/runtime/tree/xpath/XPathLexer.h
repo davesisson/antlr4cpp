@@ -44,18 +44,18 @@ protected:
     static org::antlr::v4::runtime::atn::PredictionContextCache *const _sharedContextCache;
 public:
     static const int TOKEN_REF = 1, RULE_REF = 2, ANYWHERE = 3, ROOT = 4, WILDCARD = 5, BANG = 6, ID = 7, STRING = 8;
-    static std::wstring modeNames[1];
+    static std::vector<std::wstring> _modeNames;
 
-    static const std::wstring tokenNames[9];
-    static const std::wstring ruleNames[8];
+    static const std::vector<std::wstring> _tokenNames;
+    static const std::vector<std::wstring> _ruleNames;
 
 
     XPathLexer(org::antlr::v4::runtime::CharStream *input);
 
     virtual std::wstring getGrammarFileName() override;
-    virtual std::vector<std::wstring> *getTokenNames() override;
-    virtual std::vector<std::wstring> *getRuleNames() override;
-    virtual std::wstring *getModeNames() override;
+    virtual std::vector<std::wstring> getTokenNames() override;
+    virtual std::vector<std::wstring> getRuleNames() override;
+    virtual std::vector<std::wstring> getModeNames() override;
     virtual org::antlr::v4::runtime::atn::ATN *getATN() override;
     virtual void action(org::antlr::v4::runtime::RuleContext *_localctx, int ruleIndex, int actionIndex) override;
 private:

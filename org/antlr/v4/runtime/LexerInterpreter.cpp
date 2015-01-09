@@ -40,8 +40,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-#ifdef TODO
-                LexerInterpreter::LexerInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, std::vector<std::wstring> *modeNames, atn::ATN *atn, CharStream *input) : Lexer(_input), grammarFileName(grammarFileName), atn(atn), tokenNames(tokenNames/*->toArray(new std::wstring[tokenNames->size()]))*/, ruleNames(ruleNames/*->toArray(new std::wstring[ruleNames->size()])*/), modeNames(modeNames/*->toArray(new std::wstring[modeNames->size()])*/), _decisionToDFA(new std::vector<dfa::DFA*>()), _sharedContextCache(new atn::PredictionContextCache()) {
+                LexerInterpreter::LexerInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, std::vector<std::wstring> *modeNames, atn::ATN *atn, CharStream *input) : Lexer(_input), grammarFileName(grammarFileName), atn(atn), _sharedContextCache(new atn::PredictionContextCache()) {
 
                     if (atn->grammarType != atn::ATNType::LEXER) {
                         throw new IllegalArgumentException(L"The ATN must be a lexer ATN.");
@@ -52,8 +51,16 @@ namespace org {
                         _decisionToDFA[i] = new dfa::DFA(atn->getDecisionState(i), i);
                     }
                     this->_interp = new atn::LexerATNSimulator(atn,_decisionToDFA,_sharedContextCache);
+                    if (tokenNames) {
+                        _tokenNames = *tokenNames;
+                    }
+                    if (ruleNames) {
+                        _ruleNames = *ruleNames;
+                    }
+                    if (modeNames) {
+                        _modeNames = *modeNames;
+                    }
                 }
-#endif
                 org::antlr::v4::runtime::atn::ATN *LexerInterpreter::getATN() {
                     return atn;
                 }
@@ -62,16 +69,16 @@ namespace org {
                     return grammarFileName;
                 }
 
-                std::vector<std::wstring> *LexerInterpreter::getTokenNames() {
-                    return tokenNames;
+                std::vector<std::wstring> LexerInterpreter::getTokenNames() {
+                    return _tokenNames;
                 }
 
-                std::vector<std::wstring> *LexerInterpreter::getRuleNames() {
-                    return ruleNames;
+                std::vector<std::wstring> LexerInterpreter::getRuleNames() {
+                    return _ruleNames;
                 }
 
-                std::wstring *LexerInterpreter::getModeNames() {
-                    return modeNames;
+                std::vector<std::wstring> LexerInterpreter::getModeNames() {
+                    return _modeNames;
                 }
             }
         }
