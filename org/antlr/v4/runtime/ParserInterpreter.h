@@ -67,8 +67,8 @@ namespace org {
                     atn::PredictionContextCache *const sharedContextCache;
 
 
-                    std::vector<std::wstring> *tokenNames;
-                    std::vector<std::wstring> *ruleNames;
+                    std::vector<std::wstring> _tokenNames;
+                    std::vector<std::wstring> _ruleNames;
 
                     std::deque<std::pair<ParserRuleContext*, int>*> *const _parentContextStack;
 
@@ -77,9 +77,9 @@ namespace org {
 
                     virtual atn::ATN *getATN() override;
 
-                    virtual std::vector<std::wstring> *getTokenNames() override;
+                    virtual std::vector<std::wstring> getTokenNames() override;
 
-                    virtual std::vector<std::wstring> *getRuleNames() override;
+                    virtual std::vector<std::wstring> getRuleNames() override;
 
                     virtual std::wstring getGrammarFileName() override;
 

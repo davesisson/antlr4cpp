@@ -129,24 +129,29 @@ namespace org {
 
 #ifdef TODO
                 Future<JDialog*> *RuleContext::inspect(Parser *parser) {
-                    std::vector<std::wstring> ruleNames = parser != nullptr ? Arrays::asList(parser->getRuleNames()) : nullptr;
-                    return inspect(ruleNames);
+                    return inspect(parser->getRuleNames());
                 }
 
 
-                Future<JDialog*> *RuleContext::inspect(std::vector<std::wstring> &ruleNames) {
+                Future<JDialog*> *RuleContext::inspect(const std::vector<std::wstring> &ruleNames) {
                     TreeViewer *viewer = new TreeViewer(ruleNames, this);
                     return viewer->open();
                 }
 #endif
                 void RuleContext::save(Parser *parser, const std::wstring &fileName) {
-                    std::vector<std::wstring>* ruleNames = parser != nullptr ? parser->getRuleNames() : nullptr;
-                    save(*ruleNames, fileName);
+                    std::vector<std::wstring> ruleNames;
+                    if (parser != nullptr) {
+                        ruleNames = parser->getRuleNames();
+                    }
+                    save(ruleNames, fileName);
                 }
 
                 void RuleContext::save(Parser *parser, const std::wstring &fileName, const std::wstring &fontName, int fontSize) {
-                    std::vector<std::wstring>* ruleNames = parser != nullptr ? parser->getRuleNames() : nullptr;
-                    save(*ruleNames, fileName, fontName, fontSize);
+                    std::vector<std::wstring> ruleNames;
+                    if (parser != nullptr) {
+                        ruleNames = parser->getRuleNames();
+                    }
+                    save(ruleNames, fileName, fontName, fontSize);
                 }
 
                 void RuleContext::save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName) {
@@ -185,14 +190,7 @@ namespace org {
 
                 template<typename T1, typename T2>
                 std::wstring RuleContext::toString(Recognizer<T1, T2> *recog, RuleContext *stop) {
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: String[] ruleNames = recog != nullptr ? recog.getRuleNames() : nullptr;
-                    std::wstring *ruleNames = recog != nullptr ? recog->getRuleNames() : nullptr;
-                    std::vector<std::wstring> ruleNamesList;
-                    if (ruleNames) {
-                        ruleNamesList.push_back(*ruleNames);
-                    }
-                    return toString(ruleNamesList, stop);
+                    return toString(recog->getRuleNames(), stop);
                 }
 
                 std::wstring RuleContext::toString(const std::vector<std::wstring> &ruleNames, RuleContext *stop) {

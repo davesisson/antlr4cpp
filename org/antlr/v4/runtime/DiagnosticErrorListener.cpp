@@ -86,14 +86,12 @@ namespace org {
                     int decision = dfa->decision;
                     int ruleIndex = ((atn::ATNState*)dfa->atnStartState)->ruleIndex;
                     
-                    //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-                    //ORIGINAL LINE: String[] ruleNames = recognizer.getRuleNames();
-                    std::vector<std::wstring> *ruleNames = recognizer->getRuleNames();
-                    if (ruleIndex < 0 || ruleIndex >= ruleNames->size()) {
+                    std::vector<std::wstring> ruleNames = recognizer->getRuleNames();
+                    if (ruleIndex < 0 || ruleIndex >= ruleNames.size()) {
                         return StringConverterHelper::toString(decision);
                     }
                     
-                    std::wstring ruleName = (*ruleNames)[ruleIndex];
+                    std::wstring ruleName = ruleNames[ruleIndex];
                     if (ruleName == L"" || ruleName.length() == 0)  {
                         return StringConverterHelper::toString(decision);
                     }

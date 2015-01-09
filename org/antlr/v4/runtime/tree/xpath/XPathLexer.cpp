@@ -32,9 +32,9 @@
  */
 
 org::antlr::v4::runtime::atn::PredictionContextCache *const XPathLexer::_sharedContextCache = new org::antlr::v4::runtime::atn::PredictionContextCache();
-std::wstring XPathLexer::modeNames[1] = {L"DEFAULT_MODE"};
-const std::wstring XPathLexer::tokenNames[9] = {L"<INVALID>", L"TOKEN_REF", L"RULE_REF", L"'//'", L"'/'", L"'*'", L"'!'", L"ID", L"STRING"};
-const std::wstring XPathLexer::ruleNames[8] = {L"ANYWHERE", L"ROOT", L"WILDCARD", L"BANG", L"ID", L"NameChar", L"NameStartChar", L"STRING"};
+std::vector<std::wstring> XPathLexer::_modeNames = {L"DEFAULT_MODE"};
+const std::vector<std::wstring> XPathLexer::_tokenNames = {L"<INVALID>", L"TOKEN_REF", L"RULE_REF", L"'//'", L"'/'", L"'*'", L"'!'", L"ID", L"STRING"};
+const std::vector<std::wstring> XPathLexer::_ruleNames = {L"ANYWHERE", L"ROOT", L"WILDCARD", L"BANG", L"ID", L"NameChar", L"NameStartChar", L"STRING"};
 
 XPathLexer::XPathLexer(org::antlr::v4::runtime::CharStream *input) : org::antlr::v4::runtime::Lexer(input) {
 #ifdef TODO
@@ -46,19 +46,17 @@ std::wstring XPathLexer::getGrammarFileName() {
     return L"XPathLexer.g4";
 }
 
-#ifdef TODO
 // This will all be redone when generation is working
-std::vector<std::wstring>  * XPathLexer::getTokenNames() {
-    return tokenNames;
+std::vector<std::wstring> XPathLexer::getTokenNames() {
+    return _tokenNames;
 }
 
-std::vector<std::wstring> * XPathLexer::getRuleNames() {
-    return ruleNames;
+std::vector<std::wstring> XPathLexer::getRuleNames() {
+    return _ruleNames;
 }
-#endif
 
-std::wstring *XPathLexer::getModeNames() {
-    return modeNames;
+std::vector<std::wstring> XPathLexer::getModeNames() {
+    return _modeNames;
 }
 
 org::antlr::v4::runtime::atn::ATN *XPathLexer::getATN() {

@@ -40,15 +40,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-                
-                template<typename T1, typename T2>
-                std::map<std::wstring[] , std::map<std::wstring, int>*> *const
-                Recognizer<T1, T2>::tokenTypeMapCache = new std::map<std::wstring[] , std::map<std::wstring, int>*>();
-                
-                template<typename T1, typename T2>
-                std::map<std::wstring* , std::map<std::wstring, int>*> *const Recognizer<T1, T2>::ruleIndexMapCache = new std::map<std::wstring* , std::map<std::wstring, int>*>();
-                
-                
                template<typename T1, typename T2>
                 std::map<std::wstring, int> *Recognizer<T1, T2>::getTokenTypeMap() {
                     //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
@@ -75,21 +66,19 @@ namespace org {
 
                 template<typename T1, typename T2>
                 std::map<std::wstring, int> *Recognizer<T1, T2>::getRuleIndexMap() {
-                    //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-                    //ORIGINAL LINE: String[] ruleNames = getRuleNames();
-                    std::wstring *ruleNames = getRuleNames();
-                    if (ruleNames == nullptr) {
+                    std::vector<std::wstring> ruleNames = getRuleNames();
+                    if (ruleNames.empty()) {
                         throw L"The current recognizer does not provide a list of rule names.";
                     }
 
                     //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
                     //synchronized(ruleIndexMapCache) {
-                    std::map<std::wstring, int> *result = ruleIndexMapCache->at(ruleNames);
+                    std::map<std::wstring, int> *result = _ruleIndexMapCache.at(ruleNames);
                     
                     if (result == nullptr) {
                         result = Utils::toMap(ruleNames);
 #ifdef TODO             // Why isn't this working??
-                        ruleIndexMapCache->insert(ruleNames, result);
+                        _ruleIndexMapCache->insert(ruleNames, result);
 #endif
                     }
 

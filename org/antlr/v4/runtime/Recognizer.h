@@ -50,8 +50,8 @@ namespace org {
                     static const int _EOF = -1;
 
                 private:
-                    static std::map<std::wstring[] , std::map<std::wstring, int>*> *const tokenTypeMapCache;
-                    static std::map<std::wstring* , std::map<std::wstring, int>*> *const ruleIndexMapCache;
+                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const _tokenTypeMapCache;
+                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const _ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;
 
@@ -73,9 +73,9 @@ namespace org {
                     ///  that overrides this to point to their String[] tokenNames.
                     /// </summary>
                 public:
-                    virtual std::vector<std::wstring> *getTokenNames() = 0;
+                    virtual std::vector<std::wstring> getTokenNames() = 0;
 
-                    virtual std::vector<std::wstring> *getRuleNames() = 0;
+                    virtual std::vector<std::wstring> getRuleNames() = 0;
 
                     /// <summary>
                     /// Get a map from token names to token types.
