@@ -42,10 +42,8 @@ namespace org {
             namespace runtime {
                template<typename T1, typename T2>
                 std::map<std::wstring, int> *Recognizer<T1, T2>::getTokenTypeMap() {
-                    //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-                    //ORIGINAL LINE: String[] tokenNames = getTokenNames();
-                    std::wstring *tokenNames = getTokenNames();
-                    if (tokenNames == nullptr) {
+                    std::vector<std::wstring> tokenNames = getTokenNames();
+                    if (tokenNames.empty()) {
                         throw L"The current recognizer does not provide a list of token names.";
                     }
 #ifdef TODO

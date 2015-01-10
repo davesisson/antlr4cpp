@@ -184,7 +184,6 @@ namespace org {
                 }
 
                 void DefaultErrorStrategy::reportInputMismatch(Parser *recognizer, InputMismatchException *e) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                     std::wstring msg = std::wstring(L"mismatched input ") + getTokenErrorDisplay(e->getOffendingToken()) + std::wstring(L" expecting ") + e->getExpectedTokens()->toString(recognizer->getTokenNames());
                     recognizer->notifyErrorListeners(e->getOffendingToken(), msg, e);
                 }

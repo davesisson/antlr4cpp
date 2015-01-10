@@ -4,6 +4,9 @@
 #include "Utils.h"
 #include "CharStream.h"
 
+#include <stdio.h>
+#include <wchar.h>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr

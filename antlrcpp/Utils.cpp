@@ -38,12 +38,33 @@ namespace Utils {
 #ifdef TODO
     Add the body
 #endif
+    std::wstring join(std::vector<std::wstring> strings, const std::wstring &separator) {
+        std::wstring str;
+        bool firstItem = true;
+        for (std::wstring s : strings) {
+            if (!firstItem) {
+                str.append(separator);
+            } else {
+                firstItem = false;
+            }
+            str.append(s);
+        }
+        return str;
+    }
     
     std::map<std::wstring, int>* toMap(std::wstring *) {
 #ifdef TODO
         Add the body
 #endif
         return nullptr;
+    }
+    
+    std::map<std::wstring, int>* toMap(const std::vector<std::wstring> &keys) {
+        std::map<std::wstring, int>* m = new std::map<std::wstring, int>();
+        for (int i = 0; i < keys.size(); ++i) {
+            m->insert(std::pair<std::wstring, int>(keys[i], i));
+        }
+        return m;
     }
     
     std::wstring escapeWhitespace() {
@@ -55,5 +76,9 @@ namespace Utils {
     
     std::wstring stringFormat(const std::wstring fmt_str, ...)
     {
-        // Not sure this is needed, just use swprintf
+        // Not sure this is needed, just use swprintf.
+        // TODO(dsisson): Remove this function in a future change.
+        std::wstring blank;
+        return blank;
     }
+}

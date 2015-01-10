@@ -464,6 +464,40 @@ namespace org {
                         }
                         return buf->toString();
                     }
+                    
+                    std::wstring IntervalSet::toString(std::vector<std::wstring> tokenNames) {
+                        StringBuilder *buf = new StringBuilder();
+                        if (this->intervals.empty() || this->intervals.empty()) {
+                            return L"{}";
+                        }
+                        if (this->size() > 1) {
+                            buf->append(L"{");
+                        }
+                        std::vector<Interval*>::const_iterator iter = this->intervals.begin();
+                        while (iter != this->intervals.end()) {
+                            Interval *I = *iter;
+                            int a = I->a;
+                            int b = I->b;
+                            if (a == b) {
+                                buf->append(elementName(tokenNames, a));
+                            } else {
+                                for (int i = a; i <= b; i++) {
+                                    if (i > a) {
+                                        buf->append(L", ");
+                                    }
+                                    buf->append(elementName(tokenNames, i));
+                                }
+                            }
+                            iter++;
+                            if (iter == this->intervals.end()) {
+                                buf->append(L", ");
+                            }
+                        }
+                        if (this->size() > 1) {
+                            buf->append(L"}");
+                        }
+                        return buf->toString();
+                    }
 
                     std::wstring IntervalSet::elementName(std::wstring tokenNames[], int a) {
                         if (a == Token::_EOF) {
@@ -473,7 +507,18 @@ namespace org {
                         } else {
                             return tokenNames[a];
                         }
-
+                        
+                    }
+                    
+                    std::wstring IntervalSet::elementName(std::vector<std::wstring> tokenNames, int a) {
+                        if (a == Token::_EOF) {
+                            return L"<EOF>";
+                        } else if (a == Token::EPSILON) {
+                            return L"<EPSILON>";
+                        } else {
+                            return tokenNames[a];
+                        }
+                        
                     }
 
                     int IntervalSet::size() {

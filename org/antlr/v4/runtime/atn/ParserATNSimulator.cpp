@@ -940,11 +940,9 @@ namespace org {
                         if (t == Token::_EOF) {
                             return L"EOF";
                         }
-                        if (parser != nullptr && parser->getTokenNames() != nullptr) {
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: String[] tokensNames = parser.getTokenNames();
-                            std::wstring *tokensNames = parser->getTokenNames();
-                            if (t >= tokensNames->length) {
+                        if (parser != nullptr) {
+                            std::vector<std::wstring> tokensNames = parser->getTokenNames();
+                            if (t >= tokensNames.size()) {
                                 System::err::println(t + std::wstring(L" ttype out of range: ") + Arrays->toString(tokensNames));
                                 System::err::println((static_cast<CommonTokenStream*>(parser->getInputStream()))->getTokens());
                             } else {
@@ -1017,7 +1015,11 @@ namespace org {
                         }
 
                         if (debug) {
-                            std::cout << std::wstring(L"DFA=\n") << dfa->toString(parser != nullptr?parser->getTokenNames():nullptr) << std::endl;
+                            std::vector<std::wstring> names;
+                            if (parser != nullptr) {
+                                names = parser->getTokenNames();
+                            }
+                            std::cout << std::wstring(L"DFA=\n") << dfa->toString(names) << std::endl;
                         }
 
                         return to;

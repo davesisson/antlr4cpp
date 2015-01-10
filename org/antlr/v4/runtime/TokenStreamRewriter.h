@@ -3,6 +3,7 @@
 #include "TokenStream.h"
 #include "Token.h"
 #include "misc/Interval.h"
+#include <map>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -187,11 +188,11 @@ namespace org {
                     ///  I'm calling these things "programs."
                     ///  Maps String (name) -> rewrite (List)
                     /// </summary>
-                    std::hash_map<std::wstring, std::vector<RewriteOperation*>> *const programs;
+                    std::map<std::wstring, std::vector<RewriteOperation*>> *const programs;
 
                     /// <summary>
                     /// Map String (program name) -> Integer index </summary>
-                    std::hash_map<std::wstring, int> *const lastRewriteTokenIndexes;
+                    std::map<std::wstring, int> *const lastRewriteTokenIndexes;
 
                 public:
                     TokenStreamRewriter(TokenStream *tokens);
