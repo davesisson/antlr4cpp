@@ -86,13 +86,13 @@ namespace org {
                     int decision = dfa->decision;
                     int ruleIndex = ((atn::ATNState*)dfa->atnStartState)->ruleIndex;
                     
-                    std::vector<std::wstring> ruleNames = recognizer->getRuleNames();
+                    const std::vector<std::wstring>& ruleNames = recognizer->getRuleNames();
                     if (ruleIndex < 0 || ruleIndex >= ruleNames.size()) {
                         return StringConverterHelper::toString(decision);
                     }
                     
                     std::wstring ruleName = ruleNames[ruleIndex];
-                    if (ruleName == L"" || ruleName.length() == 0)  {
+                    if (ruleName == L"" || ruleName.empty())  {
                         return StringConverterHelper::toString(decision);
                     }
                     

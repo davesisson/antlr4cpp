@@ -73,9 +73,9 @@ namespace org {
                     ///  that overrides this to point to their String[] tokenNames.
                     /// </summary>
                 public:
-                    virtual std::vector<std::wstring> getTokenNames() = 0;
+                    virtual const std::vector<std::wstring>& getTokenNames() = 0;
 
-                    virtual std::vector<std::wstring> getRuleNames() = 0;
+                    virtual const std::vector<std::wstring>& getRuleNames() = 0;
 
                     /// <summary>
                     /// Get a map from token names to token types.

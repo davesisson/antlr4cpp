@@ -47,15 +47,15 @@ std::wstring XPathLexer::getGrammarFileName() {
 }
 
 // This will all be redone when generation is working
-std::vector<std::wstring> XPathLexer::getTokenNames() {
+const std::vector<std::wstring>& XPathLexer::getTokenNames() {
     return _tokenNames;
 }
 
-std::vector<std::wstring> XPathLexer::getRuleNames() {
+const std::vector<std::wstring>& XPathLexer::getRuleNames() {
     return _ruleNames;
 }
 
-std::vector<std::wstring> XPathLexer::getModeNames() {
+const std::vector<std::wstring>& XPathLexer::getModeNames() {
     return _modeNames;
 }
 

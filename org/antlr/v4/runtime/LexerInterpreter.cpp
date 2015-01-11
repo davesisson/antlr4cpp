@@ -69,15 +69,15 @@ namespace org {
                     return grammarFileName;
                 }
 
-                std::vector<std::wstring> LexerInterpreter::getTokenNames() {
+                const std::vector<std::wstring>& LexerInterpreter::getTokenNames() {
                     return _tokenNames;
                 }
 
-                std::vector<std::wstring> LexerInterpreter::getRuleNames() {
+                const std::vector<std::wstring>& LexerInterpreter::getRuleNames() {
                     return _ruleNames;
                 }
 
-                std::vector<std::wstring> LexerInterpreter::getModeNames() {
+                const std::vector<std::wstring>& LexerInterpreter::getModeNames() {
                     return _modeNames;
                 }
             }

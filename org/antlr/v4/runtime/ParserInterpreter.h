@@ -77,9 +77,9 @@ namespace org {
 
                     virtual atn::ATN *getATN() override;
 
-                    virtual std::vector<std::wstring> getTokenNames() override;
+                    virtual const std::vector<std::wstring>& getTokenNames() override;
 
-                    virtual std::vector<std::wstring> getRuleNames() override;
+                    virtual const std::vector<std::wstring>& getRuleNames() override;
 
                     virtual std::wstring getGrammarFileName() override;
 

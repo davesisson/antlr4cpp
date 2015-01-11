@@ -91,11 +91,11 @@ namespace org {
                     return atn;
                 }
 
-                std::vector<std::wstring> ParserInterpreter::getTokenNames() {
+                const std::vector<std::wstring>& ParserInterpreter::getTokenNames() {
                     return _tokenNames;
                 }
 
-                std::vector<std::wstring> ParserInterpreter::getRuleNames() {
+                const std::vector<std::wstring>& ParserInterpreter::getRuleNames() {
                     return _ruleNames;
                 }
 

@@ -64,7 +64,7 @@ namespace org {
 
                 template<typename T1, typename T2>
                 std::map<std::wstring, int> *Recognizer<T1, T2>::getRuleIndexMap() {
-                    std::vector<std::wstring> ruleNames = getRuleNames();
+                    const std::vector<std::wstring>& ruleNames = getRuleNames();
                     if (ruleNames.empty()) {
                         throw L"The current recognizer does not provide a list of rule names.";
                     }

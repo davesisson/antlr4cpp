@@ -272,14 +272,12 @@ namespace org {
                     return _channel;
                 }
 
-                std::vector<std::wstring> Lexer::getModeNames() {
-                    std::vector<std::wstring> names;
-                    return names;
+                const std::vector<std::wstring>& Lexer::getModeNames() {
+                    return _modeNames;
                 }
 
-                std::vector<std::wstring> Lexer::getTokenNames() {
-                    std::vector<std::wstring> names;
-                    return names;
+                const std::vector<std::wstring>& Lexer::getTokenNames() {
+                    return _tokenNames;
                 }
 
                 std::vector<Token*> Lexer::getAllTokens() {

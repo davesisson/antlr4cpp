@@ -65,6 +65,9 @@ namespace org {
                     CharStream *_input;
                 protected:
                     std::pair<TokenSource*, CharStream*> *_tokenFactorySourcePair;
+                    
+                    std::vector<std::wstring> _modeNames;
+                    std::vector<std::wstring> _tokenNames;
 
                     /// <summary>
                     /// How to create token objects </summary>
@@ -220,14 +223,14 @@ namespace org {
 
                     virtual int getChannel();
 
-                    virtual std::vector<std::wstring> getModeNames();
+                    virtual const std::vector<std::wstring>& getModeNames();
 
                     /// <summary>
                     /// Used to print out token names like ID during debugging and
                     ///  error reporting.  The generated parsers implement a method
                     ///  that overrides this to point to their String[] tokenNames.
                     /// </summary>
-                    virtual std::vector<std::wstring> getTokenNames() override;
+                    virtual const std::vector<std::wstring>& getTokenNames() override;
 
                     /// <summary>
                     /// Return a list of all Token objects in input char stream.
