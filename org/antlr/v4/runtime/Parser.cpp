@@ -76,31 +76,27 @@ namespace org {
                 }
 
                 void Parser::TraceListener::enterEveryRule(ParserRuleContext *ctx) {
-                  std::cout << "enter   ";
-                  for (std::wstring wstr : outerInstance->getRuleNames()[ctx->getRuleIndex()]) {
-                    std::cout << ws2s(wstr);
-                  }
-                  std::cout << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText()) << std::endl;
+                  std::cout << "enter   "
+                            << ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
+                            << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText())
+                            << std::endl;
                 }
 
                 void Parser::TraceListener::visitTerminal(tree::TerminalNode *node) {
-                    std::cout << "consume ";
-                    std::cout << node->getSymbol() << " rule ";
-                  for (std::wstring wstr : outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()]) {
-                    std::cout << ws2s(wstr);
-                  }
-                  std::cout << std::endl;
+                    std::cout << "consume "
+                              << node->getSymbol() << " rule "
+                              << ws2s(outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()])
+                              << std::endl;
                 }
 
                 void Parser::TraceListener::visitErrorNode(tree::ErrorNode *node) {
                 }
 
                 void Parser::TraceListener::exitEveryRule(ParserRuleContext *ctx) {
-                  std::cout << "exit    ";
-                  for (std::wstring wstr : outerInstance->getRuleNames()[ctx->getRuleIndex()]) {
-                    std::cout << ws2s(wstr);
-                  }
-                  std::cout << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText()) << std::endl;
+                  std::cout << "exit    "
+                            << ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
+                            << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText())
+                            << std::endl;
                 }
 
                 Parser::TrimToSizeListener *const Parser::TrimToSizeListener::INSTANCE = new Parser::TrimToSizeListener();
