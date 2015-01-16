@@ -32,6 +32,8 @@
 *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+// TODO:  Come back to this after the base runtime works.
+#if 0
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -54,3 +56,4 @@ namespace org {
         }
     }
 }
+#endif
