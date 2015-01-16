@@ -51,6 +51,8 @@ namespace org {
                             return matcher->match(tree, this)->succeeded();
                         }
 
+// TODO:  Come back to this after the base runtime works.
+#if 0
                         std::vector<ParseTreeMatch*> ParseTreePattern::findAll(ParseTree *tree, const std::wstring &xpath) {
                             std::vector<ParseTree*> *subtrees = xpath::XPath::findAll(tree, xpath, matcher->getParser());
                             std::vector<ParseTreeMatch*> matches = std::vector<ParseTreeMatch*>();
@@ -62,7 +64,8 @@ namespace org {
                             }
                             return matches;
                         }
-
+#endif
+                        
                         org::antlr::v4::runtime::tree::pattern::ParseTreePatternMatcher *ParseTreePattern::getMatcher() {
                             return matcher;
                         }
