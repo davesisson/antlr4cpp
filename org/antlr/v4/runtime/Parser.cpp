@@ -223,11 +223,10 @@ namespace org {
                 }
 
               void Parser::removeParseListener(tree::ParseTreeListener *listener) {
-                    if (_parseListeners.size() > 0) {
-                        if (_parseListeners.remove(listener)) {
-                            if (_parseListeners.empty()) {
-                                _parseListeners.clear();
-                            }
+                    if (!_parseListeners.empty()) {
+                        auto it = std::find(_parseListeners.begin(), _parseListeners.end(), listener);
+                        if (it != _parseListeners.end()) {
+                            _parseListeners.erase(it);
                         }
                     }
                 }
