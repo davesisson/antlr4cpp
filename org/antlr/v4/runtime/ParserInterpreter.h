@@ -63,7 +63,7 @@ namespace org {
                     atn::ATN *const atn;
                     std::bitset<DEFAULT_BITSET_SIZE> *const pushRecursionContextStates;
 
-                    const std::vector<dfa::DFA> _decisionToDFA; // not shared like it is for generated parsers
+                    std::vector<dfa::DFA> _decisionToDFA; // not shared like it is for generated parsers
                     atn::PredictionContextCache *const sharedContextCache;
 
 

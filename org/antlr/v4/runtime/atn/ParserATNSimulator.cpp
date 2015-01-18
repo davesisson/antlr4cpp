@@ -47,11 +47,11 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    ParserATNSimulator::ParserATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache):
+                    ParserATNSimulator::ParserATNSimulator(ATN *atn, const std::vector<dfa::DFA>& decisionToDFA, PredictionContextCache *sharedContextCache):
                     parser(nullptr) {
                     }
 
-                    ParserATNSimulator::ParserATNSimulator(Parser *parser, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), parser(parser), decisionToDFA(decisionToDFA) {
+                    ParserATNSimulator::ParserATNSimulator(Parser *parser, ATN *atn, const std::vector<dfa::DFA>& decisionToDFA, PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), parser(parser), _decisionToDFA(decisionToDFA) {
                         InitializeInstanceFields();
                         //		DOTGenerator dot = new DOTGenerator(null);
                         //		System.out.println(dot.getDOT(atn.rules.get(0), parser.getRuleNames()));
@@ -69,7 +69,7 @@ namespace org {
                         _input = input;
                         _startIndex = input->index();
                         _outerContext = outerContext;
-                        dfa::DFA dfa = decisionToDFA[decision];
+                        dfa::DFA dfa = _decisionToDFA[decision];
 
                         int m = input->mark();
                         int index = input->index();
