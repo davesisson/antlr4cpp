@@ -122,11 +122,11 @@ namespace org {
                         /// <summary>
                         /// Token buffer index. </summary>
                         int index;
-                        void *text;
+                        std::wstring text;
 
                         RewriteOperation(TokenStreamRewriter *outerInstance, int index);
 
-                        RewriteOperation(TokenStreamRewriter *outerInstance, int index, void *text);
+                        RewriteOperation(TokenStreamRewriter *outerInstance, int index, const std::wstring& text);
                         /// <summary>
                         /// Execute the rewrite operation by possibly adding to the buffer.
                         ///  Return the index of the next token to operate on.
@@ -146,7 +146,7 @@ namespace org {
                                     TokenStreamRewriter *const outerInstance;
 
                     public:
-                        InsertBeforeOp(TokenStreamRewriter *outerInstance, int index, void *text);
+                        InsertBeforeOp(TokenStreamRewriter *outerInstance, int index, const std::wstring& text);
 
                         virtual int execute(std::wstring *buf) override;
                     };
@@ -159,7 +159,7 @@ namespace org {
                     protected:
                         int lastIndex;
                     public:
-                        ReplaceOp(TokenStreamRewriter *outerInstance, int from, int to, void *text);
+                        ReplaceOp(TokenStreamRewriter *outerInstance, int from, int to, const std::wstring& text);
                         virtual int execute(std::wstring *buf) override;
                         virtual std::wstring toString() override;
 
@@ -214,33 +214,33 @@ namespace org {
                     /// Reset the program so that no instructions exist </summary>
                     virtual void deleteProgram(const std::wstring &programName);
 
-                    virtual void insertAfter(Token *t, void *text);
+                    virtual void insertAfter(Token *t, const std::wstring& text);
 
-                    virtual void insertAfter(int index, void *text);
+                    virtual void insertAfter(int index, const std::wstring& text);
 
-                    virtual void insertAfter(const std::wstring &programName, Token *t, void *text);
+                    virtual void insertAfter(const std::wstring &programName, Token *t, const std::wstring& text);
 
-                    virtual void insertAfter(const std::wstring &programName, int index, void *text);
+                    virtual void insertAfter(const std::wstring &programName, int index, const std::wstring& text);
 
-                    virtual void insertBefore(Token *t, void *text);
+                    virtual void insertBefore(Token *t, const std::wstring& text);
 
-                    virtual void insertBefore(int index, void *text);
+                    virtual void insertBefore(int index, const std::wstring& text);
 
-                    virtual void insertBefore(const std::wstring &programName, Token *t, void *text);
+                    virtual void insertBefore(const std::wstring &programName, Token *t, const std::wstring& text);
 
-                    virtual void insertBefore(const std::wstring &programName, int index, void *text);
+                    virtual void insertBefore(const std::wstring &programName, int index, const std::wstring& text);
 
-                    virtual void replace(int index, void *text);
+                    virtual void replace(int index, const std::wstring& text);
 
-                    virtual void replace(int from, int to, void *text);
+                    virtual void replace(int from, int to, const std::wstring& text);
 
-                    virtual void replace(Token *indexT, void *text);
+                    virtual void replace(Token *indexT, const std::wstring& text);
 
-                    virtual void replace(Token *from, Token *to, void *text);
+                    virtual void replace(Token *from, Token *to, const std::wstring& text);
 
-                    virtual void replace(const std::wstring &programName, int from, int to, void *text);
+                    virtual void replace(const std::wstring &programName, int from, int to, const std::wstring& text);
 
-                    virtual void replace(const std::wstring &programName, Token *from, Token *to, void *text);
+                    virtual void replace(const std::wstring &programName, Token *from, Token *to, const std::wstring& text);
 
                     virtual void delete_Renamed(int index);
 

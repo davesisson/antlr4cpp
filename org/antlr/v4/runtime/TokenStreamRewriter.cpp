@@ -13,7 +13,7 @@ namespace org {
                     this->index = index;
                 }
 
-                TokenStreamRewriter::RewriteOperation::RewriteOperation(TokenStreamRewriter *outerInstance, int index, void *text) : outerInstance(outerInstance) {
+                TokenStreamRewriter::RewriteOperation::RewriteOperation(TokenStreamRewriter *outerInstance, int index, const std::wstring& text) : outerInstance(outerInstance) {
 
                     InitializeInstanceFields();
                     this->index = index;
@@ -26,9 +26,9 @@ namespace org {
 
                 std::wstring TokenStreamRewriter::RewriteOperation::toString() {
                     std::wstring opName = getClass()->getName();
-                    int $index = opName.find(L'$');
-                    opName = opName.substr($index + 1, opName.length() - ($index + 1));
-                    return std::wstring(L"<") + opName + std::wstring(L"@") + outerInstance->tokens->get(index)->getText() + std::wstring(L":\"") + text + std::wstring(L"\">");
+                    int index = opName.find(L'$');
+                    opName = opName.substr(index + 1, opName.length() - (index + 1));
+                    return L"<" + opName + L"@" + outerInstance->tokens->get(index)->getText() + L":\"" + text + L"\">";
                 }
 
                 void TokenStreamRewriter::RewriteOperation::InitializeInstanceFields() {
@@ -36,7 +36,7 @@ namespace org {
                     index = 0;
                 }
 
-                TokenStreamRewriter::InsertBeforeOp::InsertBeforeOp(TokenStreamRewriter *outerInstance, int index, void *text) : RewriteOperation(outerInstance, index,text), outerInstance(outerInstance) {
+                TokenStreamRewriter::InsertBeforeOp::InsertBeforeOp(TokenStreamRewriter *outerInstance, int index, const std::wstring& text) : RewriteOperation(outerInstance, index, text), outerInstance(outerInstance) {
                 }
 
                 int TokenStreamRewriter::InsertBeforeOp::execute(std::wstring *buf) {
@@ -47,21 +47,19 @@ namespace org {
                     return index + 1;
                 }
 
-                TokenStreamRewriter::ReplaceOp::ReplaceOp(TokenStreamRewriter *outerInstance, int from, int to, void *text) : RewriteOperation(outerInstance, from,text), outerInstance(outerInstance) {
+                TokenStreamRewriter::ReplaceOp::ReplaceOp(TokenStreamRewriter *outerInstance, int from, int to, const std::wstring& text) : RewriteOperation(outerInstance, from,text), outerInstance(outerInstance) {
 
                     InitializeInstanceFields();
                     lastIndex = to;
                 }
 
                 int TokenStreamRewriter::ReplaceOp::execute(std::wstring *buf) {
-                    if (text != nullptr) {
-                        buf->append(text);
-                    }
+                    buf->append(text);
                     return lastIndex + 1;
                 }
 
                 std::wstring TokenStreamRewriter::ReplaceOp::toString() {
-                    if (text == nullptr) {
+                    if (text.empty()) {
                         return std::wstring(L"<DeleteOp@") + outerInstance->tokens->get(index)->getText() + std::wstring(L"..") + outerInstance->tokens->get(lastIndex)->getText() + std::wstring(L">");
                     }
                     return std::wstring(L"<ReplaceOp@") + outerInstance->tokens->get(index)->getText() + std::wstring(L"..") + outerInstance->tokens->get(lastIndex)->getText() + std::wstring(L":\"") + text + std::wstring(L"\">");
@@ -100,69 +98,69 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                     rollback(programName, MIN_TOKEN_INDEX);
                 }
 
-                void TokenStreamRewriter::insertAfter(Token *t, void *text) {
+                void TokenStreamRewriter::insertAfter(Token *t, const std::wstring& text) {
                     insertAfter(DEFAULT_PROGRAM_NAME, t, text);
                 }
 
-                void TokenStreamRewriter::insertAfter(int index, void *text) {
+                void TokenStreamRewriter::insertAfter(int index, const std::wstring& text) {
                     insertAfter(DEFAULT_PROGRAM_NAME, index, text);
                 }
 
-                void TokenStreamRewriter::insertAfter(const std::wstring &programName, Token *t, void *text) {
+                void TokenStreamRewriter::insertAfter(const std::wstring &programName, Token *t, const std::wstring& text) {
                     insertAfter(programName,t->getTokenIndex(), text);
                 }
 
-                void TokenStreamRewriter::insertAfter(const std::wstring &programName, int index, void *text) {
+                void TokenStreamRewriter::insertAfter(const std::wstring &programName, int index, const std::wstring& text) {
                     // to insert after, just insert before next index (even if past end)
                     insertBefore(programName,index + 1, text);
                 }
 
-                void TokenStreamRewriter::insertBefore(Token *t, void *text) {
+                void TokenStreamRewriter::insertBefore(Token *t, const std::wstring& text) {
                     insertBefore(DEFAULT_PROGRAM_NAME, t, text);
                 }
 
-                void TokenStreamRewriter::insertBefore(int index, void *text) {
+                void TokenStreamRewriter::insertBefore(int index, const std::wstring& text) {
                     insertBefore(DEFAULT_PROGRAM_NAME, index, text);
                 }
 
-                void TokenStreamRewriter::insertBefore(const std::wstring &programName, Token *t, void *text) {
+                void TokenStreamRewriter::insertBefore(const std::wstring &programName, Token *t, const std::wstring& text) {
                     insertBefore(programName, t->getTokenIndex(), text);
                 }
 
-                void TokenStreamRewriter::insertBefore(const std::wstring &programName, int index, void *text) {
+                void TokenStreamRewriter::insertBefore(const std::wstring &programName, int index, const std::wstring& text) {
                     RewriteOperation *op = new InsertBeforeOp(this, index,text);
                     std::vector<RewriteOperation*> rewrites = getProgram(programName);
                     op->instructionIndex = rewrites.size();
                     rewrites.push_back(op);
                 }
 
-                void TokenStreamRewriter::replace(int index, void *text) {
+                void TokenStreamRewriter::replace(int index, const std::wstring& text) {
                     replace(DEFAULT_PROGRAM_NAME, index, index, text);
                 }
 
-                void TokenStreamRewriter::replace(int from, int to, void *text) {
+                void TokenStreamRewriter::replace(int from, int to, const std::wstring& text) {
                     replace(DEFAULT_PROGRAM_NAME, from, to, text);
                 }
 
-                void TokenStreamRewriter::replace(Token *indexT, void *text) {
+                void TokenStreamRewriter::replace(Token *indexT, const std::wstring& text) {
                     replace(DEFAULT_PROGRAM_NAME, indexT, indexT, text);
                 }
 
-                void TokenStreamRewriter::replace(Token *from, Token *to, void *text) {
+                void TokenStreamRewriter::replace(Token *from, Token *to, const std::wstring& text) {
                     replace(DEFAULT_PROGRAM_NAME, from, to, text);
                 }
 
-                void TokenStreamRewriter::replace(const std::wstring &programName, int from, int to, void *text) {
+                void TokenStreamRewriter::replace(const std::wstring &programName, int from, int to, const std::wstring& text) {
                     if (from > to || from < 0 || to < 0 || to >= tokens->size()) {
                         throw IllegalArgumentException(std::wstring(L"replace: range invalid: ") + from + std::wstring(L"..") + to + std::wstring(L"(size=") + tokens->size() + std::wstring(L")"));
                     }
                     RewriteOperation *op = new ReplaceOp(this, from, to, text);
                     std::vector<RewriteOperation*> rewrites = getProgram(programName);
-                    op->instructionIndex = rewrites.size();
+                    op->setInstructionIndex(rewrites.size());
                     rewrites.push_back(op);
                 }
 
-                void TokenStreamRewriter::replace(const std::wstring &programName, Token *from, Token *to, void *text) {
+                void TokenStreamRewriter::replace(const std::wstring &programName, Token *from, Token *to, const std::wstring& text) {
                     replace(programName, from->getTokenIndex(), to->getTokenIndex(), text);
                 }
 
