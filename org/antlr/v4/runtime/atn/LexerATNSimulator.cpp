@@ -119,9 +119,7 @@ namespace org {
                         ATNState *startState = (ATNState *)atn->modeToStartState->at(mode);
 
                         if (debug) {
-#ifdef TODO
-                            System::out::format(std::locale::getDefault(), L"matchATN mode %d start: %s\n", mode, startState);
-#endif
+                            std::wcout << L"matchATN mode" << mode << L" start: " << startState << std::endl;
                         }
 
                         int old_mode = mode;
@@ -138,9 +136,7 @@ namespace org {
                         int predict = execATN(input, next);
 
                         if (debug) {
-#ifdef TODO
-                            System::out::format(Locale::getDefault(), L"DFA after matchATN: %s\n", decisionToDFA[old_mode]->toLexerString());
-#endif
+                            std::wcout << L"DFA after matchATN: " << decisionToDFA[old_mode]->toLexerString() << std::endl;
                         }
 
                         return predict;
@@ -149,9 +145,7 @@ namespace org {
                     int LexerATNSimulator::execATN(CharStream *input, dfa::DFAState *ds0) {
                         //System.out.println("enter exec index "+input.index()+" from "+ds0.configs);
                         if (debug) {
-#ifdef TODO
-                            System::out::format(Locale::getDefault(), L"start state closure=%s\n", ds0->configs);
-#endif
+                            std::wcout << L"start state closure=" << ds0->configs << std::endl;
                         }
 
                         int t = input->LA(1);
@@ -159,9 +153,7 @@ namespace org {
 
                         while (true) { // while more work
                             if (debug) {
-#ifdef TODO
-                                System::out::format(Locale::getDefault(), L"execATN loop starting closure: %s\n", s->configs);
-#endif
+                                std::wcout << L"execATN loop starting closure: " << s->configs << std::endl;
                             }
 
                             // As we move src->trg, src->trg, we keep track of the previous trg to
@@ -215,9 +207,7 @@ namespace org {
 
                         dfa::DFAState *target = s->edges[t - MIN_DFA_EDGE];
                         if (debug && target != nullptr) {
-#ifdef TODO
-                            std::cout << std::wstring(L"reuse state ") << s->stateNumber << std::wstring(L" edge to ") << target->stateNumber << std::endl;
-#endif
+                            std::wcout << std::wstring(L"reuse state ") << s->stateNumber << std::wstring(L" edge to ") << target->stateNumber << std::endl;
                         }
 
                         return target;
@@ -269,10 +259,7 @@ namespace org {
                             }
 
                             if (debug) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-#ifdef TODO
-                                System::out::format(Locale::getDefault(), L"testing %s at %s\n", getTokenName(t), c->toString(recog, true));
-#endif
+                                std::wcout << L"testing " << getTokenName(t) << " at " <<c->toString(recog, true) << std::endl;
                             }
 
                             int n = c->state->getNumberOfTransitions();
@@ -293,9 +280,13 @@ namespace org {
 
                     void LexerATNSimulator::accept(CharStream *input, int ruleIndex, int actionIndex, int index, int line, int charPos) {
                         if (debug) {
-#ifdef TODO
-                            System::out::format(Locale::getDefault(), L"ACTION %s:%d\n", recog != nullptr ? recog->getRuleNames()[ruleIndex] : ruleIndex, actionIndex);
-#endif
+                            std::wcout << L"ACTION ";
+                            if (recog != nullptr) {
+                                std::wcout << recog->getRuleNames()[ruleIndex];
+                            } else {
+                                std::wcout << ruleIndex;
+                            }
+                            std::wcout << ":" << actionIndex << std::endl;
                         }
 
                         if (actionIndex >= 0 && recog != nullptr) {
@@ -332,20 +323,16 @@ namespace org {
 
                     bool LexerATNSimulator::closure(CharStream *input, LexerATNConfig *config, ATNConfigSet *configs, bool currentAltReachedAcceptState, bool speculative) {
                         if (debug) {
-#ifdef TODO
-                            std::cout << std::wstring(L"closure(") << config->toString(recog, true) << std::wstring(L")") << std::endl;
-#endif
+                            std::wcout << L"closure(" << config->toString(recog, true) << L")" << std::endl;
                         }
 
                         if (dynamic_cast<RuleStopState*>(config->state) != nullptr) {
                             if (debug) {
-#ifdef TODO
                                 if (recog != nullptr) {
-                                    System::out::format(Locale::getDefault(), L"closure at %s rule stop %s\n", recog->getRuleNames()[config->state->ruleIndex], config);
+                                    std::wcout << L"closure at " << recog->getRuleNames()[config->state->ruleIndex] << L" rule stop " << config << std::endl;
                                 } else {
-                                    System::out::format(Locale::getDefault(), L"closure at rule stop %s\n", config);
+                                    std::wcout << L"closure at rule stop " << config << std::endl;
                                 }
-#endif
                             }
 
                             if (config->context == nullptr || config->context->hasEmptyPath()) {
@@ -428,9 +415,7 @@ namespace org {
                                  */
                                 PredicateTransition *pt = static_cast<PredicateTransition*>(t);
                                 if (debug) {
-#ifdef TODO
-                                    std::cout << std::wstring(L"EVAL rule ") << pt->ruleIndex << std::wstring(L":") << pt->predIndex << std::endl;
-#endif
+                                    std::wcout << L"EVAL rule " << pt->ruleIndex << L":" << pt->predIndex << std::endl;
                                 }
                                 configs->hasSemanticContext = true;
                                 if (evaluatePredicate(input, pt->ruleIndex, pt->predIndex, speculative)) {
