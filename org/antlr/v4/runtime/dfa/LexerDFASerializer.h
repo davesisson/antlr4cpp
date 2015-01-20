@@ -46,6 +46,7 @@ namespace org {
                         LexerDFASerializer(DFA *dfa);
 
                     protected:
+                        std::vector<std::wstring> lexerTokenNames_;
                         virtual std::wstring getEdgeLabel(int i) override;
                     };
 

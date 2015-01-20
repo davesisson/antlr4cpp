@@ -35,7 +35,7 @@ namespace org {
             namespace runtime {
                 namespace dfa {
 
-                    LexerDFASerializer::LexerDFASerializer(DFA *dfa) : DFASerializer(dfa, nullptr ) {
+                    LexerDFASerializer::LexerDFASerializer(DFA *dfa) : DFASerializer(dfa, lexerTokenNames_) {
                     }
 
                     std::wstring LexerDFASerializer::getEdgeLabel(int i) {

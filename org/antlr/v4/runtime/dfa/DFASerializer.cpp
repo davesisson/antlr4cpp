@@ -41,8 +41,8 @@ namespace org {
             namespace runtime {
                 namespace dfa {
 
-
-                    DFASerializer::DFASerializer(DFA *dfa, std::wstring tokenNames[]) : dfa(dfa), tokenNames(tokenNames) {
+                    // TODO -- Make sure this reference doesn't go away prematurely.
+                    DFASerializer::DFASerializer(DFA *dfa, const std::vector<std::wstring>& tokenNames) : dfa(dfa), tokenNames_(tokenNames) {
                     }
 
                     std::wstring DFASerializer::toString() {
@@ -77,8 +77,8 @@ namespace org {
                         if (i == 0) {
                             return L"EOF";
                         }
-                        if (tokenNames != nullptr) {
-                            label = tokenNames[i - 1];
+                        if (!tokenNames_.empty()) {
+                            label = tokenNames_[i - 1];
                         } else {
                             label = StringConverterHelper::toString(i - 1);
                         }

@@ -71,14 +71,15 @@ namespace org {
                     }
 #endif
                     std::wstring DFA::toString() {
-                        return toString(nullptr);
+                        std::vector<std::wstring> tokenNames;
+                        return toString(tokenNames);
                     }
 
-                    std::wstring DFA::toString(std::wstring tokenNames[]) {
+                    std::wstring DFA::toString(const std::vector<std::wstring>& tokenNames) {
                         if (s0 == nullptr) {
                             return L"";
                         }
-                        DFASerializer *serializer = new DFASerializer(this,tokenNames);
+                        DFASerializer *serializer = new DFASerializer(this, tokenNames);
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return serializer->toString();
                     }
