@@ -244,9 +244,9 @@ namespace org {
 
                 void Parser::triggerExitRuleEvent() {
                     // reverse order walk of listeners
-                    for (int i = _parseListeners.size() - 1; i >= 0; i--) {
-                      tree::ParseTreeListener *listener = _parseListeners[i];
-                        _ctx->exitRule(listener);
+                    for (auto it = _parseListeners.rbegin(); it != _parseListeners.rend(); ++it) {
+                        tree::ParseTreeListener *listener = *it;
+                        _ctx->exitRule(*it);
                         listener->exitEveryRule(_ctx);
                     }
                 }
@@ -255,7 +255,7 @@ namespace org {
                     return _syntaxErrors;
                 }
 
-                org::antlr::v4::runtime::TokenFactory<?> *Parser::getTokenFactory() {
+                TokenFactory<CommonToken*> *Parser::getTokenFactory() {
                     return _input->getTokenSource()->getTokenFactory();
                 }
 
@@ -574,7 +574,7 @@ template<typename T1>
 
                 std::vector<std::wstring> Parser::getDFAStrings() {
 //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    synchronized(_interp->decisionToDFA) {
+                    synchronized(_interp->_decisionToDFA) {
                         std::vector<std::wstring> s = std::vector<std::wstring>();
                         for (int d = 0; d < _interp->decisionToDFA->length; d++) {
                             DFA *dfa = _interp->decisionToDFA[d];
@@ -587,10 +587,10 @@ template<typename T1>
 
                 void Parser::dumpDFA() {
 //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    synchronized(_interp->decisionToDFA) {
+                    synchronized(_interp->_decisionToDFA) {
                         bool seenOne = false;
                         for (int d = 0; d < _interp->decisionToDFA->length; d++) {
-                            DFA *dfa = _interp->decisionToDFA[d];
+                            DFA *dfa = _interp->_decisionToDFA[d];
                             if (!dfa->states->isEmpty()) {
                                 if (seenOne) {
                                     std::cout << std::endl;
@@ -604,7 +604,7 @@ template<typename T1>
                     }
                 }
 
-                std::wstring Parser::getSourceName() {
+                std::string Parser::getSourceName() {
                     return _input->getSourceName();
                 }
 
