@@ -156,7 +156,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                     }
                     RewriteOperation *op = new ReplaceOp(this, from, to, text);
                     std::vector<RewriteOperation*> rewrites = getProgram(programName);
-                    op->setInstructionIndex(rewrites.size());
+                    op->instructionIndex = rewrites.size();
                     rewrites.push_back(op);
                 }
 
@@ -165,19 +165,19 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 }
 
                 void TokenStreamRewriter::delete_Renamed(int index) {
-                    delete(DEFAULT_PROGRAM_NAME, index, index);
+                    delete_Renamed(DEFAULT_PROGRAM_NAME, index, index);
                 }
 
                 void TokenStreamRewriter::delete_Renamed(int from, int to) {
-                    delete(DEFAULT_PROGRAM_NAME, from, to);
+                    delete_Renamed(DEFAULT_PROGRAM_NAME, from, to);
                 }
 
                 void TokenStreamRewriter::delete_Renamed(Token *indexT) {
-                    delete(DEFAULT_PROGRAM_NAME, indexT, indexT);
+                    delete_Renamed(DEFAULT_PROGRAM_NAME, indexT, indexT);
                 }
 
                 void TokenStreamRewriter::delete_Renamed(Token *from, Token *to) {
-                    delete(DEFAULT_PROGRAM_NAME, from, to);
+                    delete_Renamed(DEFAULT_PROGRAM_NAME, from, to);
                 }
 
                 void TokenStreamRewriter::delete_Renamed(const std::wstring &programName, int from, int to) {
@@ -204,16 +204,16 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                     lastRewriteTokenIndexes->put(programName, i);
                 }
 
-                std::vector<RewriteOperation*> TokenStreamRewriter::getProgram(const std::wstring &name) {
-                    std::vector<RewriteOperation*> is = programs->get(name);
+                std::vector<TokenStreamRewriter::RewriteOperation*> TokenStreamRewriter::getProgram(const std::wstring &name) {
+                    std::vector<TokenStreamRewriter::RewriteOperation*> is = programs->get(name);
                     if (is.empty()) {
                         is = initializeProgram(name);
                     }
                     return is;
                 }
 
-                std::vector<RewriteOperation*> TokenStreamRewriter::initializeProgram(const std::wstring &name) {
-                    std::vector<RewriteOperation*> is = VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE);
+                std::vector<TokenStreamRewriter::RewriteOperation*> TokenStreamRewriter::initializeProgram(const std::wstring &name) {
+                    std::vector<TokenStreamRewriter::RewriteOperation*> is = VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE);
                     programs->put(name, is);
                     return is;
                 }
@@ -227,7 +227,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 }
 
                 std::wstring TokenStreamRewriter::getText(const std::wstring &programName, Interval *interval) {
-                    std::vector<RewriteOperation*> rewrites = programs->get(programName);
+                    std::vector<TokenStreamRewriter::RewriteOperation*> rewrites = programs->get(programName);
                     int start = interval->a;
                     int stop = interval->b;
 
@@ -245,7 +245,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                     StringBuilder *buf = new StringBuilder();
 
                     // First, optimize instruction stream
-                    Map<int, RewriteOperation*> *indexToOp = reduceToSingleOperationPerIndex(rewrites);
+                    Map<int, TokenStreamRewriter::RewriteOperation*> *indexToOp = reduceToSingleOperationPerIndex(rewrites);
 
                     // Walk buffer, executing instructions and emitting tokens
                     int i = start;
@@ -280,12 +280,11 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                     return buf->toString();
                 }
 
-                Map<int, RewriteOperation*> *TokenStreamRewriter::reduceToSingleOperationPerIndex(std::vector<RewriteOperation*> &rewrites) {
+                Map<int, TokenStreamRewriter::RewriteOperation*> *TokenStreamRewriter::reduceToSingleOperationPerIndex(std::vector<TokenStreamRewriter::RewriteOperation*> &rewrites) {
                                 //		System.out.println("rewrites="+rewrites);
 
                     // WALK REPLACES
-                    for (int i = 0; i < rewrites.size(); i++) {
-                        RewriteOperation *op = rewrites[i];
+                    for (TokenStreamRewriter::RewriteOperation *op : rewrites) {
                         if (op == nullptr) {
                             continue;
                         }
@@ -381,9 +380,8 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                         }
                     }
                     // System.out.println("rewrites after="+rewrites);
-                    Map<int, RewriteOperation*> *m = std::unordered_map<int, RewriteOperation*>();
-                    for (int i = 0; i < rewrites.size(); i++) {
-                        RewriteOperation *op = rewrites[i];
+                    Map<int, TokenStreamRewriter::RewriteOperation*> *m = std::unordered_map<int, TokenStreamRewriter::RewriteOperation*>();
+                    for (TokenStreamRewriter::RewriteOperation *op : rewrites) {
                         if (op == nullptr) { // ignore deleted ops
                             continue;
                         }
@@ -415,7 +413,7 @@ template<typename T, typename T1> where T : RewriteOperation where T1 : RewriteO
                 std::vector<? extends T> TokenStreamRewriter::getKindOfOps(std::vector<T1> rewrites, Class *kind, int before) {
                     std::vector<T> ops = std::vector<T>();
                     for (int i = 0; i < before && i < rewrites.size(); i++) {
-                        RewriteOperation *op = rewrites[i];
+                        TokenStreamRewriter::RewriteOperation *op = rewrites[i];
                         if (op == nullptr) { // ignore deleted
                             continue;
                         }

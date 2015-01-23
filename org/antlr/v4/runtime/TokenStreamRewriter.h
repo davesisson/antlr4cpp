@@ -118,7 +118,6 @@ namespace org {
                         /// <summary>
                         /// What index into rewrites List are we? </summary>
                     protected:
-                        int instructionIndex;
                         /// <summary>
                         /// Token buffer index. </summary>
                         int index;
@@ -132,10 +131,12 @@ namespace org {
                         ///  Return the index of the next token to operate on.
                         /// </summary>
                     public:
+                        int instructionIndex;
+
                         virtual int execute(std::wstring *buf);
 
                         virtual std::wstring toString();
-
+                        
                     private:
                         void InitializeInstanceFields();
                     };
