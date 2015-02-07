@@ -46,11 +46,9 @@ namespace org {
                     class DFASerializer {
                     public:
                         DFA *const dfa;
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: @Nullable final String[] tokenNames;
-                        const std::wstring *tokenNames;
+                        const std::vector<std::wstring>& tokenNames_;
 
-                        DFASerializer(DFA *dfa, std::wstring tokenNames[]);
+                        DFASerializer(DFA *dfa, const std::vector<std::wstring>& tokenNames);
 
                         virtual std::wstring toString();
 

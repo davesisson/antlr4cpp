@@ -16,6 +16,9 @@
 #include "PredicateTransition.h"
 #include "LoopEndState.h"
 #include "FailedPredicateException.h"
+#include "RuleStartState.h"
+#include "StarLoopEntryState.h"
+#include "PredictionContextCache.h"
 
 #include <deque>
 /*
@@ -53,49 +56,47 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-#ifdef TODO 
-                this is a mess
-                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new std::bitset<DEFAULT_BITSET_SIZE>()), decisionToDFA(new dfa::DFA()/*[atn->getNumberOfDecisions()]*/), tokenNames(tokenNames->toArray(new std::wstring[tokenNames->size()])), ruleNames(ruleNames->toArray(new std::wstring[ruleNames->size()])), sharedContextCache(new /*org::antlr::v4::runtime->atn->*/PredictionContextCache()), _parentContextStack(new std::deque<std::pair<ParserRuleContext, int>>()) {
+                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, const std::vector<std::wstring>& tokenNames, const std::vector<std::wstring>& ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new std::bitset<DEFAULT_BITSET_SIZE>()), _tokenNames(tokenNames), _ruleNames(ruleNames), sharedContextCache(new atn::PredictionContextCache()), _parentContextStack(new std::deque<std::pair<ParserRuleContext *, int>*>()) {
               
 
-                    for (int i = 0; i < decisionToDFA->length(); i++) {
-                        decisionToDFA[i] = new dfa::DFA(atn->getDecisionState(i), i);
+                    for (int i = 0; i < atn->getNumberOfDecisions(); i++) {
+                        _decisionToDFA.emplace_back(new dfa::DFA(atn->getDecisionState(i), i));
                     }
 
                     // identify the ATN states where pushNewRecursionContext must be called
                     for (auto state : atn->states) {
-                        if (!(dynamic_cast<StarLoopEntryState*>(state) != nullptr)) {
+                        if (!(dynamic_cast<atn::StarLoopEntryState*>(state) != nullptr)) {
                             continue;
                         }
 
-                        RuleStartState *ruleStartState = atn->ruleToStartState[state.ruleIndex];
+                        atn::RuleStartState *ruleStartState = atn->ruleToStartState[state->ruleIndex];
                         if (!ruleStartState->isPrecedenceRule) {
                             continue;
                         }
 
-                        ATNState *maybeLoopEndState = state.transition(state.getNumberOfTransitions() - 1)->target;
-                        if (!(dynamic_cast<LoopEndState*>(maybeLoopEndState) != nullptr)) {
+                        atn::ATNState *maybeLoopEndState = state->transition(state->getNumberOfTransitions() - 1)->target;
+                        if (!(dynamic_cast<atn::LoopEndState*>(maybeLoopEndState) != nullptr)) {
                             continue;
                         }
 
-                        if (maybeLoopEndState->epsilonOnlyTransitions && dynamic_cast<RuleStopState*>(maybeLoopEndState->transition(0)->target) != nullptr) {
-                            this->pushRecursionContextStates->set(state.stateNumber);
+                        if (maybeLoopEndState->epsilonOnlyTransitions && dynamic_cast<atn::RuleStopState*>(maybeLoopEndState->transition(0)->target) != nullptr) {
+                            this->pushRecursionContextStates->set(state->stateNumber);
                         }
                     }
 
                     // get atn simulator that knows how to do predictions
-                    setInterpreter(new /*org::antlr::v4::runtime->atn->*/ParserATNSimulator(this, atn, decisionToDFA, sharedContextCache));
+                    setInterpreter(new atn::ParserATNSimulator(this, atn, _decisionToDFA, sharedContextCache));
                 }
-#endif
+
                 org::antlr::v4::runtime::atn::ATN *ParserInterpreter::getATN() {
                     return atn;
                 }
 
-                std::vector<std::wstring> ParserInterpreter::getTokenNames() {
+                const std::vector<std::wstring>& ParserInterpreter::getTokenNames() {
                     return _tokenNames;
                 }
 
-                std::vector<std::wstring> ParserInterpreter::getRuleNames() {
+                const std::vector<std::wstring>& ParserInterpreter::getRuleNames() {
                     return _ruleNames;
                 }
 

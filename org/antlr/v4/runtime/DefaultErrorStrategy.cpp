@@ -184,13 +184,12 @@ namespace org {
                 }
 
                 void DefaultErrorStrategy::reportInputMismatch(Parser *recognizer, InputMismatchException *e) {
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                     std::wstring msg = std::wstring(L"mismatched input ") + getTokenErrorDisplay(e->getOffendingToken()) + std::wstring(L" expecting ") + e->getExpectedTokens()->toString(recognizer->getTokenNames());
                     recognizer->notifyErrorListeners(e->getOffendingToken(), msg, e);
                 }
 
                 void DefaultErrorStrategy::reportFailedPredicate(Parser *recognizer, FailedPredicateException *e) {
-                    std::wstring ruleName = recognizer->getRuleNames()[recognizer->_ctx->getRuleIndex()];
+                    const std::wstring& ruleName = recognizer->getRuleNames()[recognizer->_ctx->getRuleIndex()];
                     std::wstring msg = std::wstring(L"rule ") + ruleName + std::wstring(L" ") + e->getMessage();
                     recognizer->notifyErrorListeners(e->getOffendingToken(), msg, e);
                 }

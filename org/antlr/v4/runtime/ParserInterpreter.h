@@ -63,7 +63,7 @@ namespace org {
                     atn::ATN *const atn;
                     std::bitset<DEFAULT_BITSET_SIZE> *const pushRecursionContextStates;
 
-                    const dfa::DFA *decisionToDFA; // not shared like it is for generated parsers
+                    std::vector<dfa::DFA> _decisionToDFA; // not shared like it is for generated parsers
                     atn::PredictionContextCache *const sharedContextCache;
 
 
@@ -73,13 +73,13 @@ namespace org {
                     std::deque<std::pair<ParserRuleContext*, int>*> *const _parentContextStack;
 
                 public:
-                    ParserInterpreter(const std::wstring &grammarFileName, std::vector<std::wstring> *tokenNames, std::vector<std::wstring> *ruleNames, atn::ATN *atn, TokenStream *input);
+                    ParserInterpreter(const std::wstring &grammarFileName, const std::vector<std::wstring>& tokenNames, const std::vector<std::wstring>& ruleNames, atn::ATN *atn, TokenStream *input);
 
                     virtual atn::ATN *getATN() override;
 
-                    virtual std::vector<std::wstring> getTokenNames() override;
+                    virtual const std::vector<std::wstring>& getTokenNames() override;
 
-                    virtual std::vector<std::wstring> getRuleNames() override;
+                    virtual const std::vector<std::wstring>& getRuleNames() override;
 
                     virtual std::wstring getGrammarFileName() override;
 

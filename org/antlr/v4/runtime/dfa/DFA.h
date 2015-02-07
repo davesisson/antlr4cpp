@@ -83,7 +83,7 @@ namespace org {
                     public:
                         virtual std::wstring toString();
 
-                        virtual std::wstring toString(std::wstring tokenNames[]);
+                        virtual std::wstring toString(const std::vector<std::wstring>& tokenNames);
                         virtual std::wstring toLexerString();
 
                     };

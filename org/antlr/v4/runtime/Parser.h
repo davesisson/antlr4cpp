@@ -467,7 +467,7 @@ namespace org {
                     /// For debugging and other purposes. </summary>
                     virtual void dumpDFA();
 
-                    virtual std::wstring getSourceName();
+                    virtual std::string getSourceName();
 
                     /// <summary>
                     /// During a parse is sometimes useful to listen in on the rule entry and exit

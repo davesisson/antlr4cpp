@@ -47,11 +47,11 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    ParserATNSimulator::ParserATNSimulator(ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache):
+                    ParserATNSimulator::ParserATNSimulator(ATN *atn, const std::vector<dfa::DFA>& decisionToDFA, PredictionContextCache *sharedContextCache):
                     parser(nullptr) {
                     }
 
-                    ParserATNSimulator::ParserATNSimulator(Parser *parser, ATN *atn, dfa::DFA decisionToDFA[], PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), parser(parser), decisionToDFA(decisionToDFA) {
+                    ParserATNSimulator::ParserATNSimulator(Parser *parser, ATN *atn, const std::vector<dfa::DFA>& decisionToDFA, PredictionContextCache *sharedContextCache) : ATNSimulator(atn,sharedContextCache), parser(parser), _decisionToDFA(decisionToDFA) {
                         InitializeInstanceFields();
                         //		DOTGenerator dot = new DOTGenerator(null);
                         //		System.out.println(dot.getDOT(atn.rules.get(0), parser.getRuleNames()));
@@ -69,7 +69,7 @@ namespace org {
                         _input = input;
                         _startIndex = input->index();
                         _outerContext = outerContext;
-                        dfa::DFA dfa = decisionToDFA[decision];
+                        dfa::DFA dfa = _decisionToDFA[decision];
 
                         int m = input->mark();
                         int index = input->index();
@@ -940,11 +940,9 @@ namespace org {
                         if (t == Token::_EOF) {
                             return L"EOF";
                         }
-                        if (parser != nullptr && parser->getTokenNames() != nullptr) {
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: String[] tokensNames = parser.getTokenNames();
-                            std::wstring *tokensNames = parser->getTokenNames();
-                            if (t >= tokensNames->length) {
+                        if (parser != nullptr) {
+                            std::vector<std::wstring> tokensNames = parser->getTokenNames();
+                            if (t >= tokensNames.size()) {
                                 System::err::println(t + std::wstring(L" ttype out of range: ") + Arrays->toString(tokensNames));
                                 System::err::println((static_cast<CommonTokenStream*>(parser->getInputStream()))->getTokens());
                             } else {
@@ -1017,7 +1015,11 @@ namespace org {
                         }
 
                         if (debug) {
-                            std::cout << std::wstring(L"DFA=\n") << dfa->toString(parser != nullptr?parser->getTokenNames():nullptr) << std::endl;
+                            std::vector<std::wstring> names;
+                            if (parser != nullptr) {
+                                names = parser->getTokenNames();
+                            }
+                            std::cout << std::wstring(L"DFA=\n") << dfa->toString(names) << std::endl;
                         }
 
                         return to;

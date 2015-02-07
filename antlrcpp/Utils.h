@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <map>
+#include <string>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -40,8 +42,11 @@ namespace Utils {
         
     };
     
+    std::wstring join(std::vector<std::wstring> strings, const std::wstring &separator);
     
     std::map<std::wstring, int>* toMap(std::wstring *);
+
+    std::map<std::wstring, int>* toMap(const std::vector<std::wstring> &keys);
 
     std::wstring escapeWhitespace(std::wstring str, bool TODO);
     

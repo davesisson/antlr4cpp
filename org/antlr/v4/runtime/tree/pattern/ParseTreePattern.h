@@ -97,6 +97,8 @@ namespace org {
                             /// pattern; otherwise, {@code false}. </returns>
                             virtual bool matches(ParseTree *tree);
 
+// TODO:  Come back to this after the base runtime works.
+#if 0
                             /// <summary>
                             /// Find all nodes using XPath and then try to match those subtrees against
                             /// this tree pattern.
@@ -108,7 +110,8 @@ namespace org {
                             /// successful matches. Unsuccessful matches are omitted from the result,
                             /// regardless of the reason for the failure. </returns>
                             virtual std::vector<ParseTreeMatch*> findAll(ParseTree *tree, const std::wstring &xpath);
-
+#endif
+                            
                             /// <summary>
                             /// Get the <seealso cref="ParseTreePatternMatcher"/> which created this tree pattern.
                             /// </summary>

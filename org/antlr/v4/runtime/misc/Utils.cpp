@@ -1,5 +1,8 @@
 ﻿#include "Utils.h"
 
+// TODO:  Come back to this after the base runtime works.
+#if 0
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -128,3 +131,4 @@ template<typename T>
         }
     }
 }
+#endif

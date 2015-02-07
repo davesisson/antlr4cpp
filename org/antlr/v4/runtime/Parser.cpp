@@ -76,31 +76,27 @@ namespace org {
                 }
 
                 void Parser::TraceListener::enterEveryRule(ParserRuleContext *ctx) {
-                  std::cout << "enter   ";
-                  for (std::wstring wstr : outerInstance->getRuleNames()[ctx->getRuleIndex()]) {
-                    std::cout << ws2s(wstr);
-                  }
-                  std::cout << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText()) << std::endl;
+                  std::cout << "enter   "
+                            << ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
+                            << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText())
+                            << std::endl;
                 }
 
                 void Parser::TraceListener::visitTerminal(tree::TerminalNode *node) {
-                    std::cout << "consume ";
-                    std::cout << node->getSymbol() << " rule ";
-                  for (std::wstring wstr : outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()]) {
-                    std::cout << ws2s(wstr);
-                  }
-                  std::cout << std::endl;
+                    std::cout << "consume "
+                              << node->getSymbol() << " rule "
+                              << ws2s(outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()])
+                              << std::endl;
                 }
 
                 void Parser::TraceListener::visitErrorNode(tree::ErrorNode *node) {
                 }
 
                 void Parser::TraceListener::exitEveryRule(ParserRuleContext *ctx) {
-                  std::cout << "exit    ";
-                  for (std::wstring wstr : outerInstance->getRuleNames()[ctx->getRuleIndex()]) {
-                    std::cout << ws2s(wstr);
-                  }
-                  std::cout << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText()) << std::endl;
+                  std::cout << "exit    "
+                            << ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
+                            << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText())
+                            << std::endl;
                 }
 
                 Parser::TrimToSizeListener *const Parser::TrimToSizeListener::INSTANCE = new Parser::TrimToSizeListener();
@@ -227,11 +223,10 @@ namespace org {
                 }
 
               void Parser::removeParseListener(tree::ParseTreeListener *listener) {
-                    if (_parseListeners.size() > 0) {
-                        if (_parseListeners.remove(listener)) {
-                            if (_parseListeners.empty()) {
-                                _parseListeners.clear();
-                            }
+                    if (!_parseListeners.empty()) {
+                        auto it = std::find(_parseListeners.begin(), _parseListeners.end(), listener);
+                        if (it != _parseListeners.end()) {
+                            _parseListeners.erase(it);
                         }
                     }
                 }
@@ -249,9 +244,9 @@ namespace org {
 
                 void Parser::triggerExitRuleEvent() {
                     // reverse order walk of listeners
-                    for (int i = _parseListeners.size() - 1; i >= 0; i--) {
-                      tree::ParseTreeListener *listener = _parseListeners[i];
-                        _ctx->exitRule(listener);
+                    for (auto it = _parseListeners.rbegin(); it != _parseListeners.rend(); ++it) {
+                        tree::ParseTreeListener *listener = *it;
+                        _ctx->exitRule(*it);
                         listener->exitEveryRule(_ctx);
                     }
                 }
@@ -260,7 +255,7 @@ namespace org {
                     return _syntaxErrors;
                 }
 
-                org::antlr::v4::runtime::TokenFactory<?> *Parser::getTokenFactory() {
+                TokenFactory<CommonToken*> *Parser::getTokenFactory() {
                     return _input->getTokenSource()->getTokenFactory();
                 }
 
@@ -579,7 +574,7 @@ template<typename T1>
 
                 std::vector<std::wstring> Parser::getDFAStrings() {
 //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    synchronized(_interp->decisionToDFA) {
+                    synchronized(_interp->_decisionToDFA) {
                         std::vector<std::wstring> s = std::vector<std::wstring>();
                         for (int d = 0; d < _interp->decisionToDFA->length; d++) {
                             DFA *dfa = _interp->decisionToDFA[d];
@@ -592,10 +587,10 @@ template<typename T1>
 
                 void Parser::dumpDFA() {
 //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    synchronized(_interp->decisionToDFA) {
+                    synchronized(_interp->_decisionToDFA) {
                         bool seenOne = false;
                         for (int d = 0; d < _interp->decisionToDFA->length; d++) {
-                            DFA *dfa = _interp->decisionToDFA[d];
+                            DFA *dfa = _interp->_decisionToDFA[d];
                             if (!dfa->states->isEmpty()) {
                                 if (seenOne) {
                                     std::cout << std::endl;
@@ -609,7 +604,7 @@ template<typename T1>
                     }
                 }
 
-                std::wstring Parser::getSourceName() {
+                std::string Parser::getSourceName() {
                     return _input->getSourceName();
                 }
 

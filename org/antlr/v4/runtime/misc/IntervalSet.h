@@ -183,10 +183,16 @@ namespace org {
 
                         virtual std::wstring toString(bool elemAreChar);
 
+                        // TODO(dsisson): See if we can eliminate this version.
                         virtual std::wstring toString(std::wstring tokenNames[]);
+                        
+                        virtual std::wstring toString(std::vector<std::wstring> tokenNames);
 
                     protected:
+                        // TODO(dsisson): See if we can eliminate this version.
                         virtual std::wstring elementName(std::wstring tokenNames[], int a);
+                        
+                        virtual std::wstring elementName(std::vector<std::wstring> tokenNames, int a);
 
                     public:
                         virtual int size() override;
