@@ -1,5 +1,9 @@
 ﻿#include "Interval.h"
 
+#ifdef WINDOWS
+#include <algorithm>
+#endif 
+
 namespace org {
     namespace antlr {
         namespace v4 {

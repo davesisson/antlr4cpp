@@ -318,9 +318,6 @@
     <ClCompile Include="..\org\antlr\v4\runtime\misc\IntSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\JFileChooserConfirmOverwrite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\LogManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -756,9 +753,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\IntSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\JFileChooserConfirmOverwrite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\LogManager.h">

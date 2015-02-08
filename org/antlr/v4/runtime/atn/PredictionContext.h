@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <vector>
 #include <limits.h>
+#include <stdint.h>
 
 /*
  * [The "BSD license"]

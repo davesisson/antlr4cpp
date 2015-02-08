@@ -100,7 +100,7 @@ namespace org {
                     /// </summary>
                     int currentCharIndex;
 
-                    std::iostream *input;
+                    std::ifstream *input;
 
                     /// <summary>
                     /// The name or source of this char stream. </summary>

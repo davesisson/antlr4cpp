@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ANTLR4CPP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ANTLR4CPP_EXPORTS;%(PreprocessorDefinitions);WINDOWS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\antlrcpp;$(ProjectDir)\..\org\antlr\v4\runtime;$(ProjectDir)\..\org\antlr\v4\runtime\atn;$(ProjectDir)\..\org\antlr\v4\runtime\dfa;$(ProjectDir)\..\org\antlr\v4\runtime\misc;$(ProjectDir)\..\org\antlr\v4\runtime\tree;$(ProjectDir)\..\org\antlr\v4\runtime\tree\xpath;$(ProjectDir)\..\org\antlr\v4\runtime\tree\pattern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -162,7 +162,6 @@
     <ClCompile Include="..\org\antlr\v4\runtime\misc\Interval.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\IntervalSet.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\IntSet.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\JFileChooserConfirmOverwrite.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\LogManager.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\MultiMap.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\MurmurHash.cpp" />
@@ -310,7 +309,6 @@
     <ClInclude Include="..\org\antlr\v4\runtime\misc\Interval.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\IntervalSet.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\IntSet.h" />
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\JFileChooserConfirmOverwrite.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\LogManager.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\MultiMap.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\MurmurHash.h" />
