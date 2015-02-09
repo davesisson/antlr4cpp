@@ -119,7 +119,11 @@ namespace org {
                     }
                     
                     org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
-                        assert(a != nullptr && b != nullptr); // must be empty context, never null
+#ifdef TODO
+						I dislike using assert - if it hits then the application crashes hard with little diagnostic information. Change to an exception or the like when we have
+                        an idea of the policy appropriate for that
+#endif
+						assert(a != nullptr && b != nullptr); // must be empty context, never null
                         
                         // share same graph if both same
                         if (a == b || a->equals(b)) {
@@ -275,9 +279,10 @@ namespace org {
                         std::vector<int>::size_type i = 0; // walks a
                         std::vector<int>::size_type j = 0; // walks b
                         std::vector<int>::size_type k = 0; // walks target M array
-                        
-                        int mergedReturnStates[a->returnStates.size() + b->returnStates.size()];
-                        PredictionContext *mergedParents[a->returnStates.size() + b->returnStates.size()];
+
+						std::vector<int> mergedReturnStates;
+						std::vector<PredictionContext*> mergedParents;
+
                         // walk and merge to yield mergedParents, mergedReturnStates
                         while (i < a->returnStates.size() && j < b->returnStates.size()) {
                             PredictionContext *a_parent = a->parents->at(i);// [i];
@@ -366,17 +371,17 @@ namespace org {
                         return M;
                     }
                     
-                    void PredictionContext::combineCommonParents(PredictionContext *parents[]) {
+					void PredictionContext::combineCommonParents(std::vector<PredictionContext*> parents) {
                         std::unordered_map<PredictionContext*, PredictionContext*> uniqueParents = std::unordered_map<PredictionContext*, PredictionContext*>();
                         
-                        for (size_t p = 0; p < sizeof(*parents) / sizeof(parents[0]); p++) {
+                        for (size_t p = 0; p < parents.size(); p++) {
                             PredictionContext *parent = parents[p];
                             if (uniqueParents.find(parent) == uniqueParents.end()) { // don't replace
                                 uniqueParents[parent] = parent;
                             }
                         }
                         
-                        for (size_t p = 0; p < sizeof(*parents) / sizeof(parents[0]); p++) {
+						for (size_t p = 0; p < parents.size(); p++) {
                             parents[p] = uniqueParents.at(parents[p]);
                         }
                     }

@@ -3,7 +3,7 @@
 #include "StringBuilder.h"
 #include "DFAState.h"
 #include <limits.h>
-
+#include <stdint.h>
 
 /*
  * [The "BSD license"]

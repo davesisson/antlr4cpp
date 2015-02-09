@@ -291,22 +291,10 @@
     <ClCompile Include="..\org\antlr\v4\runtime\misc\Array2DHashSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\DoubleKeyMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\EqualityComparator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\FlexibleHashMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\GraphicsSupport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\IntegerList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\IntegerStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\Interval.cpp">
@@ -330,25 +318,16 @@
     <ClCompile Include="..\org\antlr\v4\runtime\misc\NotNull.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\Nullable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\ObjectEqualityComparator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\OrderedHashSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\Pair.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\ParseCancellationException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\TestRig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\Triple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\Utils.cpp">

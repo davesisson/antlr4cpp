@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <stdarg.h>
 
 /*
  * [The "BSD license"]

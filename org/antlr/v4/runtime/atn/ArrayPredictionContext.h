@@ -49,8 +49,6 @@ namespace org {
                         ///  returnState == <seealso cref="#EMPTY_RETURN_STATE"/>.
                         /// </summary>
                     public:
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: public final PredictionContext[] parents;
                         const std::vector<PredictionContext*> *parents;
 
                         /// <summary>
@@ -59,7 +57,6 @@ namespace org {
                         /// </summary>
                         const std::vector<int> returnStates;
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         ArrayPredictionContext(SingletonPredictionContext *a); //this(new PredictionContext[] {a.parent}, new int[] {a.returnState});
 
                         ArrayPredictionContext(PredictionContext *parents, int returnStates[]);

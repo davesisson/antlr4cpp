@@ -153,12 +153,8 @@
     <ClCompile Include="..\org\antlr\v4\runtime\ListTokenSource.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\AbstractEqualityComparator.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\Array2DHashSet.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\DoubleKeyMap.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\EqualityComparator.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\FlexibleHashMap.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\GraphicsSupport.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\IntegerList.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\IntegerStack.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\Interval.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\IntervalSet.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\IntSet.cpp" />
@@ -166,13 +162,10 @@
     <ClCompile Include="..\org\antlr\v4\runtime\misc\MultiMap.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\MurmurHash.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\NotNull.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\Nullable.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\ObjectEqualityComparator.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\OrderedHashSet.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\Pair.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\ParseCancellationException.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\TestRig.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\Triple.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\Utils.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\NoViableAltException.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\Parser.cpp" />

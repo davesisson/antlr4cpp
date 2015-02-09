@@ -253,7 +253,7 @@ namespace org {
                         /// ones.
                         /// </summary>
                     protected:
-                        static void combineCommonParents(PredictionContext *parents[]);
+						static void combineCommonParents(std::vector<PredictionContext*>parents);
 
                     public:
                         static std::wstring toDOTString(PredictionContext *context);
