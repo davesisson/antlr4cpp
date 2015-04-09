@@ -74,7 +74,7 @@ namespace org {
                     p = adjustSeekIndex(index);
                 }
 
-                int BufferedTokenStream::size() {
+                size_t BufferedTokenStream::size() {
                     return tokens.size();
                 }
 
@@ -90,10 +90,10 @@ namespace org {
 
                 bool BufferedTokenStream::sync(int i) {
                     assert(i >= 0);
-                    int n = i - tokens.size() + 1; // how many more elements we need?
+                    size_t n = i - tokens.size() + 1; // how many more elements we need?
                     //System.out.println("sync("+i+") needs "+n);
                     if (n > 0) {
-                        int fetched = fetch(n);
+                        size_t fetched = fetch(n);
                         return fetched >= n;
                     }
 
@@ -225,10 +225,14 @@ namespace org {
                     // list = tokens[start:stop]:{T t, t.getType() in types}
                     std::vector<Token*> filteredTokens = std::vector<Token*>();
                     for (int i = start; i <= stop; i++) {
-                        Token *t = tokens[i];
+                        Token *tok = tokens[i];
                         
-                        if (types == nullptr || *std::find(types->begin(), types->end(), t) /*.operator->()*/) {
-                            filteredTokens.push_back(t);
+                        if (types == nullptr) {
+                            filteredTokens.push_back(tok);
+                        } else {
+                            int t = std::find(types->begin(), types->end(), tok);
+                            /*.operator->()*/
+                            filteredTokens.push_back(tok);
                         }
                     }
                     if (filteredTokens.empty()) {

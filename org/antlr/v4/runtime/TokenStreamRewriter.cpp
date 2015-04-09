@@ -27,7 +27,7 @@ namespace org {
 
                 std::wstring TokenStreamRewriter::RewriteOperation::toString() {
                     std::wstring opName = getClass()->getName();
-                    int index = opName.find(L'$');
+                    size_t index = opName.find(L'$');
                     opName = opName.substr(index + 1, opName.length() - (index + 1));
                     return L"<" + opName + L"@" + outerInstance->tokens->get(index)->getText() + L":\"" + text + L"\">";
                 }
