@@ -8,7 +8,6 @@
 #include <unordered_map>
 #include <vector>
 #include <iostream>
-#include "vectorhelper.h"
 
 /*
  * [The "BSD license"]
