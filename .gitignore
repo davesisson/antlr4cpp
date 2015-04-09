@@ -32,3 +32,5 @@ Windows/Debug/Tree.obj
 Windows/Debug/Triple.obj
 Windows/Debug/vc100.pdb
 Windows/Debug/XPathElement.obj
+Apple/antlrcpp.xcodeproj/project.xcworkspace/
+Apple/antlrcpp.xcodeproj/xcuserdata/
