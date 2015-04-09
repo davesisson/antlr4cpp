@@ -186,7 +186,7 @@ namespace org {
 
                         virtual int hashCode();
 
-                        virtual int size();
+                        virtual size_t size();
 
                         virtual bool isEmpty();
 

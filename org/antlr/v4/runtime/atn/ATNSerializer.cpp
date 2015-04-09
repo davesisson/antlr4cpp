@@ -124,7 +124,7 @@ std::vector<int>* ATNSerializer::serialize() {
 
     for (int i = 0; i < s->getNumberOfTransitions(); i++) {
       Transition *t = s->transition(i);
-      int edgeType = Transition::serializationTypes->get(t->getClass());
+      int edgeType = Transition::serializationTypes->at(t->getClass());
       if (edgeType == Transition::SET || edgeType == Transition::NOT_SET) {
         SetTransition *st = static_cast<SetTransition *>(t);
         if (!setIndices->containsKey(st->set)) {
@@ -147,7 +147,7 @@ std::vector<int>* ATNSerializer::serialize() {
     data->push_back(precedenceStates.at(i));
   }
 
-  int nrules = atn->ruleToStartState.size();
+  size_t nrules = atn->ruleToStartState.size();
   data->push_back(nrules);
   for (int r = 0; r < nrules; r++) {
     ATNState *ruleStartState = atn->ruleToStartState[r];
@@ -167,7 +167,7 @@ std::vector<int>* ATNSerializer::serialize() {
     }
   }
 
-  int nmodes = atn->modeToStartState->size();
+  size_t nmodes = atn->modeToStartState->size();
   data->push_back(nmodes);
   if (nmodes > 0) {
     for (const auto& modeStartState : *atn->modeToStartState) {
@@ -175,7 +175,7 @@ std::vector<int>* ATNSerializer::serialize() {
     }
   }
 
-  int nsets = sets.size();
+  size_t nsets = sets.size();
   data->push_back(nsets);
   for (auto set : sets) {
     bool containsEof = set->contains(Token::_EOF);
@@ -289,7 +289,7 @@ std::vector<int>* ATNSerializer::serialize() {
       data->push_back(arg3);
     }
   }
-  int ndecisions = atn->decisionToState.size();
+  size_t ndecisions = atn->decisionToState.size();
   data->add(ndecisions);
   for (DecisionState *decStartState : atn->decisionToState) {
     data->add(decStartState->stateNumber);

@@ -508,7 +508,7 @@ std::vector<BitSet> getConflictingAltSubsets(ATNConfigSet *configs);
 /// cref="ATNConfig#alt alt"/>
 /// </pre>
 /// </summary>
-std::map<ATNState, BitSet> getStateToAltMap(ATNConfigSet *configs);
+std::map<ATNState*, BitSet> getStateToAltMap(ATNConfigSet *configs);
 
 // TODO -- Add docs.
 bool hasStateAssociatedWithOneAlt(ATNConfigSet *configs);

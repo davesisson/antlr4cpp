@@ -249,7 +249,7 @@ namespace org {
                         return 0;
                     }
 
-                    int ATNConfigSet::size() {
+                    size_t ATNConfigSet::size() {
                         return configs.size();
                     }
 
