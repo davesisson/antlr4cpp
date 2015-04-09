@@ -60,7 +60,7 @@ namespace org {
               
 
                     for (int i = 0; i < atn->getNumberOfDecisions(); i++) {
-                        _decisionToDFA.emplace_back(new dfa::DFA(atn->getDecisionState(i), i));
+                        _decisionToDFA.emplace_back(atn->getDecisionState(i), i);
                     }
 
                     // identify the ATN states where pushNewRecursionContext must be called
