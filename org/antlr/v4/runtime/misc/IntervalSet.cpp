@@ -190,7 +190,7 @@ namespace org {
                         int maxElement = vocabularyIS->getMaxElement();
 
                         IntervalSet *compliment = new IntervalSet(0);
-                        int n = intervals.size();
+                        size_t n = intervals.size();
                         if (n == 0) {
                             return compliment;
                         }
@@ -243,8 +243,8 @@ namespace org {
                         std::vector<Interval*> myIntervals = this->intervals;
                         std::vector<Interval*> theirIntervals = (static_cast<IntervalSet*>(other))->intervals;
                         IntervalSet *intersection = nullptr;
-                        int mySize = myIntervals.size();
-                        int theirSize = theirIntervals.size();
+                        size_t mySize = myIntervals.size();
+                        size_t theirSize = theirIntervals.size();
                         int i = 0;
                         int j = 0;
                         // iterate down both interval lists looking for nondisjoint intervals
@@ -299,7 +299,7 @@ namespace org {
                     }
 
                     bool IntervalSet::contains(int el) {
-                        int n = intervals.size();
+                        size_t n = intervals.size();
                         for (int i = 0; i < n; i++) {
                             Interval *I = intervals[i];
                             int a = I->a;
@@ -352,7 +352,7 @@ namespace org {
                         if (isNil()) {
                             return Token::INVALID_TYPE;
                         }
-                        int n = intervals.size();
+                        size_t n = intervals.size();
                         for (int i = 0; i < n; i++) {
                             Interval *I = intervals[i];
                             int a = I->a;
@@ -524,7 +524,7 @@ namespace org {
 
                     int IntervalSet::size() {
                         int n = 0;
-                        int numIntervals = intervals.size();
+                        size_t numIntervals = intervals.size();
                         if (numIntervals == 1) {
                             Interval *firstInterval = this->intervals[0];
                             return firstInterval->b - firstInterval->a + 1;
@@ -538,7 +538,7 @@ namespace org {
 
                     std::vector<int> IntervalSet::toList() {
                         std::vector<int> values = std::vector<int>();
-                        int n = intervals.size();
+                        size_t n = intervals.size();
                         for (int i = 0; i < n; i++) {
                             Interval *I = intervals[i];
                             int a = I->a;
@@ -563,7 +563,7 @@ namespace org {
                     }
 
                     int IntervalSet::get(int i) {
-                        int n = intervals.size();
+                        size_t n = intervals.size();
                         int index = 0;
                         for (int j = 0; j < n; j++) {
                             Interval *I = intervals[j];
@@ -583,7 +583,7 @@ namespace org {
                         if (readonly) {
                             throw IllegalStateException(L"can't alter readonly IntervalSet");
                         }
-                        int n = intervals.size();
+                        size_t n = intervals.size();
                         for (int i = 0; i < n; i++) {
                             Interval *I = intervals[i];
                             int a = I->a;
