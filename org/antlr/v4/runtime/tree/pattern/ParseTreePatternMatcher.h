@@ -209,7 +209,7 @@ namespace org {
                             virtual RuleTagToken *getRuleTagToken(ParseTree *t);
 
                         public:
-                            virtual std::vector<Token> tokenize(const std::wstring &pattern);
+                            virtual std::vector<Token*> tokenize(const std::wstring &pattern);
 
                             /// <summary>
                             /// Split {@code <ID> = <e:expr> ;} into 4 chunks for tokenizing by <seealso cref="#tokenize"/>. </summary>

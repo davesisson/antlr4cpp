@@ -1,5 +1,6 @@
 ﻿#include "TokenStreamRewriter.h"
 #include "Interval.h"
+#include "vectorhelper.h"
 
 namespace org {
     namespace antlr {
@@ -26,7 +27,7 @@ namespace org {
 
                 std::wstring TokenStreamRewriter::RewriteOperation::toString() {
                     std::wstring opName = getClass()->getName();
-                    int index = opName.find(L'$');
+                    size_t index = opName.find(L'$');
                     opName = opName.substr(index + 1, opName.length() - (index + 1));
                     return L"<" + opName + L"@" + outerInstance->tokens->get(index)->getText() + L":\"" + text + L"\">";
                 }
@@ -72,7 +73,7 @@ namespace org {
 const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
 
                 TokenStreamRewriter::TokenStreamRewriter(TokenStream *tokens) : tokens(tokens), programs(std::unordered_map<std::wstring, std::vector<RewriteOperation*>>()), lastRewriteTokenIndexes(std::unordered_map<std::wstring, int>()) {
-                    programs->put(DEFAULT_PROGRAM_NAME, VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE));
+                    programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(DEFAULT_PROGRAM_NAME, VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE)));
                 }
 
                 org::antlr::v4::runtime::TokenStream *TokenStreamRewriter::getTokenStream() {
@@ -84,9 +85,9 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 }
 
                 void TokenStreamRewriter::rollback(const std::wstring &programName, int instructionIndex) {
-                    std::vector<RewriteOperation*> is = programs->get(programName);
+                    std::vector<RewriteOperation*> is = programs->at(programName);
                     if (is.size() > 0) {
-                        programs->put(programName, is.subList(MIN_TOKEN_INDEX,instructionIndex));
+                        programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(programName, VectorHelper::VectorSublist<RewriteOperation*>(is, MIN_TOKEN_INDEX, instructionIndex)));
                     }
                 }
 

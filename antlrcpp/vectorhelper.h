@@ -18,4 +18,11 @@ public:
 		vector.reserve(size);
 		return vector;
 	}
+    
+    template<typename T>
+    static std::vector<T> VectorSublist(const T& vec, int start, int end)
+    {
+        std::vector<T> vector(vec.begin() + start, vec.begin() + end);
+        return vector;
+    }
 };

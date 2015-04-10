@@ -205,10 +205,10 @@ std::vector<BitSet> getConflictingAltSubsets(ATNConfigSet* configs) {
   return values;
 }
 
-std::map<ATNState, BitSet> getStateToAltMap(ATNConfigSet* configs) {
-  std::map<ATNState, BitSet> m;
+std::map<ATNState*, BitSet> getStateToAltMap(ATNConfigSet* configs) {
+  std::map<ATNState*, BitSet> m;
   for (ATNConfig c : *configs) {
-    m[*c.state].set(c.alt);
+    m[c.state].set(c.alt);
   }
   return m;
 }
