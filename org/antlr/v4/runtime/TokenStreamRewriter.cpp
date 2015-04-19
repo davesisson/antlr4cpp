@@ -1,6 +1,7 @@
 ﻿#include "TokenStreamRewriter.h"
 #include "Interval.h"
 #include "vectorhelper.h"
+#include "Exceptions.h"
 
 namespace org {
     namespace antlr {
@@ -42,7 +43,7 @@ namespace org {
 
                 int TokenStreamRewriter::InsertBeforeOp::execute(std::wstring *buf) {
                     buf->append(text);
-                    if (outerInstance->tokens->get(index)->getType() != Token::EOF) {
+                    if (outerInstance->tokens->get(index)->getType() != Token::_EOF) {
                         buf->append(outerInstance->tokens->get(index)->getText());
                     }
                     return index + 1;
@@ -153,7 +154,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
 
                 void TokenStreamRewriter::replace(const std::wstring &programName, int from, int to, const std::wstring& text) {
                     if (from > to || from < 0 || to < 0 || to >= tokens->size()) {
-                        throw IllegalArgumentException(std::wstring(L"replace: range invalid: ") + from + std::wstring(L"..") + to + std::wstring(L"(size=") + tokens->size() + std::wstring(L")"));
+                        throw IllegalArgumentException(L"replace: range invalid: " + std::to_wstring(from) + L".." + std::to_wstring(to) + L"(size=" + std::to_wstring(tokens->size()) + L")");
                     }
                     RewriteOperation *op = new ReplaceOp(this, from, to, text);
                     std::vector<RewriteOperation*> rewrites = getProgram(programName);
@@ -194,7 +195,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 }
 
                 int TokenStreamRewriter::getLastRewriteTokenIndex(const std::wstring &programName) {
-                    int I = lastRewriteTokenIndexes->get(programName);
+                    int I = lastRewriteTokenIndexes->at(programName);
                     if (I == nullptr) {
                         return -1;
                     }
@@ -202,11 +203,11 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 }
 
                 void TokenStreamRewriter::setLastRewriteTokenIndex(const std::wstring &programName, int i) {
-                    lastRewriteTokenIndexes->put(programName, i);
+                    lastRewriteTokenIndexes->insert({programName, i});
                 }
 
                 std::vector<TokenStreamRewriter::RewriteOperation*> TokenStreamRewriter::getProgram(const std::wstring &name) {
-                    std::vector<TokenStreamRewriter::RewriteOperation*> is = programs->get(name);
+                    std::vector<TokenStreamRewriter::RewriteOperation*> is = programs->at(name);
                     if (is.empty()) {
                         is = initializeProgram(name);
                     }
@@ -215,7 +216,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
 
                 std::vector<TokenStreamRewriter::RewriteOperation*> TokenStreamRewriter::initializeProgram(const std::wstring &name) {
                     std::vector<TokenStreamRewriter::RewriteOperation*> is = VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE);
-                    programs->put(name, is);
+                    programs->insert({name, is});
                     return is;
                 }
 
@@ -228,7 +229,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 }
 
                 std::wstring TokenStreamRewriter::getText(const std::wstring &programName, Interval *interval) {
-                    std::vector<TokenStreamRewriter::RewriteOperation*> rewrites = programs->get(programName);
+                    std::vector<TokenStreamRewriter::RewriteOperation*> rewrites = programs->at(programName);
                     int start = interval->a;
                     int stop = interval->b;
 
@@ -243,20 +244,20 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                     if (rewrites.empty() || rewrites.empty()) {
                         return tokens->getText(interval); // no instructions to execute
                     }
-                    StringBuilder *buf = new StringBuilder();
+                    std::wstring buf;
 
                     // First, optimize instruction stream
-                    Map<int, TokenStreamRewriter::RewriteOperation*> *indexToOp = reduceToSingleOperationPerIndex(rewrites);
+                    std::unordered_map<int, TokenStreamRewriter::RewriteOperation*> *indexToOp = reduceToSingleOperationPerIndex(rewrites);
 
                     // Walk buffer, executing instructions and emitting tokens
                     int i = start;
                     while (i <= stop && i < tokens->size()) {
-                        RewriteOperation *op = indexToOp->get(i);
+                        RewriteOperation *op = indexToOp->at(i);
                         indexToOp->remove(i); // remove so any left have index size-1
                         Token *t = tokens->get(i);
                         if (op == nullptr) {
                             // no operation at that index, just dump token
-                            if (t->getType() != Token::EOF) {
+                            if (t->getType() != Token::_EOF) {
                                 buf->append(t->getText());
                             }
                             i++; // move to next token
@@ -273,15 +274,14 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                         // should be included (they will be inserts).
                         for (auto op : indexToOp) {
                             if (op->second->index >= tokens->size() - 1) {
-                                buf->append(op->second->text);
+                                buf.append(op->second->text);
                             }
                         }
                     }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                    return buf->toString();
+                    return buf;
                 }
 
-                Map<int, TokenStreamRewriter::RewriteOperation*> *TokenStreamRewriter::reduceToSingleOperationPerIndex(std::vector<TokenStreamRewriter::RewriteOperation*> &rewrites) {
+                std::unordered_map<int, TokenStreamRewriter::RewriteOperation*> *TokenStreamRewriter::reduceToSingleOperationPerIndex(std::vector<TokenStreamRewriter::RewriteOperation*> &rewrites) {
                                 //		System.out.println("rewrites="+rewrites);
 
                     // WALK REPLACES

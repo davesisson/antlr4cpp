@@ -247,7 +247,7 @@ std::vector<int>* ATNSerializer::serialize() {
         case Transition::RANGE:
           arg1 = (static_cast<RangeTransition *>(t))->from;
           arg2 = (static_cast<RangeTransition *>(t))->to;
-          if (arg1 == Token) {
+          if (arg1 == Token::_EOF) {
             arg1 = 0;
             arg3 = 1;
           }

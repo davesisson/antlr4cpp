@@ -64,9 +64,8 @@ namespace org {
                         symbol = getInputStream()->getText(misc::Interval::of(startIndex,startIndex));
                         symbol = Utils::escapeWhitespace(symbol, false);
                     }
-                    // TODO: this might be OS X specific
-                    std::wstring format = L"%s('%s')";
-                    return swprintf(format, format.size(), L"LexerNoViableAltException", symbol);
+                    std::wstring format = L"LexerNoViableAltException('" + symbol + L"')";
+                    return format;
                 }
             }
         }
