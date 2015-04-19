@@ -16,5 +16,8 @@ public:
     
     static UUID *fromString(const std::wstring &name);
     std::wstring toString() const;
+    
+    long getLeastSignificantBits() const;
+    long getMostSignificantBits() const;
 };
 
