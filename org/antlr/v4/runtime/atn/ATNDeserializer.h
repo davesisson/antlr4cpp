@@ -98,7 +98,7 @@ namespace org {
                         virtual bool isFeatureSupported(UUID *feature, UUID *actualUuid);
 
                     public:
-                        virtual ATN *deserialize(wchar_t data[]);
+                        virtual ATN *deserialize(const std::wstring& data);
 
                     public:
                         virtual void verifyATN(ATN *atn);
@@ -109,11 +109,11 @@ namespace org {
 
                         static int toInt(wchar_t c);
 
-                        static int toInt32(wchar_t data[], int offset);
+                        static int toInt32(const std::wstring& data, int offset);
 
-                        static long long toLong(wchar_t data[], int offset);
+                        static long long toLong(const std::wstring& data, int offset);
 
-                        static UUID *toUUID(wchar_t data[], int offset);
+                        static UUID *toUUID(const std::wstring& data, int offset);
 
                         virtual Transition *edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets);
 

@@ -55,7 +55,7 @@ class ATNSerializer {
  public:
   ATNSerializer(ATN *atn);
 
-  ATNSerializer(ATN *atn, std::vector<std::wstring> &tokenNames);
+  ATNSerializer(ATN *atn, const std::vector<std::wstring> &tokenNames);
 
   /// <summary>
   /// Serialize state descriptors, edge descriptors, and decision->state map
@@ -83,7 +83,7 @@ class ATNSerializer {
   /// </summary>
   virtual std::vector<int> *serialize();
 
-  virtual std::wstring decode(wchar_t data[]);
+  virtual std::wstring decode(const std::wstring& data);
 
   virtual std::wstring getTokenName(int t);
 

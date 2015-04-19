@@ -62,7 +62,7 @@ namespace atn {
 
 ATNSerializer::ATNSerializer(ATN *atn) { this->atn = atn; }
 
-ATNSerializer::ATNSerializer(ATN *atn, std::vector<std::wstring> &tokenNames) {
+ATNSerializer::ATNSerializer(ATN *atn, const std::vector<std::wstring> &tokenNames) {
   this->atn = atn;
   this->tokenNames = tokenNames;
 }
@@ -127,9 +127,9 @@ std::vector<int>* ATNSerializer::serialize() {
       int edgeType = Transition::serializationTypes->at(t->getClass());
       if (edgeType == Transition::SET || edgeType == Transition::NOT_SET) {
         SetTransition *st = static_cast<SetTransition *>(t);
-        if (!setIndices->containsKey(st->set)) {
+        if (setIndices->find(st->set) != setIndices->end()) {
           sets.push_back(st->set);
-          setIndices->put(st->set, sets.size() - 1);
+          setIndices->insert({st->set, sets.size() - 1});
         }
       }
     }
@@ -222,7 +222,7 @@ std::vector<int>* ATNSerializer::serialize() {
 
       int src = s->stateNumber;
       int trg = t->target->stateNumber;
-      int edgeType = Transition::serializationTypes->get(t->getClass());
+      int edgeType = Transition::serializationTypes[t->getClass()];
       int arg1 = 0;
       int arg2 = 0;
       int arg3 = 0;
@@ -272,10 +272,10 @@ std::vector<int>* ATNSerializer::serialize() {
           arg3 = at->isCtxDependent ? 1 : 0;
           break;
         case Transition::SET:
-          arg1 = setIndices->get((static_cast<SetTransition *>(t))->set);
+          arg1 = (*setIndices)[(static_cast<SetTransition *>(t))->set];
           break;
         case Transition::NOT_SET:
-          arg1 = setIndices->get((static_cast<SetTransition *>(t))->set);
+          arg1 = (*setIndices)[(static_cast<SetTransition *>(t))->set];
           break;
         case Transition::WILDCARD:
           break;
@@ -290,9 +290,9 @@ std::vector<int>* ATNSerializer::serialize() {
     }
   }
   size_t ndecisions = atn->decisionToState.size();
-  data->add(ndecisions);
+  data->push_back(ndecisions);
   for (DecisionState *decStartState : atn->decisionToState) {
-    data->add(decStartState->stateNumber);
+    data->push_back(decStartState->stateNumber);
   }
 
   // don't adjust the first value since that's the version number
@@ -303,20 +303,20 @@ std::vector<int>* ATNSerializer::serialize() {
     }
 
     int value = (data->at(i) + 2) & 0xFFFF;
-    data->set(i, value);
+    data->assign(i, value);
   }
 
   return data;
 }
 
-std::wstring ATNSerializer::decode(wchar_t data[]) {
-  data = data->clone();
+std::wstring ATNSerializer::decode(const std::wstring& inpdata) {
+  std::wstring data = inpdata;
   // don't adjust the first value since that's the version number
-  for (int i = 1; i < sizeof(data) / sizeof(data[0]); i++) {
+  for (int i = 1; i < data.size(); i++) {
     data[i] = static_cast<wchar_t>(data[i] - 2);
   }
 
-  StringBuilder *buf = new StringBuilder();
+  std::wstring buf;
   int p = 0;
   int version = ATNDeserializer::toInt(data[p++]);
   if (version != ATNDeserializer::SERIALIZED_VERSION) {
@@ -340,7 +340,7 @@ std::wstring ATNSerializer::decode(wchar_t data[]) {
 
   p++;  // skip grammarType
   int maxType = ATNDeserializer::toInt(data[p++]);
-  buf->append(L"max type ")->append(maxType)->append(L"\n");
+  buf.append(L"max type ").append(std::to_wstring(maxType)).append(L"\n");
   int nstates = ATNDeserializer::toInt(data[p++]);
   for (int i = 0; i < nstates; i++) {
     int stype = ATNDeserializer::toInt(data[p++]);
@@ -355,20 +355,20 @@ std::wstring ATNSerializer::decode(wchar_t data[]) {
     std::wstring arg = L"";
     if (stype == ATNState::LOOP_END) {
       int loopBackStateNumber = ATNDeserializer::toInt(data[p++]);
-      arg = std::wstring(L" ") + loopBackStateNumber;
+      arg = std::wstring(L" ") + std::to_wstring(loopBackStateNumber);
     } else if (stype == ATNState::PLUS_BLOCK_START ||
                stype == ATNState::STAR_BLOCK_START ||
                stype == ATNState::BLOCK_START) {
       int endStateNumber = ATNDeserializer::toInt(data[p++]);
-      arg = std::wstring(L" ") + endStateNumber;
+      arg = std::wstring(L" ") + std::to_wstring(endStateNumber);
     }
-    buf->append(i)
-        ->append(L":")
-        ->append(ATNState::serializationNames[stype])
-        ->append(L" ")
-        ->append(ruleIndex)
-        ->append(arg)
-        ->append(L"\n");
+    buf.append(std::to_wstring(i))
+       .append(L":")
+       .append(ATNState::serializationNames[stype])
+       .append(L" ")
+       .append(std::to_wstring(ruleIndex))
+       .append(arg)
+       .append(L"\n");
   }
   int numNonGreedyStates = ATNDeserializer::toInt(data[p++]);
   for (int i = 0; i < numNonGreedyStates; i++) {
@@ -387,44 +387,52 @@ std::wstring ATNSerializer::decode(wchar_t data[]) {
       if (arg2 == WCHAR_MAX) {
         arg2 = -1;
       }
-      buf->append(L"rule ")
-          ->append(i)
-          ->append(L":")
-          ->append(s)
-          ->append(L" ")
-          ->append(arg1)
-          ->append(L",")
-          ->append(arg2)
-          ->append(L'\n');
+      buf.append(L"rule ")
+         .append(std::to_wstring(i))
+         .append(L":")
+         .append(std::to_wstring(s))
+         .append(L" ")
+         .append(std::to_wstring(arg1))
+         .append(L",")
+         .append(std::to_wstring(arg2))
+         .append(L"\n");
     } else {
-      buf->append(L"rule ")->append(i)->append(L":")->append(s)->append(L'\n');
+        buf.append(L"rule ")
+           .append(std::to_wstring(i))
+           .append(L":")
+           .append(std::to_wstring(s))
+           .append(L"\n");
     }
   }
   int nmodes = ATNDeserializer::toInt(data[p++]);
   for (int i = 0; i < nmodes; i++) {
     int s = ATNDeserializer::toInt(data[p++]);
-    buf->append(L"mode ")->append(i)->append(L":")->append(s)->append(L'\n');
+    buf.append(L"mode ")
+       .append(std::to_wstring(i))
+       .append(L":")
+       .append(std::to_wstring(s))
+       .append(L"\n");
   }
   int nsets = ATNDeserializer::toInt(data[p++]);
   for (int i = 0; i < nsets; i++) {
     int nintervals = ATNDeserializer::toInt(data[p++]);
-    buf->append(i)->append(L":");
+    buf.append(std::to_wstring(i)).append(L":");
     bool containsEof = data[p++] != 0;
     if (containsEof) {
-      buf->append(getTokenName(Token::_EOF));
+      buf.append(getTokenName(Token::_EOF));
     }
 
     for (int j = 0; j < nintervals; j++) {
       if (containsEof || j > 0) {
-        buf->append(L", ");
+        buf.append(L", ");
       }
 
-      buf->append(getTokenName(ATNDeserializer::toInt(data[p])))
-          ->append(L"..")
-          ->append(getTokenName(ATNDeserializer::toInt(data[p + 1])));
+      buf.append(getTokenName(ATNDeserializer::toInt(data[p])))
+         .append(L"..")
+         .append(getTokenName(ATNDeserializer::toInt(data[p + 1])));
       p += 2;
     }
-    buf->append(L"\n");
+    buf.append(L"\n");
   }
   int nedges = ATNDeserializer::toInt(data[p++]);
   for (int i = 0; i < nedges; i++) {
@@ -434,28 +442,26 @@ std::wstring ATNSerializer::decode(wchar_t data[]) {
     int arg1 = ATNDeserializer::toInt(data[p + 3]);
     int arg2 = ATNDeserializer::toInt(data[p + 4]);
     int arg3 = ATNDeserializer::toInt(data[p + 5]);
-    buf->append(src)
-        ->append(L"->")
-        ->append(trg)
-        ->append(L" ")
-        ->append(Transition::serializationNames[ttype])
-        ->append(L" ")
-        ->append(arg1)
-        ->append(L",")
-        ->append(arg2)
-        ->append(L",")
-        ->append(arg3)
-        ->append(L"\n");
+    buf.append(std::to_wstring(src))
+       .append(L"->")
+       .append(std::to_wstring(trg))
+       .append(L" ")
+       .append(Transition::serializationNames[ttype])
+       .append(L" ")
+       .append(std::to_wstring(arg1))
+       .append(L",")
+       .append(std::to_wstring(arg2))
+       .append(L",")
+       .append(std::to_wstring(arg3))
+       .append(L"\n");
     p += 6;
   }
   int ndecisions = ATNDeserializer::toInt(data[p++]);
   for (int i = 0; i < ndecisions; i++) {
     int s = ATNDeserializer::toInt(data[p++]);
-    buf->append(i)->append(L":")->append(s)->append(L"\n");
+    buf.append(std::to_wstring(i)).append(L":").append(std::to_wstring(s)).append(L"\n");
   }
-  // JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to
-  // 'toString':
-  return buf->toString();
+  return buf;
 }
 
 std::wstring ATNSerializer::getTokenName(int t) {
@@ -484,9 +490,7 @@ std::wstring ATNSerializer::getTokenName(int t) {
         if (UnicodeBlock::of(static_cast<wchar_t>(t)) ==
                 UnicodeBlock::BASIC_LATIN &&
             !iscntrl(static_cast<wchar_t>(t))) {
-          // JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent
-          // to 'toString':
-          return L'\'' + toString(static_cast<wchar_t>(t)) + L'\'';
+          return L"'" + std::to_wstring(static_cast<wchar_t>(t)) + L"'";
         }
         // turn on the bit above max "\uFFFF" value so that we pad with zeros
         // then only take last 4 digits
@@ -540,8 +544,8 @@ void ATNSerializer::serializeLong(std::vector<int> *data, long long value) {
 }
 
 void ATNSerializer::serializeInt(std::vector<int> *data, int value) {
-  data->add(static_cast<wchar_t>(value));
-  data->add(static_cast<wchar_t>(value >> 16));
+  data->push_back(static_cast<wchar_t>(value));
+  data->push_back(static_cast<wchar_t>(value >> 16));
 }
 
 }  // namespace atn
