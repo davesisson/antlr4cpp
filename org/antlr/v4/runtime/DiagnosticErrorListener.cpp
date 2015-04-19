@@ -58,7 +58,6 @@ namespace org {
                         return;
                     }
                     wchar_t buf[16];
-                    std::wstring format = L"reportAmbiguity d=%s: ambigAlts=%s, input='%s'";
                     std::wstring decision = getDecisionDescription(recognizer, dfa);
                     std::bitset<BITSET_SIZE> *conflictingAlts = getConflictingAlts(ambigAlts, configs);
                     std::wstring text = recognizer->getTokenStream()->getText(misc::Interval::of(startIndex, stopIndex));
@@ -75,7 +74,6 @@ namespace org {
                 }
                 
                 void DiagnosticErrorListener::reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) {
-                    std::wstring format = L"reportContextSensitivity d=%s, input='%s'";
                     std::wstring decision = getDecisionDescription(recognizer, dfa);
                     std::wstring text = recognizer->getTokenStream()->getText(misc::Interval::of(startIndex, stopIndex));
                     std::wstring message = L"reportContextSensitivity d=" + decision + L", input='" + text + L"'";

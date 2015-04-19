@@ -254,7 +254,7 @@ std::vector<int>* ATNSerializer::serialize() {
 
           break;
         case Transition::ATOM:
-          arg1 = (static_cast<AtomTransition *>(t))->label_Renamed;
+          arg1 = (static_cast<AtomTransition *>(t))->_label;
           if (arg1 == Token::_EOF) {
             arg1 = 0;
             arg3 = 1;
@@ -320,9 +320,12 @@ std::wstring ATNSerializer::decode(const std::wstring& inpdata) {
   int p = 0;
   int version = ATNDeserializer::toInt(data[p++]);
   if (version != ATNDeserializer::SERIALIZED_VERSION) {
-    std::wstring reason = std::wstring::format(
-        L"Could not deserialize ATN with version %d (expected %d).", version,
-        ATNDeserializer::SERIALIZED_VERSION);
+      std::wstring reason =
+          L"Could not deserialize ATN with version "
+          + std::to_wstring(version)
+          + L"(expected "
+          + std::to_wstring(ATNDeserializer::SERIALIZED_VERSION)
+          + L").";
     throw UnsupportedOperationException(
         InvalidClassException(ATN::typeid::getName(), reason));
   }
@@ -330,10 +333,12 @@ std::wstring ATNSerializer::decode(const std::wstring& inpdata) {
   UUID *uuid = ATNDeserializer::toUUID(data, p);
   p += 8;
   if (!uuid->equals(ATNDeserializer::SERIALIZED_UUID)) {
-    std::wstring reason = std::wstring::format(
-        Locale::getDefault(),
-        L"Could not deserialize ATN with UUID %s (expected %s).", uuid,
-        ATNDeserializer::SERIALIZED_UUID);
+    std::wstring reason =
+        L"Could not deserialize ATN with UUID "
+        + uuid->toString()
+        + L" (expected "
+        + ATNDeserializer::SERIALIZED_UUID
+        + L").";
     throw UnsupportedOperationException(
         InvalidClassException(ATN::typeid::getName(), reason));
   }

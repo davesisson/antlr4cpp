@@ -15,5 +15,6 @@ public:
     bool equals(const UUID *rhs) const;
     
     static UUID *fromString(const std::wstring &name);
+    std::wstring toString() const;
 };
 
