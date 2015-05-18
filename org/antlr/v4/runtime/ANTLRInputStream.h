@@ -115,7 +115,7 @@ namespace org {
                     /// </summary>
                     virtual int index() override;
 
-                    virtual int size() override;
+					virtual size_t size() override;
 
                     /// <summary>
                     /// mark/release do nothing; we have entire buffer </summary>

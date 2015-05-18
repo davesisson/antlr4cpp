@@ -233,7 +233,7 @@ namespace org {
                     /// </summary>
                     /// <exception cref="UnsupportedOperationException"> if the size of the stream is
                     /// unknown. </exception>
-                    virtual int size() = 0;
+					virtual size_t size() = 0;
 
                     /// <summary>
                     /// Gets the name of the underlying symbol source. This method returns a
