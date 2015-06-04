@@ -30,6 +30,7 @@
 
 #include "PredictionMode.h"
 
+#include <bitset>
 #include <assert.h>
 #include "AbstractEqualityComparator.h"
 
@@ -163,9 +164,9 @@ bool allSubsetsEqual(const std::vector<BitSet>& altsets) {
     // sets available based on the original code.
     return true;
   }
-  const BitSet& first = *altsets.begin();
+  const bitset& first = altsets.begin()->data;
   for (const BitSet& alts : altsets) {
-    if (alts != first) {
+    if (alts.data != first) {
       return false;
     }
   }
@@ -177,7 +178,7 @@ int getUniqueAlt(const std::vector<BitSet>& altsets) {
   if (all.count() == 1) {
     // TODO -- Create a nextBit helper function.
     for (int i = 0; i < all.size(); ++i) {
-      if (all[i]) {
+      if (all.data[i]) {
         return i;
       }
     }
@@ -186,11 +187,13 @@ int getUniqueAlt(const std::vector<BitSet>& altsets) {
 }
 
 BitSet getAlts(const std::vector<BitSet>& altsets) {
-  BitSet all;
+  bitset all;
   for (BitSet alts : altsets) {
-    all |= alts;
+    all |= alts.data;
   }
-  return all;
+  BitSet r;
+  r.data = all;
+  return r;
 }
 
 std::vector<BitSet> getConflictingAltSubsets(ATNConfigSet* configs) {
@@ -219,7 +222,7 @@ int getSingleViableAlt(const std::vector<BitSet>& altsets) {
     int minAlt = -1;
     // TODO -- Create a nextBit helper function.
     for (int i = 0; i < alts.size(); ++i) {
-      if (alts[i]) {
+      if (alts.data[i]) {
         minAlt = i;
         break;
       }
@@ -233,7 +236,7 @@ int getSingleViableAlt(const std::vector<BitSet>& altsets) {
   }
   // TODO -- Create a nextBit helper function.
   for (int i = 0; i < viableAlts.size(); ++i) {
-    if (viableAlts[i]) {
+    if (viableAlts.data[i]) {
       return i;
     }
   }

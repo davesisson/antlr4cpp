@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 
+#include <BitSet.h>
 #include "ATN.h"
 #include "ATNConfig.h"
 #include "ATNConfigSet.h"
@@ -76,9 +77,7 @@ enum class PredictionMode {
   LL_EXACT_AMBIG_DETECTION
 };
 
-const int BITSET_SIZE = 1024;
-typedef std::bitset<BITSET_SIZE> BitSet;  // TODO -- Put into a header file for
-                                          // wide-scale use.
+typedef std::bitset<BitSet::BITSET_SIZE> bitset;
 
 /// <summary>
 /// Computes the SLL prediction termination condition.
