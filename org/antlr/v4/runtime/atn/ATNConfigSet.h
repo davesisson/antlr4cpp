@@ -5,6 +5,7 @@
 #include "Declarations.h"
 #include "Array2DHashSet.h"
 #include "AbstractEqualityComparator.h"
+#include "BitSet.h"
 
 #include <set>
 #include <string>
@@ -128,8 +129,8 @@ namespace org {
                         // TODO: these fields make me pretty uncomfortable but nice to pack up info together, saves recomputation
                         // TODO: can we track conflicts as they are added to save scanning configs later?
                         int uniqueAlt;
-                    protected:
-                        std::bitset<BITSET_SIZE> *conflictingAlts;
+                  
+                        BitSet *conflictingAlts;
 
                         // Used in parser and lexer. In lexer, it indicates we hit a pred
                         // while computing a closure operation.  Don't make a DFA state from this.

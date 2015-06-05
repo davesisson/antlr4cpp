@@ -386,9 +386,9 @@ namespace org {
 
                         virtual ATNState *getReachableTarget(Transition *trans, int ttype);
 
-                        virtual SemanticContext *getPredsForAmbigAlts(std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs, int nalts);
+                        virtual SemanticContext *getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts);
 
-                        virtual dfa::DFAState::PredPrediction *getPredicatePredictions(std::bitset<BITSET_SIZE> *ambigAlts, SemanticContext altToPred[]);
+                        virtual dfa::DFAState::PredPrediction *getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]);
 
                         virtual int getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs);
 
@@ -399,7 +399,7 @@ namespace org {
                         ///  then we stop at the first predicate that evaluates to true. This
                         ///  includes pairs with null predicates.
                         /// </summary>
-                        virtual std::bitset<BITSET_SIZE> *evalSemanticContext(std::vector<dfa::DFAState::PredPrediction*> predPredictions, ParserRuleContext *outerContext, bool complete);
+                        virtual BitSet *evalSemanticContext(std::vector<dfa::DFAState::PredPrediction*> predPredictions, ParserRuleContext *outerContext, bool complete);
 
 
                         /* TODO: If we are doing predicates, there is no point in pursuing
