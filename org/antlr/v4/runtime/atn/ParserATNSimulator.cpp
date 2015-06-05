@@ -167,7 +167,7 @@ namespace org {
                                         input->seek(startIndex);
                                     }
 
-                                    conflictingAlts->data = *evalSemanticContext(D->predicates, outerContext, true);
+                                    conflictingAlts = evalSemanticContext(D->predicates, outerContext, true);
                                     if (conflictingAlts->count() == 1) {
                                         if (debug) {
                                             std::wcout << std::wstring(L"Full LL avoided") << std::endl;
@@ -199,8 +199,7 @@ namespace org {
 
                                 int stopIndex = input->index();
                                 input->seek(startIndex);
-								BitSet *alts;
-								alts->data = *evalSemanticContext(D->predicates, outerContext, true);
+								BitSet *alts = evalSemanticContext(D->predicates, outerContext, true);
                                 switch (alts->count()) {
                                 case 0:
                                     throw noViableAlt(input, outerContext, D->configs, startIndex);
@@ -291,9 +290,9 @@ namespace org {
 						altsToCollectPredsFrom->data = *getConflictingAltsOrUniqueAlt(dfaState->configs);
 //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
 //ORIGINAL LINE: SemanticContext[] altToPred = getPredsForAmbigAlts(altsToCollectPredsFrom, dfaState.configs, nalts);
-                        SemanticContext *altToPred = getPredsForAmbigAlts(&altsToCollectPredsFrom->data, dfaState->configs, nalts);
+                        SemanticContext *altToPred = getPredsForAmbigAlts(altsToCollectPredsFrom, dfaState->configs, nalts);
                         if (altToPred != nullptr) {
-                            dfaState->predicates = getPredicatePredictions(&altsToCollectPredsFrom->data, altToPred);
+                            dfaState->predicates = getPredicatePredictions(altsToCollectPredsFrom, altToPred);
                             dfaState->prediction = ATN::INVALID_ALT_NUMBER; // make sure we use preds
                         } else {
                             // There are preds in configs but they might go away
@@ -607,7 +606,7 @@ namespace org {
                          */
                         SemanticContext altToPred[nalts + 1];
                         for (auto c : configs) {
-                            if (ambigAlts->get(c->alt)) {
+                            if (ambigAlts->data.test(c->alt)) {
                                 altToPred[c->alt] = SemanticContext::or(altToPred[c->alt], c->semanticContext);
                             }
                         }
@@ -636,7 +635,7 @@ namespace org {
                         return altToPred;
                     }
 
-                    DFAState::PredPrediction *ParserATNSimulator::getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]) {
+                    dfa::DFAState::PredPrediction *ParserATNSimulator::getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]) {
                         std::vector<DFAState::PredPrediction*> pairs = std::vector<DFAState::PredPrediction*>();
                         bool containsPredicate = false;
                         for (int i = 1; i < sizeof(altToPred) / sizeof(altToPred[0]); i++) {
@@ -645,7 +644,7 @@ namespace org {
                             // unpredicated is indicated by SemanticContext.NONE
                             assert(pred != nullptr);
 
-                            if (ambigAlts != nullptr && ambigAlts->get(i)) {
+                            if (ambigAlts != nullptr && ambigAlts->data.test(i)) {
                                 pairs.push_back(new DFAState::PredPrediction(pred, i));
                             }
                             if (pred != SemanticContext::NONE) {
@@ -674,7 +673,7 @@ namespace org {
                         return alts->getMinElement();
                     }
 
-                    BitSet *ParserATNSimulator::evalSemanticContext(DFAState::PredPrediction predPredictions[], ParserRuleContext *outerContext, bool complete) {
+                    BitSet *ParserATNSimulator::evalSemanticContext(std::vector<dfa::DFAState::PredPrediction*> predPredictions, ParserRuleContext *outerContext, bool complete) {
                         BitSet *predictions = new BitSet();
                         for (auto pair : predPredictions) {
                             if (pair->pred == SemanticContext::NONE) {
