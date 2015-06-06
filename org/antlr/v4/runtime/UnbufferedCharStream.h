@@ -48,15 +48,13 @@ namespace org {
                 ///  that it doesn't buffer all data, not that's it's on demand loading of char.
                 /// </summary>
                 class UnbufferedCharStream : public CharStream {
+                  protected:
                     /// <summary>
                     /// A moving window buffer of the data being scanned. While there's a marker,
                     /// we keep adding to buffer. Otherwise, <seealso cref="#consume consume()"/> resets so
                     /// we start filling at index 0 again.
                     /// </summary>
-                   protected:
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected char[] data;
-                       wchar_t *data;
+                    std::wstring data;
 
                     /// <summary>
                     /// The number of characters currently in <seealso cref="#data data"/>.
