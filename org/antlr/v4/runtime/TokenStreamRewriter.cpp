@@ -195,11 +195,10 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 }
 
                 int TokenStreamRewriter::getLastRewriteTokenIndex(const std::wstring &programName) {
-                    int I = lastRewriteTokenIndexes->at(programName);
-                    if (I == nullptr) {
+                    if (lastRewriteTokenIndexes->find(programName) == lastRewriteTokenIndexes->end()) {
                         return -1;
                     }
-                    return I;
+                    return lastRewriteTokenIndexes->at(programName);
                 }
 
                 void TokenStreamRewriter::setLastRewriteTokenIndex(const std::wstring &programName, int i) {
@@ -253,16 +252,16 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                     int i = start;
                     while (i <= stop && i < tokens->size()) {
                         RewriteOperation *op = indexToOp->at(i);
-                        indexToOp->remove(i); // remove so any left have index size-1
+                        indexToOp->erase(i); // remove so any left have index size-1
                         Token *t = tokens->get(i);
                         if (op == nullptr) {
                             // no operation at that index, just dump token
                             if (t->getType() != Token::_EOF) {
-                                buf->append(t->getText());
+                                buf.append(t->getText());
                             }
                             i++; // move to next token
                         } else {
-                            i = op->execute(buf); // execute operation and skip
+                            i = op->execute(&buf); // execute operation and skip
                         }
                     }
 
@@ -272,9 +271,9 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                     if (stop == tokens->size() - 1) {
                         // Scan any remaining operations after last token
                         // should be included (they will be inserts).
-                        for (auto op : indexToOp) {
-                            if (op->second->index >= tokens->size() - 1) {
-                                buf.append(op->second->text);
+                        for (auto op : *indexToOp) {
+                            if (op.second->index >= tokens->size() - 1) {
+                                buf.append(op.second->text);
                             }
                         }
                     }
@@ -285,18 +284,18 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                                 //		System.out.println("rewrites="+rewrites);
 
                     // WALK REPLACES
-                    for (TokenStreamRewriter::RewriteOperation *op : rewrites) {
+                    for (int i=0 ; i < rewrites.size(); ++i) {
+                        TokenStreamRewriter::RewriteOperation *op = rewrites[i];
                         if (op == nullptr) {
                             continue;
                         }
                         if (!(dynamic_cast<ReplaceOp*>(op) != nullptr)) {
                             continue;
                         }
-                        ReplaceOp *rop = static_cast<ReplaceOp*>(rewrites[i]);
+                        ReplaceOp *rop = static_cast<ReplaceOp*>(op);
                         // Wipe prior inserts within range
-//JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
 //ORIGINAL LINE: java.util.List<? extends InsertBeforeOp> inserts = getKindOfOps(rewrites, InsertBeforeOp.class, i);
-                        std::vector<? extends InsertBeforeOp> inserts = getKindOfOps(rewrites, InsertBeforeOp::typeid, i);
+                        std::vector<InsertBeforeOp> inserts = getKindOfOps(rewrites, InsertBeforeOp::typeid, i);
                         for (auto iop : inserts) {
                             if (iop.index == rop->index) {
                                 // E.g., insert before 2, delete 2..2; update replace

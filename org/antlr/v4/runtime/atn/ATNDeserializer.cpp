@@ -511,16 +511,16 @@ namespace org {
                         return c;
                     }
 
-                    int ATNDeserializer::toInt32(wchar_t data[], int offset) {
+                    int ATNDeserializer::toInt32(const std::wstring& data, int offset) {
                         return static_cast<int>(data[offset]) | (static_cast<int>(data[offset + 1]) << 16);
                     }
 
-                    long long ATNDeserializer::toLong(wchar_t data[], int offset) {
+                    long long ATNDeserializer::toLong(const std::wstring& data, int offset) {
                         long long lowOrder = toInt32(data, offset) & 0x00000000FFFFFFFFLL;
                         return lowOrder | (static_cast<long long>(toInt32(data, offset + 2)) << 32);
                     }
 
-                    UUID *ATNDeserializer::toUUID(wchar_t data[], int offset) {
+                    UUID *ATNDeserializer::toUUID(const std::wstring& data, int offset) {
                         long long leastSigBits = toLong(data, offset);
                         long long mostSigBits = toLong(data, offset + 4);
                         return new UUID(mostSigBits, leastSigBits);
