@@ -155,7 +155,7 @@ namespace org {
                     return p;
                 }
 
-                int ANTLRInputStream::size() {
+                size_t ANTLRInputStream::size() {
                     return n;
                 }
 

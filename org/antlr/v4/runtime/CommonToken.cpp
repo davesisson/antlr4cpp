@@ -102,7 +102,7 @@ namespace org {
                     if (input == nullptr) {
                         return L"";
                     }
-                    int n = input->size();
+                    size_t n = input->size();
                     if (start < n && stop < n) {
                         return input->getText(misc::Interval::of(start,stop));
                     } else {
