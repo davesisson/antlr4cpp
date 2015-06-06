@@ -106,8 +106,8 @@ namespace org {
                 }
 
                 void UnbufferedCharStream::add(int c) {
-                    if (n >= data->length) {
-                        data = Arrays::copyOf(data, data->length * 2);
+                    if (n >= data.size()) {
+                        data.reserve(data.size()*2);
                     }
                     data[n++] = static_cast<wchar_t>(c);
                 }
@@ -148,10 +148,8 @@ namespace org {
                     }
 
                     numMarkers--;
-                    if (numMarkers == 0 && p > 0) { // release buffer when we can, but don't do unnecessary work
-                        // Copy data[p]..data[n-1] to data[0]..data[(n-1)-p], reset ptrs
-                        // p is last valid char; move nothing if p==n as we have no valid char
-                        System::arraycopy(data, p, data, 0, n - p); // shift n-p char from p to 0
+                    if (numMarkers == 0 && p > 0) {
+                        data.erase(0, p);
                         n = n - p;
                         p = 0;
                         lastCharBufferStart = lastChar;
