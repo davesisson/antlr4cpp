@@ -125,8 +125,6 @@ namespace org {
                         /// <p/>
                         ///  This list is computed by <seealso cref="ParserATNSimulator#predicateDFAState"/>.
                         /// </summary>
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: @Nullable public PredPrediction[] predicates;
                         std::vector<PredPrediction *> predicates;
 
                         /// <summary>
