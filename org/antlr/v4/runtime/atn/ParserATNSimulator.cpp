@@ -14,6 +14,7 @@
 #include "PredictionContext.h"
 #include "IntervalSet.h"
 #include "Transition.h"
+#include "Interval.h"
 
 // TODO: Assert is a really poor mans debugging, remove this and use exception 
 // handling instead. 
@@ -924,13 +925,13 @@ namespace org {
                             std::wcout << std::wstring(L"CALL rule ") << getRuleName(t->target->ruleIndex) << std::wstring(L", ctx=") << config->context << std::endl;
                         }
 
-                        ATNState *returnState = t->followState;
+                        atn::ATNState *returnState = t->followState;
                         PredictionContext *newContext = SingletonPredictionContext::create(config->context, returnState->stateNumber);
-                        return new ATNConfig(config, t->target, newContext);
+                        return new atn::ATNConfig(config, t->target, newContext);
                     }
 
                     BitSet *ParserATNSimulator::getConflictingAlts(ATNConfigSet *configs) {
-                        Collection<BitSet*> *altsets = PredictionMode::getConflictingAltSubsets(configs);
+                        std::vector<BitSet*> *altsets = PredictionMode::getConflictingAltSubsets(configs);
                         return PredictionMode::getAlts(altsets);
                     }
 
@@ -1061,7 +1062,7 @@ namespace org {
 
                     void ParserATNSimulator::reportAttemptingFullContext(dfa::DFA *dfa, BitSet *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex) {
                         if (debug || retry_debug) {
-                            Interval *interval = Interval::of(startIndex, stopIndex);
+							misc::Interval *interval = misc::Interval::of(startIndex, stopIndex);
                             std::wcout << std::wstring(L"reportAttemptingFullContext decision=") << dfa->decision << std::wstring(L":") << configs << std::wstring(L", input=") << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
@@ -1071,7 +1072,7 @@ namespace org {
 
                     void ParserATNSimulator::reportContextSensitivity(dfa::DFA *dfa, int prediction, ATNConfigSet *configs, int startIndex, int stopIndex) {
                         if (debug || retry_debug) {
-                            Interval *interval = Interval::of(startIndex, stopIndex);
+							misc::Interval *interval = misc::Interval::of(startIndex, stopIndex);
                             std::wcout << std::wstring(L"reportContextSensitivity decision=") << dfa->decision << std::wstring(L":") << configs << std::wstring(L", input=") << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
@@ -1097,7 +1098,7 @@ namespace org {
                                         //				}
                                         //				i++;
                                         //			}
-                            Interval *interval = Interval::of(startIndex, stopIndex);
+							misc::Interval *interval = misc::Interval::of(startIndex, stopIndex);
                             std::wcout << std::wstring(L"reportAmbiguity ") << ambigAlts << std::wstring(L":") << configs << std::wstring(L", input=") << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
@@ -1109,7 +1110,7 @@ namespace org {
                         this->mode = mode;
                     }
 
-                    org::antlr::v4::runtime::atn::PredictionMode ParserATNSimulator::getPredictionMode() {
+                    atn::PredictionMode ParserATNSimulator::getPredictionMode() {
                         return mode;
                     }
 
