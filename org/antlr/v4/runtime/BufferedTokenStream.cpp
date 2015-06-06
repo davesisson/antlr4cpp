@@ -1,10 +1,10 @@
-﻿#include "BufferedTokenStream.h"
+﻿#include <assert.h>
+
+#include "BufferedTokenStream.h"
 #include "WritableToken.h"
 #include "Lexer.h"
 #include "Exceptions.h"
 #include "StringBuilder.h"
-
-#include <assert.h>
 
 /*
  * [The "BSD license"]

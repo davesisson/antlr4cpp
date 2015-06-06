@@ -189,7 +189,7 @@ namespace org {
                     }
                 }
 
-                int UnbufferedCharStream::size() { 
+                size_t UnbufferedCharStream::size() {
                     throw UnsupportedOperationException(std::wstring(L"Unbuffered stream cannot know its size"));
                 }
 

@@ -1,4 +1,6 @@
-﻿#include "ATN.h"
+﻿#include <functional>
+
+#include "ATN.h"
 #include "ATNState.h"
 #include "ATNConfig.h"
 #include "Exceptions.h"
@@ -6,8 +8,6 @@
 #include "SemanticContext.h"
 #include "PredictionContext.h"
 #include "StringBuilder.h"
-
-#include <functional>
 
 /*
  * [The "BSD license"]

@@ -251,7 +251,7 @@ namespace org {
 				}
                 
 				template<typename T>
-                int UnbufferedTokenStream<T>::size()  {
+                size_t UnbufferedTokenStream<T>::size()  {
 					throw new UnsupportedOperationException(L"Unbuffered stream cannot know its size");
 				}
                 

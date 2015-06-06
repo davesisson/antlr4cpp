@@ -152,7 +152,7 @@ namespace org {
 
                     virtual void seek(int index) override;
 
-                    virtual int size() override;
+                    virtual size_t size() override;
 
                     virtual std::string getSourceName() override;
 

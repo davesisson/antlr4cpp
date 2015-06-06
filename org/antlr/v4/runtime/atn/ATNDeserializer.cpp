@@ -98,7 +98,7 @@ namespace org {
                         return false;
                     }
 
-                    ATN *ATNDeserializer::deserialize(wchar_t data[]) {
+                    ATN *ATNDeserializer::deserialize(const std::wstring& data) {
                         // TODO: data = data->clone();
                         // don't adjust the first value since that's the version number
                         for (size_t i = 1; i < sizeof(data) / sizeof(data[0]); i++) {

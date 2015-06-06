@@ -262,14 +262,16 @@ std::vector<int>* ATNSerializer::serialize() {
 
           break;
         case Transition::ACTION:
-          ActionTransition *at = static_cast<ActionTransition *>(t);
-          arg1 = at->ruleIndex;
-          arg2 = at->actionIndex;
-          if (arg2 == -1) {
-            arg2 = 0xFFFF;
-          }
+          {
+            ActionTransition *at = static_cast<ActionTransition *>(t);
+            arg1 = at->ruleIndex;
+            arg2 = at->actionIndex;
+            if (arg2 == -1) {
+              arg2 = 0xFFFF;
+            }
 
-          arg3 = at->isCtxDependent ? 1 : 0;
+            arg3 = at->isCtxDependent ? 1 : 0;
+          }
           break;
         case Transition::SET:
           arg1 = (*setIndices)[(static_cast<SetTransition *>(t))->set];
