@@ -230,9 +230,9 @@ namespace org {
                         if (types == nullptr) {
                             filteredTokens.push_back(tok);
                         } else {
-                            int t = std::find(types->begin(), types->end(), tok);
-                            /*.operator->()*/
-                            filteredTokens.push_back(tok);
+                            if (types == nullptr || std::find(types->begin(), types->end(), tok->getType()) != types->end()) {
+                                filteredTokens.push_back(tok);
+                            }
                         }
                     }
                     if (filteredTokens.empty()) {
