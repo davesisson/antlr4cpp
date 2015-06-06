@@ -4,7 +4,7 @@
 #include "ParseTreeListener.h"
 #include "TokenStream.h"
 
-
+#include <mutex>
 #include <stack>
 #include <string>
 #include <vector>
@@ -106,7 +106,8 @@ namespace org {
                     TokenStream *_input;
 
                     std::vector<int> _precedenceStack;
-
+					//Mutex to manage synchronized access for multithreading in the parser
+					std::mutex mtx;
                     /// <summary>
                     /// The <seealso cref="ParserRuleContext"/> object for the currently executing rule.
                     /// This is always non-null during the parsing process.
