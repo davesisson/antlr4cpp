@@ -5,11 +5,12 @@
 #include "Declarations.h"
 #include "Array2DHashSet.h"
 #include "AbstractEqualityComparator.h"
+#include "BitSet.h"
 
 #include <set>
 #include <string>
 #include <vector>
-#include <bitset>
+
 
 
 /*

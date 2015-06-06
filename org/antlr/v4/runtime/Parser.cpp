@@ -270,8 +270,8 @@ template<typename T1>
                         throw UnsupportedOperationException(L"The current parser does not support an ATN with bypass alternatives.");
                     }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    synchronized(bypassAltsAtnCache) {
+					if (bypassAltsAtnCache != nullptr) {
+						std::lock_guard<std::mutex> lck(mtx);
                         ATN *result = bypassAltsAtnCache->get(serializedAtn);
                         if (result == nullptr) {
                             ATNDeserializationOptions *deserializationOptions = new ATNDeserializationOptions();
@@ -573,8 +573,8 @@ template<typename T1>
                 }
 
                 std::vector<std::wstring> Parser::getDFAStrings() {
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    synchronized(_interp->_decisionToDFA) {
+					if (!_interp->_decisionToDFA.empty()) {
+						std::lock_guard<std::mutex> lck(mtx);
                         std::vector<std::wstring> s = std::vector<std::wstring>();
                         for (int d = 0; d < _interp->decisionToDFA->length; d++) {
                             DFA *dfa = _interp->decisionToDFA[d];
@@ -586,8 +586,9 @@ template<typename T1>
                 }
 
                 void Parser::dumpDFA() {
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    synchronized(_interp->_decisionToDFA) {
+
+					if (!_interp->_decisionToDFA.empty()) {
+						std::lock_guard<std::mutex> lck(mtx);
                         bool seenOne = false;
                         for (int d = 0; d < _interp->decisionToDFA->length; d++) {
                             DFA *dfa = _interp->_decisionToDFA[d];
