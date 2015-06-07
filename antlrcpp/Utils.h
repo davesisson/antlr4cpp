@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <cwchar>
 
 /*
  * [The "BSD license"]
@@ -51,4 +52,6 @@ namespace Utils {
     std::wstring escapeWhitespace(std::wstring str, bool TODO);
     
     std::wstring stringFormat(const wchar_t* fmt, ...);
+
+	wchar_t* toCharArray(const std::vector<int> *data);
 }
