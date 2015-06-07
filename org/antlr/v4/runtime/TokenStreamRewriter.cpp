@@ -303,7 +303,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
 //JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                                 delete rewrites[iop.instructionIndex];
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                                rop->text = iop.text.toString() + (rop->text != nullptr?rop->text->toString():L"");
+                                rop->text = iop.text + (rop->text != nullptr ? rop->text : L"");
                             } else if (iop.index > rop->index && iop.index <= rop->lastIndex) {
                                 // delete insert as it's a no-op.
 //JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
