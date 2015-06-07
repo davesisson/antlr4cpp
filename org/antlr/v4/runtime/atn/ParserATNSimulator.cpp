@@ -558,7 +558,7 @@ namespace org {
                         }
 
                         ATNConfigSet *result = new ATNConfigSet(configs->fullCtx);
-						for (auto config : configs->iterator) {
+						for (auto config : configs->iterator()) {
                             if (dynamic_cast<RuleStopState*>(config->state) != nullptr) {
                                 result->add(config, mergeCache);
                                 continue;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16F9451C1B23CB250049275C /* BitSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 16F9451B1B23CB250049275C /* BitSet.h */; };
 		373775A2192FE6F400A4058D /* UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 373775A1192FE6F400A4058D /* UUID.h */; };
 		3789F5001870D1D8003E0A30 /* StringBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */; };
 		3789F5011870D1D8003E0A30 /* StringBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 3789F4FF1870D1D8003E0A30 /* StringBuilder.h */; };
@@ -300,6 +301,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		16F9451B1B23CB250049275C /* BitSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BitSet.h; sourceTree = "<group>"; };
 		373775A1192FE6F400A4058D /* UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUID.h; sourceTree = "<group>"; };
 		3789F4FE1870D1D8003E0A30 /* StringBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringBuilder.cpp; sourceTree = "<group>"; };
 		3789F4FF1870D1D8003E0A30 /* StringBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringBuilder.h; sourceTree = "<group>"; };
@@ -963,6 +965,7 @@
 		37D727AC1867AF1E007B6D10 /* antlrcpp */ = {
 			isa = PBXGroup;
 			children = (
+				16F9451B1B23CB250049275C /* BitSet.h */,
 				373775A1192FE6F400A4058D /* UUID.h */,
 				3789F5061871AFD8003E0A30 /* Declarations.h */,
 				3789F5021870E074003E0A30 /* Arrays.cpp */,
@@ -1099,6 +1102,7 @@
 				37D1C41C186A31140041671A /* AtomTransition.h in Headers */,
 				37D1C4B2186A31140041671A /* OrderedHashSet.h in Headers */,
 				37D1C4A2186A31140041671A /* IntSet.h in Headers */,
+				16F9451C1B23CB250049275C /* BitSet.h in Headers */,
 				37D1C430186A31140041671A /* LL1Analyzer.h in Headers */,
 				3789F5011870D1D8003E0A30 /* StringBuilder.h in Headers */,
 				37D1C476186A31140041671A /* DFASerializer.h in Headers */,

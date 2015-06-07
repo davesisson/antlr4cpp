@@ -234,15 +234,19 @@ std::vector<int>* ATNSerializer::serialize() {
           arg3 = (static_cast<RuleTransition *>(t))->precedence;
           break;
         case Transition::PRECEDENCE:
-          PrecedencePredicateTransition *ppt =
-              static_cast<PrecedencePredicateTransition *>(t);
-          arg1 = ppt->precedence;
+          {
+            PrecedencePredicateTransition *ppt =
+                static_cast<PrecedencePredicateTransition *>(t);
+            arg1 = ppt->precedence;
+          }
           break;
         case Transition::PREDICATE:
-          PredicateTransition *pt = static_cast<PredicateTransition *>(t);
-          arg1 = pt->ruleIndex;
-          arg2 = pt->predIndex;
-          arg3 = pt->isCtxDependent ? 1 : 0;
+          {
+            PredicateTransition *pt = static_cast<PredicateTransition *>(t);
+            arg1 = pt->ruleIndex;
+            arg2 = pt->predIndex;
+            arg3 = pt->isCtxDependent ? 1 : 0;
+          }
           break;
         case Transition::RANGE:
           arg1 = (static_cast<RangeTransition *>(t))->from;
