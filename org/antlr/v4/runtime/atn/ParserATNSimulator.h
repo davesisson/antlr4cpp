@@ -5,6 +5,7 @@
 #include "DFAState.h"
 #include "stringconverter.h"
 #include "Declarations.h"
+#include "Arrays.h"
 
 #include <string>
 #include <vector>

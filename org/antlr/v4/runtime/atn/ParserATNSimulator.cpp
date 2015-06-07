@@ -645,7 +645,7 @@ namespace org {
                         std::vector<dfa::DFAState::PredPrediction*> pairs = std::vector<dfa::DFAState::PredPrediction*>();
                         bool containsPredicate = false;
                         for (int i = 1; i < sizeof(altToPred) / sizeof(altToPred[0]); i++) {
-                            SemanticContext *pred = altToPred[i];
+                            SemanticContext *pred = &altToPred[i];
 
                             // unpredicted is indicated by SemanticContext.NONE
                             assert(pred != nullptr);
