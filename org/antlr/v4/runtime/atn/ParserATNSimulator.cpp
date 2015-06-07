@@ -257,7 +257,7 @@ namespace org {
                         int predictedAlt = getUniqueAlt(reach);
 
                         if (debug) {
-                            std::vector<std::bitset<BITSET_SIZE>*> *altSubSets = getConflictingAltSubsets(reach);
+                            std::vector<BitSet> altSubSets = getConflictingAltSubsets(reach);
                             std::wcout << L"SLL altSubSets=" << altSubSets << L", configs=" << reach << L", predict=" << predictedAlt << L", allSubsetsConflict=" << allSubsetsConflict(altSubSets) << L", conflictingAlts=" << getConflictingAlts(reach) << std::endl;
                         }
 
@@ -340,7 +340,7 @@ namespace org {
                                 throw noViableAlt(input, outerContext, previous, startIndex);
                             }
 
-                            std::vector<BitSet*> *altSubSets = getConflictingAltSubsets(reach);
+                            std::vector<BitSet> altSubSets = getConflictingAltSubsets(reach);
                             if (debug) {
                                 std::wcout << L"LL altSubSets=" << altSubSets << L", predict=" << getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << resolvesToJustOneViableAlt(altSubSets) << std::endl;
                             }
@@ -641,11 +641,11 @@ namespace org {
                         return altToPred;
                     }
 
-                    dfa::DFAState::PredPrediction * ParserATNSimulator::getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]) {
+                    std::vector<dfa::DFAState::PredPrediction *> ParserATNSimulator::getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]) {
                         std::vector<dfa::DFAState::PredPrediction*> pairs = std::vector<dfa::DFAState::PredPrediction*>();
                         bool containsPredicate = false;
                         for (int i = 1; i < sizeof(altToPred) / sizeof(altToPred[0]); i++) {
-                            SemanticContext *pred = altToPred[i];
+                            SemanticContext *pred = &altToPred[i];
 
                             // unpredicted is indicated by SemanticContext.NONE
                             assert(pred != nullptr);
@@ -709,13 +709,13 @@ namespace org {
                         return predictions;
                     }
 
-                    void ParserATNSimulator::closure(ATNConfig *config, ATNConfigSet *configs, Set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx) {
+                    void ParserATNSimulator::closure(ATNConfig *config, ATNConfigSet *configs, std::set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx) {
                         const int initialDepth = 0;
                         closureCheckingStopState(config, configs, closureBusy, collectPredicates, fullCtx, initialDepth);
                         assert(!fullCtx || !configs->dipsIntoOuterContext);
                     }
 
-                    void ParserATNSimulator::closureCheckingStopState(ATNConfig *config, ATNConfigSet *configs, Set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth) {
+                    void ParserATNSimulator::closureCheckingStopState(ATNConfig *config, ATNConfigSet *configs, std::set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth) {
                         if (debug) {
                             std::wcout << L"closure(" << config->toString(parser,true) << L")" << std::endl;
                         }
@@ -764,7 +764,7 @@ namespace org {
                         closure_(config, configs, closureBusy, collectPredicates, fullCtx, depth);
                     }
 
-                    void ParserATNSimulator::closure_(ATNConfig *config, ATNConfigSet *configs, Set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth) {
+                    void ParserATNSimulator::closure_(ATNConfig *config, ATNConfigSet *configs, std::set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth) {
                         ATNState *p = config->state;
                         // optimization
                         if (!p->onlyHasEpsilonTransitions()) {
@@ -786,7 +786,7 @@ namespace org {
                                     // come in handy and we avoid evaluating context dependent
                                     // preds if this is > 0.
 
-                                    if (!closureBusy->add(c)) {
+                                    if (!closureBusy->insert(c).second) {
                                         // avoid infinite recursion for right-recursive rules
                                         continue;
                                     }

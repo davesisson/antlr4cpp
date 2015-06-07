@@ -81,4 +81,15 @@ namespace Utils {
         std::wstring blank;
         return blank;
     }
+
+	wchar_t* toCharArray(const std::vector<int> *data){
+		if (data == nullptr) return nullprt;
+		wchar_t* cdata = new wchar_t(*data.size());
+
+		for (int i = 0; i < *data.size(); i++){
+			cdata[i] = (char)*data[i];
+		}
+
+		return cdata;
+	}
 }

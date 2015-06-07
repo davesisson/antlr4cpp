@@ -5,6 +5,7 @@
 #include <string>
 #include <stdexcept>
 #include <fstream>
+#include <algorithm>
 
 /*
  * [The "BSD license"]

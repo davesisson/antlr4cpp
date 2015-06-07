@@ -272,12 +272,12 @@ template<typename T1>
 
 					if (bypassAltsAtnCache != nullptr) {
 						std::lock_guard<std::mutex> lck(mtx);
-                        atn::ATN *result = bypassAltsAtnCache->get(serializedAtn);
+                        atn::ATN *result = bypassAltsAtnCache->at(serializedAtn);
                         if (result == nullptr) {
                             atn::ATNDeserializationOptions *deserializationOptions = new atn::ATNDeserializationOptions();
                             deserializationOptions->setGenerateRuleBypassTransitions(true);
-                            result = (new atn::ATNDeserializer(deserializationOptions))->deserialize(serializedAtn.toCharArray());
-                            bypassAltsAtnCache->put(serializedAtn, result);
+                            result = (new atn::ATNDeserializer(deserializationOptions))->deserialize(serializedAtn);
+                            bypassAltsAtnCache->emplace(serializedAtn, result);
                         }
 
                         return result;
@@ -523,7 +523,7 @@ template<typename T1>
                         ctx = static_cast<ParserRuleContext*>(ctx->parent);
                     }
 
-                    if (following->contains(Token::EPSILON) && symbol == Token::EOF) {
+                    if (following->contains(Token::EPSILON) && symbol == Token::_EOF) {
                         return true;
                     }
 
@@ -541,8 +541,8 @@ template<typename T1>
                 }
 
                 int Parser::getRuleIndex(const std::wstring &ruleName) {
-                    int ruleIndex = getRuleIndexMap()->get(ruleName);
-                    if (ruleIndex != nullptr) {
+                    int ruleIndex = getRuleIndexMap()->at(ruleName);
+                    if (ruleIndex != NULL) {
                         return ruleIndex;
                     }
                     return -1;
@@ -598,7 +598,8 @@ template<typename T1>
                                 }
                                 std::cout << L"Decision " << dfa->decision << L":" << std::endl;
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                                std::cout << dfa->toString(getTokenNames());
+								dfa->toString(getTokenNames());
+                                std::wcout << dfa->toString(getTokenNames());
                                 seenOne = true;
                             }
                         }

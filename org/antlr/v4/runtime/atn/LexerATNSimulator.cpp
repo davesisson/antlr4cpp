@@ -1,4 +1,4 @@
-﻿#include <pair>
+﻿#include <utility>
 
 #include "LexerATNSimulator.h"
 #include "IntStream.h"
@@ -576,7 +576,7 @@ namespace org {
                         newState->stateNumber = dfa->states->size();
                         configs->setReadonly(true);
                         newState->configs = configs;
-                        dfa->states->insert(std::pair<int, int>(newState, newState));
+						dfa->states->insert(std::pair<dfa::DFAState *, dfa::DFAState *>(newState, newState));
                         return newState;
 #endif
                         

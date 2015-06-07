@@ -88,7 +88,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 void TokenStreamRewriter::rollback(const std::wstring &programName, int instructionIndex) {
                     std::vector<RewriteOperation*> is = programs->at(programName);
                     if (is.size() > 0) {
-                        programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(programName, VectorHelper::VectorSublist<RewriteOperation*>(is, MIN_TOKEN_INDEX, instructionIndex)));
+                        programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*> >(programName, VectorHelper::VectorSublist(is, MIN_TOKEN_INDEX, instructionIndex)));
                     }
                 }
 
@@ -380,15 +380,15 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                         }
                     }
                     // System.out.println("rewrites after="+rewrites);
-                    Map<int, TokenStreamRewriter::RewriteOperation*> *m = std::unordered_map<int, TokenStreamRewriter::RewriteOperation*>();
+                   std::unordered_map<int, TokenStreamRewriter::RewriteOperation*> *m = new std::unordered_map<int, TokenStreamRewriter::RewriteOperation*>();
                     for (TokenStreamRewriter::RewriteOperation *op : rewrites) {
                         if (op == nullptr) { // ignore deleted ops
                             continue;
                         }
-                        if (m->get(op->index) != nullptr) {
+                        if (m->at(op->index) != nullptr) {
                             throw Error(L"should only be one op per index");
                         }
-                        m->put(op->index, op);
+                        m->emplace(op->index, op);
                     }
                     //System.out.println("index to op: "+m);
                     return m;

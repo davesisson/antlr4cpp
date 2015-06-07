@@ -5,6 +5,12 @@
 #include "DFAState.h"
 #include "stringconverter.h"
 #include "Declarations.h"
+#include "Arrays.h"
+#include "ActionTransition.h"
+#include "PrecedencePredicateTransition.h"
+#include "PredicateTransition.h"
+#include "RuleTransition.h"
+#include "SingletonPredictionContext.h"
 
 #include <string>
 #include <vector>
@@ -388,7 +394,7 @@ namespace org {
 
                         virtual SemanticContext *getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts);
 
-                        virtual dfa::DFAState::PredPrediction *getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]);
+                        virtual std::vector<dfa::DFAState::PredPrediction*> getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]);
 
                         virtual int getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs);
 
