@@ -576,8 +576,8 @@ template<typename T1>
 					if (!_interp->_decisionToDFA.empty()) {
 						std::lock_guard<std::mutex> lck(mtx);
                         std::vector<std::wstring> s = std::vector<std::wstring>();
-                        for (int d = 0; d < _interp->decisionToDFA.size(); d++) {
-                            dfa::DFA *dfa = _interp->decisionToDFA[d];
+                        for (int d = 0; d < _interp->_decisionToDFA.size(); d++) {
+                            dfa::DFA *dfa = &_interp->_decisionToDFA[d];
 //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             s.push_back(dfa->toString(getTokenNames()));
                         }
