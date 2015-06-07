@@ -425,7 +425,7 @@ namespace org {
                         }
 
                         if (mergeCache == nullptr) {
-                            mergeCache = new DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*>();
+                            mergeCache = new misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*>();
                         }
 
                         ATNConfigSet *intermediate = new ATNConfigSet(fullCtx);
@@ -539,7 +539,7 @@ namespace org {
                          * chooses an alternative matching the longest overall sequence when
                          * multiple alternatives are viable.
                          */
-                        if (skippedStopStates.size() > 0 && (!fullCtx || !PredictionMode::hasConfigInRuleStopState(reach))) {
+                        if (skippedStopStates.size() > 0 && (!fullCtx || !hasConfigInRuleStopState(reach))) {
                             assert(!skippedStopStates.empty());
                             for (auto c : skippedStopStates) {
                                 reach->add(c, mergeCache);
@@ -553,7 +553,7 @@ namespace org {
                     }
 
                     org::antlr::v4::runtime::atn::ATNConfigSet *ParserATNSimulator::removeAllConfigsNotInRuleStopState(ATNConfigSet *configs, bool lookToEndOfRule) {
-                        if (PredictionMode::allConfigsInRuleStopStates(configs)) {
+                        if (allConfigsInRuleStopStates(configs)) {
                             return configs;
                         }
 
@@ -565,7 +565,7 @@ namespace org {
                             }
 
                             if (lookToEndOfRule && config->state->onlyHasEpsilonTransitions()) {
-                                IntervalSet *nextTokens = atn->nextTokens(config->state);
+                                misc::IntervalSet *nextTokens = atn->nextTokens(config->state);
                                 if (nextTokens->contains(Token::EPSILON)) {
                                     ATNState *endOfRuleState = atn->ruleToStopState[config->state->ruleIndex];
                                     result->add(new ATNConfig(config, endOfRuleState), mergeCache);
@@ -638,7 +638,7 @@ namespace org {
                             altToPred = nullptr;
                         }
                         if (debug) {
-                            std::wcout << std::wstring(L"getPredsForAmbigAlts result ") << Arrays->toString(altToPred) << std::endl;
+                            std::wcout << L"getPredsForAmbigAlts result " << Arrays->toString(altToPred) << std::endl;
                         }
                         return altToPred;
                     }
