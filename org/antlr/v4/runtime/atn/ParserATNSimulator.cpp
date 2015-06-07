@@ -15,6 +15,7 @@
 #include "IntervalSet.h"
 #include "Transition.h"
 #include "Interval.h"
+#include "ATNConfigSet.h"
 
 // TODO: Assert is a really poor mans debugging, remove this and use exception 
 // handling instead. 
@@ -258,7 +259,8 @@ namespace org {
 
                         if (debug) {
                             std::vector<BitSet> altSubSets = getConflictingAltSubsets(reach);
-                            std::wcout << L"SLL altSubSets=" << altSubSets << L", configs=" << reach << L", predict=" << predictedAlt << L", allSubsetsConflict=" << allSubsetsConflict(altSubSets) << L", conflictingAlts=" << getConflictingAlts(reach) << std::endl;
+							std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
+                            std::wcout << L"SLL altSubSets=" << altSubSetsStr << L", configs=" << reach << L", predict=" << predictedAlt << L", allSubsetsConflict=" << allSubsetsConflict(altSubSets) << L", conflictingAlts=" << getConflictingAlts(reach) << std::endl;
                         }
 
                         if (predictedAlt != ATN::INVALID_ALT_NUMBER) {
@@ -342,7 +344,11 @@ namespace org {
 
                             std::vector<BitSet> altSubSets = getConflictingAltSubsets(reach);
                             if (debug) {
-                                std::wcout << L"LL altSubSets=" << altSubSets << L", predict=" << getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << resolvesToJustOneViableAlt(altSubSets) << std::endl;
+								std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
+#ifdef TODO
+								Figure out the commented out section /* << L", predict="  << getUniqueAlt(altSubSets) */, not sure what to make of that
+#endif
+                                std::wcout << L"LL altSubSets=" << altSubSetsStr /* << L", predict="  << getUniqueAlt(altSubSets) */ << L", resolvesToJustOneViableAlt=" << resolvesToJustOneViableAlt(altSubSets) << std::endl;
                             }
 
                                         //			System.out.println("altSubSets: "+altSubSets);
@@ -504,7 +510,7 @@ namespace org {
                             std::set<ATNConfig*> *closureBusy = new std::set<ATNConfig*>();
 
                             for (auto c : intermediate->iterator) {
-                                closure(c, reach, closureBusy, false, fullCtx);
+                                this->closure(c, reach, closureBusy, false, fullCtx);
                             }
                         }
 
@@ -550,7 +556,7 @@ namespace org {
                         return reach;
                     }
 
-                    org::antlr::v4::runtime::atn::ATNConfigSet *ParserATNSimulator::removeAllConfigsNotInRuleStopState(ATNConfigSet *configs, bool lookToEndOfRule) {
+                    atn::ATNConfigSet *ParserATNSimulator::removeAllConfigsNotInRuleStopState(ATNConfigSet *configs, bool lookToEndOfRule) {
                         if (allConfigsInRuleStopStates(configs)) {
                             return configs;
                         }
@@ -597,6 +603,8 @@ namespace org {
                         return nullptr;
                     }
 
+					//
+					// Note that caller must memory manage the returned value from this function
                     SemanticContext *ParserATNSimulator::getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts) {
                         // REACH=[1|1|[]|0:0, 1|2|[]|0:1]
                         /* altToPred starts as an array of all null contexts. The entry at index i
@@ -604,16 +612,17 @@ namespace org {
                          *   1. null: no ATNConfig c is found such that c.alt==i
                          *   2. SemanticContext.NONE: At least one ATNConfig c exists such that
                          *      c.alt==i and c.semanticContext==SemanticContext.NONE. In other words,
-                         *      alt i has at least one unpredicated config.
+                         *      alt i has at least one un predicated config.
                          *   3. Non-NONE Semantic Context: There exists at least one, and for all
                          *      ATNConfig c such that c.alt==i, c.semanticContext!=SemanticContext.NONE.
                          *
                          * From this, it is clear that NONE||anything==NONE.
                          */
-                        SemanticContext altToPred[nalts + 1];
+                        //SemanticContext *altToPred = new SemanticContext[nalts + 1];
+						std::vector<SemanticContext*> altToPred;// = new SemanticContext[nalts + 1];
                         for (auto c : *configs) {
                             if (ambigAlts->data.test(c->alt)) {
-                                altToPred[c->alt] = SemanticContext::or(altToPred[c->alt], c->semanticContext);
+                                altToPred[c->alt] = (SemanticContext*)new SemanticContext::OR(altToPred[c->alt], c->semanticContext);
                             }
                         }
 
@@ -633,7 +642,7 @@ namespace org {
 
                         // nonambig alts are null in altToPred
                         if (nPredAlts == 0) {
-                            altToPred = nullptr;
+							altToPred.clear();// = nullptr;
                         }
                         if (debug) {
                             std::wcout << L"getPredsForAmbigAlts result " << Arrays->toString(altToPred) << std::endl;
@@ -952,7 +961,7 @@ namespace org {
                             std::vector<std::wstring> tokensNames = parser->getTokenNames();
                             if (t >= tokensNames.size()) {
 								std::wcerr << t << L" type out of range: " << Arrays->toString(tokensNames));
-								std::wcerr << (static_cast<CommonTokenStream*>(parser->getInputStream()))->getTokens();
+								std::wcerr << ((CommonTokenStream*)(parser->getInputStream()))->getTokens();
                             } else {
                                 return tokensNames[t] + L"<" + t + L">";
                             }

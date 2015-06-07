@@ -19,7 +19,6 @@
 #include <bitset>
 
 
-
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr

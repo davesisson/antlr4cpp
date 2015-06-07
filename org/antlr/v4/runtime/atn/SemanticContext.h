@@ -96,8 +96,6 @@ namespace org {
                         static SemanticContext *Or(SemanticContext *a, SemanticContext *b);
 
                     private:
-
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                         template<typename T1>
                         static std::vector<PrecedencePredicate*> filterPrecedencePredicates(std::set<T1> *collection);
 
@@ -153,8 +151,6 @@ namespace org {
                     
                     class SemanticContext::AND : public SemanticContext {
                     public:
-                        //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-                        //ORIGINAL LINE: @NotNull public final SemanticContext[] opnds;
                         const std::vector<SemanticContext*> opnds;
                         
                         AND(SemanticContext *a, SemanticContext *b);
@@ -172,8 +168,6 @@ namespace org {
                     
                     class SemanticContext::OR : public SemanticContext {
                     public:
-                        //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-                        //ORIGINAL LINE: @NotNull public final SemanticContext[] opnds;
                         const SemanticContext *opnds;
                         
                         OR(SemanticContext *a, SemanticContext *b);

@@ -53,6 +53,7 @@ namespace org {
                     /// info about the set, with support for combining similar configurations using a
                     /// graph-structured stack.
                     /// </summary>
+					/// TODO: Consider going from std::set to std::vector
                     class ATNConfigSet : public std::set<ATNConfig*> {
 #ifdef TODO
                         Find a good value here
@@ -83,7 +84,7 @@ namespace org {
                         /// the standard hash code and equals. We need all configurations with the same
                         /// {@code (s,i,_,semctx)} to be equal. Unfortunately, this key effectively doubles
                         /// the number of objects associated with ATNConfigs. The other solution is to
-                        /// use a hash table that lets us specify the equals/hashcode operation.
+                        /// use a hash table that lets us specify the equals/hash code operation.
                         /// </summary>
                     public:
                         class ConfigHashSet : public AbstractConfigHashSet {
