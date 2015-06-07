@@ -88,7 +88,7 @@ const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
                 void TokenStreamRewriter::rollback(const std::wstring &programName, int instructionIndex) {
                     std::vector<RewriteOperation*> is = programs->at(programName);
                     if (is.size() > 0) {
-                        programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(programName, VectorHelper::VectorSublist<RewriteOperation*>(is, MIN_TOKEN_INDEX, instructionIndex)));
+                        programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*> >(programName, VectorHelper::VectorSublist(is, MIN_TOKEN_INDEX, instructionIndex)));
                     }
                 }
 
