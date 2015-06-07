@@ -4,10 +4,10 @@
 #include <map>
 #include <vector>
 
-#include <BitSet.h>
 #include "ATN.h"
 #include "ATNConfig.h"
 #include "ATNConfigSet.h"
+#include "BitSet.h"
 #include "Declarations.h"
 #include "MurmurHash.h"
 #include "PredictionContext.h"
