@@ -562,7 +562,8 @@ namespace org {
                         }
 
                         ATNConfigSet *result = new ATNConfigSet(configs->fullCtx);
-						for (auto config : configs->iterator()) {
+
+						for (auto config : configs->iterator) {
                             if (dynamic_cast<RuleStopState*>(config->state) != nullptr) {
                                 result->add(config, mergeCache);
                                 continue;
@@ -612,7 +613,7 @@ namespace org {
                          *   1. null: no ATNConfig c is found such that c.alt==i
                          *   2. SemanticContext.NONE: At least one ATNConfig c exists such that
                          *      c.alt==i and c.semanticContext==SemanticContext.NONE. In other words,
-                         *      alt i has at least one un predicated config.
+                         *      alt i has at least one un-predicated config.
                          *   3. Non-NONE Semantic Context: There exists at least one, and for all
                          *      ATNConfig c such that c.alt==i, c.semanticContext!=SemanticContext.NONE.
                          *
@@ -645,7 +646,7 @@ namespace org {
 							altToPred.clear();// = nullptr;
                         }
                         if (debug) {
-                            std::wcout << L"getPredsForAmbigAlts result " << Arrays->toString(altToPred) << std::endl;
+							std::wcout << L"getPredsForAmbigAlts result "; /* TODO << Arrays->toString(altToPred) << std::endl; */
                         }
                         return altToPred;
                     }
@@ -668,11 +669,10 @@ namespace org {
                         }
 
                         if (!containsPredicate) {
-                            return nullptr;
+							pairs.clear();
                         }
 
-                                        //		System.out.println(Arrays.toString(altToPred)+"->"+pairs);
-                        return pairs.toArray(new dfa::DFAState::PredPrediction[pairs.size()]);
+						return pairs;
                     }
 
                     int ParserATNSimulator::getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs) {
@@ -878,7 +878,7 @@ namespace org {
                                     c = new ATNConfig(config, pt->target); // no pred context
                                 }
                             } else {
-                                SemanticContext *newSemCtx = SemanticContext::and(config->semanticContext, pt->getPredicate());
+                                SemanticContext *newSemCtx = new SemanticContext::AND(config->semanticContext, pt->getPredicate());
                                 c = new ATNConfig(config, pt->target, newSemCtx);
                             }
                         } else {
@@ -895,7 +895,7 @@ namespace org {
                         if (debug) {
                             std::wcout << L"PRED (collectPredicates=" << collectPredicates << L") " << pt->ruleIndex << L":" << pt->predIndex << L", ctx dependent=" << pt->isCtxDependent << std::endl;
                             if (parser != nullptr) {
-                                std::cout << L"context surrounding pred is " << parser->getRuleInvocationStack() << std::endl;
+                                std::wcout << L"context surrounding pred is " << parser->getRuleInvocationStack() << std::endl;
                             }
                         }
 
@@ -1022,14 +1022,15 @@ namespace org {
                             return to;
                         }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                        synchronized(from) {
-                            if (from->edges == nullptr) {
-                                from->edges = new DFAState[atn->maxTokenType+1 + 1];
-                            }
+						
+						if (true) {
+							std::lock_guard<std::mutex> lck(mtx);
+							if (from->edges.size() == 0) {
+								from->edges = std::vector<dfa::DFAState*>();
+							}
 
-                            from->edges[t + 1] = to; // connect
-                        }
+							from->edges[t + 1] = to; // connect
+						}
 
                         if (debug) {
                             std::vector<std::wstring> names;
@@ -1042,14 +1043,16 @@ namespace org {
                         return to;
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *ParserATNSimulator::addDFAState(DFA *dfa, DFAState *D) {
+                    org::antlr::v4::runtime::dfa::DFAState *ParserATNSimulator::addDFAState(dfa::DFA *dfa, dfa::DFAState *D) {
                         if (D == ERROR) {
                             return D;
                         }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                        synchronized(dfa->states) {
-                            DFAState *existing = dfa->states->get(D);
+
+                        //synchronized(dfa->states) {
+						if (true) {
+							std::lock_guard<std::mutex> lck(mtx);
+                            dfa::DFAState *existing = dfa->states->get(D);
                             if (existing != nullptr) {
                                 return existing;
                             }

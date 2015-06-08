@@ -271,6 +271,8 @@ namespace org {
                         /// SLL, LL, or LL + exact ambig detection? </summary>
                     private:
                         PredictionMode mode;
+						//Mutex to manage synchronized access for multithreading in the parser atn simulator
+						std::mutex mtx;
 
                         /// <summary>
                         /// Each prediction operation uses a cache for merge of prediction contexts.
