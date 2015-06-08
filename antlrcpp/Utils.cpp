@@ -76,18 +76,18 @@ namespace Utils {
     
     std::wstring stringFormat(const std::wstring fmt_str, ...)
     {
-        // Not sure this is needed, just use swprintf.
+        // Not sure this is needed, just use swprintf (into a wchar_t array).
         // TODO(dsisson): Remove this function in a future change.
         std::wstring blank;
         return blank;
     }
 
 	wchar_t* toCharArray(const std::vector<int> *data){
-		if (data == nullptr) return nullprt;
-		wchar_t* cdata = new wchar_t(*data.size());
+		if (data == nullptr) return nullptr;
+		wchar_t* cdata = new wchar_t(data->size());
 
-		for (int i = 0; i < *data.size(); i++){
-			cdata[i] = (char)*data[i];
+		for (int i = 0; i < data->size(); i++){
+			cdata[i] = (char)data->at(i);
 		}
 
 		return cdata;

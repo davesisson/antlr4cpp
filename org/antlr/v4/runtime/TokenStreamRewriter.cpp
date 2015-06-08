@@ -62,9 +62,9 @@ namespace org {
 
 				std::wstring TokenStreamRewriter::ReplaceOp::toString() {
 					if (text.empty()) {
-						return std::wstring(L"<DeleteOp@") + outerInstance->tokens->get(index)->getText() + std::wstring(L"..") + outerInstance->tokens->get(lastIndex)->getText() + std::wstring(L">");
+						return L"<DeleteOp@" + outerInstance->tokens->get(index)->getText() + L".." + outerInstance->tokens->get(lastIndex)->getText() + L">";
 					}
-					return std::wstring(L"<ReplaceOp@") + outerInstance->tokens->get(index)->getText() + std::wstring(L"..") + outerInstance->tokens->get(lastIndex)->getText() + std::wstring(L":\"") + text + std::wstring(L"\">");
+					return L"<ReplaceOp@" + outerInstance->tokens->get(index)->getText() + L".." + outerInstance->tokens->get(lastIndex)->getText() + L":\"" + text + L"\">";
 				}
 
 				void TokenStreamRewriter::ReplaceOp::InitializeInstanceFields() {
@@ -73,7 +73,7 @@ namespace org {
 
 				const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
 
-				TokenStreamRewriter::TokenStreamRewriter(TokenStream *tokens) : tokens(tokens), programs(&std::map<std::wstring, std::vector<RewriteOperation*>>()), lastRewriteTokenIndexes(&std::map<std::wstring, int>()) {
+				TokenStreamRewriter::TokenStreamRewriter(TokenStream *tokens) : tokens(tokens), programs(new std::map<std::wstring, std::vector<RewriteOperation*>>()), lastRewriteTokenIndexes(new std::map<std::wstring, int>()) {
 					programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(DEFAULT_PROGRAM_NAME, VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE)));
 				}
 
@@ -333,10 +333,10 @@ namespace org {
 								delete rewrites[prevRop.instructionIndex]; // kill first delete
 								rop->index = std::min(prevRop.index, rop->index);
 								rop->lastIndex = std::max(prevRop.lastIndex, rop->lastIndex);
-								std::wcout << std::wstring(L"new rop ") << rop << std::endl;
+								std::wcout << L"new rop " << rop << std::endl;
 							}
 							else if (!disjoint && !same) {
-								throw IllegalArgumentException(std::wstring(L"replace op boundaries of ") + rop + std::wstring(L" overlap with previous ") + prevRop);
+								throw IllegalArgumentException(L"replace op boundaries of " + rop->toString() + L" overlap with previous " + prevRop.toString());
 							}
 						}
 					}
@@ -375,7 +375,7 @@ namespace org {
 								continue;
 							}
 							if (iop->index >= rop.index && iop->index <= rop.lastIndex) {
-								throw IllegalArgumentException(std::wstring(L"insert op ") + iop + std::wstring(L" within boundaries of previous ") + rop);
+								throw IllegalArgumentException(L"insert op " + iop->toString() + L" within boundaries of previous " + rop.toString());
 							}
 						}
 					}
