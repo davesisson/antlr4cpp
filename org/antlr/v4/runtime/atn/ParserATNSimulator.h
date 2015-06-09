@@ -11,6 +11,10 @@
 #include "PredicateTransition.h"
 #include "RuleTransition.h"
 #include "SingletonPredictionContext.h"
+#include "AtomTransition.h"
+#include "SetTransition.h"
+#include "NotSetTransition.h"
+#include "EmptyPredictionContext.h"
 
 #include <string>
 #include <vector>
@@ -393,9 +397,9 @@ namespace org {
 
                         virtual ATNState *getReachableTarget(Transition *trans, int ttype);
 
-                        virtual SemanticContext *getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts);
+						virtual std::vector<SemanticContext*> getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts);
 
-                        virtual std::vector<dfa::DFAState::PredPrediction*> getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]);
+                        virtual std::vector<dfa::DFAState::PredPrediction*> getPredicatePredictions(BitSet *ambigAlts, std::vector<SemanticContext*> altToPred);
 
                         virtual int getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs);
 
@@ -535,13 +539,13 @@ namespace org {
                         /// state was not already present. </returns>
                         virtual dfa::DFAState *addDFAState(dfa::DFA *dfa, dfa::DFAState *D);
 
-                        virtual void reportAttemptingFullContext(dfa::DFA *dfa, std::bitset<BITSET_SIZE> *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex);
+                        virtual void reportAttemptingFullContext(dfa::DFA *dfa, BitSet *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex);
 
                         virtual void reportContextSensitivity(dfa::DFA *dfa, int prediction, ATNConfigSet *configs, int startIndex, int stopIndex);
 
                         /// <summary>
                         /// If context sensitive parsing, we know it's ambiguity not conflict </summary>
-                        virtual void reportAmbiguity(dfa::DFA *dfa, dfa::DFAState *D, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, ATNConfigSet *configs);
+                        virtual void reportAmbiguity(dfa::DFA *dfa, dfa::DFAState *D, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, ATNConfigSet *configs);
 
                     public:
                         void setPredictionMode(PredictionMode mode);

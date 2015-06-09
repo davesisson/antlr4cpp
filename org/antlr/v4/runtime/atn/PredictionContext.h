@@ -54,7 +54,7 @@ namespace org {
                         /// {@code *+x = *}.
                         /// </summary>
                     public:
-                        static EmptyPredictionContext *const EMPTY;
+                        static EmptyPredictionContext * EMPTY;
 
                         /// <summary>
                         /// Represents {@code $} in an array in full context mode, when {@code $}

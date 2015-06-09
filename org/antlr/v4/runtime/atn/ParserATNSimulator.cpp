@@ -199,7 +199,7 @@ namespace org {
                                 }
                                 bool fullCtx = true;
                                 ATNConfigSet *s0_closure = computeStartState(dfa->atnStartState, outerContext, fullCtx);
-                                reportAttemptingFullContext(dfa, &conflictingAlts->data, D->configs, startIndex, input->index());
+                                reportAttemptingFullContext(dfa, conflictingAlts, D->configs, startIndex, input->index());
                                 int alt = execATNWithFullContext(dfa, D, s0_closure, input, startIndex, outerContext);
                                 return alt;
                             }
@@ -222,7 +222,7 @@ namespace org {
                                 default:
                                     // report ambiguity after predicate evaluation to make sure the correct
                                     // set of ambig alts is reported.
-                                    reportAmbiguity(dfa, D, startIndex, stopIndex, false, &alts->data, D->configs);
+                                    reportAmbiguity(dfa, D, startIndex, stopIndex, false, alts, D->configs);
                                     return alts->nextSetBit(0);
                                 }
                             }
@@ -270,7 +270,7 @@ namespace org {
                             D->prediction = predictedAlt;
                         } else if (PredictionModeClass::hasSLLConflictTerminatingPrediction(&mode, reach)) {
                             // MORE THAN ONE VIABLE ALTERNATIVE
-                            D->configs->conflictingAlts->data = getConflictingAlts(reach)->data;
+                            D->configs->conflictingAlts->data = getConflictingAlts(reach).data;
                             D->requiresFullContext = true;
                             // in SLL-only mode, we will stop at this state and return the minimum alt
                             D->isAcceptState = true;
@@ -296,9 +296,9 @@ namespace org {
                         // Update DFA so reach becomes accept state with (predicate,alt)
                         // pairs if preds found for conflicting alts
 						BitSet *altsToCollectPredsFrom;
-						altsToCollectPredsFrom->data = *getConflictingAltsOrUniqueAlt(dfaState->configs);
-                        SemanticContext *altToPred = getPredsForAmbigAlts(altsToCollectPredsFrom, dfaState->configs, nalts);
-                        if (altToPred != nullptr) {
+						altsToCollectPredsFrom->data = getConflictingAltsOrUniqueAlt(dfaState->configs).data;
+                        std::vector<SemanticContext*> altToPred = getPredsForAmbigAlts(altsToCollectPredsFrom, dfaState->configs, nalts);
+                        if (!altToPred.empty()) {
                             dfaState->predicates = getPredicatePredictions(altsToCollectPredsFrom, altToPred);
                             dfaState->prediction = ATN::INVALID_ALT_NUMBER; // make sure we use preds
                         } else {
@@ -447,7 +447,7 @@ namespace org {
                         std::vector<ATNConfig*> skippedStopStates;
 
                         // First figure out where we can reach on input t
-						for (auto c : closure->iterator) {
+						for (auto c : *closure) {
                             if (debug) {
                                 std::wcout << L"testing " << getTokenName(t) << L" at " << c->toString() << std::endl;
                             }
@@ -509,7 +509,7 @@ namespace org {
                             reach = new ATNConfigSet(fullCtx);
                             std::set<ATNConfig*> *closureBusy = new std::set<ATNConfig*>();
 
-                            for (auto c : intermediate->iterator) {
+                            for (auto c : *intermediate) {
                                 this->closure(c, reach, closureBusy, false, fullCtx);
                             }
                         }
@@ -563,7 +563,7 @@ namespace org {
 
                         ATNConfigSet *result = new ATNConfigSet(configs->fullCtx);
 
-						for (auto config : configs->iterator) {
+						for (auto config : *configs) {
                             if (dynamic_cast<RuleStopState*>(config->state) != nullptr) {
                                 result->add(config, mergeCache);
                                 continue;
@@ -606,7 +606,7 @@ namespace org {
 
 					//
 					// Note that caller must memory manage the returned value from this function
-                    SemanticContext *ParserATNSimulator::getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts) {
+					std::vector<SemanticContext*> ParserATNSimulator::getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts) {
                         // REACH=[1|1|[]|0:0, 1|2|[]|0:1]
                         /* altToPred starts as an array of all null contexts. The entry at index i
                          * corresponds to alternative i. altToPred[i] may have one of three values:
@@ -619,11 +619,12 @@ namespace org {
                          *
                          * From this, it is clear that NONE||anything==NONE.
                          */
-                        SemanticContext *altToPred = new SemanticContext[nalts + 1];
-						//std::vector<SemanticContext*> altToPred;// = new SemanticContext[nalts + 1];
+                        //SemanticContext *altToPred = new SemanticContext[nalts + 1];
+						std::vector<SemanticContext*> altToPred;// = new SemanticContext[nalts + 1];
+
                         for (auto c : *configs) {
                             if (ambigAlts->data.test(c->alt)) {
-                                altToPred[c->alt] = (SemanticContext*)new SemanticContext::OR(altToPred[c->alt], c->semanticContext);
+								altToPred[c->alt] = dynamic_cast<SemanticContext*>( (new SemanticContext::OR(altToPred[c->alt], c->semanticContext)));
                             }
                         }
 
@@ -651,11 +652,11 @@ namespace org {
                         return altToPred;
                     }
 
-                    std::vector<dfa::DFAState::PredPrediction *> ParserATNSimulator::getPredicatePredictions(BitSet *ambigAlts, SemanticContext altToPred[]) {
+                    std::vector<dfa::DFAState::PredPrediction *> ParserATNSimulator::getPredicatePredictions(BitSet *ambigAlts, std::vector<SemanticContext*> altToPred) {
                         std::vector<dfa::DFAState::PredPrediction*> pairs = std::vector<dfa::DFAState::PredPrediction*>();
                         bool containsPredicate = false;
-                        for (int i = 1; i < sizeof(altToPred) / sizeof(altToPred[0]); i++) {
-                            SemanticContext *pred = &altToPred[i];
+                        for (int i = 1; i < altToPred.size(); i++) {
+                            SemanticContext *pred = altToPred[i];
 
                             // unpredicted is indicated by SemanticContext.NONE
                             assert(pred != nullptr);
@@ -676,7 +677,7 @@ namespace org {
                     }
 
                     int ParserATNSimulator::getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs) {
-                        misc::IntervalSet *alts = new misc::IntervalSet();
+                        misc::IntervalSet *alts;
                         for (auto c : *configs) {
                             if (c->reachesIntoOuterContext > 0 || (dynamic_cast<RuleStopState*>(c->state) != nullptr && c->context->hasEmptyPath())) {
                                 alts->add(c->alt);
@@ -736,7 +737,7 @@ namespace org {
                                 for (int i = 0; i < config->context->size(); i++) {
                                     if (config->context->getReturnState(i) == PredictionContext::EMPTY_RETURN_STATE) {
                                         if (fullCtx) {
-                                            configs->add(new ATNConfig(config, config->state, PredictionContext::EMPTY), mergeCache);
+                                            configs->add(new ATNConfig(config, config->state, dynamic_cast<PredictionContext*>(PredictionContext::EMPTY)), mergeCache);
                                             continue;
                                         } else {
                                             // we have no context info, just chase follow links (if greedy)
@@ -914,7 +915,7 @@ namespace org {
                                     c = new ATNConfig(config, pt->target); // no pred context
                                 }
                             } else {
-                                SemanticContext *newSemCtx = SemanticContext::and(config->semanticContext, pt->getPredicate());
+                                SemanticContext *newSemCtx = dynamic_cast<SemanticContext*>( &SemanticContext::AND(config->semanticContext, pt->getPredicate()));
                                 c = new ATNConfig(config, pt->target, newSemCtx);
                             }
                         } else {
@@ -974,17 +975,19 @@ namespace org {
 
                     void ParserATNSimulator::dumpDeadEndConfigs(NoViableAltException *nvae) {
                         std::wcerr << L"dead end configs: ";
-                        for (auto c : nvae->getDeadEndConfigs()) {
+                        for (auto c : *nvae->getDeadEndConfigs()) {
                             std::wstring trans = L"no edges";
                             if (c->state->getNumberOfTransitions() > 0) {
                                 Transition *t = c->state->transition(0);
                                 if (dynamic_cast<AtomTransition*>(t) != nullptr) {
                                     AtomTransition *at = static_cast<AtomTransition*>(t);
-                                    trans = L"Atom " + getTokenName(at->label_Renamed);
+                                    trans = L"Atom " + getTokenName(at->_label);
                                 } else if (dynamic_cast<SetTransition*>(t) != nullptr) {
                                     SetTransition *st = static_cast<SetTransition*>(t);
                                     bool not = dynamic_cast<NotSetTransition*>(st) != nullptr;
-                                    trans = (not?L"~":L"") + L"Set " + st->set->toString();
+									trans = (not ? L"~" : L"");
+									trans += L"Set ";
+									trans += st->set->toString();
                                 }
                             }
 							std::wcerr << c->toString(parser, true) + L":" + trans;
@@ -997,7 +1000,7 @@ namespace org {
 
                     int ParserATNSimulator::getUniqueAlt(ATNConfigSet *configs) {
                         int alt = ATN::INVALID_ALT_NUMBER;
-                        for (auto c : configs->iterator()) {
+                        for (auto c : *configs) {
                             if (alt == ATN::INVALID_ALT_NUMBER) {
                                 alt = c->alt; // found first alt
                             } else if (c->alt != alt) {

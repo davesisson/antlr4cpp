@@ -2,6 +2,7 @@
 #define __antlrcpp__BitSet__
 
 #include <bitset>
+#include <iostream>
 
 /*
 * [The "BSD license"]
@@ -40,7 +41,7 @@ public:
 	std::bitset<BITSET_SIZE> data;
 
 	int nextSetBit(const int & pos) {
-		for (size_t i = pos; i < this->data.size(); i++){
+		for (size_t i = pos; i < data.size(); i++){
 			if (data.test(i)) return i;
 		}
 
@@ -63,11 +64,24 @@ public:
 		return data.size();
 	}
 
-	int cardinality(){
-		return data.count();
+	//Prints a list of every index for which the bitset contains a bit in true.
+	friend std::wostream& operator<<(std::wostream& os, const BitSet& obj)
+	{
+		os << L"{";
+		int total = obj.data.count();
+		for (int i = 0; i < obj.data.size(); i++){
+			if (obj.data.test(i)){
+				os << i;
+				--total;
+				if (total > 1){
+					os << L", ";
+				}
+			}
+		}
+
+		os << L"}";
+		return os;
 	}
-
-
 
 };
 

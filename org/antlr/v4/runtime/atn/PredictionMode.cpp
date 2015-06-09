@@ -219,7 +219,7 @@ namespace org {
 						bool hasStateAssociatedWithOneAlt(ATNConfigSet* configs) {
 							std::map<ATNState*, BitSet> x = getStateToAltMap(configs);
 							for (std::map<ATNState*, BitSet>::iterator it = x.begin(); it != x.end(); it++){
-								if (it->second.cardinality() == 1) return true;
+								if (it->second.count() == 1) return true;
 							}
 							return false;
 						}

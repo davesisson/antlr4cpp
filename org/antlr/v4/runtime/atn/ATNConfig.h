@@ -54,7 +54,7 @@ namespace org {
                         /// <summary>
                         /// The ATN state associated with this configuration </summary>
                     public:
-                        ATNState *const state;
+                        ATNState * state;
 
                         /// <summary>
                         /// What alt (or lexer rule) is predicted by this configuration </summary>
