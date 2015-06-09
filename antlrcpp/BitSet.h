@@ -68,7 +68,7 @@ public:
 	friend std::wostream& operator<<(std::wostream& os, const BitSet& obj)
 	{
 		os << L"{";
-		int total = obj.data.count();
+		size_t total = obj.data.count();
 		for (int i = 0; i < obj.data.size(); i++){
 			if (obj.data.test(i)){
 				os << i;
