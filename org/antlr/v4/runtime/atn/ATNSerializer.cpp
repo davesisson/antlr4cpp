@@ -124,7 +124,7 @@ std::vector<int>* ATNSerializer::serialize() {
 
     for (int i = 0; i < s->getNumberOfTransitions(); i++) {
       Transition *t = s->transition(i);
-      int edgeType = Transition::serializationTypes->at(t->getClass());
+      int edgeType = t->getSerializationType();
       if (edgeType == Transition::SET || edgeType == Transition::NOT_SET) {
         SetTransition *st = static_cast<SetTransition *>(t);
         if (setIndices->find(st->set) != setIndices->end()) {
@@ -222,7 +222,7 @@ std::vector<int>* ATNSerializer::serialize() {
 
       int src = s->stateNumber;
       int trg = t->target->stateNumber;
-      int edgeType = Transition::serializationTypes[t->getClass()];
+      int edgeType = t->getSerializationType();
       int arg1 = 0;
       int arg2 = 0;
       int arg3 = 0;

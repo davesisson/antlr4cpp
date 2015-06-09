@@ -73,8 +73,6 @@ namespace org {
 
                         static const std::vector<std::wstring> serializationNames;
 
-                        static std::map<Transition *, int> *const serializationTypes;
-
                         /// <summary>
                         /// The target of this transition. </summary>
                         ATNState *target;
