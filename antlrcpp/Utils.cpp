@@ -92,4 +92,10 @@ namespace Utils {
 
 		return cdata;
 	}
+
+	std::wstring toHexString(const int t){
+		std::wstringstream stream;
+		stream << std::uppercase << std::hex << t;
+		return stream.str();
+	}
 }

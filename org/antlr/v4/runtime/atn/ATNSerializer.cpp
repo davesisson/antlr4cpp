@@ -498,17 +498,15 @@ std::wstring ATNSerializer::getTokenName(int t) {
       case L'\'':
         return L"'\\''";
       default:
-        if (UnicodeBlock::of(static_cast<wchar_t>(t)) ==
-                UnicodeBlock::BASIC_LATIN &&
-            !iscntrl(static_cast<wchar_t>(t))) {
-          return L"'" + std::to_wstring(static_cast<wchar_t>(t)) + L"'";
+		  std::wstring s_hex = Utils::toHexString(t);
+		  if (s_hex >= L"0" && s_hex <= L"7F" &&
+            !iscntrl(t)) {
+          return L"'" + std::to_wstring(t) + L"'";
         }
         // turn on the bit above max "\uFFFF" value so that we pad with zeros
         // then only take last 4 digits
-        std::wstring hex =
-            int ::toHexString(t | 0x10000)->toUpperCase()->substr(1, 4);
-        std::wstring unicodeStr =
-            std::wstring(L"'\\u") + hex + std::wstring(L"'");
+		  std::wstring hex = Utils::toHexString(t | 0x10000).substr(1, 4);
+          std::wstring unicodeStr = std::wstring(L"'\\u") + hex + std::wstring(L"'");
         return unicodeStr;
     }
   }

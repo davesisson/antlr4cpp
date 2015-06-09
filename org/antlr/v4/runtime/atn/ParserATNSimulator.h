@@ -440,7 +440,7 @@ namespace org {
 
                         virtual ATNConfig *ruleTransition(ATNConfig *config, RuleTransition *t);
 
-                        virtual std::bitset<BITSET_SIZE> *getConflictingAlts(ATNConfigSet *configs);
+                        virtual BitSet *getConflictingAlts(ATNConfigSet *configs);
 
                         /// <summary>
                         /// Sam pointed out a problem with the previous definition, v3, of

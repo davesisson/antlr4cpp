@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 /*
 * [The "BSD license"]

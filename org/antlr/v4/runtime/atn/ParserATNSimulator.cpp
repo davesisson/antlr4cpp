@@ -938,7 +938,7 @@ namespace org {
                     }
 
                     BitSet *ParserATNSimulator::getConflictingAlts(ATNConfigSet *configs) {
-                        std::vector<BitSet*> *altsets = PredictionMode::getConflictingAltSubsets(configs);
+                        std::vector<BitSet> altsets = PredictionMode::getConflictingAltSubsets(configs);
                         return PredictionMode::getAlts(altsets);
                     }
 
@@ -1052,7 +1052,7 @@ namespace org {
                         //synchronized(dfa->states) {
 						if (true) {
 							std::lock_guard<std::mutex> lck(mtx);
-                            dfa::DFAState *existing = dfa->states->get(D);
+                            dfa::DFAState *existing = dfa->states->at(D);
                             if (existing != nullptr) {
                                 return existing;
                             }
@@ -1062,7 +1062,7 @@ namespace org {
                                 D->configs->optimizeConfigs(this);
                                 D->configs->setReadonly(true);
                             }
-                            dfa->states->put(D, D);
+                            dfa->states->insert(D, D);
                             if (debug) {
                                 std::cout << L"adding new DFA state: " << D << std::endl;
                             }

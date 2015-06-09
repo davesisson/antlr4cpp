@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <cwchar>
+#include <iomanip>
+#include <sstream>
 
 /*
  * [The "BSD license"]
@@ -54,4 +56,6 @@ namespace Utils {
     std::wstring stringFormat(const wchar_t* fmt, ...);
 
 	wchar_t* toCharArray(const std::vector<int> *data);
+
+	std::wstring toHexString(const int t);
 }

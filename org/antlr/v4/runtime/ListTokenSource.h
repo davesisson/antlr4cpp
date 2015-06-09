@@ -6,6 +6,7 @@
 #include "CommonTokenFactory.h"
 #include <string>
 #include <vector>
+#include <algorithm>
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
