@@ -146,6 +146,7 @@ namespace org {
                     class PredictionContext;
                     class PredictionContextCache;
                     enum class PredictionMode;
+					class PredictionModeClass;
                     class RangeTransition;
                     class RuleStartState;
                     class RuleStopState;

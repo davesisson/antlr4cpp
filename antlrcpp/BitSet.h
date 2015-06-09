@@ -63,6 +63,10 @@ public:
 		return data.size();
 	}
 
+	int cardinality(){
+		return data.count();
+	}
+
 
 
 };

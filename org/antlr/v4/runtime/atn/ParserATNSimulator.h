@@ -440,7 +440,7 @@ namespace org {
 
                         virtual ATNConfig *ruleTransition(ATNConfig *config, RuleTransition *t);
 
-                        virtual BitSet *getConflictingAlts(ATNConfigSet *configs);
+                        virtual BitSet getConflictingAlts(ATNConfigSet *configs);
 
                         /// <summary>
                         /// Sam pointed out a problem with the previous definition, v3, of
@@ -479,7 +479,7 @@ namespace org {
                         /// that we still need to pursue.
                         /// </summary>
 
-                        virtual std::bitset<BITSET_SIZE> *getConflictingAltsOrUniqueAlt(ATNConfigSet *configs);
+                        virtual BitSet getConflictingAltsOrUniqueAlt(ATNConfigSet *configs);
 
                     public:
                         virtual std::wstring getTokenName(int t);

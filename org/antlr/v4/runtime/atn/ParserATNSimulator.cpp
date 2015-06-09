@@ -258,9 +258,9 @@ namespace org {
                         int predictedAlt = getUniqueAlt(reach);
 
                         if (debug) {
-                            std::vector<BitSet> altSubSets = getConflictingAltSubsets(reach);
+                            std::vector<BitSet> altSubSets = PredictionModeClass::getConflictingAltSubsets(reach);
 							std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
-                            std::wcout << L"SLL altSubSets=" << altSubSetsStr << L", configs=" << reach << L", predict=" << predictedAlt << L", allSubsetsConflict=" << allSubsetsConflict(altSubSets) << L", conflictingAlts=" << getConflictingAlts(reach) << std::endl;
+                            std::wcout << L"SLL altSubSets=" << altSubSetsStr << L", configs=" << reach << L", predict=" << predictedAlt << L", allSubsetsConflict=" << PredictionModeClass::allSubsetsConflict(altSubSets) << L", conflictingAlts=" << getConflictingAlts(reach) << std::endl;
                         }
 
                         if (predictedAlt != ATN::INVALID_ALT_NUMBER) {
@@ -268,9 +268,9 @@ namespace org {
                             D->isAcceptState = true;
                             D->configs->uniqueAlt = predictedAlt;
                             D->prediction = predictedAlt;
-                        } else if (hasSLLConflictTerminatingPrediction(&mode, reach)) {
+                        } else if (PredictionModeClass::hasSLLConflictTerminatingPrediction(&mode, reach)) {
                             // MORE THAN ONE VIABLE ALTERNATIVE
-                            D->configs->conflictingAlts->data = *getConflictingAlts(reach);
+                            D->configs->conflictingAlts->data = getConflictingAlts(reach)->data;
                             D->requiresFullContext = true;
                             // in SLL-only mode, we will stop at this state and return the minimum alt
                             D->isAcceptState = true;
@@ -342,13 +342,13 @@ namespace org {
                                 throw noViableAlt(input, outerContext, previous, startIndex);
                             }
 
-                            std::vector<BitSet> altSubSets = getConflictingAltSubsets(reach);
+                            std::vector<BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
                             if (debug) {
 								std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
 #ifdef TODO
 								Figure out the commented out section /* << L", predict="  << getUniqueAlt(altSubSets) */, not sure what to make of that
 #endif
-                                std::wcout << L"LL altSubSets=" << altSubSetsStr /* << L", predict="  << getUniqueAlt(altSubSets) */ << L", resolvesToJustOneViableAlt=" << resolvesToJustOneViableAlt(altSubSets) << std::endl;
+                                std::wcout << L"LL altSubSets=" << altSubSetsStr /* << L", predict="  << getUniqueAlt(altSubSets) */ << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
                             }
 
                                         //			System.out.println("altSubSets: "+altSubSets);
@@ -359,16 +359,16 @@ namespace org {
                                 break;
                             }
                             if (mode != PredictionMode::LL_EXACT_AMBIG_DETECTION) {
-                                predictedAlt = resolvesToJustOneViableAlt(altSubSets);
+								predictedAlt = PredictionModeClass::resolvesToJustOneViableAlt(altSubSets);
                                 if (predictedAlt != ATN::INVALID_ALT_NUMBER) {
                                     break;
                                 }
                             } else {
                                 // In exact ambiguity mode, we never try to terminate early.
                                 // Just keeps scarfing until we know what the conflict is
-                                if (allSubsetsConflict(altSubSets) && allSubsetsEqual(altSubSets)) {
+								if (PredictionModeClass::allSubsetsConflict(altSubSets) && PredictionModeClass::allSubsetsEqual(altSubSets)) {
                                     foundExactAmbig = true;
-                                    predictedAlt = getSingleViableAlt(altSubSets);
+									predictedAlt = PredictionModeClass::getSingleViableAlt(altSubSets);
                                     break;
                                 }
                                 // else there are multiple non-conflicting subsets or
@@ -543,7 +543,7 @@ namespace org {
                          * chooses an alternative matching the longest overall sequence when
                          * multiple alternatives are viable.
                          */
-                        if (skippedStopStates.size() > 0 && (!fullCtx || !hasConfigInRuleStopState(reach))) {
+						if (skippedStopStates.size() > 0 && (!fullCtx || !PredictionModeClass::hasConfigInRuleStopState(reach))) {
                             assert(!skippedStopStates.empty());
                             for (auto c : skippedStopStates) {
                                 reach->add(c, mergeCache);
@@ -557,7 +557,7 @@ namespace org {
                     }
 
                     atn::ATNConfigSet *ParserATNSimulator::removeAllConfigsNotInRuleStopState(ATNConfigSet *configs, bool lookToEndOfRule) {
-                        if (allConfigsInRuleStopStates(configs)) {
+						if (PredictionModeClass::allConfigsInRuleStopStates(configs)) {
                             return configs;
                         }
 
@@ -619,8 +619,8 @@ namespace org {
                          *
                          * From this, it is clear that NONE||anything==NONE.
                          */
-                        //SemanticContext *altToPred = new SemanticContext[nalts + 1];
-						std::vector<SemanticContext*> altToPred;// = new SemanticContext[nalts + 1];
+                        SemanticContext *altToPred = new SemanticContext[nalts + 1];
+						//std::vector<SemanticContext*> altToPred;// = new SemanticContext[nalts + 1];
                         for (auto c : *configs) {
                             if (ambigAlts->data.test(c->alt)) {
                                 altToPred[c->alt] = (SemanticContext*)new SemanticContext::OR(altToPred[c->alt], c->semanticContext);
@@ -937,18 +937,17 @@ namespace org {
                         return new atn::ATNConfig(config, t->target, newContext);
                     }
 
-                    BitSet *ParserATNSimulator::getConflictingAlts(ATNConfigSet *configs) {
-                        std::vector<BitSet> altsets = PredictionMode::getConflictingAltSubsets(configs);
-                        return PredictionMode::getAlts(altsets);
+                    BitSet ParserATNSimulator::getConflictingAlts(ATNConfigSet *configs) {
+                        std::vector<BitSet> altsets = PredictionModeClass::getConflictingAltSubsets(configs);
+                        return PredictionModeClass::getAlts(altsets);
                     }
 
-                    BitSet *ParserATNSimulator::getConflictingAltsOrUniqueAlt(ATNConfigSet *configs) {
-                        BitSet *conflictingAlts;
+                    BitSet ParserATNSimulator::getConflictingAltsOrUniqueAlt(ATNConfigSet *configs) {
+                        BitSet conflictingAlts;
                         if (configs->uniqueAlt != ATN::INVALID_ALT_NUMBER) {
-                            conflictingAlts = new BitSet();
-                            conflictingAlts->set(configs->uniqueAlt);
+                            conflictingAlts.set(configs->uniqueAlt);
                         } else {
-                            conflictingAlts = configs->conflictingAlts;
+                            conflictingAlts = *configs->conflictingAlts;
                         }
                         return conflictingAlts;
                     }
