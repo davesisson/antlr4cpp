@@ -24,26 +24,20 @@
 /// <returns></returns>
 class Arrays {
     public:
-#ifdef TODO
-    static std::wstring ListToString(std::list<std::wstring> list,std::wstring separator)
+
+    static std::wstring ListToString(std::vector<std::wstring> list,std::wstring separator)
     {
     
         StringBuilder *sb = new StringBuilder();
-        for (int i = 0; i < list->length; i++)//(std::wstring s in list)
+        for (int i = 0; i < list.size(); i++)//(std::wstring s in list)
         {
-            sb.Append(string.Format("{0}{1}", s, separator));
+            sb->append(list[i]);
+			if (i + 1 < list.size()) sb->append(separator);
         }
-        string returnString = std::wstring.Empty; ;
-        //Remove the last separator from the list
-        if (sb.Length > 0)
-        {
-            returnString = sb.Remove(
-                                     sb.ToString().LastIndexOf(separator),
-                                     separator.Length).ToString();
-        }
-        return returnString;
+        
+        return sb->toString();
     }
-    
+#ifdef TODO  
     /// <summary>
     /// Strings to string list.
     /// </summary>

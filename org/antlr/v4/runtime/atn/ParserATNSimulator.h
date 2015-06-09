@@ -15,6 +15,8 @@
 #include "SetTransition.h"
 #include "NotSetTransition.h"
 #include "EmptyPredictionContext.h"
+#include "CommonTokenStream.h"
+#include "Parser.h"
 
 #include <string>
 #include <vector>
