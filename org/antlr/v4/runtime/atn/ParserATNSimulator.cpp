@@ -15,6 +15,7 @@
 #include "Transition.h"
 #include "Interval.h"
 #include "ATNConfigSet.h"
+#include "ANTLRErrorListener.h"
 
 // TODO: Assert is a really poor mans debugging, remove this and use exception 
 // handling instead. 
@@ -983,8 +984,8 @@ namespace org {
                                     trans = L"Atom " + getTokenName(at->_label);
                                 } else if (dynamic_cast<SetTransition*>(t) != nullptr) {
                                     SetTransition *st = static_cast<SetTransition*>(t);
-                                    bool not = dynamic_cast<NotSetTransition*>(st) != nullptr;
-									trans = (not ? L"~" : L"");
+                                    bool is_not = dynamic_cast<NotSetTransition*>(st) != nullptr;
+									trans = (is_not ? L"~" : L"");
 									trans += L"Set ";
 									trans += st->set->toString();
                                 }
@@ -1110,7 +1111,7 @@ namespace org {
                                         //				i++;
                                         //			}
 							misc::Interval *interval = misc::Interval::of(startIndex, stopIndex);
-                            std::wcout << L"reportAmbiguity " << ambigAlts << L":" << configs << L", input=") << parser->getTokenStream()->getText(interval) << std::endl;
+                            std::wcout << L"reportAmbiguity " << ambigAlts << L":" << configs << L", input=" << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
                             parser->getErrorListenerDispatch()->reportAmbiguity(parser, dfa, startIndex, stopIndex, exact, ambigAlts, configs);
