@@ -144,7 +144,7 @@ namespace org {
                 }
                 
                 template<typename T1, typename T2>
-                ANTLRErrorListener *Recognizer<T1, T2>::Recognizer::getErrorListenerDispatch() {
+                ANTLRErrorListener *Recognizer<T1, T2>::getErrorListenerDispatch() {
                     return new ProxyErrorListener(getErrorListeners());
                 }
                 

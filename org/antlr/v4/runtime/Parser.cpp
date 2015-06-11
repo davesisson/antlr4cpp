@@ -112,8 +112,8 @@ namespace org {
 
                 void Parser::TrimToSizeListener::exitEveryRule(ParserRuleContext *ctx) {
                     // TODO: Need to figure out what type this is going to be.  In Java we expect it to be set by the generator.
-                    if (dynamic_cast<std::vector<tree::ParseTree*>*>(ctx->children) != nullptr) {
-                        (static_cast<std::vector<tree::ParseTree*>*>(ctx->children)).trimToSize();
+                    if (dynamic_cast<std::vector<tree::ParseTree*>*>(&ctx->children) != nullptr) {
+                        (static_cast<std::vector<tree::ParseTree*>*>(&ctx->children)).trimToSize();
                     }
                 }
 

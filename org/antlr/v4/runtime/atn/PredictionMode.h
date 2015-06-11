@@ -449,7 +449,7 @@ namespace org {
 						/// cref="BitSet"/> with
 						/// <seealso cref="BitSet#cardinality cardinality"/> 1, otherwise {@code false}
 						/// </returns>
-						bool hasNonConflictingAltSet(const std::vector<BitSet> &altsets);
+						static bool hasNonConflictingAltSet(const std::vector<BitSet> &altsets);
 
 						/// <summary>
 						/// Determines if any single alternative subset in {@code altsets} contains
@@ -460,7 +460,7 @@ namespace org {
 						/// cref="BitSet"/> with
 						/// <seealso cref="BitSet#cardinality cardinality"/> &gt; 1, otherwise {@code
 						/// false} </returns>
-						bool hasConflictingAltSet(const std::vector<BitSet> &altsets);
+						static bool hasConflictingAltSet(const std::vector<BitSet> &altsets);
 
 						/// <summary>
 						/// Determines if every alternative subset in {@code altsets} is equivalent.
@@ -509,10 +509,10 @@ namespace org {
 						/// cref="ATNConfig#alt alt"/>
 						/// </pre>
 						/// </summary>
-						std::map<ATNState*, BitSet> getStateToAltMap(ATNConfigSet *configs);
+						static std::map<ATNState*, BitSet> getStateToAltMap(ATNConfigSet *configs);
 
 						// TODO -- Add docs.
-						bool hasStateAssociatedWithOneAlt(ATNConfigSet *configs);
+						static bool hasStateAssociatedWithOneAlt(ATNConfigSet *configs);
 
 						// TODO -- Add docs.
 						static int getSingleViableAlt(const std::vector<BitSet> &altsets);

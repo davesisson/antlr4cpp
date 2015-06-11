@@ -102,7 +102,7 @@ namespace org {
                 }
 
                 int UnbufferedCharStream::nextChar()  {
-                    return input->read();
+                    return input->get();
                 }
 
                 void UnbufferedCharStream::add(int c) {

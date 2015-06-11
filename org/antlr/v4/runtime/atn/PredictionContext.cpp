@@ -47,7 +47,7 @@ namespace org {
                 using misc::MurmurHash;
                 
                 namespace atn {
-                    EmptyPredictionContext *const PredictionContext::EMPTY = new EmptyPredictionContext();
+                    
                     int PredictionContext::globalNodeCount = 0;
 
                     PredictionContext::PredictionContext(int cachedHashCode) : id(globalNodeCount++), cachedHashCode(cachedHashCode)  {
