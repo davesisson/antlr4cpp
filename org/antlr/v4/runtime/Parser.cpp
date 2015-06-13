@@ -113,7 +113,10 @@ namespace org {
                 void Parser::TrimToSizeListener::exitEveryRule(ParserRuleContext *ctx) {
                     // TODO: Need to figure out what type this is going to be.  In Java we expect it to be set by the generator.
                     if (dynamic_cast<std::vector<tree::ParseTree*>*>(&ctx->children) != nullptr) {
-                        (dynamic_cast<std::vector<tree::ParseTree*>*>(&ctx->children)).trimToSize();
+#ifdef TODO
+						THIS is meant to cleanup the array by deleting unused space, not sure how to do this in STL
+                        //(dynamic_cast<std::vector<tree::ParseTree*>*>(&ctx->children))->trimToSize();
+#endif
                     }
                 }
 
