@@ -21,6 +21,8 @@ namespace org {
             namespace runtime {
                 class ANTLRException : public std::exception {
                     public:
+                    ANTLRException();
+                    ANTLRException(const std::wstring msg);
                     std::wstring getMessage();
 
                 };

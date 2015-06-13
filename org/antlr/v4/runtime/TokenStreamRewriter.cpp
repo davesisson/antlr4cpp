@@ -387,7 +387,7 @@ namespace org {
 						}
 						if (m->at(op->index) != nullptr) {
 							// TODO: use a specific exception rather than a generic type here?
-							throw new std::exception("should only be one op per index");
+							throw new  ANTLRException(L"should only be one op per index");
 						}
 						m->emplace(op->index, op);
 					}
