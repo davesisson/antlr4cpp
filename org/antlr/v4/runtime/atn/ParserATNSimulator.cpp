@@ -127,6 +127,7 @@ namespace org {
 #ifdef TODO
                         }
 #endif
+                        return 0;
                     }
 
                     int ParserATNSimulator::execATN(dfa::DFA *dfa, dfa::DFAState *s0, TokenStream *input, int startIndex, ParserRuleContext *outerContext) {
@@ -915,7 +916,7 @@ namespace org {
                                     c = new ATNConfig(config, pt->target); // no pred context
                                 }
                             } else {
-                                SemanticContext *newSemCtx = dynamic_cast<SemanticContext*>( &SemanticContext::AND(config->semanticContext, pt->getPredicate()));
+                                SemanticContext *newSemCtx = dynamic_cast<SemanticContext*>(new SemanticContext::AND(config->semanticContext, pt->getPredicate()));
                                 c = new ATNConfig(config, pt->target, newSemCtx);
                             }
                         } else {

@@ -262,12 +262,12 @@ namespace org {
                     return _input->getTokenSource()->getTokenFactory();
                 }
 
-template<typename T1>
+                template<typename T1>
                 void Parser::setTokenFactory(TokenFactory<T1> *factory) {
                     _input->getTokenSource()->setTokenFactory(factory);
                 }
 
-                org::antlr::v4::runtime::atn::ATN *Parser::getATNWithBypassAlts() {
+                atn::ATN *Parser::getATNWithBypassAlts() {
                     std::wstring serializedAtn = getSerializedATN();
                     if (serializedAtn == L"") {
                         throw UnsupportedOperationException(L"The current parser does not support an ATN with bypass alternatives.");
@@ -285,9 +285,10 @@ template<typename T1>
 
                         return result;
                     }
+                    return nullptr;
                 }
 
-                org::antlr::v4::runtime::tree::pattern::ParseTreePattern *Parser::compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex) {
+                tree::pattern::ParseTreePattern *Parser::compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex) {
                     if (getTokenStream() != nullptr) {
                         TokenSource *tokenSource = getTokenStream()->getTokenSource();
                         if (dynamic_cast<Lexer*>(tokenSource) != nullptr) {
@@ -298,12 +299,12 @@ template<typename T1>
                     throw UnsupportedOperationException(L"Parser can't discover a lexer to use");
                 }
 
-                org::antlr::v4::runtime::tree::pattern::ParseTreePattern *Parser::compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex, Lexer *lexer) {
+                tree::pattern::ParseTreePattern *Parser::compileParseTreePattern(const std::wstring &pattern, int patternRuleIndex, Lexer *lexer) {
                     tree::pattern::ParseTreePatternMatcher *m = new tree::pattern::ParseTreePatternMatcher(lexer, this);
                     return m->compile(pattern, patternRuleIndex);
                 }
 
-                org::antlr::v4::runtime::ANTLRErrorStrategy *Parser::getErrorHandler() {
+                runtime::ANTLRErrorStrategy *Parser::getErrorHandler() {
                     return _errHandler;
                 }
 
@@ -581,11 +582,11 @@ template<typename T1>
                         std::vector<std::wstring> s = std::vector<std::wstring>();
                         for (int d = 0; d < _interp->_decisionToDFA.size(); d++) {
                             dfa::DFA *dfa = &_interp->_decisionToDFA[d];
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                             s.push_back(dfa->toString(getTokenNames()));
                         }
                         return s;
                     }
+                    return std::vector<std::wstring>();
                 }
 
                 void Parser::dumpDFA() {
@@ -600,7 +601,6 @@ template<typename T1>
                                     std::cout << std::endl;
                                 }
                                 std::cout << L"Decision " << dfa->decision << L":" << std::endl;
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
 								dfa->toString(getTokenNames());
                                 std::wcout << dfa->toString(getTokenNames());
                                 seenOne = true;
