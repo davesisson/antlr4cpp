@@ -275,7 +275,7 @@ namespace org {
                                                 //		System.out.println("tokens="+tokens);
                             return tokens;
                         }
-
+                        
                         std::vector<Chunk*> ParseTreePatternMatcher::split(const std::wstring &pattern) {
                             int p = 0;
                             size_t n = pattern.length();
@@ -352,14 +352,13 @@ namespace org {
                                 }
                             }
 
-                            // strip out the escape sequences from text chunks but not tags
+                            // strip out all backslashes from text chunks but not tags
                             for (int i = 0; i < chunks.size(); i++) {
                                 Chunk *c = chunks[i];
                                 if (dynamic_cast<TextChunk*>(c) != nullptr) {
                                     TextChunk *tc = static_cast<TextChunk*>(c);
                                     std::wstring unescaped = tc->getText();
-                                    std::wstring nothing = L"";
-                                    std::replace(unescaped.begin(), unescaped.end(), escape, nothing);
+                                    unescaped.erase(std::remove(unescaped.begin(), unescaped.end(), L'\\'), unescaped.end());
                                     if (unescaped.length() < tc->getText().length()) {
                                         chunks[i] = new TextChunk(unescaped);
                                     }
