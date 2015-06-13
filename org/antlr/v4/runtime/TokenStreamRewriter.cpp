@@ -296,47 +296,47 @@ namespace org {
 						ReplaceOp *rop = static_cast<ReplaceOp*>(op);
 						// Wipe prior inserts within range
 						InsertBeforeOp* type;
-						std::vector<InsertBeforeOp> inserts = getKindOfOps(rewrites, type, i);
+						std::vector<InsertBeforeOp*> inserts = getKindOfOps(rewrites, type, i);
 						for (auto iop : inserts) {
-							if (iop.index == rop->index) {
+							if (iop->index == rop->index) {
 								// E.g., insert before 2, delete 2..2; update replace
 								// text to include insert before, kill insert
 								//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
-								delete rewrites[iop.instructionIndex];
+								delete rewrites[iop->instructionIndex];
 								//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-								rop->text = iop.text + (!rop->text.empty() ? rop->text : L"");
+								rop->text = iop->text + (!rop->text.empty() ? rop->text : L"");
 							}
-							else if (iop.index > rop->index && iop.index <= rop->lastIndex) {
+							else if (iop->index > rop->index && iop->index <= rop->lastIndex) {
 								// delete insert as it's a no-op.
 								//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
-								delete rewrites[iop.instructionIndex];
+								delete rewrites[iop->instructionIndex];
 							}
 						}
 						// Drop any prior replaces contained within
 						ReplaceOp* type2;
-						std::vector<ReplaceOp> prevReplaces = getKindOfOps(rewrites, type2, i);
+						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type2, i);
 						for (auto prevRop : prevReplaces) {
-							if (prevRop.index >= rop->index && prevRop.lastIndex <= rop->lastIndex) {
+							if (prevRop->index >= rop->index && prevRop->lastIndex <= rop->lastIndex) {
 								// delete replace as it's a no-op.
 								//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
-								delete rewrites[prevRop.instructionIndex];
+								delete rewrites[prevRop->instructionIndex];
 								continue;
 							}
 							// throw exception unless disjoint or identical
-							bool disjoint = prevRop.lastIndex < rop->index || prevRop.index > rop->lastIndex;
-							bool same = prevRop.index == rop->index && prevRop.lastIndex == rop->lastIndex;
+							bool disjoint = prevRop->lastIndex < rop->index || prevRop->index > rop->lastIndex;
+							bool same = prevRop->index == rop->index && prevRop->lastIndex == rop->lastIndex;
 							// Delete special case of replace (text==null):
 							// D.i-j.u D.x-y.v	| boundaries overlap	combine to max(min)..max(right)
-							if (prevRop.text.empty() && rop->text.empty() && !disjoint) {
+							if (prevRop->text.empty() && rop->text.empty() && !disjoint) {
 								//System.out.println("overlapping deletes: "+prevRop+", "+rop);
 								//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
-								delete rewrites[prevRop.instructionIndex]; // kill first delete
-								rop->index = std::min(prevRop.index, rop->index);
-								rop->lastIndex = std::max(prevRop.lastIndex, rop->lastIndex);
+								delete rewrites[prevRop->instructionIndex]; // kill first delete
+								rop->index = std::min(prevRop->index, rop->index);
+								rop->lastIndex = std::max(prevRop->lastIndex, rop->lastIndex);
 								std::wcout << L"new rop " << rop << std::endl;
 							}
 							else if (!disjoint && !same) {
-								throw IllegalArgumentException(L"replace op boundaries of " + rop->toString() + L" overlap with previous " + prevRop.toString());
+								throw IllegalArgumentException(L"replace op boundaries of " + rop->toString() + L" overlap with previous " + prevRop->toString());
 							}
 						}
 					}
@@ -353,29 +353,29 @@ namespace org {
 						InsertBeforeOp *iop = static_cast<InsertBeforeOp*>(rewrites[i]);
 						// combine current insert with prior if any at same index
 
-						std::vector<InsertBeforeOp> prevInserts = getKindOfOps(rewrites, iop, i);
+						std::vector<InsertBeforeOp*> prevInserts = getKindOfOps(rewrites, iop, i);
 						for (auto prevIop : prevInserts) {
-							if (prevIop.index == iop->index) { // combine objects
+							if (prevIop->index == iop->index) { // combine objects
 								// convert to strings...we're in process of toString'ing
 								// whole token buffer so no lazy eval issue with any templates
-								iop->text = catOpText(&iop->text, &prevIop.text);
+								iop->text = catOpText(&iop->text, &prevIop->text);
 								// delete redundant prior insert
 								//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
-								delete rewrites[prevIop.instructionIndex];
+								delete rewrites[prevIop->instructionIndex];
 							}
 						}
 						// look for replaces where iop.index is in range; error
 						ReplaceOp *type;
-						std::vector<ReplaceOp> prevReplaces = getKindOfOps(rewrites, type, i);
+						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type, i);
 						for (auto rop : prevReplaces) {
-							if (iop->index == rop.index) {
-								rop.text = catOpText(&iop->text, &rop.text);
+							if (iop->index == rop->index) {
+								rop->text = catOpText(&iop->text, &rop->text);
 								//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
 								delete rewrites[i]; // delete current insert
 								continue;
 							}
-							if (iop->index >= rop.index && iop->index <= rop.lastIndex) {
-								throw IllegalArgumentException(L"insert op " + iop->toString() + L" within boundaries of previous " + rop.toString());
+							if (iop->index >= rop->index && iop->index <= rop->lastIndex) {
+								throw IllegalArgumentException(L"insert op " + iop->toString() + L" within boundaries of previous " + rop->toString());
 							}
 						}
 					}
@@ -408,15 +408,15 @@ namespace org {
 				}
 
 				template<typename T, typename T1>
-				std::vector<T> TokenStreamRewriter::getKindOfOps(std::vector<T1> rewrites, T *kind, int before) {
-					std::vector<T> op = std::vector<T>();
+				std::vector<T*> TokenStreamRewriter::getKindOfOps(std::vector<T1*> rewrites, T *kind, int before) {
+					std::vector<T*> ops = std::vector<T*>();
 					for (int i = 0; i < before && i < rewrites.size(); i++) {
 						TokenStreamRewriter::RewriteOperation *op = dynamic_cast<RewriteOperation*>(rewrites[i]);
 						if (op == nullptr) { // ignore deleted
 							continue;
 						}
-						if (dynamic_cast<op*>(kind) != nullptr) {
-							ops.push_back(kind->cast(op));
+						if (op != nullptr) {  
+							ops.push_back(dynamic_cast<T*>(op));
 						}
 					}
 					return ops;

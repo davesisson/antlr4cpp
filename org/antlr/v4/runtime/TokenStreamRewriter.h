@@ -345,7 +345,7 @@ namespace org {
 					/// <summary>
 					/// Get all operations before an index of a particular kind </summary>
 					template <typename T, typename T1>
-					std::vector<T> getKindOfOps(std::vector<T1*> rewrites, T *kind, int before);
+					std::vector<T*> getKindOfOps(std::vector<T1*> rewrites, T *kind, int before);
 
 				};
 
