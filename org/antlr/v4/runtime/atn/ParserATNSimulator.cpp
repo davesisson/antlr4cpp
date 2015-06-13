@@ -961,9 +961,12 @@ namespace org {
                             std::vector<std::wstring> tokensNames = parser->getTokenNames();
                             if (t >= tokensNames.size()) {
 								std::wcerr << t << L" type out of range: " << Arrays::ListToString(tokensNames, L", ");
+#ifdef TODO
+								These need to get converted to an error facility anyhow, using cerr is bush league
 								std::wcerr << dynamic_cast<CommonTokenStream*>(parser->getInputStream())->getTokens();
+#endif
                             } else {
-                                return tokensNames[t] + L"<" + t + L">";
+                                return tokensNames[t] + L"<" + std::to_wstring(t) + L">";
                             }
                         }
                         return StringConverterHelper::toString(t);
@@ -1078,7 +1081,8 @@ namespace org {
                             std::wcout << L"reportAttemptingFullContext decision=" << dfa->decision << L":" << configs << L", input=" << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
-                            parser->getErrorListenerDispatch()->reportAttemptingFullContext(parser, dfa, startIndex, stopIndex, conflictingAlts, configs);
+							// TODO                                                                                         convert conflictingAlts back to a BitSet class?
+							parser->getErrorListenerDispatch()->reportAttemptingFullContext(parser, dfa, startIndex, stopIndex, &conflictingAlts->data, configs);
                         }
                     }
 
@@ -1114,7 +1118,8 @@ namespace org {
                             std::wcout << L"reportAmbiguity " << ambigAlts << L":" << configs << L", input=" << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
-                            parser->getErrorListenerDispatch()->reportAmbiguity(parser, dfa, startIndex, stopIndex, exact, ambigAlts, configs);
+							// TODO                                                                                         convert ambigAlts back to a BitSet class?
+							parser->getErrorListenerDispatch()->reportAmbiguity(parser, dfa, startIndex, stopIndex, exact, &ambigAlts->data, configs);
                         }
                     }
 
