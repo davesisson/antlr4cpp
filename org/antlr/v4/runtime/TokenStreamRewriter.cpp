@@ -27,7 +27,7 @@ namespace org {
 				}
 
 				std::wstring TokenStreamRewriter::RewriteOperation::toString() {
-					std::wstring opName = getClass()->getName();
+					std::wstring opName = L"TokenStreamRewriter";
 					size_t index = opName.find(L'$');
 					opName = opName.substr(index + 1, opName.length() - (index + 1));
 					return L"<" + opName + L"@" + outerInstance->tokens->get(index)->getText() + L":\"" + text + L"\">";
@@ -386,7 +386,8 @@ namespace org {
 							continue;
 						}
 						if (m->at(op->index) != nullptr) {
-							throw Error(L"should only be one op per index");
+							// TODO: use a specific exception rather than a generic type here?
+							throw new std::exception("should only be one op per index");
 						}
 						m->emplace(op->index, op);
 					}
@@ -394,16 +395,14 @@ namespace org {
 					return m;
 				}
 
-				std::wstring TokenStreamRewriter::catOpText(void *a, void *b) {
+				std::wstring TokenStreamRewriter::catOpText(std::wstring *a, std::wstring *b) {
 					std::wstring x = L"";
 					std::wstring y = L"";
 					if (a != nullptr) {
-						//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-						x = a->toString();
+						x = std::wstring(*a);
 					}
 					if (b != nullptr) {
-						//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-						y = b->toString();
+						y = std::wstring(*b);
 					}
 					return x + y;
 				}

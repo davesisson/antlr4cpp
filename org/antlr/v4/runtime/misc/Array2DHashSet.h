@@ -98,19 +98,13 @@ namespace org {
                         int initialBucketCapacity;
 
                     public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                        Array2DHashSet() { //this(nullptr, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
+                        Array2DHashSet() : comparator(nullptr) { //this(nullptr, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
                         }
 
                         template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public Array2DHashSet(@Nullable AbstractEqualityComparator<? super T> comparator)
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         Array2DHashSet(AbstractEqualityComparator<T1> *comparator);
                         
                         template<typename T1>
-//JAVA TO C++ CONVERTER TODO TASK: There is no C++ equivalent to the Java 'super' constraint:
-//ORIGINAL LINE: public Array2DHashSet(@Nullable AbstractEqualityComparator<? super T> comparator, int initialCapacity, int initialBucketCapacity)
                         Array2DHashSet(AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity);
 #ifdef TODO
                         : comparator(ObjectEqualityComparator::INSTANCE);

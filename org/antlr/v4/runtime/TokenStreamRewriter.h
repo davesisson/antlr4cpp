@@ -340,7 +340,7 @@ namespace org {
 				protected:
 					virtual std::unordered_map<int, RewriteOperation*> *reduceToSingleOperationPerIndex(std::vector<RewriteOperation*> &rewrites);
 
-					virtual std::wstring catOpText(void *a, void *b);
+					virtual std::wstring catOpText(std::wstring *a, std::wstring *b);
 
 					/// <summary>
 					/// Get all operations before an index of a particular kind </summary>

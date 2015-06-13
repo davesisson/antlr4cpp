@@ -349,7 +349,7 @@ namespace org {
 								L"Could not deserialize ATN with UUID "
 								+ uuid->toString()
 								+ L" (expected "
-								+ ATNDeserializer::SERIALIZED_UUID
+								+ ATNDeserializer::SERIALIZED_UUID->toString()
 								+ L").";
 							throw UnsupportedOperationException(L"ATN Serializer" + reason);
 						}
