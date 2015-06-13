@@ -43,7 +43,7 @@ namespace org {
             namespace runtime {
 
 
-                LexerNoViableAltException::LexerNoViableAltException(Lexer *lexer, CharStream *input, int startIndex, atn::ATNConfigSet *deadEndConfigs) : RecognitionException(lexer, input, nullptr), startIndex(startIndex), deadEndConfigs(deadEndConfigs) {
+				LexerNoViableAltException::LexerNoViableAltException(Lexer *lexer, CharStream *input, int startIndex, atn::ATNConfigSet *deadEndConfigs) : RecognitionException()/*TODO RecognitionException(lexer, input, nullptr)*/, startIndex(startIndex), deadEndConfigs(deadEndConfigs) {
                 }
 
                 int LexerNoViableAltException::getStartIndex() {
