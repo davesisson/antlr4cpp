@@ -544,11 +544,11 @@ template<typename T1>
                 }
 
                 int Parser::getRuleIndex(const std::wstring &ruleName) {
-                    int ruleIndex = getRuleIndexMap()->at(ruleName);
-                    if (ruleIndex != NULL) {
-                        return ruleIndex;
+                    std::map<std::wstring, int>* m = getRuleIndexMap();
+                    if (m->find(ruleName) == m->end()) {
+                        return -1;
                     }
-                    return -1;
+                    return m->at(ruleName);
                 }
 
                 org::antlr::v4::runtime::ParserRuleContext *Parser::getRuleContext() {
