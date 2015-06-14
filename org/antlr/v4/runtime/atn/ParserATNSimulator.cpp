@@ -348,8 +348,10 @@ namespace org {
 
                             std::vector<BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
                             if (debug) {
-								std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
+#ifdef TODO
+                                std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
                                 std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="  << PredictionModeClass::getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
+#endif
                             }
 
                                         //			System.out.println("altSubSets: "+altSubSets);
