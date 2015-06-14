@@ -177,12 +177,7 @@ namespace org {
 					int PredictionModeClass::getUniqueAlt(const std::vector<BitSet>& altsets) {
 						BitSet all = getAlts(altsets);
 						if (all.count() == 1) {
-							// TODO -- Create a nextBit helper function.
-							for (int i = 0; i < all.size(); ++i) {
-								if (all.data[i]) {
-									return i;
-								}
-							}
+							return all.nextSetBit(0);
 						}
 						return ATN::INVALID_ALT_NUMBER;
 					}
@@ -227,14 +222,8 @@ namespace org {
 					int PredictionModeClass::getSingleViableAlt(const std::vector<BitSet>& altsets) {
 						BitSet viableAlts;
 						for (BitSet alts : altsets) {
-							int minAlt = -1;
-							// TODO -- Create a nextBit helper function.
-							for (int i = 0; i < alts.size(); ++i) {
-								if (alts.data[i]) {
-									minAlt = i;
-									break;
-								}
-							}
+							int minAlt = alts.nextSetBit(0);
+
 							assert(minAlt != -1);  // TODO -- Remove this after verification.
 							viableAlts.set(minAlt);
 							if (viableAlts.count() > 1)  // more than 1 viable alt
@@ -242,14 +231,8 @@ namespace org {
 								return ATN::INVALID_ALT_NUMBER;
 							}
 						}
-						// TODO -- Create a nextBit helper function.
-						for (int i = 0; i < viableAlts.size(); ++i) {
-							if (viableAlts.data[i]) {
-								return i;
-							}
-						}
-						assert(false);  // TODO -- Remove this after verification.
-						return -1;
+
+						return viableAlts.nextSetBit(0);
 					}
 
 				}  // namespace atn

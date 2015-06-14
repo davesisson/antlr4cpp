@@ -69,7 +69,7 @@ public:
 	{
 		os << L"{";
 		size_t total = obj.data.count();
-		for (int i = 0; i < obj.data.size(); i++){
+		for (size_t i = 0; i < obj.data.size(); i++){
 			if (obj.data.test(i)){
 				os << i;
 				--total;
