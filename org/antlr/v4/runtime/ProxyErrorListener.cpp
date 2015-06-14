@@ -58,13 +58,13 @@ namespace org {
                     }
                 }
 
-                void ProxyErrorListener::reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, atn::ATNConfigSet *configs) {
+                void ProxyErrorListener::reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) {
                     for (auto listener : *delegates) {
                         listener->reportAmbiguity(recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs);
                     }
                 }
 
-                void ProxyErrorListener::reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, atn::ATNConfigSet *configs) {
+                void ProxyErrorListener::reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, atn::ATNConfigSet *configs) {
                     for (auto listener : *delegates) {
                         listener->reportAttemptingFullContext(recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs);
                     }
