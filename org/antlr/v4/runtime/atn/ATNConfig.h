@@ -107,8 +107,28 @@ namespace org {
 
                         virtual bool equals(ATNConfig *other);
 
-                        virtual int hashCode();
+                        virtual size_t hashCode();
 
+
+						struct ATNConfigHasher
+						{
+							size_t operator()(const ATNConfig& k) const
+							{
+								ATNConfig a = k;
+								return a.hashCode();
+							}
+						};
+
+						bool operator==(const ATNConfig& other) const
+						{
+							if (this == nullptr && other == nullptr) return true;
+							if (other == nullptr) return false;
+							//TODO determine the best way to compare ATNConfig
+							return alt == other.alt && state->stateNumber == other.state->stateNumber/* &&
+								((context == nullptr && other.context == nullptr) || (context != nullptr &&
+								context->equals(other.context))) && semanticContext->equals(other.semanticContext)*/;
+						}
+					
                         virtual std::wstring toString();
 
                         template<typename T1, typename T2>

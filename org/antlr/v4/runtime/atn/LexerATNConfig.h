@@ -63,7 +63,7 @@ namespace org {
 
                         bool hasPassedThroughNonGreedyDecision();
 
-                        virtual int hashCode() override;
+                        virtual size_t hashCode() override;
 
                         virtual bool equals(ATNConfig *other) override;
 

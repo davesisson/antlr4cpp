@@ -68,7 +68,7 @@ namespace org {
                         return passedThroughNonGreedyDecision;
                     }
 
-                    int LexerATNConfig::hashCode() {
+                    size_t LexerATNConfig::hashCode() {
                         int hashCode = misc::MurmurHash::initialize(7);
                         hashCode = misc::MurmurHash::update(hashCode, state->stateNumber);
                         hashCode = misc::MurmurHash::update(hashCode, alt);

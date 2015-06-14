@@ -72,7 +72,7 @@ namespace org {
 
 					/// <summary>
 					/// A Map that uses just the state and the stack context as the key. </summary>
-					class AltAndContextMap : public std::map < ATNConfig, BitSet > {
+					class AltAndContextMap : public std::unordered_map < ATNConfig, BitSet, ATNConfig::ATNConfigHasher> {
 					public:
 						AltAndContextMap() {}
 					};

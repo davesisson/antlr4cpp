@@ -249,7 +249,7 @@ namespace org {
                         static PredictionContext *mergeArrays(ArrayPredictionContext *a, ArrayPredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache);
 
                         /// <summary>
-                        /// Make pass over all <em>M</em> {@code parents}; merge any {@code equals()}
+                        /// Make pass over all <em>M</em> {@code parents}; merge any {@code ()}
                         /// ones.
                         /// </summary>
                     protected:

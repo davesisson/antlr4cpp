@@ -37,119 +37,120 @@
  */
 
 namespace org {
-    namespace antlr {
-        namespace v4 {
-            namespace runtime {
-                namespace atn {
-                    ATNConfig::ATNConfig(ATNConfig *old) : state(old->state), alt(old->alt), semanticContext(old->semanticContext) {
-                        InitializeInstanceFields();
-                        this->context = old->context;
-                        this->reachesIntoOuterContext = old->reachesIntoOuterContext;
-                    }
+	namespace antlr {
+		namespace v4 {
+			namespace runtime {
+				namespace atn {
+					ATNConfig::ATNConfig(ATNConfig *old) : state(old->state), alt(old->alt), semanticContext(old->semanticContext) {
+						InitializeInstanceFields();
+						this->context = old->context;
+						this->reachesIntoOuterContext = old->reachesIntoOuterContext;
+					}
 
-                    ATNConfig::ATNConfig(ATNState *state, int alt, PredictionContext *context) : state(state), alt(alt), context(context), semanticContext(nullptr) {
-                    }
+					ATNConfig::ATNConfig(ATNState *state, int alt, PredictionContext *context) : state(state), alt(alt), context(context), semanticContext(nullptr) {
+					}
 
-                    ATNConfig::ATNConfig(ATNState *state, int alt, PredictionContext *context, SemanticContext *semanticContext) : state(state), alt(alt), semanticContext(semanticContext) {
-                        InitializeInstanceFields();
-                        this->context = context;
-                    }
+					ATNConfig::ATNConfig(ATNState *state, int alt, PredictionContext *context, SemanticContext *semanticContext) : state(state), alt(alt), semanticContext(semanticContext) {
+						InitializeInstanceFields();
+						this->context = context;
+					}
 
-                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state): state(state), alt(0), context(nullptr), semanticContext(nullptr)
-                    {
-                    }
+					ATNConfig::ATNConfig(ATNConfig *c, ATNState *state) : state(state), alt(0), context(nullptr), semanticContext(nullptr)
+					{
+					}
 
-                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, SemanticContext *semanticContext): state(state), alt(0), context(nullptr), semanticContext(semanticContext)
-                    {
-                    }
+					ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, SemanticContext *semanticContext) : state(state), alt(0), context(nullptr), semanticContext(semanticContext)
+					{
+					}
 
-                    ATNConfig::ATNConfig(ATNConfig *c, SemanticContext *semanticContext): state(nullptr), alt(0), context(nullptr), semanticContext(semanticContext)
-                    {
-                    }
+					ATNConfig::ATNConfig(ATNConfig *c, SemanticContext *semanticContext) : state(nullptr), alt(0), context(nullptr), semanticContext(semanticContext)
+					{
+					}
 
-                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context): state(state), alt(0), context(context), semanticContext(nullptr)
-                    {
-                    }
+					ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context) : state(state), alt(0), context(context), semanticContext(nullptr)
+					{
+					}
 
-                    ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context, SemanticContext *semanticContext) : state(state), alt(c->alt), semanticContext(semanticContext) {
-                        InitializeInstanceFields();
-                        this->context = context;
-                        this->reachesIntoOuterContext = c->reachesIntoOuterContext;
-                    }
+					ATNConfig::ATNConfig(ATNConfig *c, ATNState *state, PredictionContext *context, SemanticContext *semanticContext) : state(state), alt(c->alt), semanticContext(semanticContext) {
+						InitializeInstanceFields();
+						this->context = context;
+						this->reachesIntoOuterContext = c->reachesIntoOuterContext;
+					}
 
-                    bool ATNConfig::equals(void *o) {
-                        if (!(o != nullptr/*dynamic_cast<ATNConfig*>(o) != nullptr*/)) {
-                            return false;
-                        }
+					bool ATNConfig::equals(void *o) {
+						if (!(o != nullptr/*dynamic_cast<ATNConfig*>(o) != nullptr*/)) {
+							return false;
+						}
 
-                        return this->equals(static_cast<ATNConfig*>(o));
-                    }
+						return this->equals(static_cast<ATNConfig*>(o));
+					}
 
-                    bool ATNConfig::equals(ATNConfig *other) {
-                        if (this == other) {
-                            return true;
-                        } else if (other == nullptr) {
-                            return false;
-                        }
+					bool ATNConfig::equals(ATNConfig *other) {
+						if (this == other) {
+							return true;
+						}
+						else if (other == nullptr) {
+							return false;
+						}
 
-                        return this->state->stateNumber == other->state->stateNumber && this->alt == other->alt && (this->context == other->context || (this->context != nullptr && this->context->equals(other->context))) && this->semanticContext->equals(other->semanticContext);
-                    }
+						return this->state->stateNumber == other->state->stateNumber && this->alt == other->alt && (this->context == other->context || (this->context != nullptr && this->context->equals(other->context))) && this->semanticContext->equals(other->semanticContext);
+					}
 
-                    int ATNConfig::hashCode() {
-                        int hashCode = misc::MurmurHash::initialize(7);
-                        hashCode = misc::MurmurHash::update(hashCode, state->stateNumber);
-                        hashCode = misc::MurmurHash::update(hashCode, alt);
-                        hashCode = misc::MurmurHash::update(hashCode, context);
-                        hashCode = misc::MurmurHash::update(hashCode, semanticContext);
-                        hashCode = misc::MurmurHash::finish(hashCode, 4);
-                        return hashCode;
-                    }
-
-                    std::wstring ATNConfig::toString() {
+					size_t ATNConfig::hashCode() {
+						int hashCode = misc::MurmurHash::initialize(7);
+						hashCode = misc::MurmurHash::update(hashCode, state->stateNumber);
+						hashCode = misc::MurmurHash::update(hashCode, alt);
+						hashCode = misc::MurmurHash::update(hashCode, context);
+						hashCode = misc::MurmurHash::update(hashCode, semanticContext);
+						hashCode = misc::MurmurHash::finish(hashCode, 4);
+						return hashCode;
+					}
+					
+					std::wstring ATNConfig::toString() {
 #ifdef TODO
-                        return toString(nullptr, true);
+						return toString(nullptr, true);
 #endif
-                        return L"";
-                    }
+						return L"";
+					}
 
-                    template<typename T1, typename T2>
-                    std::wstring ATNConfig::toString(Recognizer<T1, T2> *recog, bool showAlt) {
+					template<typename T1, typename T2>
+					std::wstring ATNConfig::toString(Recognizer<T1, T2> *recog, bool showAlt) {
 #ifdef TODO
-                        StringBuilder *buf = new StringBuilder();
-                                        //		if ( state.ruleIndex>=0 ) {
-                                        //			if ( recog!=null ) buf.append(recog.getRuleNames()[state.ruleIndex]+":");
-                                        //			else buf.append(state.ruleIndex+":");
-                                        //		}
-                        buf->append(L'(');
-                        buf->append(state);
-                        if (showAlt) {
-                            buf->append(L",");
-                            buf->append(alt);
-                        }
-                        if (context != nullptr) {
-                            buf->append(L",[");
-//                            :
-                            buf->append(context->toString());
-                            buf->append(L"]");
-                        }
-                        if (semanticContext != nullptr && semanticContext != SemanticContext::NONE) {
-                            buf->append(L",");
-                            buf->append(semanticContext);
-                        }
-                        if (reachesIntoOuterContext > 0) {
-                            buf->append(L",up=")->append(reachesIntoOuterContext);
-                        }
-                        buf->append(L')');
+						StringBuilder *buf = new StringBuilder();
+						//		if ( state.ruleIndex>=0 ) {
+						//			if ( recog!=null ) buf.append(recog.getRuleNames()[state.ruleIndex]+":");
+						//			else buf.append(state.ruleIndex+":");
+						//		}
+						buf->append(L'(');
+						buf->append(state);
+						if (showAlt) {
+							buf->append(L",");
+							buf->append(alt);
+						}
+						if (context != nullptr) {
+							buf->append(L",[");
+							//                            :
+							buf->append(context->toString());
+							buf->append(L"]");
+						}
+						if (semanticContext != nullptr && semanticContext != SemanticContext::NONE) {
+							buf->append(L",");
+							buf->append(semanticContext);
+						}
+						if (reachesIntoOuterContext > 0) {
+							buf->append(L",up=")->append(reachesIntoOuterContext);
+						}
+						buf->append(L')');
 
-                        return buf->toString();
+						return buf->toString();
 #endif
-                    }
+					}
 
-                    void ATNConfig::InitializeInstanceFields() {
-                        reachesIntoOuterContext = 0;
-                    }
-                }
-            }
-        }
-    }
+					void ATNConfig::InitializeInstanceFields() {
+						reachesIntoOuterContext = 0;
+					}
+				}
+			}
+		}
+	}
 }
