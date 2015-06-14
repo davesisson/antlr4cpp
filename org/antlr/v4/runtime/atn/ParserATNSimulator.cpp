@@ -348,10 +348,7 @@ namespace org {
                             std::vector<BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
                             if (debug) {
 								std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
-#ifdef TODO
-								Figure out the commented out section /* << L", predict="  << getUniqueAlt(altSubSets) */, not sure what to make of that
-#endif
-                                std::wcout << L"LL altSubSets=" << altSubSetsStr /* << L", predict="  << getUniqueAlt(altSubSets) */ << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
+                                std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="  << getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
                             }
 
                                         //			System.out.println("altSubSets: "+altSubSets);
@@ -1070,7 +1067,7 @@ namespace org {
                                 D->configs->optimizeConfigs(this);
                                 D->configs->setReadonly(true);
                             }
-                            dfa->states->insert(D, D);
+                            dfa->states->insert(std::pair<dfa::DFAState*, dfa::DFAState*>(D, D));
                             if (debug) {
                                 std::cout << L"adding new DFA state: " << D << std::endl;
                             }
