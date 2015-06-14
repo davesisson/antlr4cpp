@@ -5,6 +5,8 @@
 #include <string>
 
 #include "ATNState.h"
+#include "PredictionContext.h"
+#include "SemanticContext.h"
 
 /*
  * [The "BSD license"]
@@ -121,12 +123,8 @@ namespace org {
 
 						bool operator==(const ATNConfig& other) const
 						{
-							if (this == nullptr && other == nullptr) return true;
-							if (other == nullptr) return false;
-							//TODO determine the best way to compare ATNConfig
-							return alt == other.alt && state->stateNumber == other.state->stateNumber/* &&
-								((context == nullptr && other.context == nullptr) || (context != nullptr &&
-								context->equals(other.context))) && semanticContext->equals(other.semanticContext)*/;
+							return alt == other.alt && state->stateNumber == other.state->stateNumber &&
+								((context == nullptr && other.context == nullptr) || (context != nullptr && context->equals(other.context))) && semanticContext->equals(other.semanticContext);
 						}
 					
                         virtual std::wstring toString();
