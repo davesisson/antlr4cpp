@@ -2,11 +2,10 @@
 
 #include "Token.h"
 #include "Declarations.h"
+#include "BitSet.h"
 
 #include <set>
 #include <vector>
-#include <bitset>
-
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr

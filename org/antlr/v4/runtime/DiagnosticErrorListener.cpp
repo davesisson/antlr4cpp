@@ -61,7 +61,7 @@ namespace org {
                     std::wstring decision = getDecisionDescription(recognizer, dfa);
                     BitSet *conflictingAlts = getConflictingAlts(ambigAlts, configs);
                     std::wstring text = recognizer->getTokenStream()->getText(misc::Interval::of(startIndex, stopIndex));
-                    std::wstring message = L"reportAmbiguity d=" + decision + L": ambigAlts=" + StringBuilder::stringToWstring(conflictingAlts->to_string<char, std::string::traits_type,std::string::allocator_type>()) + L", input='" + text + L"'";
+                    std::wstring message = L"reportAmbiguity d=" + decision + L": ambigAlts=" + conflictingAlts->toString() + L", input='" + text + L"'";
                     swprintf(buf, sizeof(buf) / sizeof(*buf), L"%d", 5);
                     recognizer->notifyErrorListeners(message);
                 }
@@ -97,12 +97,12 @@ namespace org {
                     return std::to_wstring(decision) + L"(" + ruleName + L")";
                 }
                 
-                std::bitset<DiagnosticErrorListener::BITSET_SIZE> *DiagnosticErrorListener::getConflictingAlts(BitSet *reportedAlts, atn::ATNConfigSet *configs) {
+                BitSet *DiagnosticErrorListener::getConflictingAlts(BitSet *reportedAlts, atn::ATNConfigSet *configs) {
                     if (reportedAlts != nullptr) {
                         return reportedAlts;
                     }
                     
-                    std::bitset<DiagnosticErrorListener::BITSET_SIZE> *result = new BitSet();
+                    BitSet *result = new BitSet();
                     for (int i = 0; i < configs->size(); i++) {
                         atn::ATNConfig *config = configs->get(i);
                         result->set(config->alt);

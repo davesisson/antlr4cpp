@@ -119,9 +119,9 @@ namespace org {
                                     ATNState *returnState = atn->states[ctx->getReturnState(i)];
                                         //					System.out.println("popping back to "+retState);
 
-                                    bool removed = calledRuleStack->test(returnState->ruleIndex);
+                                    bool removed = calledRuleStack->data.test(returnState->ruleIndex);
                                     try {
-                                        calledRuleStack[returnState->ruleIndex] = false;
+                                        calledRuleStack->data[returnState->ruleIndex] = false;
                                         _LOOK(returnState, stopState, ctx->getParent(i), look, lookBusy, calledRuleStack, seeThruPreds, addEOF);
                                     }
                                     catch(...) {
@@ -141,7 +141,7 @@ namespace org {
                             Transition *t = s->transition(i);
                             
                             if (typeid(t) == typeid(RuleTransition)) {
-                                if ( (*calledRuleStack)[(static_cast<RuleTransition*>(t))->target->ruleIndex]) {
+                                if ( (*calledRuleStack).data[(static_cast<RuleTransition*>(t))->target->ruleIndex]) {
                                     continue;
                                 }
 
@@ -154,7 +154,7 @@ namespace org {
                                 catch(...) {
                                     // Just move to the next steps as a "finally" clause
                                 }
-                                calledRuleStack[((static_cast<RuleTransition*>(t))->target->ruleIndex)] = false;
+                                calledRuleStack->data[((static_cast<RuleTransition*>(t))->target->ruleIndex)] = false;
                                 
                             } else if (dynamic_cast<AbstractPredicateTransition*>(t) != nullptr) {
                                 if (seeThruPreds) {

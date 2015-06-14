@@ -3,6 +3,7 @@
 #include "Recognizer.h"
 #include "ParseTreeListener.h"
 #include "TokenStream.h"
+#include "BitSet.h"
 
 #include <mutex>
 #include <stack>

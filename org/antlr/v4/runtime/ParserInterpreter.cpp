@@ -56,7 +56,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, const std::vector<std::wstring>& tokenNames, const std::vector<std::wstring>& ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new std::bitset<DEFAULT_BITSET_SIZE>()), _tokenNames(tokenNames), _ruleNames(ruleNames), sharedContextCache(new atn::PredictionContextCache()), _parentContextStack(new std::deque<std::pair<ParserRuleContext *, int>*>()) {
+                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, const std::vector<std::wstring>& tokenNames, const std::vector<std::wstring>& ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new BitSet()), _tokenNames(tokenNames), _ruleNames(ruleNames), sharedContextCache(new atn::PredictionContextCache()), _parentContextStack(new std::deque<std::pair<ParserRuleContext *, int>*>()) {
               
 
                     for (int i = 0; i < atn->getNumberOfDecisions(); i++) {
@@ -154,7 +154,7 @@ namespace org {
                     atn::Transition *transition = p->transition(edge - 1);
                     switch (transition->getSerializationType()) {
                         case atn::Transition::EPSILON:
-                            if (pushRecursionContextStates[p->stateNumber] == 1 && !(dynamic_cast<atn::LoopEndState*>(transition->target) != nullptr)) {
+                            if (pushRecursionContextStates->data[p->stateNumber] == 1 && !(dynamic_cast<atn::LoopEndState*>(transition->target) != nullptr)) {
                             InterpreterRuleContext *ctx = new InterpreterRuleContext(_parentContextStack->front()->first, _parentContextStack->front()->second, _ctx->getRuleIndex());
                             pushNewRecursionContext(ctx, atn->ruleToStartState[p->ruleIndex]->stateNumber, _ctx->getRuleIndex());
                         }

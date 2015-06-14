@@ -1084,8 +1084,7 @@ namespace org {
                             std::wcout << L"reportAttemptingFullContext decision=" << dfa->decision << L":" << configs << L", input=" << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
-							// TODO                                                                                         convert conflictingAlts back to a BitSet class?
-							parser->getErrorListenerDispatch()->reportAttemptingFullContext(parser, dfa, startIndex, stopIndex, &conflictingAlts->data, configs);
+							parser->getErrorListenerDispatch()->reportAttemptingFullContext(parser, dfa, startIndex, stopIndex, conflictingAlts, configs);
                         }
                     }
 
@@ -1121,8 +1120,7 @@ namespace org {
                             std::wcout << L"reportAmbiguity " << ambigAlts << L":" << configs << L", input=" << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
-							// TODO                                                                                         convert ambigAlts back to a BitSet class?
-							parser->getErrorListenerDispatch()->reportAmbiguity(parser, dfa, startIndex, stopIndex, exact, &ambigAlts->data, configs);
+							parser->getErrorListenerDispatch()->reportAmbiguity(parser, dfa, startIndex, stopIndex, exact, ambigAlts, configs);
                         }
                     }
 
