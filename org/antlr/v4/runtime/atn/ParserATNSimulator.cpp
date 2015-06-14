@@ -16,6 +16,7 @@
 #include "Interval.h"
 #include "ATNConfigSet.h"
 #include "ANTLRErrorListener.h"
+#include "PredictionMode.h"
 
 // TODO: Assert is a really poor mans debugging, remove this and use exception 
 // handling instead. 
@@ -348,7 +349,7 @@ namespace org {
                             std::vector<BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
                             if (debug) {
 								std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
-                                std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="  << getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
+                                std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="  << PredictionModeClass::getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
                             }
 
                                         //			System.out.println("altSubSets: "+altSubSets);
