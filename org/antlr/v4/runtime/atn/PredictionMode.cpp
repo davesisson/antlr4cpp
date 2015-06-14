@@ -30,7 +30,6 @@
 
 #include "PredictionMode.h"
 
-#include <bitset>
 #include <assert.h>
 #include "AbstractEqualityComparator.h"
 

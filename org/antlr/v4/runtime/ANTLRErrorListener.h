@@ -74,12 +74,7 @@ namespace org {
                     ///        the reporting of an error. It is null in the case where
                     ///        the parser was able to recover in line without exiting the
                     ///        surrounding rule. </param>
-                public:
-#ifdef TODO
-                    work on this number
-#endif
-                    static const int BITSET_SIZE = 1024;
-                    
+                public:                    
                     template<typename T1, typename T2>
                     void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
 

@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <bitset>
 #include <map>
 #include <vector>
 
@@ -79,7 +78,6 @@ namespace org {
 
 					class PredictionModeClass {
 
-						typedef std::bitset<BitSet::BITSET_SIZE> bitset;
 					public:
 						/// <summary>
 						/// Computes the SLL prediction termination condition.

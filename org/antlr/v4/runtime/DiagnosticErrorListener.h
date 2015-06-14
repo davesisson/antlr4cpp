@@ -5,7 +5,6 @@
 #include "stringconverter.h"
 #include "Declarations.h"
 #include "BaseErrorListener.h"
-#include <bitset>
 
 /*
  * [The "BSD license"]
@@ -71,7 +70,6 @@ namespace org {
                     /// </summary>
                 protected:
                     const bool exactOnly;
-                    static const int BITSET_SIZE = 1024;
                     
                     /// <summary>
                     /// Initializes a new instance of <seealso cref="DiagnosticErrorListener"/> which only

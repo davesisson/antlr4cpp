@@ -49,8 +49,7 @@ namespace org {
                         /// </summary>
                     public:
                         static const int HIT_PRED = Token::INVALID_TYPE;
-                        static const int BITSET_SIZE = 1024;
-                        
+                                               
                         atn::ATN *const atn;
 
                         LL1Analyzer(atn::ATN *atn);

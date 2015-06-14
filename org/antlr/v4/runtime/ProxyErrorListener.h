@@ -4,7 +4,6 @@
 #include "Declarations.h"
 #include <string>
 #include <vector>
-#include <bitset>
 
 /*
  * [The "BSD license"]

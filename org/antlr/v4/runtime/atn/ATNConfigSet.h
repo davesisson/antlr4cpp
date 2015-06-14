@@ -56,10 +56,6 @@ namespace org {
                     /// </summary>
 					/// TODO: Consider going from std::set to std::vector
                     class ATNConfigSet : public std::set<ATNConfig*> {
-#ifdef TODO
-                        Find a good value here
-#endif
-                        static const int BITSET_SIZE  = 1024;
                         
                     public:
                         class AbstractConfigHashSet : public misc::Array2DHashSet<ATNConfig*> {

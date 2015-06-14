@@ -22,7 +22,6 @@
 #include <vector>
 #include <set>
 #include <iostream>
-#include <bitset>
 
 
 /*
@@ -263,10 +262,7 @@ namespace org {
                         static const bool debug_list_atn_decisions = false;
                         static const bool dfa_debug = false;
                         static const bool retry_debug = false;
-#ifdef TODO
-                        Do something smarter here
-#endif
-                        static const int BITSET_SIZE = 1024;
+
                     protected:
                         Parser *const parser;
 
