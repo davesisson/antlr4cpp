@@ -1,5 +1,11 @@
 ﻿#pragma once
 
+#include <string>
+#include <vector>
+#include <set>
+#include <iostream>
+#include <mutex>
+
 #include "ATNSimulator.h"
 #include "PredictionMode.h"
 #include "DFAState.h"
@@ -17,11 +23,6 @@
 #include "EmptyPredictionContext.h"
 #include "CommonTokenStream.h"
 #include "Parser.h"
-
-#include <string>
-#include <vector>
-#include <set>
-#include <iostream>
 
 
 /*

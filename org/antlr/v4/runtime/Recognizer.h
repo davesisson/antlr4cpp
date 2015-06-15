@@ -1,14 +1,15 @@
 ﻿#pragma once
 
-#include "TokenFactory.h"
-#include "ATNSimulator.h"
-
-#include "Declarations.h"
-
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
+#include <mutex>
+
+#include "TokenFactory.h"
+#include "ATNSimulator.h"
+#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
@@ -54,7 +55,9 @@ namespace org {
                     static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const _ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;
-
+                    //Mutex to manage synchronized access for multithreading
+                    std::mutex mtx;
+                    
                 private:
                     class CopyOnWriteArrayListAnonymousInnerClassHelper : public std::list<ANTLRErrorListener*> {
                     public:

@@ -1051,7 +1051,7 @@ namespace org {
                         return to;
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *ParserATNSimulator::addDFAState(dfa::DFA *dfa, dfa::DFAState *D) {
+                    dfa::DFAState *ParserATNSimulator::addDFAState(dfa::DFA *dfa, dfa::DFAState *D) {
                         if (D == ERROR) {
                             return D;
                         }

@@ -40,26 +40,28 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                
                template<typename T1, typename T2>
                 std::map<std::wstring, int> *Recognizer<T1, T2>::getTokenTypeMap() {
                     std::vector<std::wstring> tokenNames = getTokenNames();
                     if (tokenNames.empty()) {
                         throw L"The current recognizer does not provide a list of token names.";
                     }
-#ifdef TODO
-                    //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    //synchronized(tokenTypeMapCache) {
-                        std::map<std::wstring, int> *result = tokenTypeMapCache->get(tokenNames);
+
+
+                    if(true) {
+                        std::lock_guard<std::mutex> lck(mtx);
+                        std::map<std::wstring, int> *result = _tokenTypeMapCache.at(tokenNames);
                         if (result == nullptr) {
-                            result = misc::Utils::toMap(tokenNames);
-                            result->put(L"EOF", Token::_EOF);
-                            result = std::vector::unmodifiableMap(result);
-                            tokenTypeMapCache->put(tokenNames, result);
+                        //WIP    result = misc::Utils::toMap(tokenNames);
+                            (*result)[L"EOF"] = Token::_EOF;
+                            // TODO result = std::vector::unmodifiableMap(result);
+                        //WIP    _tokenTypeMapCache[tokenNames] = result;
                         }
 
                         return result;
-                    //}
-#endif
+                    }
+
                 }
 
                 template<typename T1, typename T2>
@@ -69,19 +71,17 @@ namespace org {
                         throw L"The current recognizer does not provide a list of rule names.";
                     }
 
-                    //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    //synchronized(ruleIndexMapCache) {
-                    std::map<std::wstring, int> *result = _ruleIndexMapCache.at(ruleNames);
+                    if(true) {
+                        std::lock_guard<std::mutex> lck(mtx);
+                        std::map<std::wstring, int> *result = _ruleIndexMapCache.at(ruleNames);
                     
-                    if (result == nullptr) {
-                        result = Utils::toMap(ruleNames);
-#ifdef TODO             // Why isn't this working??
-                        _ruleIndexMapCache->insert(ruleNames, result);
-#endif
+                        if (result == nullptr) {
+                            result = Utils::toMap(ruleNames);
+                        //WIP    _ruleIndexMapCache.insert(ruleNames, result);
+                        }
+                        return result;
                     }
-
-                    return result;
-                    //}
+                    return nullptr;
                 }
 
                 template<typename T1, typename T2>
