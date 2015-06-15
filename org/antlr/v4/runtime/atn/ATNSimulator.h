@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
+#include <mutex>
+
 #include "Declarations.h"
 #include "ATNDeserializer.h"
 
@@ -43,7 +45,9 @@ namespace org {
                         /// @deprecated Use <seealso cref="ATNDeserializer#SERIALIZED_VERSION"/> instead. 
                     public:
                         static const int SERIALIZED_VERSION = ATNDeserializer::SERIALIZED_VERSION;
-
+						
+						//Mutex to manage synchronized access for multithreading
+						std::mutex mtx;
                         ATNSimulator();
 
                         /// <summary>

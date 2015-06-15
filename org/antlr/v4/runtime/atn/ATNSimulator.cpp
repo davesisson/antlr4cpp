@@ -65,10 +65,11 @@ namespace org {
                             return context;
                         }
 
-//                        synchronized(sharedContextCache) {
-                          std::map<PredictionContext*, PredictionContext*> *visited = new std::map<PredictionContext*, PredictionContext*>();
-                            return PredictionContext::getCachedContext(context, sharedContextCache, visited);
-//                        }
+						if (true) {
+							std::lock_guard<std::mutex> lck(mtx);
+							std::map<PredictionContext*, PredictionContext*> *visited = new std::map<PredictionContext*, PredictionContext*>();
+							return PredictionContext::getCachedContext(context, sharedContextCache, visited);
+						}
                     }
 
                     atn::ATN *ATNSimulator::deserialize(wchar_t data[]) {

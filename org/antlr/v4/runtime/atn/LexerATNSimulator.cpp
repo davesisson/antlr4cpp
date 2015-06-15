@@ -1,4 +1,5 @@
 ﻿#include <utility>
+#include <assert.h>
 
 #include "LexerATNSimulator.h"
 #include "IntStream.h"
@@ -18,7 +19,6 @@
 #include "ATN.h"
 #include "DFAState.h"
 #include "LexerATNConfig.h"
-#include <assert.h>
 #include "LexerNoViableAltException.h"
 #include "Exceptions.h"
 
@@ -504,25 +504,15 @@ namespace org {
                         if (debug) {
                             std::wcout << std::wstring(L"EDGE ") << p << std::wstring(L" -> ") << q << std::wstring(L" upon ") << (static_cast<wchar_t>(t)) << std::endl;
                         }
-#ifdef TODO
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                        synchronized(p) {
-                            if (p->edges == nullptr) {
+
+                        if(true) {
+							std::lock_guard<std::mutex> lck(mtx);
+                            if (p->edges.empty()) {
                                 //  make room for tokens 1..n and -1 masquerading as index 0
-                                p->edges = new DFAState[MAX_DFA_EDGE - MIN_DFA_EDGE+1];
+								p->edges = std::vector<dfa::DFAState*>(MAX_DFA_EDGE - MIN_DFA_EDGE + 1);
                             }
                             p->edges[t - MIN_DFA_EDGE] = q; // connect
                         }
-#else
-                        if (p->edges.size() == 0) {
-                            //  make room for tokens 1..n and -1 masquerading as index 0
-//                            p->edges = new DFAState[MAX_DFA_EDGE - MIN_DFA_EDGE+1];
-#ifdef TODO
-                             Do I need to do any allocation here?
-#endif
-                        }
-                        p->edges[t - MIN_DFA_EDGE] = q; // connect
-#endif
                     }
 
                     org::antlr::v4::runtime::dfa::DFAState *LexerATNSimulator::addDFAState(ATNConfigSet *configs) {
@@ -548,38 +538,22 @@ namespace org {
                         }
 
                         dfa::DFA *dfa = decisionToDFA[mode];
-#ifdef TODO
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                        synchronized(dfa->states) {
-                            DFAState *existing = dfa->states->get(proposed);
+
+                        if(true) {
+							std::lock_guard<std::mutex> lck(mtx);
+                            dfa::DFAState *existing = dfa->states->at(proposed);
                             if (existing != nullptr) {
                                 return existing;
                             }
 
-                            DFAState *newState = proposed;
+                            dfa::DFAState *newState = proposed;
 
                             newState->stateNumber = dfa->states->size();
                             configs->setReadonly(true);
                             newState->configs = configs;
-                            dfa->states->put(newState, newState);
+                            dfa->states->emplace(newState, newState);
                             return newState;
-                        }
-#else
-
-                        dfa::DFAState *existing = dfa->states->at(proposed);
-                        if (existing != nullptr) {
-                            return existing;
-                        }
-                        
-                        dfa::DFAState *newState = proposed;
-                        
-                        newState->stateNumber = dfa->states->size();
-                        configs->setReadonly(true);
-                        newState->configs = configs;
-						dfa->states->insert(std::pair<dfa::DFAState *, dfa::DFAState *>(newState, newState));
-                        return newState;
-#endif
-                        
+                        }                       
                     }
 
                     org::antlr::v4::runtime::dfa::DFA *LexerATNSimulator::getDFA(int mode) {

@@ -1056,8 +1056,6 @@ namespace org {
                             return D;
                         }
 
-
-                        //synchronized(dfa->states) {
 						if (true) {
 							std::lock_guard<std::mutex> lck(mtx);
                             dfa::DFAState *existing = dfa->states->at(D);
