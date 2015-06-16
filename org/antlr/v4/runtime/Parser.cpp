@@ -1,6 +1,5 @@
 ﻿#include <locale>
 #include <vector>
-#include <codecvt>
 
 #include "Parser.h"
 #include "ATNSimulator.h"
@@ -10,7 +9,6 @@
 #include "tree/pattern/ParseTreePatternMatcher.h"
 #include "ANTLRErrorListener.h"
 #include "ATNState.h"
-#include "RuleTransition.h"
 #include "DFA.h"
 #include "ParserRuleContext.h"
 #include "Token.h"
@@ -26,7 +24,7 @@
 #include "IntervalSet.h"
 #include "RuleStartState.h"
 #include "DefaultErrorStrategy.h"
-
+#include "Strings.h"
 
 /*
  * [The "BSD license"]
@@ -61,16 +59,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-            // TODO: Put this someplace we can share from reasonably (and rename to match library conventions).
-            namespace {
-              std::string ws2s(const std::wstring& wstr) {
-                typedef std::codecvt_utf8<wchar_t> convert_typeX;
-                std::wstring_convert<convert_typeX, wchar_t> converterX;
-
-                return converterX.to_bytes(wstr);
-              }
-            }  // namespace
 
                 Parser::TraceListener::TraceListener(Parser *outerInstance) : outerInstance(outerInstance) {
                 }
