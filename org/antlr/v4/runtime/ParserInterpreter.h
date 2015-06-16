@@ -1,10 +1,12 @@
 ﻿#pragma once
 
+#include <string>
+#include <deque>
+
 #include "Parser.h"
 #include "Declarations.h"
 
-#include <string>
-#include <deque>
+
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr

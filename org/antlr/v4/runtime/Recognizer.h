@@ -58,11 +58,14 @@ namespace org {
                     //Mutex to manage synchronized access for multithreading
                     std::mutex mtx;
                     
+#ifdef TODO 
+                    // Damn code isn't even being used, why is it here?
                 private:
-                    class CopyOnWriteArrayListAnonymousInnerClassHelper : public std::list<ANTLRErrorListener*> {
+                    class CopyOnWriteArrayListAnonymousInnerClassHelper : public std::vector<ANTLRErrorListener*> {
                     public:
                         CopyOnWriteArrayListAnonymousInnerClassHelper();
                     };
+#endif
 
                 protected:
                     ATNInterpreter _interp;

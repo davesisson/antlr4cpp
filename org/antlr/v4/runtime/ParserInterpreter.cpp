@@ -1,4 +1,6 @@
-﻿#include "ParserInterpreter.h"
+﻿#include <deque>
+
+#include "ParserInterpreter.h"
 #include "ATN.h"
 #include "DFA.h"
 #include "RuleStartState.h"
@@ -20,7 +22,7 @@
 #include "StarLoopEntryState.h"
 #include "PredictionContextCache.h"
 
-#include <deque>
+
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr

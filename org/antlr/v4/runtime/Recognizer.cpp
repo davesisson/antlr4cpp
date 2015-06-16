@@ -40,8 +40,15 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+                template<typename T1, typename T2>
+                std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const
+                Recognizer<T1, T2>::_tokenTypeMapCache;
                 
-               template<typename T1, typename T2>
+                template<typename T1, typename T2>
+                std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const
+                Recognizer<T1, T2>::_ruleIndexMapCache;
+                
+                template<typename T1, typename T2>
                 std::map<std::wstring, int> *Recognizer<T1, T2>::getTokenTypeMap() {
                     std::vector<std::wstring> tokenNames = getTokenNames();
                     if (tokenNames.empty()) {
@@ -49,14 +56,17 @@ namespace org {
                     }
 
 
-                    if(true) {
+                    {   // mutex lock
                         std::lock_guard<std::mutex> lck(mtx);
                         std::map<std::wstring, int> *result = _tokenTypeMapCache.at(tokenNames);
                         if (result == nullptr) {
-                        //WIP    result = misc::Utils::toMap(tokenNames);
+                            // From Java - why ? result = misc::Utils::toMap(tokenNames);
                             (*result)[L"EOF"] = Token::_EOF;
-                            // TODO result = std::vector::unmodifiableMap(result);
-                        //WIP    _tokenTypeMapCache[tokenNames] = result;
+                            // From Java - why ? result = std::vector::unmodifiableMap(result);
+#ifdef TODO
+                            // I'm truly stuck on this
+                            _tokenTypeMapCache[tokenNames] = result;
+#endif
                         }
 
                         return result;
@@ -188,17 +198,12 @@ namespace org {
                     _listeners = new std::vector<ANTLRErrorListener*>();
                 }
                 
- 
+ #ifdef TODO
                 template<typename T1, typename T2>
-                Recognizer<T1, T2>::CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
+                Recognizer<T1, T2>::
+                CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
                 {
-                }
-                
-#ifdef TODO
-                template<typename T1, typename T2>
-                Recognizer<T1, T2>::CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
-                {
-                    add(ConsoleErrorListener::INSTANCE);
+                    add(&ConsoleErrorListener::INSTANCE)
                 }
 #endif
                 

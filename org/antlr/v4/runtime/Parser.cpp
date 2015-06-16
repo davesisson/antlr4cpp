@@ -1,6 +1,6 @@
 ﻿#include <locale>
 #include <vector>
-#include <codecvt> 
+#include <codecvt>
 
 #include "Parser.h"
 #include "ATNSimulator.h"
@@ -127,7 +127,7 @@ namespace org {
                     // TODO: Initialize this safely and handle concurrent accesses.
                     // TODO: For now treat this as a member variable but it should be shared across instances for speed.
                     Parser::bypassAltsAtnCache =
-                       new std::map<std::wstring, org::antlr::v4::runtime::atn::ATN*>();
+                       new std::map<std::wstring, atn::ATN*>();
                 }
 
                 void Parser::reset() {
@@ -147,7 +147,7 @@ namespace org {
                     }
                 }
 
-                runtime::Token *Parser::match(int ttype) {
+                Token *Parser::match(int ttype) {
                     Token *t = getCurrentToken();
                     if (t->getType() == ttype) {
                         _errHandler->reportMatch(this);
@@ -163,7 +163,7 @@ namespace org {
                     return t;
                 }
 
-                runtime::Token *Parser::matchWildcard() {
+                Token *Parser::matchWildcard() {
                     Token *t = getCurrentToken();
                     if (t->getType() > 0) {
                         _errHandler->reportMatch(this);
@@ -304,7 +304,7 @@ namespace org {
                     return m->compile(pattern, patternRuleIndex);
                 }
 
-                runtime::ANTLRErrorStrategy *Parser::getErrorHandler() {
+                ANTLRErrorStrategy *Parser::getErrorHandler() {
                     return _errHandler;
                 }
 
@@ -312,7 +312,7 @@ namespace org {
                     this->_errHandler = handler;
                 }
 
-                org::antlr::v4::runtime::TokenStream *Parser::getInputStream() {
+                TokenStream *Parser::getInputStream() {
                     return getTokenStream();
                 }
 
@@ -320,7 +320,7 @@ namespace org {
                     setTokenStream(static_cast<TokenStream*>(input));
                 }
 
-                org::antlr::v4::runtime::TokenStream *Parser::getTokenStream() {
+                TokenStream *Parser::getTokenStream() {
                     return _input;
                 }
 
@@ -331,7 +331,7 @@ namespace org {
                     this->_input = input;
                 }
 
-                org::antlr::v4::runtime::Token *Parser::getCurrentToken() {
+                Token *Parser::getCurrentToken() {
                     return _input->LT(1);
                 }
 
@@ -350,7 +350,7 @@ namespace org {
                     listener->syntaxError(this, offendingToken, line, charPositionInLine, msg, e);
                 }
 
-                org::antlr::v4::runtime::Token *Parser::consume() {
+                Token *Parser::consume() {
                     Token *o = getCurrentToken();
                     if (o->getType() != EOF) {
                         getInputStream()->consume();
@@ -474,7 +474,7 @@ namespace org {
                     }
                 }
 
-                org::antlr::v4::runtime::ParserRuleContext *Parser::getInvokingContext(int ruleIndex) {
+                ParserRuleContext *Parser::getInvokingContext(int ruleIndex) {
                     ParserRuleContext *p = _ctx;
                     while (p != nullptr) {
                         if (p->getRuleIndex() == ruleIndex) {
@@ -485,7 +485,7 @@ namespace org {
                     return nullptr;
                 }
 
-                org::antlr::v4::runtime::ParserRuleContext *Parser::getContext() {
+                ParserRuleContext *Parser::getContext() {
                     return _ctx;
                 }
 
@@ -534,11 +534,11 @@ namespace org {
                     return false;
                 }
 
-                org::antlr::v4::runtime::misc::IntervalSet *Parser::getExpectedTokens() {
+                misc::IntervalSet *Parser::getExpectedTokens() {
                     return getATN()->getExpectedTokens(getState(), getContext());
                 }
 
-                org::antlr::v4::runtime::misc::IntervalSet *Parser::getExpectedTokensWithinCurrentRule() {
+                misc::IntervalSet *Parser::getExpectedTokensWithinCurrentRule() {
                     atn::ATN *atn = getInterpreter()->atn;
                     atn::ATNState *s = atn->states[getState()];
                        return atn->nextTokens(s);
@@ -552,7 +552,7 @@ namespace org {
                     return m->at(ruleName);
                 }
 
-                org::antlr::v4::runtime::ParserRuleContext *Parser::getRuleContext() {
+               ParserRuleContext *Parser::getRuleContext() {
                     return _ctx;
                 }
 
@@ -616,7 +616,8 @@ namespace org {
                 void Parser::setTrace(bool trace) {
                     if (!trace) {
                         removeParseListener(_tracer);
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+                        // TODO
+                        //JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                         delete _tracer;
                     } else {
                         if (_tracer != nullptr) {
