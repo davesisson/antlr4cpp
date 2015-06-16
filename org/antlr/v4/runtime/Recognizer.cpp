@@ -146,8 +146,8 @@ namespace org {
                 void Recognizer<T1, T2>::removeErrorListener(ANTLRErrorListener *listener) {
                     //_listeners.remove(listener); does this work the same way?
                     std::vector<ANTLRErrorListener*>::iterator it;
-                    it = std::find(_listeners.begin(), _listeners.end());
-                    _listeners.erase(listener, it);
+                    it = std::find(_listeners.begin(), _listeners.end(), listener);
+                    _listeners.erase(it);
                 }
                 
                 template<typename T1, typename T2>
