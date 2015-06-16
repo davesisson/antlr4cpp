@@ -1,4 +1,5 @@
 #include <codecvt>
+#include <locale>
 
 #include "Strings.h"
 

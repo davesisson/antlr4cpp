@@ -139,7 +139,7 @@ namespace org {
                         throw L"listener cannot be null.";
                     }
                     
-                    _listeners.insert(listener);
+                    _listeners.insert(listener, _listeners.end());
                 }
                 
                 template<typename T1, typename T2>
