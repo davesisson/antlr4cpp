@@ -1,6 +1,6 @@
-﻿#include <codecvt>
-#include <locale>
+﻿#include <locale>
 #include <vector>
+#include <codecvt> 
 
 #include "Parser.h"
 #include "ATNSimulator.h"
