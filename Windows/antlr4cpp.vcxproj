@@ -173,7 +173,6 @@
     <ClCompile Include="..\org\antlr\v4\runtime\ParserRuleContext.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\ProxyErrorListener.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\RecognitionException.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\Recognizer.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\RuleContext.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\Token.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\TokenFactory.cpp" />
@@ -295,10 +294,7 @@
     <ClInclude Include="..\org\antlr\v4\runtime\misc\Array2DHashSet.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\DoubleKeyMap.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\EqualityComparator.h" />
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\FlexibleHashMap.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\GraphicsSupport.h" />
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\IntegerList.h" />
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\IntegerStack.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\Interval.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\IntervalSet.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\IntSet.h" />
@@ -306,13 +302,10 @@
     <ClInclude Include="..\org\antlr\v4\runtime\misc\MultiMap.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\MurmurHash.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\NotNull.h" />
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\Nullable.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\ObjectEqualityComparator.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\OrderedHashSet.h" />
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\Pair.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\ParseCancellationException.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\TestRig.h" />
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\Triple.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\misc\Utils.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\NoViableAltException.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\Parser.h" />

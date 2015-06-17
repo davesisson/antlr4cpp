@@ -38,10 +38,11 @@
  */
 
 namespace Utils {
+
     template<typename T1>
     class CopyOnWriteArrayList {
     public:
-        CopyOnWriteArrayList();
+		CopyOnWriteArrayList(){};
         
     };
     

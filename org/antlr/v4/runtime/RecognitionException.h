@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-//#include "Recognizer.h"  // TODO: may be able to remove
+#include "Recognizer.h" 
 #include "Declarations.h"
 #include "Exceptions.h"
 

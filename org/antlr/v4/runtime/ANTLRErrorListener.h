@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Recognizer.h"
+//#include "Recognizer.h"
 #include "Declarations.h"
 #include "BitSet.h"
 

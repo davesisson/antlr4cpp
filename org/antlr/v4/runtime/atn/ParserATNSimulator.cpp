@@ -17,6 +17,7 @@
 #include "ATNConfigSet.h"
 #include "ANTLRErrorListener.h"
 #include "PredictionMode.h"
+#include "Utils.h"
 
 // TODO: Assert is a really poor mans debugging, remove this and use exception 
 // handling instead. 
