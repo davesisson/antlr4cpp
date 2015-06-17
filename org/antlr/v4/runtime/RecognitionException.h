@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Recognizer.h"
+//#include "Recognizer.h"  // TODO: may be able to remove
 #include "Declarations.h"
 #include "Exceptions.h"
 
@@ -76,10 +76,20 @@ namespace org {
 
                 public:
                     template<typename T1, typename T2>
-                    RecognitionException(Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx);
+                    RecognitionException(Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx) {
+                        InitializeInstanceFields();
+                        if (recognizer != nullptr) {
+                            this->offendingState = recognizer->getState();
+                        }
+                    }
 
                     template<typename T1, typename T2>
-                    RecognitionException(const std::wstring &message, Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx);
+                    RecognitionException(const std::wstring &message, Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx){
+                        InitializeInstanceFields();
+                        if (recognizer != nullptr) {
+                            this->offendingState = recognizer->getState();
+                        }
+                    }
                     
                     RecognitionException() : ctx(nullptr), recognizer(nullptr), input(nullptr) {}
                     

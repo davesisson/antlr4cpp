@@ -4,7 +4,7 @@
 
 #include "BaseErrorListener.h"
 #include "RecognitionException.h"
-#include "Recognizer.h"
+//#include "Recognizer.h"  // TODO: may be able to remove
 
 /*
  * [The "BSD license"]
@@ -35,6 +35,7 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -51,7 +52,9 @@ namespace org {
                     template <typename T1, typename T2>
                     void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol,
                                      int line, int charPositionInLine, const std::wstring &msg,
-                                     RecognitionException *e);
+                                     RecognitionException *e)  {
+                            std::wcerr << L"line " << line << L":" << charPositionInLine << L" " << msg;
+                    }
                 };
                 
             }  // namespace runtime

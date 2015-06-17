@@ -1,9 +1,11 @@
 ﻿#pragma once
 
-#include "ANTLRErrorListener.h"
-#include "Declarations.h"
 #include <string>
 #include <vector>
+
+#include "ANTLRErrorListener.h"
+#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]

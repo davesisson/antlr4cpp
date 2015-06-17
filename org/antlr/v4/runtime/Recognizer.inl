@@ -83,7 +83,9 @@ namespace org {
                     
                         if (result == nullptr) {
                             result = Utils::toMap(ruleNames);
+#ifdef TODO
                             _ruleIndexMapCache.insert(ruleNames, result);
+#endif
                         }
                         return result;
                     }
@@ -92,10 +94,12 @@ namespace org {
 
                 template<typename T1, typename T2>
                 int Recognizer<T1, T2>::getTokenType(const std::wstring &tokenName) {
+#ifdef TODO
                     int ttype = getTokenTypeMap()->get(tokenName);
                     if (ttype != Token::INVALID_TYPE) {
                         return ttype;
                     }
+#endif
                     return Token::INVALID_TYPE;
                 }
                 
@@ -154,7 +158,11 @@ namespace org {
                 template<typename T1, typename T2>
                 ANTLRErrorListener *Recognizer<T1, T2>::getErrorListenerDispatch() {
                     // TODO: This is odd, why do we have to cast here? I think it's a template issue, but it _shouldn't_ matter
+#ifdef TODO
                     return (ANTLRErrorListener *)new ProxyErrorListener(getErrorListeners());
+#else
+                    return nullptr;
+#endif
                 }
                 
                 template<typename T1, typename T2>
