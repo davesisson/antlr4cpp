@@ -1,6 +1,6 @@
-﻿#include "BaseErrorListener.h"
-#include "Recognizer.h"
+﻿#pragma once
 
+#include "BaseErrorListener.h"
 
 /*
  * [The "BSD license"]
@@ -36,10 +36,6 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
-                template<typename T1, typename T2>
-                void BaseErrorListener::syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {
-                }
 
                 void BaseErrorListener::reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) {
                 }

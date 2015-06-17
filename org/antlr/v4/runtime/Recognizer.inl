@@ -1,10 +1,5 @@
-﻿#include "Recognizer.h"
-#include "ConsoleErrorListener.h"
-#include "Token.h"
-#include "StringBuilder.h"
-#include "ProxyErrorListener.h"
-#include "Strings.h"
-#include "Utils.h"
+#pragma once
+
 
 /*
  * [The "BSD license"]
@@ -36,6 +31,7 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -64,7 +60,7 @@ namespace org {
                             (*result)[L"EOF"] = Token::_EOF;
                             // From Java - why ? result = std::vector::unmodifiableMap(result);
 #ifdef TODO
-                            // I'm truly stuck on this
+                            // I'm truly stuck on this - FIXME SOON
                             _tokenTypeMapCache[tokenNames] = result;
 #endif
                         }
@@ -81,13 +77,13 @@ namespace org {
                         throw L"The current recognizer does not provide a list of rule names.";
                     }
 
-                    if(true) {
+                    {
                         std::lock_guard<std::mutex> lck(mtx);
                         std::map<std::wstring, int> *result = _ruleIndexMapCache.at(ruleNames);
                     
                         if (result == nullptr) {
                             result = Utils::toMap(ruleNames);
-                        //WIP    _ruleIndexMapCache.insert(ruleNames, result);
+                            _ruleIndexMapCache.insert(ruleNames, result);
                         }
                         return result;
                     }
@@ -139,7 +135,7 @@ namespace org {
                         throw L"listener cannot be null.";
                     }
                     
-                    _listeners.insert(listener, _listeners.end());
+                    _listeners.insert(_listeners.end(), listener);
                 }
                 
                 template<typename T1, typename T2>
@@ -157,7 +153,8 @@ namespace org {
                 
                 template<typename T1, typename T2>
                 ANTLRErrorListener *Recognizer<T1, T2>::getErrorListenerDispatch() {
-                    return new ProxyErrorListener(getErrorListeners());
+                    // TODO: This is odd, why do we have to cast here? I think it's a template issue, but it _shouldn't_ matter
+                    return (ANTLRErrorListener *)new ProxyErrorListener(getErrorListeners());
                 }
                 
                 template<typename T1, typename T2>
@@ -197,10 +194,10 @@ namespace org {
                 template<typename T1, typename T2>
                 Recognizer<T1, T2>::Recognizer() {
                     InitializeInstanceFields();
-                    _listeners = new std::vector<ANTLRErrorListener*>();
+                    _listeners = std::vector<ANTLRErrorListener*>();
                 }
                 
- #ifdef TODO
+#ifdef TODO
                 template<typename T1, typename T2>
                 Recognizer<T1, T2>::
                 CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()

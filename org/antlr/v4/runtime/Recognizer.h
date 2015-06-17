@@ -9,7 +9,12 @@
 #include "TokenFactory.h"
 #include "ATNSimulator.h"
 #include "Declarations.h"
-
+#include "ConsoleErrorListener.h"
+#include "Token.h"
+#include "StringBuilder.h"
+#include "ProxyErrorListener.h"
+#include "Strings.h"
+#include "Utils.h"
 
 /*
  * [The "BSD license"]
@@ -207,3 +212,7 @@ namespace org {
         }
     }
 }
+
+#include "Recognizer.inl"
+
+

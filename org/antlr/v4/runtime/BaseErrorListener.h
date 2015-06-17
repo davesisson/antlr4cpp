@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include "ANTLRErrorListener.h"
-
-#include "Declarations.h"
-
 #include <string>
+
+#include "ANTLRErrorListener.h"
+#include "Declarations.h"
+#include "Recognizer.h"
 
 
 /*
@@ -36,6 +36,7 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -46,7 +47,8 @@ namespace org {
                 class BaseErrorListener : public ANTLRErrorListener {
                                 
                     template<typename T1, typename T2>
-                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
+                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {
+                    }
 
                     virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) override;
 
