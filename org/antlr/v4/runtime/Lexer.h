@@ -154,7 +154,9 @@ namespace org {
                     virtual int popMode();
 
                     template<typename T1>
-                    void setTokenFactory(TokenFactory<T1> *factory);
+                    void setTokenFactory(TokenFactory<T1> *factory)  {
+                        this->_factory = factory;
+                    }
 
                     virtual TokenFactory<CommonToken*> *getTokenFactory() override;
 

@@ -76,7 +76,7 @@ namespace org {
 
                 Token *Lexer::nextToken() {
                     if (_input == nullptr) {
-                        throw IllegalStateException(L"nextToken requires a non-null input stream.");
+                        throw new IllegalStateException(L"nextToken requires a non-null input stream.");
                     }
 
                     // Mark start location in char stream so unbuffered streams are
@@ -127,7 +127,9 @@ namespace org {
                         
                     }
                     catch(...) {
-                        
+#ifdef TODO
+                        Do something intelligent here for once
+#endif
                     }
                     
                     // make sure we release marker after match or
@@ -168,12 +170,8 @@ namespace org {
                     return _mode;
                 }
                 
-                template<typename T1>
-                void Lexer::setTokenFactory(TokenFactory<T1> *factory) {
-                    this->_factory = factory;
-                }
 
-                org::antlr::v4::runtime::TokenFactory<CommonToken*> *Lexer::getTokenFactory() {
+                TokenFactory<CommonToken*> *Lexer::getTokenFactory() {
                     return _factory;
                 }
 
@@ -189,7 +187,7 @@ namespace org {
                     return _input->getSourceName();
                 }
 
-                org::antlr::v4::runtime::CharStream *Lexer::getInputStream() {
+                CharStream *Lexer::getInputStream() {
                     return _input;
                 }
 
@@ -248,7 +246,7 @@ namespace org {
                     this->_text = text;
                 }
 
-                org::antlr::v4::runtime::Token *Lexer::getToken() {
+                Token *Lexer::getToken() {
                     return _token;
                 }
 
