@@ -54,7 +54,7 @@ namespace org {
                     template<typename T1> //where T1 : ANTLRErrorListener
                     ProxyErrorListener(std::vector<T1> *delegates) : delegates(delegates) {
                         if (delegates == nullptr) {
-                            throw NullPointerException(L"delegates");
+                            throw new NullPointerException(L"delegates");
                         }
                         
                     }

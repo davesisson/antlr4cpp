@@ -4,7 +4,7 @@
 
 #include "BaseErrorListener.h"
 #include "RecognitionException.h"
-//#include "Recognizer.h"  // TODO: may be able to remove
+#include "Recognizer.h"
 
 /*
  * [The "BSD license"]

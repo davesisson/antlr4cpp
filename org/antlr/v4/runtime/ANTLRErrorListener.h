@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-//#include "Recognizer.h"
+#include "Recognizer.h"
 #include "Declarations.h"
 #include "BitSet.h"
 
@@ -76,7 +76,9 @@ namespace org {
                     ///        surrounding rule. </param>
                 public:                    
                     template<typename T1, typename T2>
-                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {}
+                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol,
+                                     int line, int charPositionInLine, const std::wstring &msg,
+                                     RecognitionException *e) {}
 
                     /// <summary>
                     /// This method is called by the parser when a full-context prediction
