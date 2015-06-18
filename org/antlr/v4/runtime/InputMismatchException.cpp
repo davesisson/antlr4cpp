@@ -34,10 +34,15 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
+#ifdef TODO
 
-                InputMismatchException::InputMismatchException(Parser *recognizer) : RecognitionException(recognizer, recognizer->getInputStream(), recognizer->_ctx) {
+                InputMismatchException::InputMismatchException(Parser *recognizer)
+                : RecognitionException(recognizer, recognizer->getInputStream(), recognizer->_ctx) {
                     this->setOffendingToken(recognizer->getCurrentToken());
                 }
+#else
+                
+#endif
             }
         }
     }

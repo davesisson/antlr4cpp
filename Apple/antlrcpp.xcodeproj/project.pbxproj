@@ -289,7 +289,6 @@
 		37D1C522186A31140041671A /* XPathWildcardElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C3F4186A31140041671A /* XPathWildcardElement.h */; };
 		37D1C523186A31140041671A /* UnbufferedCharStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C3F5186A31140041671A /* UnbufferedCharStream.cpp */; };
 		37D1C524186A31140041671A /* UnbufferedCharStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C3F6186A31140041671A /* UnbufferedCharStream.h */; };
-		37D1C525186A31140041671A /* UnbufferedTokenStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C3F7186A31140041671A /* UnbufferedTokenStream.cpp */; };
 		37D1C526186A31140041671A /* UnbufferedTokenStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C3F8186A31140041671A /* UnbufferedTokenStream.h */; };
 		37D1C527186A31140041671A /* WritableToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C3F9186A31140041671A /* WritableToken.cpp */; };
 		37D1C528186A31140041671A /* WritableToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C3FA186A31140041671A /* WritableToken.h */; };
@@ -583,7 +582,6 @@
 		37D1C3F4186A31140041671A /* XPathWildcardElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathWildcardElement.h; sourceTree = "<group>"; };
 		37D1C3F5186A31140041671A /* UnbufferedCharStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnbufferedCharStream.cpp; sourceTree = "<group>"; };
 		37D1C3F6186A31140041671A /* UnbufferedCharStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbufferedCharStream.h; sourceTree = "<group>"; };
-		37D1C3F7186A31140041671A /* UnbufferedTokenStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnbufferedTokenStream.cpp; sourceTree = "<group>"; };
 		37D1C3F8186A31140041671A /* UnbufferedTokenStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnbufferedTokenStream.h; sourceTree = "<group>"; };
 		37D1C3F9186A31140041671A /* WritableToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WritableToken.cpp; sourceTree = "<group>"; };
 		37D1C3FA186A31140041671A /* WritableToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WritableToken.h; sourceTree = "<group>"; };
@@ -690,7 +688,6 @@
 				37D1C3A5186A31140041671A /* tree */,
 				37D1C3F5186A31140041671A /* UnbufferedCharStream.cpp */,
 				37D1C3F6186A31140041671A /* UnbufferedCharStream.h */,
-				37D1C3F7186A31140041671A /* UnbufferedTokenStream.cpp */,
 				37D1C3F8186A31140041671A /* UnbufferedTokenStream.h */,
 				37D1C3F9186A31140041671A /* WritableToken.cpp */,
 				37D1C3FA186A31140041671A /* WritableToken.h */,
@@ -1216,7 +1213,6 @@
 				37D1C46B186A31140041671A /* CommonTokenFactory.cpp in Sources */,
 				37BED8C4187304740043FB28 /* Exceptions.cpp in Sources */,
 				37D1C417186A31140041671A /* ATNState.cpp in Sources */,
-				37D1C525186A31140041671A /* UnbufferedTokenStream.cpp in Sources */,
 				37D1C50B186A31140041671A /* TerminalNodeImpl.cpp in Sources */,
 				37D1C4D1186A31140041671A /* TokenSource.cpp in Sources */,
 				37D1C48F186A31140041671A /* Array2DHashSet.cpp in Sources */,

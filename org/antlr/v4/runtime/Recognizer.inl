@@ -1,4 +1,6 @@
 #pragma once
+// #ifndef _recognizer_
+// #define _recognizer_ 1
 
 
 /*
@@ -105,9 +107,16 @@ namespace org {
                 
                 template<typename T1, typename T2>
                 std::wstring Recognizer<T1, T2>::getErrorHeader(RecognitionException *e) {
+#ifdef TODO 
+                    // We're having issues with cross header dependencies, these two classes will need to be
+                    // rewritten to remove that. 
                     int line = e->getOffendingToken()->getLine();
                     int charPositionInLine = e->getOffendingToken()->getCharPositionInLine();
                     return std::wstring(L"line ") + std::to_wstring(line) + std::wstring(L":") + std::to_wstring(charPositionInLine);
+#else
+                    return std::wstring(L"");
+#endif
+                    
                 }
                 
                 template<typename T1, typename T2>
@@ -219,3 +228,5 @@ namespace org {
     }
  
 }
+
+// #endif

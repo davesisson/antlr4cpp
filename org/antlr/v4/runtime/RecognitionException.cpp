@@ -46,10 +46,11 @@ namespace org {
                 }
 
                 misc::IntervalSet *RecognitionException::getExpectedTokens() {
+#ifdef TODO
                     if (recognizer != nullptr) {
                         return recognizer->getATN()->getExpectedTokens(offendingState, ctx);
                     }
-
+#endif
                     return nullptr;
                 }
 
@@ -68,11 +69,11 @@ namespace org {
                 void RecognitionException::setOffendingToken(Token *offendingToken) {
                     this->offendingToken = offendingToken;
                 }
-
+#ifdef TODO
                 Recognizer<void*, void*> *RecognitionException::getRecognizer() {
                     return recognizer;
                 }
-
+#endif
                 void RecognitionException::InitializeInstanceFields() {
                     offendingState = -1;
                 }

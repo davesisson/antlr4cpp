@@ -43,7 +43,7 @@ namespace org {
                         ParseTreePattern::ParseTreePattern(ParseTreePatternMatcher *matcher, const std::wstring &pattern, int patternRuleIndex, ParseTree *patternTree) : patternRuleIndex(patternRuleIndex), pattern(pattern), patternTree(patternTree), matcher(matcher) {
                         }
 
-                        org::antlr::v4::runtime::tree::pattern::ParseTreeMatch *ParseTreePattern::match(ParseTree *tree) {
+                        tree::pattern::ParseTreeMatch *ParseTreePattern::match(ParseTree *tree) {
                             return matcher->match(tree, this);
                         }
 
@@ -66,7 +66,7 @@ namespace org {
                         }
 #endif
                         
-                        org::antlr::v4::runtime::tree::pattern::ParseTreePatternMatcher *ParseTreePattern::getMatcher() {
+                        tree::pattern::ParseTreePatternMatcher *ParseTreePattern::getMatcher() {
                             return matcher;
                         }
 
@@ -78,7 +78,7 @@ namespace org {
                             return patternRuleIndex;
                         }
 
-                        org::antlr::v4::runtime::tree::ParseTree *ParseTreePattern::getPatternTree() {
+                        tree::ParseTree *ParseTreePattern::getPatternTree() {
                             return patternTree;
                         }
                     }

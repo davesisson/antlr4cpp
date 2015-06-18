@@ -9,12 +9,13 @@
 #include "TokenFactory.h"
 #include "ATNSimulator.h"
 #include "Declarations.h"
-#include "ConsoleErrorListener.h"
+//#include "ConsoleErrorListener.h" // Under a TODO
 #include "Token.h"
 #include "StringBuilder.h"
-#include "ProxyErrorListener.h"
+//#include "ProxyErrorListener.h" // Under a TODO These two are causing recursive loop includes
 #include "Strings.h"
 #include "Utils.h"
+#include "RecognitionException.h"
 
 /*
  * [The "BSD license"]

@@ -2,6 +2,7 @@
 
 #include "TokenStream.h"
 #include "Declarations.h"
+
 #include <string>
 #include <vector>
 
@@ -169,3 +170,5 @@ namespace org {
         }
     }
 }
+
+#include "UnbufferedTokenStream.inl"
