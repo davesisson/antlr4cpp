@@ -1,7 +1,7 @@
 ﻿#include "Utils.h"
 
 // TODO:  Come back to this after the base runtime works.
-#if 0
+#ifdef TODO
 
 namespace org {
     namespace antlr {
@@ -19,7 +19,6 @@ template<typename T>
                             }
                             iter++;
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
 
@@ -33,7 +32,6 @@ template<typename T>
                             }
                         }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return builder->toString();
                     }
 
@@ -52,7 +50,6 @@ template<typename T>
                                 buf->append(c);
                             }
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
 
@@ -84,7 +81,6 @@ template<typename T>
                     }
 
                     void Utils::ThreadAnonymousInnerClassHelper::run() {
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
                         synchronized(lock) {
                             while (window->isVisible()) {
                                 try {

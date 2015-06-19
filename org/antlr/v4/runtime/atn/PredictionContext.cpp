@@ -1,4 +1,7 @@
-﻿#include "PredictionContext.h"
+﻿// TODO "assert" is pure bush league
+#include <assert.h>
+
+#include "PredictionContext.h"
 #include "EmptyPredictionContext.h"
 #include "MurmurHash.h"
 #include "ArrayPredictionContext.h"
@@ -7,8 +10,6 @@
 #include "Arrays.h"
 #include "stringconverter.h"
 
-// TODO "assert" is pure bush league
-#include <assert.h>
 
 /*
  * [The "BSD license"]

@@ -35,17 +35,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-
-                    template<typename T>
-                    int EqualityComparator<T>::hashCode(T *obj) {
-                        
-                    }
-                    
-                    template<typename T>
-                    bool EqualityComparator<T>::equals(T *a, T*b) {
-                        
-                    }
-
+                    // Sound of crickets and rustling tumbleweed ...
                 }
             }
         }

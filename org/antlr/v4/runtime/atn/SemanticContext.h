@@ -219,3 +219,20 @@ namespace org {
         }
     }
 }
+
+// Hash function for SemanticContext, used in the MurmurHash::update function
+
+namespace std {
+    using org::antlr::v4::runtime::atn::SemanticContext;
+    
+    template <> struct hash<SemanticContext>
+    {
+        size_t operator()( SemanticContext & x) const
+        {
+            return x.hashCode();
+        }
+    };
+}
+
+
+

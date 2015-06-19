@@ -367,7 +367,6 @@ namespace org {
                                     p = p->getParent(index);
                                 }
                                 localBuffer->append(L"]");
-                                //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                                 result.push_back(localBuffer->toString());
                                 
                                 if (last) {
@@ -389,3 +388,19 @@ namespace org {
         }
     }
 }
+
+// Hash function for PredictionContext, used in the MurmurHash::update function
+ 
+namespace std {
+    using org::antlr::v4::runtime::atn::PredictionContext;
+    
+    template <> struct hash<PredictionContext>
+    {
+        size_t operator()(PredictionContext & x) const
+        {
+            return x.hashCode();
+        }
+    };
+}
+
+
