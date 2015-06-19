@@ -3,7 +3,6 @@
 #include "ATN.h"
 #include "ATNState.h"
 #include "ATNConfig.h"
-#include "Exceptions.h"
 #include "ATNConfigSet.h"
 #include "SemanticContext.h"
 #include "PredictionContext.h"
@@ -45,15 +44,7 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
-                    template<typename T1>
-                    ATNConfigSet::AbstractConfigHashSet::AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator) {
-                    }
-
-                    template<typename T1>
-                    ATNConfigSet::AbstractConfigHashSet::AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity) : org::antlr::v4::runtime::misc::Array2DHashSet<ATNConfig>(comparator, initialCapacity, initialBucketCapacity) {
-                    }
-
-                    org::antlr::v4::runtime::atn::ATNConfig *ATNConfigSet::AbstractConfigHashSet::asElementType(void *o) {
+                    atn::ATNConfig *ATNConfigSet::AbstractConfigHashSet::asElementType(void *o) {
                         if (!(static_cast<ATNConfig*>(o) != nullptr)) {
                             return nullptr;
                         }
@@ -190,13 +181,6 @@ namespace org {
                         }
                     }
 
-                    template<typename T1> //where T1 : ATNConfig
-                    bool ATNConfigSet::addAll(ATNConfigSet *coll) {
-                        for (auto c : *coll) {
-                            add(c);
-                        }
-                        return false;
-                    }
 
                     bool ATNConfigSet::equals(void *o) {
                         if (o == this) {
@@ -331,29 +315,11 @@ namespace org {
                         return (ATNConfig*)configLookup->toArray();
                     }
 
-                    template<typename T>
-                    T *ATNConfigSet::toArray(T a[]) {
-                        return configLookup->toArray(a);
-                    }
 
                     bool ATNConfigSet::remove(void *o) {
                         throw UnsupportedOperationException();
                     }
 
-                    template<typename T1>
-                    bool ATNConfigSet::containsAll(std::vector<T1> *c) {
-                        throw new UnsupportedOperationException();
-                    }
-
-                    template<typename T1>
-                    bool ATNConfigSet::retainAll(std::vector<T1> *c) {
-                        throw new UnsupportedOperationException();
-                    }
-
-                    template<typename T1>
-                    bool ATNConfigSet::removeAll(std::vector<T1> *c) {
-                        throw new UnsupportedOperationException();
-                    }
 
                     void ATNConfigSet::InitializeInstanceFields() {
                         readonly = false;

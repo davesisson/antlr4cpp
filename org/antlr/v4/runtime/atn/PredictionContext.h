@@ -4,6 +4,8 @@
 #include "Recognizer.h"
 #include "Declarations.h"
 #include "EqualityComparator.h"
+#include "ATN.h"
+#include "ATNState.h"
 
 #include <string>
 #include <unordered_map>
@@ -302,14 +304,83 @@ namespace org {
                         std::wstring toString();
 
                         template<typename T1, typename T2>
-                        std::wstring toString(Recognizer<T1, T2> *recog);
+                        std::wstring toString(Recognizer<T1, T2> *recog)  {
+                            return toString();
+                            //		return toString(recog, ParserRuleContext.EMPTY);
+                        }
 
                         template<typename T1, typename T2>
-                        std::wstring *toStrings(Recognizer<T1, T2> *recognizer, int currentState);
+                        std::wstring *toStrings(Recognizer<T1, T2> *recognizer, int currentState) {
+                            return toStrings(recognizer, EMPTY, currentState);
+                        }
 
                         // FROM SAM
                         template<typename T1, typename T2>
-                        std::wstring *toStrings(Recognizer<T1, T2> *recognizer, PredictionContext *stop, int currentState);
+                        std::wstring *toStrings(Recognizer<T1, T2> *recognizer, PredictionContext *stop, int currentState) {
+                            std::vector<std::wstring> result = std::vector<std::wstring>();
+                            
+                            for (int perm = 0; ; perm++) {
+                                int offset = 0;
+                                bool last = true;
+                                PredictionContext *p = this;
+                                int stateNumber = currentState;
+                                StringBuilder *localBuffer = new StringBuilder();
+                                localBuffer->append(L"[");
+                                while (!p->isEmpty() && p != stop) {
+                                    int index = 0;
+                                    if (p->size() > 0) {
+                                        int bits = 1;
+                                        while ((1 << bits) < p->size()) {
+                                            bits++;
+                                        }
+                                        
+                                        int mask = (1 << bits) - 1;
+                                        index = (perm >> offset) & mask;
+                                        last &= index >= p->size() - 1;
+                                        if (index >= p->size()) {
+                                            goto outerContinue;
+                                        }
+                                        offset += bits;
+                                    }
+                                    
+                                    if (recognizer != nullptr) {
+                                        if (localBuffer->length() > 1) {
+                                            // first char is '[', if more than that this isn't the first rule
+                                            localBuffer->append(L' ');
+                                        }
+                                        
+                                        ATN *atn = recognizer->getATN();
+                                        ATNState *s = atn->states[stateNumber];
+                                        std::wstring ruleName = recognizer->getRuleNames()[s->ruleIndex];
+                                        localBuffer->append(ruleName);
+                                    } else if (p->getReturnState(index) != EMPTY_RETURN_STATE) {
+                                        if (!p->isEmpty()) {
+                                            if (localBuffer->length() > 1) {
+                                                // first char is '[', if more than that this isn't the first rule
+                                                localBuffer->append(L' ');
+                                            }
+                                            
+                                            localBuffer->append(p->getReturnState(index));
+                                        }
+                                    }
+                                    stateNumber = p->getReturnState(index);
+                                    p = p->getParent(index);
+                                }
+                                localBuffer->append(L"]");
+                                //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+                                result.push_back(localBuffer->toString());
+                                
+                                if (last) {
+                                    break;
+                                }
+                            outerContinue:
+                                continue;
+                            }
+                        outerBreak:
+                            
+                            // TODO: return result.toArray(new std::wstring[result.size()]);
+                            return nullptr;
+                        }
 
                     };
 

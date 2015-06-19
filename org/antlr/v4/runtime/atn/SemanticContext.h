@@ -96,8 +96,18 @@ namespace org {
                         static SemanticContext *Or(SemanticContext *a, SemanticContext *b);
 
                     private:
-                        template<typename T1>
-                        static std::vector<PrecedencePredicate*> filterPrecedencePredicates(std::set<T1> *collection);
+                        template<typename T1> //where T1 : SemanticContext
+                        static std::vector<PrecedencePredicate*> filterPrecedencePredicates(std::set<T1> *collection) {
+                            std::vector<PrecedencePredicate*> result;
+                            for (std::set<SemanticContext*>::const_iterator iterator = collection->begin(); iterator != collection->end(); ++iterator) {
+                                SemanticContext *context = *iterator;
+                                if ((PrecedencePredicate*)(context) != nullptr) {
+                                    result.push_back((PrecedencePredicate*)context);
+                                }
+                            }
+                            
+                            return result;
+                        }
 
                     };
                     
@@ -117,7 +127,10 @@ namespace org {
                         Predicate(int ruleIndex, int predIndex, bool isCtxDependent);
 
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext)  {
+                            RuleContext *localctx = isCtxDependent ? outerContext : nullptr;
+                            return parser->sempred(localctx, ruleIndex, predIndex);
+                        }
 
                         virtual int hashCode() ;
                         
@@ -137,7 +150,9 @@ namespace org {
                         PrecedencePredicate(int precedence);
 
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
+                            return parser->precpred(outerContext, precedence);
+                        }
 
                         
                         virtual int compareTo(PrecedencePredicate *o);
@@ -160,7 +175,14 @@ namespace org {
                         virtual int hashCode();
 
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
+                            for (auto opnd : opnds) {
+                                if (!opnd->eval(parser, outerContext)) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
 
                         
                         virtual std::wstring toString();
@@ -177,7 +199,17 @@ namespace org {
                         virtual int hashCode();
 
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
+                            // TODO: opnds is not a container type (const
+                            // SemanticContext *).  Should it be changed to a
+                            // container type?
+                            //                        for (auto opnd : opnds) {
+                            //                            if (opnd->eval(parser, outerContext)) {
+                            //                                return true;
+                            //                            }
+                            //                        }
+                            return false;
+                        }
 
                         virtual std::wstring toString();
                     };

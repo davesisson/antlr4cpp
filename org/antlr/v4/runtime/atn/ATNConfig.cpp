@@ -113,38 +113,6 @@ namespace org {
 						return L"";
 					}
 
-					template<typename T1, typename T2>
-					std::wstring ATNConfig::toString(Recognizer<T1, T2> *recog, bool showAlt) {
-#ifdef TODO
-						StringBuilder *buf = new StringBuilder();
-						//		if ( state.ruleIndex>=0 ) {
-						//			if ( recog!=null ) buf.append(recog.getRuleNames()[state.ruleIndex]+":");
-						//			else buf.append(state.ruleIndex+":");
-						//		}
-						buf->append(L'(');
-						buf->append(state);
-						if (showAlt) {
-							buf->append(L",");
-							buf->append(alt);
-						}
-						if (context != nullptr) {
-							buf->append(L",[");
-							//                            :
-							buf->append(context->toString());
-							buf->append(L"]");
-						}
-						if (semanticContext != nullptr && semanticContext != SemanticContext::NONE) {
-							buf->append(L",");
-							buf->append(semanticContext);
-						}
-						if (reachesIntoOuterContext > 0) {
-							buf->append(L",up=")->append(reachesIntoOuterContext);
-						}
-						buf->append(L')');
-
-						return buf->toString();
-#endif
-					}
 
 					void ATNConfig::InitializeInstanceFields() {
 						reachesIntoOuterContext = 0;

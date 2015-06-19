@@ -3,11 +3,11 @@
 #include "MurmurHash.h"
 #include "ArrayPredictionContext.h"
 #include "RuleContext.h"
-#include "ATN.h"
-#include "ATNState.h"
 #include "RuleTransition.h"
 #include "Arrays.h"
 #include "stringconverter.h"
+
+// TODO "assert" is pure bush league
 #include <assert.h>
 
 /*
@@ -53,7 +53,7 @@ namespace org {
                     PredictionContext::PredictionContext(int cachedHashCode) : id(globalNodeCount++), cachedHashCode(cachedHashCode)  {
                     }
                     
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::fromRuleContext(ATN *atn, RuleContext *outerContext) {
+                    atn::PredictionContext *PredictionContext::fromRuleContext(ATN *atn, RuleContext *outerContext) {
                         if (outerContext == nullptr) {
                             outerContext = (RuleContext*)RuleContext::EMPTY;
                         }
@@ -118,7 +118,7 @@ namespace org {
                         return hash;
                     }
                     
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                    atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
 #ifdef TODO
 						I dislike using assert - if it hits then the application crashes hard with little diagnostic information. Change to an exception or the like when we have
                         an idea of the policy appropriate for that
@@ -543,84 +543,6 @@ namespace org {
                         //TODO: what should this return?  (Return empty string
                         // for now.)
                         return L"";
-                    }
-
-                    template<typename T1, typename T2>
-                    std::wstring PredictionContext::toString(Recognizer<T1, T2> *recog) {
-                        return toString();
-                        //		return toString(recog, ParserRuleContext.EMPTY);
-                    }
-                    
-                    template<typename T1, typename T2>
-                    std::wstring *PredictionContext::toStrings(Recognizer<T1, T2> *recognizer, int currentState) {
-                        return toStrings(recognizer, EMPTY, currentState);
-                    }
-                    
-                    template<typename T1, typename T2>
-                    std::wstring *PredictionContext::toStrings(Recognizer<T1, T2> *recognizer, PredictionContext *stop, int currentState) {
-                        std::vector<std::wstring> result = std::vector<std::wstring>();
-                        
-                        for (int perm = 0; ; perm++) {
-                            int offset = 0;
-                            bool last = true;
-                            PredictionContext *p = this;
-                            int stateNumber = currentState;
-                            StringBuilder *localBuffer = new StringBuilder();
-                            localBuffer->append(L"[");
-                            while (!p->isEmpty() && p != stop) {
-                                int index = 0;
-                                if (p->size() > 0) {
-                                    int bits = 1;
-                                    while ((1 << bits) < p->size()) {
-                                        bits++;
-                                    }
-                                    
-                                    int mask = (1 << bits) - 1;
-                                    index = (perm >> offset) & mask;
-                                    last &= index >= p->size() - 1;
-                                    if (index >= p->size()) {
-                                        goto outerContinue;
-                                    }
-                                    offset += bits;
-                                }
-                                
-                                if (recognizer != nullptr) {
-                                    if (localBuffer->length() > 1) {
-                                        // first char is '[', if more than that this isn't the first rule
-                                        localBuffer->append(L' ');
-                                    }
-                                    
-                                    ATN *atn = recognizer->getATN();
-                                    ATNState *s = atn->states[stateNumber];
-                                    std::wstring ruleName = recognizer->getRuleNames()[s->ruleIndex];
-                                    localBuffer->append(ruleName);
-                                } else if (p->getReturnState(index) != EMPTY_RETURN_STATE) {
-                                    if (!p->isEmpty()) {
-                                        if (localBuffer->length() > 1) {
-                                            // first char is '[', if more than that this isn't the first rule
-                                            localBuffer->append(L' ');
-                                        }
-                                        
-                                        localBuffer->append(p->getReturnState(index));
-                                    }
-                                }
-                                stateNumber = p->getReturnState(index);
-                                p = p->getParent(index);
-                            }
-                            localBuffer->append(L"]");
-                            //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                            result.push_back(localBuffer->toString());
-                            
-                            if (last) {
-                                break;
-                            }
-                        outerContinue:
-                            continue;
-                        }
-                    outerBreak:
-                        
-                        // TODO: return result.toArray(new std::wstring[result.size()]);
-                        return nullptr;
                     }
                     
                     int PredictionContext::size() {

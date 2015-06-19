@@ -65,11 +65,6 @@ namespace org {
                         throw new std::exception();
                     }
                     
-                    template<typename T1, typename T2>
-                    bool SemanticContext::Predicate::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
-                        RuleContext *localctx = isCtxDependent ? outerContext : nullptr;
-                        return parser->sempred(localctx, ruleIndex, predIndex);
-                    }
 
                     int SemanticContext::Predicate::hashCode() {
                         int hashCode = misc::MurmurHash::initialize();
@@ -100,11 +95,6 @@ namespace org {
                     }
 
                     SemanticContext::PrecedencePredicate::PrecedencePredicate(int precedence) : precedence(precedence) {
-                    }
-
-                    template<typename T1, typename T2>
-                    bool SemanticContext::PrecedencePredicate::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
-                        return parser->precpred(outerContext, precedence);
                     }
 
                     int SemanticContext::PrecedencePredicate::compareTo(PrecedencePredicate *o) {
@@ -177,16 +167,7 @@ namespace org {
                         return misc::MurmurHash::hashCode(opnds.data(), 1234 /*TODO: AND::typeid::hashCode()*/);
                     }
 
-                    
-                    template<typename T1, typename T2>
-                    bool SemanticContext::AND::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
-                        for (auto opnd : opnds) {
-                            if (!opnd->eval(parser, outerContext)) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
+                
 
                     std::wstring SemanticContext::AND::toString() {
                         // TODO: Utils class has not been declared
@@ -240,18 +221,6 @@ namespace org {
                         return misc::MurmurHash::hashCode(opnds, 0);
                     }
 
-                    template<typename T1, typename T2>
-                    bool SemanticContext::OR::eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
-                        // TODO: opnds is not a container type (const
-                        // SemanticContext *).  Should it be changed to a
-                        // container type?
-//                        for (auto opnd : opnds) {
-//                            if (opnd->eval(parser, outerContext)) {
-//                                return true;
-//                            }
-//                        }
-                        return false;
-                    }
 
                     std::wstring SemanticContext::OR::toString() {
                         // TODO: Utils
@@ -295,19 +264,6 @@ namespace org {
                         return result;
                     }*/
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T1> //where T1 : SemanticContext
-                    std::vector<SemanticContext::PrecedencePredicate*> SemanticContext::filterPrecedencePredicates(std::set<T1> *collection) {
-                        std::vector<PrecedencePredicate*> result;
-                        for (std::set<SemanticContext*>::const_iterator iterator = collection->begin(); iterator != collection->end(); ++iterator) {
-                            SemanticContext *context = *iterator;
-                            if (dynamic_cast<PrecedencePredicate*>(context) != nullptr) {
-                                result.push_back(static_cast<PrecedencePredicate*>(context));
-                            }
-                        }
-
-                        return result;
-                    }
                 }
             }
         }
