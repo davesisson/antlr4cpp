@@ -155,11 +155,15 @@ namespace org {
                 }
 
                 void RuleContext::save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName) {
+#ifdef TODO
                     tree::Trees::writePS(this, ruleNames, fileName);
+#endif
                 }
 
                 void RuleContext::save(std::vector<std::wstring> &ruleNames, const std::wstring &fileName, const std::wstring &fontName, int fontSize) {
+#ifdef TODO
                     tree::Trees::writePS(this, ruleNames, fileName, fontName, fontSize);
+#endif
                 }
 
                 std::wstring RuleContext::toStringTree(Parser *recog) {

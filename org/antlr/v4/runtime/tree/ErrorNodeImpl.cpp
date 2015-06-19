@@ -40,13 +40,6 @@ namespace org {
 
                     ErrorNodeImpl::ErrorNodeImpl(Token *token) : TerminalNodeImpl(token) {
                     }
-
-
-                    template<typename T, typename T1>
-                    T ErrorNodeImpl::accept(ParseTreeVisitor<T1> *visitor) {
-                        return visitor->visitErrorNode(this);
-                    }
-                    
                     
                     // From Terminal Node
                     Token *getSymbol();
@@ -66,7 +59,6 @@ namespace org {
                     //Tree *getChild(int i);
                     int getChildCount();
                     //std::wstring toStringTree();
-                    
                     
                     
                 }

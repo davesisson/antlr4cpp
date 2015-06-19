@@ -58,7 +58,9 @@ namespace org {
                         virtual int getChildCount() override;
                         
                         template<typename T, typename T1>
-                        T accept(ParseTreeVisitor<T1> *visitor);
+                        T accept(ParseTreeVisitor<T1> *visitor) {
+                            return visitor->visitTerminal(this);
+                        }
 
                         virtual std::wstring getText() override;
                         virtual std::wstring toStringTree(Parser *parser) override;
