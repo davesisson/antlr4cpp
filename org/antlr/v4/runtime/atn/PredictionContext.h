@@ -119,7 +119,9 @@ namespace org {
 
                         virtual int hashCode()  final;
 
-                        virtual bool equals(void *obj);// = 0;
+                        virtual bool equals(void *obj){ // = 0;
+                            throw new std::exception();
+                        }
 
                     protected:
                         static int calculateEmptyHashCode();

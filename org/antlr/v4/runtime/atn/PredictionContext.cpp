@@ -50,7 +50,10 @@ namespace org {
                 namespace atn {
                     
                     int PredictionContext::globalNodeCount = 0;
-
+                    EmptyPredictionContext * PredictionContext::EMPTY;
+                    const int PredictionContext::EMPTY_RETURN_STATE;
+                    const int PredictionContext::INITIAL_HASH;
+                    
                     PredictionContext::PredictionContext(int cachedHashCode) : id(globalNodeCount++), cachedHashCode(cachedHashCode)  {
                     }
                     
@@ -463,7 +466,7 @@ namespace org {
                     
 
                     atn::PredictionContext *PredictionContext::getCachedContext(PredictionContext *context, PredictionContextCache *contextCache,
-                        std::map<PredictionContext*, PredictionContext*> *visited) {
+                                                                                std::map<PredictionContext*, PredictionContext*> *visited) {
                         if (context->isEmpty()) {
                             return context;
                         }
@@ -475,11 +478,18 @@ namespace org {
                         
                         existing = contextCache->get(context);
                         if (existing != nullptr) {
+#ifdef TODO
+                            // These used IdendityHashMap in Java, which isn't the
+                            // same as std::map, need to add a hash key function to
+                            // PredictionContext to achieve the same behavior, same
+                            // goes for all the insert functions below
                             visited->insert(context, existing);
+#endif
                             return existing;
                         }
                         
                         bool changed = false;
+                        
                         std::vector<PredictionContext*> parents;
                         
                         for (int i = 0; i < sizeof(parents) / sizeof(parents[0]); i++) {
@@ -500,7 +510,9 @@ namespace org {
                         
                         if (!changed) {
                             contextCache->add(context);
+#ifdef TODO
                             visited->insert(context, context);
+#endif
                             return context;
                         }
                         
@@ -516,31 +528,33 @@ namespace org {
                         }
                         
                         contextCache->add(updated);
+#ifdef TODO
                         visited->insert(updated, updated);
                         visited->insert(context, updated);
-                        
+#endif
                         return updated;
                     }
                     
-                    // TODO: Map, IdentityHashMap
-                    /*std::vector<PredictionContext*> PredictionContext::getAllContextNodes(PredictionContext *context) {
+                    std::vector<PredictionContext*> PredictionContext::getAllContextNodes(PredictionContext *context) {
                         std::vector<PredictionContext*> nodes = std::vector<PredictionContext*>();
-                        Map<PredictionContext*, PredictionContext*> *visited = new IdentityHashMap<PredictionContext*, PredictionContext*>();
+                        std::map<PredictionContext*, PredictionContext*> *visited = new std::map<PredictionContext*, PredictionContext*>();
                         getAllContextNodes_(context, nodes, visited);
                         return nodes;
-                    }*/
+                    }
                     
-                    // TODO: Map
-                    /*void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, Map<PredictionContext*, PredictionContext*> *visited) {
-                        if (context == nullptr || visited->containsKey(context)) {
+
+                    void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, std::map<PredictionContext*, PredictionContext*> *visited) {
+                        if (context == nullptr || visited->at(context)) {
                             return;
                         }
-                        visited->put(context, context);
+#ifdef TODO
+                        visited->insert(context, context);
+#endif
                         nodes.push_back(context);
                         for (int i = 0; i < context->size(); i++) {
                             getAllContextNodes_(context->getParent(i), nodes, visited);
                         }
-                    }*/
+                    }
                     
                     std::wstring PredictionContext::toString() {
                         //TODO: what should this return?  (Return empty string
