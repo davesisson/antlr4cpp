@@ -125,9 +125,11 @@ namespace org {
                         return SemanticContext::toString();
                     }
 
-#ifdef TODO
                     // I can't make heads or tails of this
-                    SemanticContext::AND::AND(SemanticContext *a, SemanticContext *b) : opnds(operands::toArray(new SemanticContext[operands->size()])) {
+                    SemanticContext::AND::AND(SemanticContext *a, SemanticContext *b)
+#ifdef TODO
+                     : opnds(operands::toArray(new SemanticContext[operands->size()])) {
+
                         std::vector<SemanticContext*> *operands = new std::vector<SemanticContext*>();
                         if ((AND*)a/*dynamic_cast<AND*>(a)*/ != nullptr) {
                             operands->addAll(Arrays::asList((static_cast<AND*>(a))->opnds));
@@ -146,9 +148,11 @@ namespace org {
                             PrecedencePredicate *reduced = Collections::min(precedencePredicates);
                             operands->add(reduced);
                         }
+#else 
+                        {
+#endif
 
                     }
-#endif
                     bool SemanticContext::AND::equals(void *obj) {
                         if (this == obj) {
                             return true;

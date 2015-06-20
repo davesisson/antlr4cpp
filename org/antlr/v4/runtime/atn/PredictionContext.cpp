@@ -9,7 +9,7 @@
 #include "RuleTransition.h"
 #include "Arrays.h"
 #include "stringconverter.h"
-
+#include "PredictionContextCache.h"
 
 /*
  * [The "BSD license"]
@@ -451,7 +451,6 @@ namespace org {
                         }
                         
                         buf->append(L"}\n");
-                        //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
                     
@@ -462,30 +461,32 @@ namespace org {
                         return o1->id - o2->id;
                     }
                     
-                    // TODO: IdentityHashpMap
-                    /*org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, IdentityHashMap<PredictionContext*, PredictionContext*> *visited) {
+
+                    atn::PredictionContext *PredictionContext::getCachedContext(PredictionContext *context, PredictionContextCache *contextCache,
+                        std::map<PredictionContext*, PredictionContext*> *visited) {
                         if (context->isEmpty()) {
                             return context;
                         }
                         
-                        PredictionContext *existing = visited->get(context);
+                        PredictionContext *existing = (*visited)[context];
                         if (existing != nullptr) {
                             return existing;
                         }
                         
                         existing = contextCache->get(context);
                         if (existing != nullptr) {
-                            visited->put(context, existing);
+                            visited->insert(context, existing);
                             return existing;
                         }
                         
                         bool changed = false;
-                        PredictionContext parents[context->size()];
+                        std::vector<PredictionContext*> parents;
+                        
                         for (int i = 0; i < sizeof(parents) / sizeof(parents[0]); i++) {
                             PredictionContext *parent = getCachedContext(context->getParent(i), contextCache, visited);
                             if (changed || parent != context->getParent(i)) {
                                 if (!changed) {
-                                    parents = new PredictionContext[context->size()];
+                                    parents = std::vector<PredictionContext*>();
                                     for (int j = 0; j < context->size(); j++) {
                                         parents[j] = context->getParent(j);
                                     }
@@ -499,7 +500,7 @@ namespace org {
                         
                         if (!changed) {
                             contextCache->add(context);
-                            visited->put(context, context);
+                            visited->insert(context, context);
                             return context;
                         }
                         
@@ -510,15 +511,16 @@ namespace org {
                             updated = SingletonPredictionContext::create(parents[0], context->getReturnState(0));
                         } else {
                             ArrayPredictionContext *arrayPredictionContext = static_cast<ArrayPredictionContext*>(context);
-                            updated = new ArrayPredictionContext(parents, arrayPredictionContext->returnStates);
+                            updated = new ArrayPredictionContext(parents,
+                                                                 arrayPredictionContext->returnStates);
                         }
                         
                         contextCache->add(updated);
-                        visited->put(updated, updated);
-                        visited->put(context, updated);
+                        visited->insert(updated, updated);
+                        visited->insert(context, updated);
                         
                         return updated;
-                    }*/
+                    }
                     
                     // TODO: Map, IdentityHashMap
                     /*std::vector<PredictionContext*> PredictionContext::getAllContextNodes(PredictionContext *context) {
