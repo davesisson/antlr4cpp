@@ -176,7 +176,8 @@ namespace org {
 
                         virtual void setRuleIndex(int ruleIndex);
                         
-                        virtual ~ATNState() = 0;
+                        // TODO I don't think a virtual destructor is necessary here but check
+//                        virtual ~ATNState() = 0;
 
                     private:
                         void InitializeInstanceFields();
