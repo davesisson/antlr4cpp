@@ -1,11 +1,7 @@
 ﻿#pragma once
 
 #include "RecognitionException.h"
-#include "atn/ATNConfigSet.h"
-#include "Token.h"
-#include "Parser.h"
-#include "ParserRuleContext.h"
-#include "TokenStream.h"
+
 
 /*
  * [The "BSD license"]
@@ -65,7 +61,6 @@ namespace org {
                     Token *const startToken;
 
                 public:
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     NoViableAltException(Parser *recognizer); // LL(1) error - this(recognizer, recognizer.getInputStream(), recognizer.getCurrentToken(), recognizer.getCurrentToken(), nullptr, recognizer._ctx);
 
                     NoViableAltException(Parser *recognizer, TokenStream *input, Token *startToken, Token *offendingToken, ATNConfigSet *deadEndConfigs, ParserRuleContext *ctx);

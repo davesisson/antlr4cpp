@@ -1,10 +1,5 @@
 ﻿#pragma once
 
-#include "Recognizer.h"
-#include "ParseTreeListener.h"
-#include "TokenStream.h"
-#include "BitSet.h"
-
 #include <mutex>
 #include <stack>
 #include <string>
@@ -12,6 +7,11 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+
+#include "Recognizer.h"
+#include "ParseTreeListener.h"
+#include "TokenStream.h"
+#include "BitSet.h"
 #include "Declarations.h"
 
 

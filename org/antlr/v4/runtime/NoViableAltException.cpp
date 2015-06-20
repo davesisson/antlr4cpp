@@ -1,5 +1,11 @@
 ﻿#include "NoViableAltException.h"
 
+#include "atn/ATNConfigSet.h"
+#include "Token.h"
+#include "Parser.h"
+#include "ParserRuleContext.h"
+#include "TokenStream.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -38,11 +44,15 @@ namespace org {
 
                 NoViableAltException::NoViableAltException(Parser *recognizer) :deadEndConfigs(nullptr), startToken(nullptr) {
                 }
-#ifdef TODO
-                NoViableAltException::NoViableAltException(Parser *recognizer, TokenStream *input, Token *startToken, Token *offendingToken, ATNConfigSet *deadEndConfigs, ParserRuleContext *ctx) : RecognitionException(recognizer, input, ctx), deadEndConfigs(deadEndConfigs), startToken(startToken) {
+
+                NoViableAltException::NoViableAltException(Parser *recognizer, TokenStream *input, Token *startToken, Token *offendingToken, ATNConfigSet *deadEndConfigs, ParserRuleContext *ctx) :
+#ifdef TODO         // Fix this with the TODO fixes in RecognitionException
+                    RecognitionException(recognizer, input, ctx),
+#endif
+                    deadEndConfigs(deadEndConfigs), startToken(startToken) {
                     this->setOffendingToken(offendingToken);
                 }
-#endif
+                
                 Token *NoViableAltException::getStartToken() {
                     return startToken;
                 }

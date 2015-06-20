@@ -41,7 +41,7 @@ namespace org {
                     this->setOffendingToken(recognizer->getCurrentToken());
                 }
 #else
-                
+                InputMismatchException::InputMismatchException(Parser *recognizer) {}
 #endif
             }
         }

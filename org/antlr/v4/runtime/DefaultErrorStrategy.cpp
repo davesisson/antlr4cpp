@@ -11,6 +11,7 @@
 #include "RuleTransition.h"
 #include "TokenSource.h"
 #include "FailedPredicateException.h"
+#include "ParserRuleContext.h"
 
 
 /*
@@ -62,7 +63,9 @@ namespace org {
 
                 void DefaultErrorStrategy::endErrorCondition(Parser *recognizer) {
                     errorRecoveryMode = false;
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+#ifdef TODO
+               JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+#endif
                     delete lastErrorStates;
                     lastErrorIndex = -1;
                 }
@@ -259,7 +262,7 @@ namespace org {
                     return false;
                 }
 
-                org::antlr::v4::runtime::Token *DefaultErrorStrategy::singleTokenDeletion(Parser *recognizer) {
+                Token *DefaultErrorStrategy::singleTokenDeletion(Parser *recognizer) {
                     int nextTokenType = recognizer->getInputStream()->LA(2);
                     misc::IntervalSet *expecting = getExpectedTokens(recognizer);
                     if (expecting->contains(nextTokenType)) {
@@ -279,7 +282,7 @@ namespace org {
                     return nullptr;
                 }
 
-                org::antlr::v4::runtime::Token *DefaultErrorStrategy::getMissingSymbol(Parser *recognizer) {
+                Token *DefaultErrorStrategy::getMissingSymbol(Parser *recognizer) {
                     Token *currentSymbol = recognizer->getCurrentToken();
                     misc::IntervalSet *expecting = getExpectedTokens(recognizer);
                     int expectedTokenType = expecting->getMinElement(); // get any element
@@ -297,7 +300,7 @@ namespace org {
                     return (Token*)recognizer->getTokenFactory()->create(new std::pair<TokenSource*, CharStream*>(current->getTokenSource(), current->getTokenSource()->getInputStream()), expectedTokenType, tokenText, Token::DEFAULT_CHANNEL, -1, -1, current->getLine(), current->getCharPositionInLine());
                 }
 
-                org::antlr::v4::runtime::misc::IntervalSet *DefaultErrorStrategy::getExpectedTokens(Parser *recognizer) {
+                misc::IntervalSet *DefaultErrorStrategy::getExpectedTokens(Parser *recognizer) {
                     return recognizer->getExpectedTokens();
                 }
 
@@ -332,7 +335,7 @@ namespace org {
                     return std::wstring(L"'") + s + std::wstring(L"'");
                 }
 
-                org::antlr::v4::runtime::misc::IntervalSet *DefaultErrorStrategy::getErrorRecoverySet(Parser *recognizer) {
+                misc::IntervalSet *DefaultErrorStrategy::getErrorRecoverySet(Parser *recognizer) {
                     atn::ATN *atn = recognizer->getInterpreter()->atn;
                     RuleContext *ctx = recognizer->_ctx;
                     misc::IntervalSet *recoverSet = new misc::IntervalSet(0);

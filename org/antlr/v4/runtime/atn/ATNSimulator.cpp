@@ -47,6 +47,8 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
+                    dfa::DFAState * ATNSimulator::ERROR = new dfa::DFAState();
+                    
                     ATNSimulator::ATNSimulator() {
                         ERROR = new dfa::DFAState(new ATNConfigSet());
                         ERROR->stateNumber = INT32_MAX;
