@@ -44,8 +44,8 @@ namespace org {
 
                 class RuntimeException : public ANTLRException {
                 public:
-                    RuntimeException(const std::wstring msg);
-                    RuntimeException();
+                    RuntimeException(const std::wstring msg) : ANTLRException(msg) {}
+                    RuntimeException() {};
                 };
                 
                 /// <summary>
@@ -164,19 +164,19 @@ namespace org {
                     void InitializeInstanceFields();
                 };
 
-                // Recognition exceptions
+                // Recognition exceptions, TODO fill out the code
                 
                 class ParseCancellationException : public RecognitionException {
                 public:
-                    ParseCancellationException(const std::wstring msg);
-                    ParseCancellationException(RecognitionException*);
-                    ParseCancellationException();
+                    ParseCancellationException(const std::wstring msg) {};
+                    ParseCancellationException(RecognitionException*) {};
+                    ParseCancellationException() {};
                 };
                 
                 class EmptyStackException : public RecognitionException {
                 public:
-                    EmptyStackException(const std::wstring msg);
-                    EmptyStackException();
+                    EmptyStackException(const std::wstring msg) {}
+                    EmptyStackException() {};
                 };
                 
             }
