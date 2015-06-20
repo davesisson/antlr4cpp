@@ -114,6 +114,22 @@ namespace org {
                             return 0;
 #endif
                         }
+                        // This is a version
+                        template<typename T>
+                        static int hashCode(T data, int seed) {
+#ifdef TODO
+                            // This code isn't being presently used anyhow
+                            int hash = initialize(seed);
+                            for (auto value : data) {
+                                hash = update(hash, value);
+                            }
+                            
+                            hash = finish(hash, sizeof(data) / sizeof(data[0]));
+                            return hash;
+#else
+                            return 0;
+#endif
+                        }
 
                     private:
                         MurmurHash();

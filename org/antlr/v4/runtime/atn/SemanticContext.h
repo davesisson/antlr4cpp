@@ -87,7 +87,12 @@ namespace org {
                         
                         
                         template<typename T1, typename T2>
-                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext);
+                        bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
+#ifdef TODO
+                            Do something here, what happened to this code?
+#endif
+                            return false;
+                        }
 
                         static SemanticContext *And(SemanticContext *a, SemanticContext *b);
 
@@ -190,7 +195,7 @@ namespace org {
                     
                     class SemanticContext::OR : public SemanticContext {
                     public:
-                        const SemanticContext *opnds;
+                        const std::vector<SemanticContext*> opnds;
                         
                         OR(SemanticContext *a, SemanticContext *b);
                         
@@ -200,14 +205,11 @@ namespace org {
 
                         template<typename T1, typename T2>
                         bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
-                            // TODO: opnds is not a container type (const
-                            // SemanticContext *).  Should it be changed to a
-                            // container type?
-                            //                        for (auto opnd : opnds) {
-                            //                            if (opnd->eval(parser, outerContext)) {
-                            //                                return true;
-                            //                            }
-                            //                        }
+                            for (auto opnd : opnds) {
+                                if (opnd->eval(parser, outerContext)) {
+                                    return true;
+                                }
+                            }
                             return false;
                         }
 
