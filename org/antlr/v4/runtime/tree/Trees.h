@@ -80,7 +80,7 @@ namespace org {
 
                         static std::wstring getNodeText(Tree *t, Parser *recog);
 
-                        static std::wstring getNodeText(Tree *t, std::vector<std::wstring> &ruleNames);
+                        static std::wstring getNodeText(Tree *t, const std::vector<std::wstring> &ruleNames);
 
 
                         /// <summary>
@@ -97,7 +97,7 @@ namespace org {
 
                         static std::vector<ParseTree*> *findAllRuleNodes(ParseTree *t, int ruleIndex);
 
-                        static std::vector<ParseTree*> findAllNodes(ParseTree *t, int index, bool findTokens);
+                        static std::vector<ParseTree*> *findAllNodes(ParseTree *t, int index, bool findTokens);
 
                         template<typename T1>
                         static void _findAllNodes(ParseTree *t, int index, bool findTokens, std::vector<T1> nodes) {
