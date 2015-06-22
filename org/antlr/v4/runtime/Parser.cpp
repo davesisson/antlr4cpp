@@ -60,6 +60,8 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
+                std::map<std::wstring, atn::ATN*> * Parser::bypassAltsAtnCache = new std::map<std::wstring, atn::ATN*>();
+                
                 Parser::TraceListener::TraceListener(Parser *outerInstance) : outerInstance(outerInstance) {
                 }
 
@@ -250,10 +252,6 @@ namespace org {
                     return _input->getTokenSource()->getTokenFactory();
                 }
 
-                template<typename T1>
-                void Parser::setTokenFactory(TokenFactory<T1> *factory) {
-                    _input->getTokenSource()->setTokenFactory(factory);
-                }
 
                 atn::ATN *Parser::getATNWithBypassAlts() {
                     std::wstring serializedAtn = getSerializedATN();

@@ -1,9 +1,6 @@
-﻿#include "MultiMap.h"
-
 /*
  * [The "BSD license"]
- *  Copyright (c) 2013 Terence Parr
- *  Copyright (c) 2013 Dan McLaughlin
+ *  Copyright (c) 2015 Dan McLaughlin
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -30,16 +27,42 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "UUID.h"
 
-namespace org {
-    namespace antlr {
-        namespace v4 {
-            namespace runtime {
-                namespace misc {
-
-
-                }
-            }
-        }
-    }
+UUID::UUID(long mostSigBits, long leastSigBits) {
+    throw new std::exception();
 }
+UUID::UUID(const UUID &other) {
+    throw new std::exception();
+};
+
+UUID::~UUID() {
+    throw new std::exception();
+};
+
+const UUID &UUID::operator=(const UUID &rhs) {
+    throw new std::exception();
+};
+bool UUID::operator==(const UUID &rhs) const {
+    throw new std::exception();
+};
+bool UUID::equals(const UUID &rhs) const {
+    throw new std::exception();
+};
+bool UUID::equals(const UUID *rhs) const {
+    throw new std::exception();
+};
+
+UUID *UUID::fromString(const std::wstring &name) {
+    throw new std::exception();
+};
+std::wstring UUID::toString() const {
+    throw new std::exception();
+};
+
+long UUID::getLeastSignificantBits() const {
+    throw new std::exception();
+};
+long UUID::getMostSignificantBits() const {
+    throw new std::exception();
+};
