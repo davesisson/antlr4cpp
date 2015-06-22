@@ -1,14 +1,21 @@
 ﻿#pragma once
 
-#include "TokenFactory.h"
-#include "ATNSimulator.h"
-
-#include "Declarations.h"
-
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
+#include <mutex>
+
+#include "TokenFactory.h"
+#include "ATNSimulator.h"
+#include "Declarations.h"
+//#include "ConsoleErrorListener.h" // Under a TODO
+#include "Token.h"
+#include "StringBuilder.h"
+//#include "ProxyErrorListener.h" // Under a TODO These two are causing recursive loop includes
+#include "Strings.h"
+#include "Utils.h"
+#include "RecognitionException.h"
 
 /*
  * [The "BSD license"]
@@ -54,12 +61,17 @@ namespace org {
                     static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const _ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;
-
+                    //Mutex to manage synchronized access for multithreading
+                    std::mutex mtx;
+                    
+#ifdef TODO 
+                    // Damn code isn't even being used, why is it here?
                 private:
-                    class CopyOnWriteArrayListAnonymousInnerClassHelper : public std::list<ANTLRErrorListener*> {
+                    class CopyOnWriteArrayListAnonymousInnerClassHelper : public std::vector<ANTLRErrorListener*> {
                     public:
                         CopyOnWriteArrayListAnonymousInnerClassHelper();
                     };
+#endif
 
                 protected:
                     ATNInterpreter _interp;
@@ -201,3 +213,7 @@ namespace org {
         }
     }
 }
+
+#include "Recognizer.inl"
+
+

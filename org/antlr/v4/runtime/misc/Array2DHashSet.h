@@ -1,12 +1,17 @@
 ﻿#pragma once
 
-#include "AbstractEqualityComparator.h"
-#include "ObjectEqualityComparator.h"
-#include "MurmurHash.h"
 #include <string>
 #include <set>
 #include <iterator>
 #include <vector>
+
+#include "AbstractEqualityComparator.h"
+#include "ObjectEqualityComparator.h"
+#include "MurmurHash.h"
+#include "Array2DHashSet.h"
+#include "Exceptions.h"
+#include "StringBuilder.h"
+#include "Arrays.h"
 
 /*
  * [The "BSD license"]
@@ -51,24 +56,29 @@ namespace org {
                     class Array2DHashSet : public std::set<T> {
                     protected:
                         // Daughter iterator class
-                        class SetIterator : public std::iterator<std::random_access_iterator_tag, T*> {
+                        class SetIterator : public std::iterator<std::random_access_iterator_tag, T> {
 
-                            Array2DHashSet<T*> *const outerInstance;
+                            Array2DHashSet<T> *const outerInstance;
 
                         public:
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: final T[] data;
+#ifdef TODO
+                            // JAVA TO C++ CONVERTER WARNING: Since the array size is not known in
+                            // this declaration, Java to C++ Converter has converted this array to
+                            // a pointer.  You will need to call 'delete[]' where appropriate:
+                            ORIGINAL LINE: final T[] data;
+#endif
                             const T *data;
                             int nextIndex;
                             bool removed;
 
-                            SetIterator(Array2DHashSet<T> *outerInstance, T data[]);
+                            SetIterator(Array2DHashSet<T*> * const outerInstance, T data[]);
 
-                            virtual bool hasNext() override;
+                            // TODO; these are java overrides probably, not STL
+                            virtual bool hasNext();
 
-                            virtual T *next() override;
+                            virtual T *next();
 
-                            virtual void remove() override;
+                            virtual void remove();
 
                         private:
                             void InitializeInstanceFields();
@@ -80,13 +90,9 @@ namespace org {
                         static const double LOAD_FACTOR;
 
                     protected:
-//JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
-//ORIGINAL LINE: @NotNull protected final AbstractEqualityComparator<? super T> comparator;
-                        AbstractEqualityComparator<void*> *const comparator;
-
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: protected T[][] buckets;
-                        T **buckets;
+                        AbstractEqualityComparator<T> *const comparator;
+                        
+                        std::vector<std::vector<T>> buckets;
 
                         /// <summary>
                         /// How many elements in set </summary>
@@ -98,7 +104,8 @@ namespace org {
                         int initialBucketCapacity;
 
                     public:
-                        Array2DHashSet() : comparator(nullptr) { //this(nullptr, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
+                        Array2DHashSet() : comparator(nullptr) {
+                            //this(nullptr, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
                         }
 
                         template<typename T1>
@@ -129,7 +136,7 @@ namespace org {
                     public:
                         virtual int hashCode();
 
-                        virtual bool equals(void *o);
+                        virtual bool equals(T o);
 
                     protected:
                         virtual void expand();
@@ -147,7 +154,7 @@ namespace org {
 
                         virtual std::iterator<std::random_access_iterator_tag, T> *iterator();
 
-                        virtual T *toArray();
+                        virtual std::vector<T> *toArray();
 
                         template<typename U>
                         U *toArray(U a[]);
@@ -187,7 +194,9 @@ namespace org {
                         /// <returns> {@code o} if it could be an instance of {@code T}, otherwise
                         /// {@code null}. </returns>
                     protected:
-                    virtual T asElementType(void *o);
+                        virtual T asElementType(void *o) {
+                            throw new std::exception();
+                        };
 
                         /// <summary>
                         /// Return an array of {@code T[]} with length {@code capacity}.
@@ -201,7 +210,7 @@ namespace org {
                         /// </summary>
                         /// <param name="capacity"> the length of the array to return </param>
                         /// <returns> the newly constructed array </returns>
-                        virtual std::vector<T> *createBucket(int capacity);
+                        virtual std::vector<T> * createBucket(int capacity);
 
 
                     private:
@@ -213,3 +222,5 @@ namespace org {
         }
     }
 }
+
+#include "Array2DHashSet.inl"

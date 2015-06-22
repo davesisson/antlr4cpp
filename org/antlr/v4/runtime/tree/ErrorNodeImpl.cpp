@@ -40,34 +40,43 @@ namespace org {
 
                     ErrorNodeImpl::ErrorNodeImpl(Token *token) : TerminalNodeImpl(token) {
                     }
-
-
-                    template<typename T, typename T1>
-                    T ErrorNodeImpl::accept(ParseTreeVisitor<T1> *visitor) {
-                        return visitor->visitErrorNode(this);
-                    }
-                    
                     
                     // From Terminal Node
-                    Token *getSymbol();
+                    Token *ErrorNodeImpl::getSymbol() {
+                        throw new std::exception();
+                    };
                     
                     // From Parse Tree
-//                    ParseTree *getParent() override;
-//                    ParseTree *getChild(int i) override;
-                    std::wstring getText();
-                    std::wstring toStringTree(Parser *parser);
+                    ParseTree *ErrorNodeImpl::getParent(){
+                        throw new std::exception();
+                    };
+                    ParseTree *ErrorNodeImpl::getChild(int i){
+                        throw new std::exception();
+                    };
+                    std::wstring ErrorNodeImpl::getText() {
+                        throw new std::exception();
+                    };
+                    std::wstring ErrorNodeImpl::toStringTree(Parser *parser){
+                        throw new std::exception();
+                    };;
                     
                     // From SyntaxTree
-                    misc::Interval *getSourceInterval();
-                    
-                    // From Tree
-                    //Tree *getParent();
-                    void *getPayload();
-                    //Tree *getChild(int i);
-                    int getChildCount();
-                    //std::wstring toStringTree();
+                    misc::Interval *ErrorNodeImpl::getSourceInterval(){
+                        throw new std::exception();
+                    };;
                     
                     
+                    void *ErrorNodeImpl::getPayload(){
+                        throw new std::exception();
+                    };
+
+                    int ErrorNodeImpl::getChildCount(){
+                        throw new std::exception();
+                    };;
+
+                    std::wstring ErrorNodeImpl::toStringTree() {
+                        throw new std::exception();
+                    };
                     
                 }
             }

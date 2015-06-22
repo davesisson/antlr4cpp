@@ -5,6 +5,8 @@
 #include <string>
 
 #include "ATNState.h"
+#include "PredictionContext.h"
+#include "SemanticContext.h"
 
 /*
  * [The "BSD license"]
@@ -121,18 +123,46 @@ namespace org {
 
 						bool operator==(const ATNConfig& other) const
 						{
-							if (this == nullptr && other == nullptr) return true;
-							if (other == nullptr) return false;
-							//TODO determine the best way to compare ATNConfig
-							return alt == other.alt && state->stateNumber == other.state->stateNumber/* &&
-								((context == nullptr && other.context == nullptr) || (context != nullptr &&
-								context->equals(other.context))) && semanticContext->equals(other.semanticContext)*/;
+							return alt == other.alt && state->stateNumber == other.state->stateNumber &&
+								((context == nullptr && other.context == nullptr) || (context != nullptr && context->equals(other.context))) && semanticContext->equals(other.semanticContext);
 						}
 					
                         virtual std::wstring toString();
 
                         template<typename T1, typename T2>
-                        std::wstring toString(Recognizer<T1, T2> *recog, bool showAlt);
+                        std::wstring toString(Recognizer<T1, T2> *recog, bool showAlt) {
+#ifdef TODO
+                            StringBuilder *buf = new StringBuilder();
+                            //		if ( state.ruleIndex>=0 ) {
+                            //			if ( recog!=null ) buf.append(recog.getRuleNames()[state.ruleIndex]+":");
+                            //			else buf.append(state.ruleIndex+":");
+                            //		}
+                            buf->append(L'(');
+                            buf->append(state);
+                            if (showAlt) {
+                                buf->append(L",");
+                                buf->append(alt);
+                            }
+                            if (context != nullptr) {
+                                buf->append(L",[");
+                                //                            :
+                                buf->append(context->toString());
+                                buf->append(L"]");
+                            }
+                            if (semanticContext != nullptr && semanticContext != SemanticContext::NONE) {
+                                buf->append(L",");
+                                buf->append(semanticContext);
+                            }
+                            if (reachesIntoOuterContext > 0) {
+                                buf->append(L",up=")->append(reachesIntoOuterContext);
+                            }
+                            buf->append(L')');
+                            
+                            return buf->toString();
+#else
+                            return std::wstring(L"");
+#endif
+                        }
 
                     private:
                         void InitializeInstanceFields();

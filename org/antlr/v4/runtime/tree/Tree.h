@@ -72,6 +72,8 @@ namespace org {
                         ///  {@code (root child1 .. childN)}. Print just a node if this is a leaf.
                         /// </summary>
                         virtual std::wstring toStringTree() = 0;
+
+                        virtual std::wstring toString() = 0;
                     };
 
                 }

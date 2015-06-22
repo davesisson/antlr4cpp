@@ -1,7 +1,35 @@
 ﻿#include "Utils.h"
+#include <exception>
 
-// TODO:  Come back to this after the base runtime works.
-#if 0
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 namespace org {
     namespace antlr {
@@ -9,7 +37,26 @@ namespace org {
             namespace runtime {
                 namespace misc {
 
-template<typename T>
+                    std::wstring Utils::escapeWhitespace(const std::wstring &s, bool escapeSpaces) {
+                        throw new std::exception();
+                    }
+                    wchar_t *Utils::toCharArray(const std::vector<int> *data) {
+#ifdef TODO
+                        if (data == nullptr) {
+                            return nullptr;
+                        }
+                        wchar_t cdata[data->size()];
+                        for (int i = 0; i < data->size(); i++) {
+                            cdata[i] = static_cast<wchar_t>(data->get(i));
+                        }
+                        return cdata;
+#else
+                        throw new std::exception();
+#endif
+                    }
+                    // TODO:  Come back to this after the base runtime works.
+#ifdef TODO
+                    template<typename T>
                     std::wstring Utils::join(Iterator<T> *iter, const std::wstring &separator) {
                         StringBuilder *buf = new StringBuilder();
                         while (iter->hasNext()) {
@@ -19,11 +66,10 @@ template<typename T>
                             }
                             iter++;
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
 
-template<typename T>
+                    template<typename T>
                     std::wstring Utils::join(T array_Renamed[], const std::wstring &separator) {
                         StringBuilder *builder = new StringBuilder();
                         for (int i = 0; i < sizeof(array_Renamed) / sizeof(array_Renamed[0]); i++) {
@@ -33,7 +79,6 @@ template<typename T>
                             }
                         }
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return builder->toString();
                     }
 
@@ -52,7 +97,6 @@ template<typename T>
                                 buf->append(c);
                             }
                         }
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
 
@@ -84,7 +128,6 @@ template<typename T>
                     }
 
                     void Utils::ThreadAnonymousInnerClassHelper::run() {
-//JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
                         synchronized(lock) {
                             while (window->isVisible()) {
                                 try {
@@ -116,19 +159,10 @@ template<typename T>
                         return m;
                     }
 
-                    wchar_t *Utils::toCharArray(const vector<int> *data) {
-                        if (data == nullptr) {
-                            return nullptr;
-                        }
-                        wchar_t cdata[data->size()];
-                        for (int i = 0; i < data->size(); i++) {
-                            cdata[i] = static_cast<wchar_t>(data->get(i));
-                        }
-                        return cdata;
-                    }
+#endif
                 }
             }
         }
     }
 }
-#endif
+

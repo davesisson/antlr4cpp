@@ -16,6 +16,8 @@
 #include "Interval.h"
 #include "ATNConfigSet.h"
 #include "ANTLRErrorListener.h"
+#include "PredictionMode.h"
+#include "Utils.h"
 
 // TODO: Assert is a really poor mans debugging, remove this and use exception 
 // handling instead. 
@@ -347,8 +349,10 @@ namespace org {
 
                             std::vector<BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
                             if (debug) {
-								std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
-                                std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="  << getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
+#ifdef TODO
+                                std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
+                                std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="  << PredictionModeClass::getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
+#endif
                             }
 
                                         //			System.out.println("altSubSets: "+altSubSets);
@@ -1048,13 +1052,11 @@ namespace org {
                         return to;
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *ParserATNSimulator::addDFAState(dfa::DFA *dfa, dfa::DFAState *D) {
+                    dfa::DFAState *ParserATNSimulator::addDFAState(dfa::DFA *dfa, dfa::DFAState *D) {
                         if (D == ERROR) {
                             return D;
                         }
 
-
-                        //synchronized(dfa->states) {
 						if (true) {
 							std::lock_guard<std::mutex> lck(mtx);
                             dfa::DFAState *existing = dfa->states->at(D);
@@ -1081,8 +1083,7 @@ namespace org {
                             std::wcout << L"reportAttemptingFullContext decision=" << dfa->decision << L":" << configs << L", input=" << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
-							// TODO                                                                                         convert conflictingAlts back to a BitSet class?
-							parser->getErrorListenerDispatch()->reportAttemptingFullContext(parser, dfa, startIndex, stopIndex, &conflictingAlts->data, configs);
+							parser->getErrorListenerDispatch()->reportAttemptingFullContext(parser, dfa, startIndex, stopIndex, conflictingAlts, configs);
                         }
                     }
 
@@ -1118,8 +1119,7 @@ namespace org {
                             std::wcout << L"reportAmbiguity " << ambigAlts << L":" << configs << L", input=" << parser->getTokenStream()->getText(interval) << std::endl;
                         }
                         if (parser != nullptr) {
-							// TODO                                                                                         convert ambigAlts back to a BitSet class?
-							parser->getErrorListenerDispatch()->reportAmbiguity(parser, dfa, startIndex, stopIndex, exact, &ambigAlts->data, configs);
+							parser->getErrorListenerDispatch()->reportAmbiguity(parser, dfa, startIndex, stopIndex, exact, ambigAlts, configs);
                         }
                     }
 

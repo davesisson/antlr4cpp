@@ -1,3 +1,8 @@
+#include <codecvt>
+#include <locale>
+
+#include "Strings.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2014 Dan McLaughlin
@@ -27,7 +32,14 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "Strings.h"
+
+ std::string ws2s(const std::wstring& wstr) {
+ 	// TODO: not available on Linux
+ 	typedef std::codecvt_utf8<wchar_t> convert_typeX;
+ 	std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+	return converterX.to_bytes(wstr);
+ }
 
 void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to)
 {

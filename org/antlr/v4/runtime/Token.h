@@ -60,8 +60,9 @@ namespace org {
                     static const int MIN_USER_TOKEN_TYPE = 1;
 
                     static const int _EOF = IntStream::_EOF;
-
-                    virtual ~Token() = 0;
+ 
+                    // This isn't necessary
+//                    virtual ~Token() = 0;
 
                     /// <summary>
                     /// All tokens go to the parser (unless skip() is called in that rule)

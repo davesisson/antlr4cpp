@@ -42,15 +42,15 @@ namespace org {
                         this->symbol = symbol;
                     }
 
-                    org::antlr::v4::runtime::tree::ParseTree *TerminalNodeImpl::getChild(int i) {
+                    tree::ParseTree *TerminalNodeImpl::getChild(int i) {
                         return nullptr;
                     }
 
-                    org::antlr::v4::runtime::Token *TerminalNodeImpl::getSymbol() {
+                    Token *TerminalNodeImpl::getSymbol() {
                         return symbol;
                     }
 
-                    org::antlr::v4::runtime::tree::ParseTree *TerminalNodeImpl::getParent() {
+                    tree::ParseTree *TerminalNodeImpl::getParent() {
                         return parent;
                     }
 
@@ -69,12 +69,6 @@ namespace org {
 
                     int TerminalNodeImpl::getChildCount() {
                         return 0;
-                    }
-
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
-                    template<typename T, typename T1> //where T1 : T
-                    T TerminalNodeImpl::accept(ParseTreeVisitor<T1> *visitor) {
-                        return visitor->visitTerminal(this);
                     }
 
                     std::wstring TerminalNodeImpl::getText() {

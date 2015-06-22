@@ -2,11 +2,10 @@
 
 #include "Token.h"
 #include "Declarations.h"
+#include "BitSet.h"
 
 #include <set>
 #include <vector>
-#include <bitset>
-
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -50,8 +49,7 @@ namespace org {
                         /// </summary>
                     public:
                         static const int HIT_PRED = Token::INVALID_TYPE;
-                        static const int BITSET_SIZE = 1024;
-                        
+                                               
                         atn::ATN *const atn;
 
                         LL1Analyzer(atn::ATN *atn);
@@ -133,7 +131,7 @@ namespace org {
                         /// outermost context is reached. This parameter has no effect if {@code ctx}
                         /// is {@code null}. </param>
                     protected:
-                        virtual void _LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::set<ATNConfig*> *lookBusy, std::bitset<BITSET_SIZE> *calledRuleStack, bool seeThruPreds, bool addEOF);
+                        virtual void _LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::set<ATNConfig*> *lookBusy, BitSet *calledRuleStack, bool seeThruPreds, bool addEOF);
                     };
 
                 }

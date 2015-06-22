@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#include "Recognizer.h"
-#include "Declarations.h"
-#include "Exceptions.h"
-
 #include <string>
 #include <stdexcept>
+
+#include "Recognizer.h" 
+#include "Declarations.h"
+#include "Exceptions.h"
 
 
 /*
@@ -44,8 +44,8 @@ namespace org {
 
                 class RuntimeException : public ANTLRException {
                 public:
-                    RuntimeException(const std::wstring msg);
-                    RuntimeException();
+                    RuntimeException(const std::wstring msg) : ANTLRException(msg) {}
+                    RuntimeException() {};
                 };
                 
                 /// <summary>
@@ -59,8 +59,9 @@ namespace org {
                     /// <summary>
                     /// The <seealso cref="Recognizer"/> where this exception originated. </summary>
                 private:
+#ifdef TODO
                     Recognizer<void*, void*> *const recognizer;
-
+#endif
                     RuleContext *const ctx;
 
                     IntStream *const input;
@@ -75,14 +76,28 @@ namespace org {
                     int offendingState;
 
                 public:
+#ifdef TODO
                     template<typename T1, typename T2>
-                    RecognitionException(Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx);
+                    RecognitionException(Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx) {
+                        InitializeInstanceFields();
+                        if (recognizer != nullptr) {
+                            this->offendingState = recognizer->getState();
+                        }
+                    }
 
                     template<typename T1, typename T2>
-                    RecognitionException(const std::wstring &message, Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx);
-                    
+                    RecognitionException(const std::wstring &message, Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx){
+                        InitializeInstanceFields();
+                        if (recognizer != nullptr) {
+                            this->offendingState = recognizer->getState();
+                        }
+                    }
+               
                     RecognitionException() : ctx(nullptr), recognizer(nullptr), input(nullptr) {}
+#else
+                    RecognitionException() : ctx(nullptr), input(nullptr) {}
                     
+#endif
                     /// <summary>
                     /// Get the ATN state number the parser was in at the time the error
                     /// occurred. For <seealso cref="NoViableAltException"/> and
@@ -142,25 +157,26 @@ namespace org {
                     /// <returns> The recognizer where this exception occurred, or {@code null} if
                     /// the recognizer is not available. </returns>
                 public:
+#ifdef TODO
                     virtual Recognizer<void*, void*> *getRecognizer();
-
+#endif
                 private:
                     void InitializeInstanceFields();
                 };
 
-                // Recognition exceptions
+                // Recognition exceptions, TODO fill out the code
                 
                 class ParseCancellationException : public RecognitionException {
                 public:
-                    ParseCancellationException(const std::wstring msg);
-                    ParseCancellationException(RecognitionException*);
-                    ParseCancellationException();
+                    ParseCancellationException(const std::wstring msg) {};
+                    ParseCancellationException(RecognitionException*) {};
+                    ParseCancellationException() {};
                 };
                 
                 class EmptyStackException : public RecognitionException {
                 public:
-                    EmptyStackException(const std::wstring msg);
-                    EmptyStackException();
+                    EmptyStackException(const std::wstring msg) {}
+                    EmptyStackException() {};
                 };
                 
             }

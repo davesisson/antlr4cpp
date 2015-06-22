@@ -3,7 +3,10 @@
 #include <string>
 #include <vector>
 #include <set>
+
 #include "Declarations.h"
+#include "TerminalNode.h"
+#include "ParserRuleContext.h"
 
 /*
  * [The "BSD license"]
@@ -45,6 +48,7 @@ namespace org {
                     class Trees {
 
                     public:
+#ifdef TODO
                         static std::wstring getPS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fontName, int fontSize);
 
                         static std::wstring getPS(Tree *t, std::vector<std::wstring> &ruleNames);
@@ -52,7 +56,7 @@ namespace org {
                         static void writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName, const std::wstring &fontName, int fontSize); //throw(IOException);
 
                         static void writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName);// throw(IOException);
-
+#endif
                         /// <summary>
                         /// Print out a whole tree in LISP form. <seealso cref="#getNodeText"/> is used on the
                         ///  node payloads to get the text for the nodes.  Detect
@@ -72,11 +76,11 @@ namespace org {
                         ///  node payloads to get the text for the nodes.  Detect
                         ///  parse trees and extract data appropriately.
                         /// </summary>
-                        static std::wstring toStringTree(Tree *t, std::vector<std::wstring> &ruleNames);
+                        static std::wstring toStringTree(Tree *t, const std::vector<std::wstring> &ruleNames);
 
                         static std::wstring getNodeText(Tree *t, Parser *recog);
 
-                        static std::wstring getNodeText(Tree *t, std::vector<std::wstring> &ruleNames);
+                        static std::wstring getNodeText(Tree *t, const std::vector<std::wstring> &ruleNames);
 
 
                         /// <summary>
@@ -93,10 +97,27 @@ namespace org {
 
                         static std::vector<ParseTree*> *findAllRuleNodes(ParseTree *t, int ruleIndex);
 
-                        static std::vector<ParseTree*> findAllNodes(ParseTree *t, int index, bool findTokens);
+                        static std::vector<ParseTree*> *findAllNodes(ParseTree *t, int index, bool findTokens);
 
                         template<typename T1>
-                        static void _findAllNodes(ParseTree *t, int index, bool findTokens, std::vector<T1> nodes);
+                        static void _findAllNodes(ParseTree *t, int index, bool findTokens, std::vector<T1> nodes) {
+                            // check this node (the root) first
+                            if (findTokens && (TerminalNode*)(t) != nullptr) {
+                                TerminalNode *tnode = (TerminalNode*)(t);
+                                if (tnode->getSymbol()->getType() == index) {
+                                    nodes.push_back(t);
+                                }
+                            } else if (!findTokens && (ParserRuleContext*)(t) != nullptr) {
+                                ParserRuleContext *ctx = (ParserRuleContext*)(t);
+                                if (ctx->getRuleIndex() == index) {
+                                    nodes.push_back(t);
+                                }
+                            }
+                            // check children
+                            for (int i = 0; i < t->getChildCount(); i++) {
+                                _findAllNodes(t->getChild(i), index, findTokens, nodes);
+                            }
+                        }
 
                         static std::vector<ParseTree*>* descendants(ParseTree *t);
 

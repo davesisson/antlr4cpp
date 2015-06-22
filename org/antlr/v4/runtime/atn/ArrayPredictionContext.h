@@ -60,7 +60,9 @@ namespace org {
                         ArrayPredictionContext(SingletonPredictionContext *a); //this(new PredictionContext[] {a.parent}, new int[] {a.returnState});
 
                         ArrayPredictionContext(PredictionContext *parents, int returnStates[]);
-
+                        ArrayPredictionContext(std::vector<PredictionContext *>parents,
+                                               const std::vector<int> returnStates);
+                        
                         virtual bool isEmpty() override;
 
                         virtual int size() override;

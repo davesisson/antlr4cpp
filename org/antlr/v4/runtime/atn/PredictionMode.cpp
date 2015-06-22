@@ -30,7 +30,6 @@
 
 #include "PredictionMode.h"
 
-#include <bitset>
 #include <assert.h>
 #include "AbstractEqualityComparator.h"
 
@@ -174,7 +173,7 @@ namespace org {
 						return true;
 					}
 
-					int PredictionModeClass::getUniqueAlt(const std::vector<BitSet>& altsets) {
+                    int PredictionModeClass::getUniqueAlt(const std::vector<BitSet>& altsets) {
 						BitSet all = getAlts(altsets);
 						if (all.count() == 1) {
 							return all.nextSetBit(0);

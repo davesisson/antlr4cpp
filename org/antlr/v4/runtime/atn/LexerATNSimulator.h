@@ -1,8 +1,9 @@
 ﻿#pragma once
 
-#include "ATNSimulator.h"
 #include <string>
 #include <iostream>
+
+#include "ATNSimulator.h"
 #include "Declarations.h"
 
 /*

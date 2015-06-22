@@ -71,12 +71,12 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-
+                    const int ATNDeserializer::SERIALIZED_VERSION;
 
                     /* This value should never change. Updates following this version are
                      * reflected as change in the unique ID SERIALIZED_UUID.
                      */
-                    //UUID *const ATNDeserializer::BASE_SERIALIZED_UUID = UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");
+                    UUID *const ATNDeserializer::BASE_SERIALIZED_UUID = UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");
                     UUID *const ATNDeserializer::ADDED_PRECEDENCE_TRANSITIONS = UUID::fromString(L"1DA0C57D-6C06-438A-9B27-10BCB3CE0F61");
                     const std::vector<UUID*> ATNDeserializer::SUPPORTED_UUIDS = supportedUUIDsInitializer();
                     UUID *const ATNDeserializer::SERIALIZED_UUID = ADDED_PRECEDENCE_TRANSITIONS;

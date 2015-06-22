@@ -55,7 +55,7 @@ namespace org {
                 class ANTLRFileStream;
                 class ANTLRInputStream;
                 class BailErrorStrategy;
-                class BaseErrorListener;
+//                class BaseErrorListener;
                 class BufferedTokenStream;
                 class CharStream;
                 class CommonToken;
@@ -78,15 +78,15 @@ namespace org {
                 class ParserRuleContext;
                 class ProxyErrorListener;
                 class RecognitionException;
-                template<typename T1, typename T2> class Recognizer;
+//                template<typename T1, typename T2> class Recognizer;
                 class RuleContext;
                 class Token;
-                template<typename Symbol> class TokenFactory;
+//                template<typename Symbol> class TokenFactory;
                 class TokenSource;
                 class TokenStream;
                 class TokenStreamRewriter;
                 class UnbufferedCharStream;
-                template<typename T> class UnbufferedTokenStream;
+//                template<typename T> class UnbufferedTokenStream;
                 class WritableToken;
                 
                 namespace misc {

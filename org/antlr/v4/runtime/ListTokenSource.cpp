@@ -36,19 +36,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                template<typename T1>
-                ListTokenSource::ListTokenSource(std::vector<T1> tokens) {
-                }
-
-                template<typename T1>
-                ListTokenSource::ListTokenSource(std::vector<T1> tokens, const std::string &sourceName) : tokens(tokens), sourceName(sourceName) {
-                    InitializeInstanceFields();
-                    if (tokens.empty()) {
-                        throw L"tokens cannot be null";
-                    }
-
-                }
-
                 int ListTokenSource::getCharPositionInLine() {
                     if (i < tokens.size()) {
                         return ((Token*)tokens[i])->getCharPositionInLine();
@@ -154,11 +141,6 @@ namespace org {
                     }
 
                     return "List";
-                }
-
-                template<typename T1>
-                void ListTokenSource::setTokenFactory(TokenFactory<T1> *factory) {
-                    this->_factory = factory;
                 }
 
                 TokenFactory<CommonToken*> *ListTokenSource::getTokenFactory() {

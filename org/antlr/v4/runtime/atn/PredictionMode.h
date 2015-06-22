@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include <bitset>
 #include <map>
 #include <vector>
 
@@ -77,9 +76,8 @@ namespace org {
 						LL_EXACT_AMBIG_DETECTION
 					};
 
-					class PredictionModeClass{
+					class PredictionModeClass {
 
-						typedef std::bitset<BitSet::BITSET_SIZE> bitset;
 					public:
 						/// <summary>
 						/// Computes the SLL prediction termination condition.
@@ -476,7 +474,7 @@ namespace org {
 						/// <seealso cref="ATN#INVALID_ALT_NUMBER"/>.
 						/// </summary>
 						/// <param name="altsets"> a collection of alternative subsets </param>
-						int getUniqueAlt(const std::vector<BitSet> &altsets);
+						static int getUniqueAlt(const std::vector<BitSet> &altsets);
 
 						/// <summary>
 						/// Gets the complete set of represented alternatives for a collection of

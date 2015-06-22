@@ -1,10 +1,7 @@
-﻿#include "Recognizer.h"
-#include "ConsoleErrorListener.h"
-#include "Token.h"
-#include "StringBuilder.h"
-#include "ProxyErrorListener.h"
-#include "Strings.h"
-#include "Utils.h"
+#pragma once
+// #ifndef _recognizer_
+// #define _recognizer_ 1
+
 
 /*
  * [The "BSD license"]
@@ -36,30 +33,43 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-               template<typename T1, typename T2>
+                template<typename T1, typename T2>
+                std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const
+                Recognizer<T1, T2>::_tokenTypeMapCache;
+                
+                template<typename T1, typename T2>
+                std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const
+                Recognizer<T1, T2>::_ruleIndexMapCache;
+                
+                template<typename T1, typename T2>
                 std::map<std::wstring, int> *Recognizer<T1, T2>::getTokenTypeMap() {
                     std::vector<std::wstring> tokenNames = getTokenNames();
                     if (tokenNames.empty()) {
                         throw L"The current recognizer does not provide a list of token names.";
                     }
-#ifdef TODO
-                    //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    //synchronized(tokenTypeMapCache) {
-                        std::map<std::wstring, int> *result = tokenTypeMapCache->get(tokenNames);
+
+
+                    {   // mutex lock
+                        std::lock_guard<std::mutex> lck(mtx);
+                        std::map<std::wstring, int> *result = _tokenTypeMapCache.at(tokenNames);
                         if (result == nullptr) {
-                            result = misc::Utils::toMap(tokenNames);
-                            result->put(L"EOF", Token::_EOF);
-                            result = std::vector::unmodifiableMap(result);
-                            tokenTypeMapCache->put(tokenNames, result);
+                            // From Java - why ? result = misc::Utils::toMap(tokenNames);
+                            (*result)[L"EOF"] = Token::_EOF;
+                            // From Java - why ? result = std::vector::unmodifiableMap(result);
+#ifdef TODO
+                            // I'm truly stuck on this - FIXME SOON
+                            _tokenTypeMapCache[tokenNames] = result;
+#endif
                         }
 
                         return result;
-                    //}
-#endif
+                    }
+
                 }
 
                 template<typename T1, typename T2>
@@ -69,35 +79,44 @@ namespace org {
                         throw L"The current recognizer does not provide a list of rule names.";
                     }
 
-                    //JAVA TO C++ CONVERTER TODO TASK: There is no built-in support for multithreading in native C++:
-                    //synchronized(ruleIndexMapCache) {
-                    std::map<std::wstring, int> *result = _ruleIndexMapCache.at(ruleNames);
+                    {
+                        std::lock_guard<std::mutex> lck(mtx);
+                        std::map<std::wstring, int> *result = _ruleIndexMapCache.at(ruleNames);
                     
-                    if (result == nullptr) {
-                        result = Utils::toMap(ruleNames);
-#ifdef TODO             // Why isn't this working??
-                        _ruleIndexMapCache->insert(ruleNames, result);
+                        if (result == nullptr) {
+                            result = Utils::toMap(ruleNames);
+#ifdef TODO
+                            _ruleIndexMapCache.insert(ruleNames, result);
 #endif
+                        }
+                        return result;
                     }
-
-                    return result;
-                    //}
+                    return nullptr;
                 }
 
                 template<typename T1, typename T2>
                 int Recognizer<T1, T2>::getTokenType(const std::wstring &tokenName) {
+#ifdef TODO
                     int ttype = getTokenTypeMap()->get(tokenName);
                     if (ttype != Token::INVALID_TYPE) {
                         return ttype;
                     }
+#endif
                     return Token::INVALID_TYPE;
                 }
                 
                 template<typename T1, typename T2>
                 std::wstring Recognizer<T1, T2>::getErrorHeader(RecognitionException *e) {
+#ifdef TODO 
+                    // We're having issues with cross header dependencies, these two classes will need to be
+                    // rewritten to remove that. 
                     int line = e->getOffendingToken()->getLine();
                     int charPositionInLine = e->getOffendingToken()->getCharPositionInLine();
                     return std::wstring(L"line ") + std::to_wstring(line) + std::wstring(L":") + std::to_wstring(charPositionInLine);
+#else
+                    return std::wstring(L"");
+#endif
+                    
                 }
                 
                 template<typename T1, typename T2>
@@ -129,13 +148,15 @@ namespace org {
                         throw L"listener cannot be null.";
                     }
                     
-                    _listeners.insert(listener);
+                    _listeners.insert(_listeners.end(), listener);
                 }
                 
                 template<typename T1, typename T2>
                 void Recognizer<T1, T2>::removeErrorListener(ANTLRErrorListener *listener) {
                     //_listeners.remove(listener); does this work the same way?
-                    _listeners.erase(listener);
+                    std::vector<ANTLRErrorListener*>::iterator it;
+                    it = std::find(_listeners.begin(), _listeners.end(), listener);
+                    _listeners.erase(it);
                 }
                 
                 template<typename T1, typename T2>
@@ -145,7 +166,12 @@ namespace org {
                 
                 template<typename T1, typename T2>
                 ANTLRErrorListener *Recognizer<T1, T2>::getErrorListenerDispatch() {
-                    return new ProxyErrorListener(getErrorListeners());
+                    // TODO: This is odd, why do we have to cast here? I think it's a template issue, but it _shouldn't_ matter
+#ifdef TODO
+                    return (ANTLRErrorListener *)new ProxyErrorListener(getErrorListeners());
+#else
+                    return nullptr;
+#endif
                 }
                 
                 template<typename T1, typename T2>
@@ -185,20 +211,15 @@ namespace org {
                 template<typename T1, typename T2>
                 Recognizer<T1, T2>::Recognizer() {
                     InitializeInstanceFields();
-                    _listeners = new std::vector<ANTLRErrorListener*>();
-                }
-                
- 
-                template<typename T1, typename T2>
-                Recognizer<T1, T2>::CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
-                {
+                    _listeners = std::vector<ANTLRErrorListener*>();
                 }
                 
 #ifdef TODO
                 template<typename T1, typename T2>
-                Recognizer<T1, T2>::CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
+                Recognizer<T1, T2>::
+                CopyOnWriteArrayListAnonymousInnerClassHelper::CopyOnWriteArrayListAnonymousInnerClassHelper()
                 {
-                    add(ConsoleErrorListener::INSTANCE);
+                    add(&ConsoleErrorListener::INSTANCE)
                 }
 #endif
                 
@@ -207,3 +228,5 @@ namespace org {
     }
  
 }
+
+// #endif

@@ -3,6 +3,7 @@
 
 #include <bitset>
 #include <iostream>
+#include <sstream>
 
 /*
 * [The "BSD license"]
@@ -81,6 +82,24 @@ public:
 
 		os << L"}";
 		return os;
+	}
+
+	std::wstring toString(){
+		std::wstringstream stream;
+		stream << L"{";
+		size_t total = data.count();
+		for (size_t i = 0; i < data.size(); i++){
+			if (data.test(i)){
+				stream << i;
+				--total;
+				if (total > 1){
+					stream << L", ";
+				}
+			}
+		}
+
+		stream << L"}";
+		return stream.str();
 	}
 
 };

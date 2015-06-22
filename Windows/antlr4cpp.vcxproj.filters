@@ -102,9 +102,6 @@
     <ClCompile Include="..\org\antlr\v4\runtime\RecognitionException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\Recognizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\RuleContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -713,16 +710,7 @@
     <ClInclude Include="..\org\antlr\v4\runtime\misc\EqualityComparator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\FlexibleHashMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\GraphicsSupport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\IntegerList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\IntegerStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\Interval.h">
@@ -746,25 +734,16 @@
     <ClInclude Include="..\org\antlr\v4\runtime\misc\NotNull.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\Nullable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\ObjectEqualityComparator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\OrderedHashSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\Pair.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\ParseCancellationException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\TestRig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\org\antlr\v4\runtime\misc\Triple.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\misc\Utils.h">

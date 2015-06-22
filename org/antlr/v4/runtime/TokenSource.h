@@ -1,7 +1,9 @@
 ﻿#pragma once
 
-#include "Declarations.h"
 #include <string>
+
+#include "Declarations.h"
+#include "TokenFactory.h"
 
 /*
  * [The "BSD license"]
@@ -101,7 +103,7 @@ namespace org {
                     /// </summary>
                     /// <param name="factory"> The <seealso cref="TokenFactory"/> to use for creating tokens. </param>
                     template<typename T1>
-                    void setTokenFactory(TokenFactory<T1> *factory);
+                    void setTokenFactory(TokenFactory<T1> *factory) {};
 
                     /// <summary>
                     /// Gets the <seealso cref="TokenFactory"/> this token source is currently using for

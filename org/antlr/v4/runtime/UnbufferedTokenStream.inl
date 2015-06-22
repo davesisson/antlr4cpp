@@ -1,4 +1,5 @@
-﻿#include "UnbufferedTokenStream.h"
+﻿#pragma once 
+
 #include "Declarations.h"
 #include "Token.h"
 #include "Exceptions.h"

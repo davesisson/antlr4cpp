@@ -33,7 +33,7 @@
 
 void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to);
 
-
+std::string ws2s(const std::wstring& wstr);
 class StringReader {
 public:
     StringReader(std::wstring path);

@@ -67,7 +67,7 @@ namespace Utils {
         return m;
     }
     
-    std::wstring escapeWhitespace() {
+    std::wstring escapeWhitespace(std::wstring str, bool TODO) {
 #ifdef TODO
         
 #endif

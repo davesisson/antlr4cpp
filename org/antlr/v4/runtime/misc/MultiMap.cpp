@@ -36,25 +36,8 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-#ifdef TODO
-                    virtual void MultiMap::map(K key, V value) {
-                        std::vector<V> elementsForKey = get(key);
-                        if (elementsForKey.empty()) {
-                            elementsForKey = std::vector<V>();
-                            std::map<K, std::list<V>>::put(key, elementsForKey);
-                        }
-                        elementsForKey.push_back(value);
-                    }
-                    virtual std::vector<std::pair<K, V>*> getPairs() {
-                        std::vector<std::pair<K, V>*> pairs = std::vector<std::pair<K, V>*>();
-                        for (K key : keySet()) {
-                            for (V value : get(key)) {
-                                pairs.push_back(new std::pair<K, V>(key, value));
-                            }
-                        }
-                        return pairs;
-                    }
-#endif
+
+
                 }
             }
         }

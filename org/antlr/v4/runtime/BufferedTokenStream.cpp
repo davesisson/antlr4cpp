@@ -1,4 +1,5 @@
 ﻿#include <assert.h>
+#include <algorithm>
 
 #include "BufferedTokenStream.h"
 #include "WritableToken.h"
@@ -49,7 +50,7 @@ namespace org {
                     this->tokenSource = tokenSource;
                 }
 
-                org::antlr::v4::runtime::TokenSource *BufferedTokenStream::getTokenSource() {
+                TokenSource *BufferedTokenStream::getTokenSource() {
                     return tokenSource;
                 }
 
@@ -120,7 +121,7 @@ namespace org {
                     return n;
                 }
 
-                org::antlr::v4::runtime::Token *BufferedTokenStream::get(int i) {
+                Token *BufferedTokenStream::get(int i) {
                     if (i < 0 || i >= tokens.size()) {
                         throw IndexOutOfBoundsException(std::wstring(L"token index ") +
                                                         std::to_wstring(i) +
@@ -153,14 +154,14 @@ namespace org {
                     return LT(i)->getType();
                 }
 
-                org::antlr::v4::runtime::Token *BufferedTokenStream::LB(int k) {
+                Token *BufferedTokenStream::LB(int k) {
                     if ((p - k) < 0) {
                         return nullptr;
                     }
                     return tokens[p - k];
                 }
 
-                org::antlr::v4::runtime::Token *BufferedTokenStream::LT(int k) {
+                Token *BufferedTokenStream::LT(int k) {
                     lazyInit();
                     if (k == 0) {
                         return nullptr;

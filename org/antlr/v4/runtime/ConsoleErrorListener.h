@@ -35,26 +35,29 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
-namespace antlr {
-namespace v4 {
-namespace runtime {
-
-///
-/// <summary>
-/// @author Sam Harwell
-/// </summary>
-class ConsoleErrorListener : public BaseErrorListener {
- public:
-  static ConsoleErrorListener *const INSTANCE;
-
-  template <typename T1, typename T2>
-  void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol,
-                   int line, int charPositionInLine, const std::wstring &msg,
-                   RecognitionException *e);
-};
-
-}  // namespace runtime
-}  // namespace v4
-}  // namespace antlr
+    namespace antlr {
+        namespace v4 {
+            namespace runtime {
+                
+                ///
+                /// <summary>
+                /// @author Sam Harwell
+                /// </summary>
+                class ConsoleErrorListener : public BaseErrorListener {
+                public:
+                    static ConsoleErrorListener *const INSTANCE;
+                    
+                    template <typename T1, typename T2>
+                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol,
+                                     int line, int charPositionInLine, const std::wstring &msg,
+                                     RecognitionException *e)  {
+                            std::wcerr << L"line " << line << L":" << charPositionInLine << L" " << msg;
+                    }
+                };
+                
+            }  // namespace runtime
+        }  // namespace v4
+    }  // namespace antlr
 }  // namespace org

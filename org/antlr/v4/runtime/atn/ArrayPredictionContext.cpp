@@ -1,4 +1,6 @@
-﻿#include "ArrayPredictionContext.h"
+﻿#include <exception>
+
+#include "ArrayPredictionContext.h"
 #include "StringBuilder.h"
 #include "Arrays.h"
 
@@ -44,7 +46,7 @@ namespace org {
                     ArrayPredictionContext::ArrayPredictionContext(SingletonPredictionContext *a) : PredictionContext(0) {
                     }
 
-                    ArrayPredictionContext::ArrayPredictionContext(PredictionContext parents[], int returnStates[]) : PredictionContext(calculateHashCode(parents, *returnStates))/*, parents(parents)*/, returnStates(*returnStates) {
+                    ArrayPredictionContext::ArrayPredictionContext(std::PredictionContext *parents, int returnStates[]) : PredictionContext(calculateHashCode(parents, *returnStates))/*, parents(parents)*/, returnStates(*returnStates) {
 #ifdef TODO
 //                        assert(parents != nullptr && sizeof(parents) / sizeof(parents[0]) > 0);
 //                        assert(returnStates != nullptr && sizeof(returnStates) / sizeof(returnStates[0]) > 0);
@@ -53,7 +55,11 @@ namespace org {
 #endif
                                         //		System.err.println("CREATE ARRAY: "+Arrays.toString(parents)+", "+Arrays.toString(returnStates));
                     }
-
+                    ArrayPredictionContext::ArrayPredictionContext(std::vector<PredictionContext *>parents,
+                                                                   const std::vector<int> returnStates) : PredictionContext(0){
+                        // todo
+                        throw new std::exception();
+                    }
                     bool ArrayPredictionContext::isEmpty() {
                         // since EMPTY_RETURN_STATE can only appear in the last position, we
                         // don't need to verify that size==1

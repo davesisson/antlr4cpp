@@ -1,4 +1,5 @@
 ﻿#include "Trees.h"
+
 #include "Utils.h"
 #include "RuleNode.h"
 #include "ErrorNode.h"
@@ -7,6 +8,7 @@
 #include "ParserRuleContext.h"
 #include "Utils.h"
 #include "Tree.h"
+#include "Parser.h"
 
 /*
 * [The "BSD license"]
@@ -37,13 +39,14 @@
 *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#ifdef TODO
+
 namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
                 namespace tree {
-
+#ifdef TODO
+                    // Postscript output to be supported (maybe)
                     std::wstring Trees::getPS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fontName, int fontSize) {
                         TreePostScriptGenerator *psgen = new TreePostScriptGenerator(ruleNames, t, fontName, fontSize);
                         return psgen->getPS();
@@ -66,10 +69,8 @@ namespace org {
                     void Trees::writePS(Tree *t, std::vector<std::wstring> &ruleNames, const std::wstring &fileName) {
                         writePS(t, ruleNames, fileName, L"Helvetica", 11);
                     }
+#endif
 
-
-                    // Major failure - these aren't compiling for unknown reasons to me at the moment
-                    
                     std::wstring Trees::toStringTree(Tree *t) {
                         return toStringTree(t, nullptr);//static_cast<std::vector<std::wstring>>(nullptr));
                     }
@@ -78,8 +79,9 @@ namespace org {
                         return toStringTree(t, recog->getRuleNames());
                     }
 
-                    std::wstring Trees::toStringTree(Tree *t, std::vector<std::wstring> &ruleNames) {
-                        std::wstring s = Utils::escapeWhitespace(getNodeText(t, ruleNames), false);
+                    std::wstring Trees::toStringTree(Tree *t, const std::vector<std::wstring> &ruleNames) {
+                        std::wstring tmp = Trees::getNodeText(t, ruleNames);
+                        std::wstring s = Utils::escapeWhitespace(tmp, false);
                         if (t->getChildCount() == 0) {
                             return s;
                         }
@@ -102,7 +104,7 @@ namespace org {
                         return getNodeText(t, recog->getRuleNames());
                     }
 
-                    std::wstring Trees::getNodeText(Tree *t, std::vector<std::wstring> &ruleNames) {
+                    std::wstring Trees::getNodeText(Tree *t, const std::vector<std::wstring> &ruleNames) {
                         if (ruleNames.size() > 0) {
                             if (dynamic_cast<RuleNode*>(t) != nullptr) {
                                 int ruleIndex = (static_cast<RuleNode*>(t))->getRuleContext()->getRuleIndex();
@@ -120,10 +122,17 @@ namespace org {
                         }
                         // no recog for rule names
                         auto payload = t->getPayload();
-                        if (dynamic_cast<Token*>(payload) != nullptr) {
+                        if ((Token*)(payload) != nullptr) {
                             return (static_cast<Token*>(payload))->getText();
                         }
+#ifdef TODO
+                        // The Java boys depended on the universal toString function
+                        // to work for essentially void (Object) pointers. We don't
+                        // have that luxury
                         return t->getPayload()->toString();
+#else
+                        return L"TODO";
+#endif
                     }
 
                     std::vector<Tree*> Trees::getChildren(Tree *t) {
@@ -141,7 +150,7 @@ namespace org {
                         std::vector<Tree*> ancestors = std::vector<Tree*>();
                         t = t->getParent();
                         while (t != nullptr) {
-                            ancestors.push_back(0, t); // insert at start
+                            ancestors.insert(ancestors.begin(), t); // insert at start
                             t = t->getParent();
                         }
                         return ancestors;
@@ -155,49 +164,32 @@ namespace org {
                         return findAllNodes(t, ruleIndex, false);
                     }
 
-                    std::vector<ParseTree*> Trees::findAllNodes(ParseTree *t, int index, bool findTokens) {
-                        std::vector<ParseTree*> nodes = std::vector<ParseTree*>();
-                        _findAllNodes(t, index, findTokens, nodes);
+                    std::vector<ParseTree*> *Trees::findAllNodes(ParseTree *t, int index, bool findTokens) {
+                        std::vector<ParseTree*> *nodes = new std::vector<ParseTree*>();
+                        _findAllNodes<ParseTree*>(t, index, findTokens, *nodes);
                         return nodes;
-                    }
-
-                    template<typename T1>
-                    void Trees::_findAllNodes(ParseTree *t, int index, bool findTokens, std::vector<T1> nodes) {
-                        // check this node (the root) first
-                        if (findTokens && dynamic_cast<TerminalNode*>(t) != nullptr) {
-                            TerminalNode *tnode = static_cast<TerminalNode*>(t);
-                            if (tnode->getSymbol()->getType() == index) {
-                                nodes.push_back(t);
-                            }
-                        } else if (!findTokens && dynamic_cast<ParserRuleContext*>(t) != nullptr) {
-                            ParserRuleContext *ctx = static_cast<ParserRuleContext*>(t);
-                            if (ctx->getRuleIndex() == index) {
-                                nodes.push_back(t);
-                            }
-                        }
-                        // check children
-                        for (int i = 0; i < t->getChildCount(); i++) {
-                            _findAllNodes(t->getChild(i), index, findTokens, nodes);
-                        }
                     }
 
                     std::vector<ParseTree*>* Trees::descendants(ParseTree *t) {
                         std::vector<ParseTree*> *nodes = new std::vector<ParseTree*>();
-                        nodes.push_back(t);
-
+                        nodes->insert(nodes->end(), t);
                         int n = t->getChildCount();
                         for (int i = 0 ; i < n ; i++) {
-                            nodes.addAll(descendants(t->getChild(i)));
+                            std::vector<ParseTree*>* tmp = descendants(t->getChild(i));
+                            for (auto foo:*tmp) {
+                                nodes->insert(nodes->end(), foo);
+                            }
                         }
                         return nodes;
                     }
 
                     Trees::Trees() {
                     }
-                    
                 }
+               
             }
         }
     }
+
 }
-#endif
+

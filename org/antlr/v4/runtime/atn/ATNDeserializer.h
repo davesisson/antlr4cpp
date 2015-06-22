@@ -50,7 +50,6 @@ namespace org {
                     class ATNDeserializer {
                     public:
                         static const int SERIALIZED_VERSION = 3;
-//JAVA TO C++ CONVERTER TODO TASK: Static constructors are not allowed in native C++:
                         //static ATNDeserializer();
 
                         /// <summary>

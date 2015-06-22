@@ -1,11 +1,10 @@
 ﻿#pragma once
 
-#include "ANTLRErrorListener.h"
-
-#include "Declarations.h"
-
 #include <string>
-#include <bitset>
+
+#include "ANTLRErrorListener.h"
+// #include "Declarations.h"
+#include "Recognizer.h"
 
 /*
  * [The "BSD license"]
@@ -36,6 +35,7 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -44,20 +44,13 @@ namespace org {
                 /// @author Sam Harwell
                 /// </summary>
                 class BaseErrorListener : public ANTLRErrorListener {
-            
-                public:
-#ifdef TODO
-                    work on this number
-#endif
-
-                    static const int BITSET_SIZE = 1024;
-                    
+                                
                     template<typename T1, typename T2>
-                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
+                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) { }
 
-                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, atn::ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) override;
 
-                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, atn::ATNConfigSet *configs);
+                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, atn::ATNConfigSet *configs);
 
                     virtual void reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs);
                 };

@@ -1,9 +1,5 @@
 ﻿#pragma once
 
-#include "Recognizer.h"
-#include "ParseTreeListener.h"
-#include "TokenStream.h"
-
 #include <mutex>
 #include <stack>
 #include <string>
@@ -11,8 +7,13 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
-#include "Declarations.h"
 
+#include "Recognizer.h"
+#include "ParseTreeListener.h"
+#include "TokenStream.h"
+#include "BitSet.h"
+#include "Declarations.h"
+#include "TokenSource.h"
 
 /*
  * [The "BSD license"]
@@ -305,7 +306,9 @@ namespace org {
                     /// <summary>
                     /// Tell our token source and error strategy about a new way to create tokens. </summary>
                     template<typename T1>
-                    void setTokenFactory(TokenFactory<T1> *factory);
+                    void setTokenFactory(TokenFactory<T1> *factory)  {
+                        _input->getTokenSource()->setTokenFactory(factory);
+                    }
 
                     /// <summary>
                     /// The ATN with bypass alternatives is expensive to create so we create it

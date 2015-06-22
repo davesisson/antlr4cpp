@@ -1,17 +1,16 @@
 ﻿#pragma once
 
+#include <set>
+#include <string>
+#include <algorithm>
+#include <vector>
 
 #include "DoubleKeyMap.h"
 #include "Declarations.h"
 #include "Array2DHashSet.h"
 #include "AbstractEqualityComparator.h"
 #include "BitSet.h"
-
-#include <set>
-#include <string>
-#include <algorithm>
-#include <vector>
-
+#include "Exceptions.h"
 
 
 /*
@@ -56,10 +55,6 @@ namespace org {
                     /// </summary>
 					/// TODO: Consider going from std::set to std::vector
                     class ATNConfigSet : public std::set<ATNConfig*> {
-#ifdef TODO
-                        Find a good value here
-#endif
-                        static const int BITSET_SIZE  = 1024;
                         
                     public:
                         class AbstractConfigHashSet : public misc::Array2DHashSet<ATNConfig*> {
@@ -67,10 +62,10 @@ namespace org {
                         public:
                             
                             template<typename T1>
-                            AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator);
+                            AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator) {}
 
                             template<typename T1>
-                            AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity);
+                            AbstractConfigHashSet(misc::AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity) {}
 
                         protected:
                             ATNConfig *asElementType(void *o) override;
@@ -183,7 +178,12 @@ namespace org {
                         virtual void optimizeConfigs(ATNSimulator *interpreter);
 
                         template<typename T1>// where T1 : ATNConfig
-                        bool addAll(ATNConfigSet *coll);
+                        bool addAll(ATNConfigSet *coll) {
+                            for (auto c : *coll) {
+                                add(c);
+                            }
+                            return false;
+                        }
 
                         virtual bool equals(void *o);
 
@@ -212,18 +212,24 @@ namespace org {
                         virtual ATNConfig *toArray();
 
                         template<typename T>
-                        T *toArray(T a[]);
-
+                        T *toArray(T a[])  {
+                            return configLookup->toArray(a);
+                        }
                         virtual bool remove(void *o);
 
                         template<typename T1>
-                        bool containsAll(std::vector<T1> *c);
+                        bool containsAll(std::vector<T1> *c){
+                            throw new UnsupportedOperationException();
+                        }
+                        template<typename T1>
+                        bool retainAll(std::vector<T1> *c)  {
+                            throw new UnsupportedOperationException();
+                        }
 
                         template<typename T1>
-                        bool retainAll(std::vector<T1> *c);
-
-                        template<typename T1>
-                        bool removeAll(std::vector<T1> *c);
+                        bool removeAll(std::vector<T1> *c)  {
+                            throw new UnsupportedOperationException();
+                        }
 
 
                     private:

@@ -1,10 +1,11 @@
 ﻿#pragma once
 
-#include "ANTLRErrorListener.h"
-#include "Declarations.h"
 #include <string>
 #include <vector>
-#include <bitset>
+
+#include "ANTLRErrorListener.h"
+#include "Declarations.h"
+
 
 /*
  * [The "BSD license"]
@@ -47,20 +48,28 @@ namespace org {
                 
                 class ProxyErrorListener : public ANTLRErrorListener {
                 private:
-                    //JAVA TO C++ CONVERTER TODO TASK: Java wildcard generics are not converted to C++:
-                    //ORIGINAL LINE: private final java.util.Collection<? extends ANTLRErrorListener> delegates;
                     std::vector<ANTLRErrorListener*> *const delegates;
 
                 public:
                     template<typename T1> //where T1 : ANTLRErrorListener
-                    ProxyErrorListener(std::vector<T1> *delegates);
+                    ProxyErrorListener(std::vector<T1> *delegates) : delegates(delegates) {
+                        if (delegates == nullptr) {
+                            throw new NullPointerException(L"delegates");
+                        }
+                        
+                    }
 
                     template<typename T1, typename T2>
-                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e);
+                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {
+                        
+                        for (auto listener : *delegates) {
+                            listener->syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);
+                        }
+                    }
 
-                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, std::bitset<BITSET_SIZE> *ambigAlts, atn::ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) override;
 
-                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, std::bitset<BITSET_SIZE> *conflictingAlts, atn::ATNConfigSet *configs) override;
+					virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, atn::ATNConfigSet *configs) override;
 
                     virtual void reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) override;
                 };

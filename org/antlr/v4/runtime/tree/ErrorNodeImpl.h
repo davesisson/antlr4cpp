@@ -53,7 +53,9 @@ namespace org {
                         ErrorNodeImpl(Token *token);
 
                         template<typename T, typename T1>
-                        T accept(ParseTreeVisitor<T1> *visitor);
+                        T accept(ParseTreeVisitor<T1> *visitor)  {
+                            return visitor->visitErrorNode(this);
+                        }
                         
                         // From ErrorNode
                         
@@ -69,7 +71,7 @@ namespace org {
                         
                         // From Parse Tree
                     public:
-                        ParseTree *getParent() override;
+                        ParseTree *getParent() override ;
                         ParseTree *getChild(int i) override;
                         std::wstring getText();
                         std::wstring toStringTree(Parser *parser);

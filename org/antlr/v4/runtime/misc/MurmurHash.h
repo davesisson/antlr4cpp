@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <functional>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -74,7 +76,11 @@ namespace org {
                         /// <param name="value"> the value to add to the current hash </param>
                         /// <returns> the updated intermediate hash value </returns>
                         template<typename T>
-                        static int update(int hash, T *value);
+                        static int update(int hash, T *value)  {
+                            std::hash<T> hashFunction;
+                            
+                            return update(hash, value != nullptr ? (int)hashFunction(*value) : 0);
+                        }
 
                         /// <summary>
                         /// Apply the final computation steps to the intermediate value {@code hash}
@@ -94,7 +100,21 @@ namespace org {
                         /// <param name="seed"> the seed for the MurmurHash algorithm </param>
                         /// <returns> the hash code of the data </returns>
                         template<typename T>
-                        static int hashCode(T data[], int seed);
+                        static int hashCode(T data, int seed) {
+#ifdef TODO
+                            // This code isn't being presently used anyhow
+                            int hash = initialize(seed);
+                            for (auto value : data) {
+                                hash = update(hash, value);
+                            }
+                            
+                            hash = finish(hash, sizeof(data) / sizeof(data[0]));
+                            return hash;
+#else
+                            return 0;
+#endif
+                        }
+
 
                     private:
                         MurmurHash();

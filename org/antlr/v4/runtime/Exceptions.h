@@ -20,57 +20,64 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 class ANTLRException : public std::exception {
+                private:
+                    std::wstring errormsg;
+                    
                     public:
-                    ANTLRException();
-                    ANTLRException(const std::wstring msg);
-                    std::wstring getMessage();
+                    ANTLRException() {}
+                    ANTLRException(const std::wstring msg) {
+                        this->errormsg = msg;
+                    }
+                    std::wstring getMessage() {
+                        return errormsg;
+                    }
 
                 };
                 
                 class IllegalClassException : public ANTLRException {
                 public:
-                    IllegalClassException(const std::wstring msg);
-                    IllegalClassException();
+                    IllegalClassException(const std::wstring msg) : ANTLRException(msg) {};
+                    IllegalClassException() {};
                 };
 
                 class IllegalStateException : public ANTLRException {
                 public:
-                    IllegalStateException(const std::wstring msg);
-                    IllegalStateException();
+                    IllegalStateException(const std::wstring msg) : ANTLRException(msg) {};
+                    IllegalStateException(){};
                 };
                 
                 class IllegalArgumentException : public ANTLRException {
                 public:
-                    IllegalArgumentException(const std::wstring msg);
+                    IllegalArgumentException(const std::wstring msg)  : ANTLRException(msg) {};
                     IllegalArgumentException(const std::wstring msg, std::exception e);
-                    IllegalArgumentException();
+                    IllegalArgumentException(){};
                 };
                 
                 class NoSuchElementException : public ANTLRException {
                 public:
-                    NoSuchElementException(const std::wstring msg);
-                    NoSuchElementException();
+                    NoSuchElementException(const std::wstring msg)  : ANTLRException(msg) {};
+                    NoSuchElementException(){};
                 };
                 
-                class NullPointerException : public std::exception {
+                class NullPointerException : public ANTLRException {
                 public:
-                    NullPointerException(const std::wstring msg);
-                    NullPointerException();
+                    NullPointerException(const std::wstring msg) : ANTLRException(msg) {};
+                    NullPointerException(){};
                 };
                 class IndexOutOfBoundsException : public ANTLRException {
                 public:
-                    IndexOutOfBoundsException(const std::wstring msg);
-                    IndexOutOfBoundsException();
+                    IndexOutOfBoundsException(const std::wstring msg) : ANTLRException(msg) {};
+                    IndexOutOfBoundsException(){};
                 };
                 class UnsupportedOperationException : public ANTLRException {
                 public:
-                    UnsupportedOperationException(const std::wstring msg);
-                    UnsupportedOperationException();
+                    UnsupportedOperationException(const std::wstring msg) : ANTLRException(msg) {};
+                    UnsupportedOperationException(){};
                 };
                 class IOException : public ANTLRException {
                 public:
-                    IOException(const std::wstring msg);
-                    IOException();
+                    IOException(const std::wstring msg)  : ANTLRException(msg) {};
+                    IOException(){};
                 };
                 
             }

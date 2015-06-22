@@ -1,11 +1,12 @@
 ﻿#pragma once
 
+#include <string>
+#include <deque>
+
 #include "Parser.h"
 #include "Declarations.h"
 
-#include <string>
-#include <bitset>
-#include <deque>
+
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
@@ -57,11 +58,12 @@ namespace org {
                 /// </summary>
                 class ParserInterpreter : public Parser {
                 protected:
+					//TODO check this
                     static const int DEFAULT_BITSET_SIZE = 1024; // atn->states.size() ideally
                     
                     const std::wstring grammarFileName;
                     atn::ATN *const atn;
-                    std::bitset<DEFAULT_BITSET_SIZE> *const pushRecursionContextStates;
+                    BitSet *const pushRecursionContextStates;
 
                     std::vector<dfa::DFA> _decisionToDFA; // not shared like it is for generated parsers
                     atn::PredictionContextCache *const sharedContextCache;

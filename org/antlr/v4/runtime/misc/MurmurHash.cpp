@@ -1,5 +1,4 @@
 ﻿#include "MurmurHash.h"
-#include <functional>
 
 /*
  * [The "BSD license"]
@@ -65,12 +64,6 @@ namespace org {
                         return hash;
                     }
 
-                    template<typename T>
-                    int MurmurHash::update(int hash, T *value) {
-                        std::hash<T> hashFunction;
-                        
-                        return update(hash, value != nullptr ? hashFunction(value) : 0);
-                    }
 
                     int MurmurHash::finish(int hash, int numberOfWords) {
                         hash = hash ^ (numberOfWords * 4);
@@ -79,17 +72,6 @@ namespace org {
                         hash = hash ^ (static_cast<int>(static_cast<unsigned int>(hash) >> 13));
                         hash = hash * 0xC2B2AE35;
                         hash = hash ^ (static_cast<int>(static_cast<unsigned int>(hash) >> 16));
-                        return hash;
-                    }
-
-                    template<typename T>
-                    int MurmurHash::hashCode(T data[], int seed) {
-                        int hash = initialize(seed);
-                        for (auto value : data) {
-                            hash = update(hash, value);
-                        }
-
-                        hash = finish(hash, sizeof(data) / sizeof(data[0]));
                         return hash;
                     }
 

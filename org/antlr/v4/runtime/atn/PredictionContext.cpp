@@ -1,14 +1,15 @@
-﻿#include "PredictionContext.h"
+﻿// TODO "assert" is pure bush league
+#include <assert.h>
+
+#include "PredictionContext.h"
 #include "EmptyPredictionContext.h"
 #include "MurmurHash.h"
 #include "ArrayPredictionContext.h"
 #include "RuleContext.h"
-#include "ATN.h"
-#include "ATNState.h"
 #include "RuleTransition.h"
 #include "Arrays.h"
 #include "stringconverter.h"
-#include <assert.h>
+#include "PredictionContextCache.h"
 
 /*
  * [The "BSD license"]
@@ -49,11 +50,14 @@ namespace org {
                 namespace atn {
                     
                     int PredictionContext::globalNodeCount = 0;
-
+                    EmptyPredictionContext * PredictionContext::EMPTY;
+                    const int PredictionContext::EMPTY_RETURN_STATE;
+                    const int PredictionContext::INITIAL_HASH;
+                    
                     PredictionContext::PredictionContext(int cachedHashCode) : id(globalNodeCount++), cachedHashCode(cachedHashCode)  {
                     }
                     
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::fromRuleContext(ATN *atn, RuleContext *outerContext) {
+                    atn::PredictionContext *PredictionContext::fromRuleContext(ATN *atn, RuleContext *outerContext) {
                         if (outerContext == nullptr) {
                             outerContext = (RuleContext*)RuleContext::EMPTY;
                         }
@@ -118,7 +122,7 @@ namespace org {
                         return hash;
                     }
                     
-                    org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                    atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
 #ifdef TODO
 						I dislike using assert - if it hits then the application crashes hard with little diagnostic information. Change to an exception or the like when we have
                         an idea of the policy appropriate for that
@@ -450,7 +454,6 @@ namespace org {
                         }
                         
                         buf->append(L"}\n");
-                        //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
                     
@@ -461,30 +464,39 @@ namespace org {
                         return o1->id - o2->id;
                     }
                     
-                    // TODO: IdentityHashpMap
-                    /*org::antlr::v4::runtime::atn::PredictionContext *PredictionContext::getCachedContext(PredictionContext *context, PredictionContextCache *contextCache, IdentityHashMap<PredictionContext*, PredictionContext*> *visited) {
+
+                    atn::PredictionContext *PredictionContext::getCachedContext(PredictionContext *context, PredictionContextCache *contextCache,
+                                                                                std::map<PredictionContext*, PredictionContext*> *visited) {
                         if (context->isEmpty()) {
                             return context;
                         }
                         
-                        PredictionContext *existing = visited->get(context);
+                        PredictionContext *existing = (*visited)[context];
                         if (existing != nullptr) {
                             return existing;
                         }
                         
                         existing = contextCache->get(context);
                         if (existing != nullptr) {
-                            visited->put(context, existing);
+#ifdef TODO
+                            // These used IdendityHashMap in Java, which isn't the
+                            // same as std::map, need to add a hash key function to
+                            // PredictionContext to achieve the same behavior, same
+                            // goes for all the insert functions below
+                            visited->insert(context, existing);
+#endif
                             return existing;
                         }
                         
                         bool changed = false;
-                        PredictionContext parents[context->size()];
+                        
+                        std::vector<PredictionContext*> parents;
+                        
                         for (int i = 0; i < sizeof(parents) / sizeof(parents[0]); i++) {
                             PredictionContext *parent = getCachedContext(context->getParent(i), contextCache, visited);
                             if (changed || parent != context->getParent(i)) {
                                 if (!changed) {
-                                    parents = new PredictionContext[context->size()];
+                                    parents = std::vector<PredictionContext*>();
                                     for (int j = 0; j < context->size(); j++) {
                                         parents[j] = context->getParent(j);
                                     }
@@ -498,7 +510,9 @@ namespace org {
                         
                         if (!changed) {
                             contextCache->add(context);
-                            visited->put(context, context);
+#ifdef TODO
+                            visited->insert(context, context);
+#endif
                             return context;
                         }
                         
@@ -509,118 +523,43 @@ namespace org {
                             updated = SingletonPredictionContext::create(parents[0], context->getReturnState(0));
                         } else {
                             ArrayPredictionContext *arrayPredictionContext = static_cast<ArrayPredictionContext*>(context);
-                            updated = new ArrayPredictionContext(parents, arrayPredictionContext->returnStates);
+                            updated = new ArrayPredictionContext(parents,
+                                                                 arrayPredictionContext->returnStates);
                         }
                         
                         contextCache->add(updated);
-                        visited->put(updated, updated);
-                        visited->put(context, updated);
-                        
+#ifdef TODO
+                        visited->insert(updated, updated);
+                        visited->insert(context, updated);
+#endif
                         return updated;
-                    }*/
+                    }
                     
-                    // TODO: Map, IdentityHashMap
-                    /*std::vector<PredictionContext*> PredictionContext::getAllContextNodes(PredictionContext *context) {
+                    std::vector<PredictionContext*> PredictionContext::getAllContextNodes(PredictionContext *context) {
                         std::vector<PredictionContext*> nodes = std::vector<PredictionContext*>();
-                        Map<PredictionContext*, PredictionContext*> *visited = new IdentityHashMap<PredictionContext*, PredictionContext*>();
+                        std::map<PredictionContext*, PredictionContext*> *visited = new std::map<PredictionContext*, PredictionContext*>();
                         getAllContextNodes_(context, nodes, visited);
                         return nodes;
-                    }*/
+                    }
                     
-                    // TODO: Map
-                    /*void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, Map<PredictionContext*, PredictionContext*> *visited) {
-                        if (context == nullptr || visited->containsKey(context)) {
+
+                    void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, std::map<PredictionContext*, PredictionContext*> *visited) {
+                        if (context == nullptr || visited->at(context)) {
                             return;
                         }
-                        visited->put(context, context);
+#ifdef TODO
+                        visited->insert(context, context);
+#endif
                         nodes.push_back(context);
                         for (int i = 0; i < context->size(); i++) {
                             getAllContextNodes_(context->getParent(i), nodes, visited);
                         }
-                    }*/
+                    }
                     
                     std::wstring PredictionContext::toString() {
                         //TODO: what should this return?  (Return empty string
                         // for now.)
                         return L"";
-                    }
-
-                    template<typename T1, typename T2>
-                    std::wstring PredictionContext::toString(Recognizer<T1, T2> *recog) {
-                        return toString();
-                        //		return toString(recog, ParserRuleContext.EMPTY);
-                    }
-                    
-                    template<typename T1, typename T2>
-                    std::wstring *PredictionContext::toStrings(Recognizer<T1, T2> *recognizer, int currentState) {
-                        return toStrings(recognizer, EMPTY, currentState);
-                    }
-                    
-                    template<typename T1, typename T2>
-                    std::wstring *PredictionContext::toStrings(Recognizer<T1, T2> *recognizer, PredictionContext *stop, int currentState) {
-                        std::vector<std::wstring> result = std::vector<std::wstring>();
-                        
-                        for (int perm = 0; ; perm++) {
-                            int offset = 0;
-                            bool last = true;
-                            PredictionContext *p = this;
-                            int stateNumber = currentState;
-                            StringBuilder *localBuffer = new StringBuilder();
-                            localBuffer->append(L"[");
-                            while (!p->isEmpty() && p != stop) {
-                                int index = 0;
-                                if (p->size() > 0) {
-                                    int bits = 1;
-                                    while ((1 << bits) < p->size()) {
-                                        bits++;
-                                    }
-                                    
-                                    int mask = (1 << bits) - 1;
-                                    index = (perm >> offset) & mask;
-                                    last &= index >= p->size() - 1;
-                                    if (index >= p->size()) {
-                                        goto outerContinue;
-                                    }
-                                    offset += bits;
-                                }
-                                
-                                if (recognizer != nullptr) {
-                                    if (localBuffer->length() > 1) {
-                                        // first char is '[', if more than that this isn't the first rule
-                                        localBuffer->append(L' ');
-                                    }
-                                    
-                                    ATN *atn = recognizer->getATN();
-                                    ATNState *s = atn->states[stateNumber];
-                                    std::wstring ruleName = recognizer->getRuleNames()[s->ruleIndex];
-                                    localBuffer->append(ruleName);
-                                } else if (p->getReturnState(index) != EMPTY_RETURN_STATE) {
-                                    if (!p->isEmpty()) {
-                                        if (localBuffer->length() > 1) {
-                                            // first char is '[', if more than that this isn't the first rule
-                                            localBuffer->append(L' ');
-                                        }
-                                        
-                                        localBuffer->append(p->getReturnState(index));
-                                    }
-                                }
-                                stateNumber = p->getReturnState(index);
-                                p = p->getParent(index);
-                            }
-                            localBuffer->append(L"]");
-                            //JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-                            result.push_back(localBuffer->toString());
-                            
-                            if (last) {
-                                break;
-                            }
-                        outerContinue:
-                            continue;
-                        }
-                    outerBreak:
-                        
-                        // TODO: return result.toArray(new std::wstring[result.size()]);
-                        return nullptr;
                     }
                     
                     int PredictionContext::size() {

@@ -1,5 +1,6 @@
 ﻿#include "RecognitionException.h"
 #include "ATN.h"
+#include "Recognizer.h"
 
 /*
  * [The "BSD license"]
@@ -36,22 +37,6 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                template<typename T1, typename T2>
-                RecognitionException::RecognitionException(Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx) : recognizer(recognizer), ctx((RuleContext*)ctx), input(input) {
-                    InitializeInstanceFields();
-                    if (recognizer != nullptr) {
-                        this->offendingState = recognizer->getState();
-                    }
-                }
-
-                template<typename T1, typename T2>
-                RecognitionException::RecognitionException(const std::wstring &message, Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx) : RuntimeException(message), recognizer(recognizer), ctx((RuleContext*)ctx), input(input) {
-                    InitializeInstanceFields();
-                    if (recognizer != nullptr) {
-                        this->offendingState = recognizer->getState();
-                    }
-                }
-
                 int RecognitionException::getOffendingState() {
                     return offendingState;
                 }
@@ -60,34 +45,35 @@ namespace org {
                     this->offendingState = offendingState;
                 }
 
-                runtime::misc::IntervalSet *RecognitionException::getExpectedTokens() {
+                misc::IntervalSet *RecognitionException::getExpectedTokens() {
+#ifdef TODO
                     if (recognizer != nullptr) {
                         return recognizer->getATN()->getExpectedTokens(offendingState, ctx);
                     }
-
+#endif
                     return nullptr;
                 }
 
-                runtime::RuleContext *RecognitionException::getCtx() {
+                RuleContext *RecognitionException::getCtx() {
                     return ctx;
                 }
 
-                runtime::IntStream *RecognitionException::getInputStream() {
+                IntStream *RecognitionException::getInputStream() {
                     return input;
                 }
 
-                runtime::Token *RecognitionException::getOffendingToken() {
+                Token *RecognitionException::getOffendingToken() {
                     return offendingToken;
                 }
 
                 void RecognitionException::setOffendingToken(Token *offendingToken) {
                     this->offendingToken = offendingToken;
                 }
-
-                runtime::Recognizer<void*, void*> *RecognitionException::getRecognizer() {
+#ifdef TODO
+                Recognizer<void*, void*> *RecognitionException::getRecognizer() {
                     return recognizer;
                 }
-
+#endif
                 void RecognitionException::InitializeInstanceFields() {
                     offendingState = -1;
                 }

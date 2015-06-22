@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <exception>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -53,7 +55,10 @@ namespace org {
                         /// <param name="obj"> The object. </param>
                         /// <returns> The hash code for {@code obj}. </returns>
                     public:
-                        virtual int hashCode(T *obj);
+                        virtual int hashCode(T obj) {
+                            throw new std::exception();
+                            return 0;
+                        }
 
                         /// <summary>
                         /// This method tests if two objects are equal.
@@ -61,7 +66,10 @@ namespace org {
                         /// <param name="a"> The first object to compare. </param>
                         /// <param name="b"> The second object to compare. </param>
                         /// <returns> {@code true} if {@code a} equals {@code b}, otherwise {@code false}. </returns>
-                        virtual bool equals(T *a, T *b);
+                        virtual bool equals(T a, T b) {
+                            throw new std::exception();
+                            return false;
+                        }
 
                     };
 

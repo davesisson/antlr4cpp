@@ -1,4 +1,6 @@
-﻿#include "ATNSimulator.h"
+﻿#include <map>
+
+#include "ATNSimulator.h"
 #include "ATNDeserializer.h"
 #include "ATNConfigSet.h"
 #include "DFAState.h"
@@ -7,7 +9,7 @@
 #include "PredictionContextCache.h"
 #include "PredictionContext.h"
 #include "ATN.h"
-#include <map>
+
 
 /*
  * [The "BSD license"]
@@ -45,6 +47,8 @@ namespace org {
             namespace runtime {
                 namespace atn {
 
+                    dfa::DFAState * ATNSimulator::ERROR = new dfa::DFAState();
+                    
                     ATNSimulator::ATNSimulator() {
                         ERROR = new dfa::DFAState(new ATNConfigSet());
                         ERROR->stateNumber = INT32_MAX;
@@ -56,19 +60,20 @@ namespace org {
                     ATNSimulator::ATNSimulator(ATN *atn, PredictionContextCache *sharedContextCache) : atn(atn), sharedContextCache(sharedContextCache) {
                     }
 
-                    org::antlr::v4::runtime::atn::PredictionContextCache *ATNSimulator::getSharedContextCache() {
+                    atn::PredictionContextCache *ATNSimulator::getSharedContextCache() {
                         return sharedContextCache;
                     }
 
-                    org::antlr::v4::runtime::atn::PredictionContext *ATNSimulator::getCachedContext(PredictionContext *context) {
+                    atn::PredictionContext *ATNSimulator::getCachedContext(PredictionContext *context) {
                         if (sharedContextCache == nullptr) {
                             return context;
                         }
 
-//                        synchronized(sharedContextCache) {
-                          std::map<PredictionContext*, PredictionContext*> *visited = new std::map<PredictionContext*, PredictionContext*>();
-                            return PredictionContext::getCachedContext(context, sharedContextCache, visited);
-//                        }
+						{
+							std::lock_guard<std::mutex> lck(mtx);
+							std::map<PredictionContext*, PredictionContext*> *visited = new std::map<PredictionContext*, PredictionContext*>();
+							return PredictionContext::getCachedContext(context, sharedContextCache, visited);
+						}
                     }
 
                     atn::ATN *ATNSimulator::deserialize(wchar_t data[]) {
@@ -99,11 +104,11 @@ namespace org {
                         return ATNDeserializer::toUUID(data, offset);
                     }
 
-                    org::antlr::v4::runtime::atn::Transition *ATNSimulator::edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets) {
+                    atn::Transition *ATNSimulator::edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets) {
                         return (new ATNDeserializer())->edgeFactory(atn, type, src, trg, arg1, arg2, arg3, sets);
                     }
 
-                    org::antlr::v4::runtime::atn::ATNState *ATNSimulator::stateFactory(int type, int ruleIndex) {
+                    atn::ATNState *ATNSimulator::stateFactory(int type, int ruleIndex) {
                         return (new ATNDeserializer())->stateFactory(type, ruleIndex);
                     }
                 }

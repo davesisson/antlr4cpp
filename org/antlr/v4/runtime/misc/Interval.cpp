@@ -11,6 +11,8 @@ namespace org {
                 namespace misc {
 
                     Interval *const Interval::INVALID = new Interval(-1,-2);
+                    Interval *      Interval::cache[Interval::INTERVAL_POOL_MAX_VALUE+1];
+                    
                     int Interval::creates = 0;
                     int Interval::misses = 0;
                     int Interval::hits = 0;
