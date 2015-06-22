@@ -35,7 +35,7 @@
  */
 
 // TODO:  Come back to this after the base runtime works.
-#ifdef TODO
+
 namespace org {
     namespace antlr {
         namespace v4 {
@@ -97,4 +97,3 @@ namespace org {
         }
     }
 }
-#endif

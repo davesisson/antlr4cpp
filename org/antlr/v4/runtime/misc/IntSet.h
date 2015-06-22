@@ -74,7 +74,9 @@ namespace org {
 
                         virtual bool isNil() = 0;
 
-                        virtual bool equals(void *obj);
+                        virtual bool equals(void *obj) {
+                            throw new std::exception();
+                        };
 
                         virtual int getSingleElement() = 0;
 
@@ -86,7 +88,9 @@ namespace org {
 
                         virtual std::vector<int> toList() = 0;
 
-                        virtual std::wstring toString(); 
+                        virtual std::wstring toString() {
+                            throw new std::exception();
+                        };
                     };
 
                 }

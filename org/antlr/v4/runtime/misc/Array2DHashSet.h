@@ -194,7 +194,9 @@ namespace org {
                         /// <returns> {@code o} if it could be an instance of {@code T}, otherwise
                         /// {@code null}. </returns>
                     protected:
-                    virtual T asElementType(void *o);
+                        virtual T asElementType(void *o) {
+                            throw new std::exception();
+                        };
 
                         /// <summary>
                         /// Return an array of {@code T[]} with length {@code capacity}.
