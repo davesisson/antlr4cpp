@@ -73,10 +73,10 @@ namespace org {
                     int ErrorNodeImpl::getChildCount(){
                         throw new std::exception();
                     };;
-                    std::wstring toStringTree() {
+
+                    std::wstring ErrorNodeImpl::toStringTree() {
                         throw new std::exception();
                     };
-                    
                     
                 }
             }
