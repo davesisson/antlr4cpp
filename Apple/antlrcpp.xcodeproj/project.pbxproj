@@ -169,7 +169,6 @@
 		37D1C48C186A31140041671A /* ListTokenSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C359186A31130041671A /* ListTokenSource.h */; };
 		37D1C48D186A31140041671A /* AbstractEqualityComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C35B186A31130041671A /* AbstractEqualityComparator.cpp */; };
 		37D1C48E186A31140041671A /* AbstractEqualityComparator.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C35C186A31130041671A /* AbstractEqualityComparator.h */; };
-		37D1C48F186A31140041671A /* Array2DHashSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C35D186A31130041671A /* Array2DHashSet.cpp */; };
 		37D1C490186A31140041671A /* Array2DHashSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C35E186A31130041671A /* Array2DHashSet.h */; };
 		37D1C492186A31140041671A /* DoubleKeyMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D1C360186A31130041671A /* DoubleKeyMap.h */; };
 		37D1C493186A31140041671A /* EqualityComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C361186A31130041671A /* EqualityComparator.cpp */; };
@@ -462,7 +461,6 @@
 		37D1C359186A31130041671A /* ListTokenSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTokenSource.h; sourceTree = "<group>"; };
 		37D1C35B186A31130041671A /* AbstractEqualityComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AbstractEqualityComparator.cpp; sourceTree = "<group>"; };
 		37D1C35C186A31130041671A /* AbstractEqualityComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractEqualityComparator.h; sourceTree = "<group>"; };
-		37D1C35D186A31130041671A /* Array2DHashSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Array2DHashSet.cpp; sourceTree = "<group>"; };
 		37D1C35E186A31130041671A /* Array2DHashSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Array2DHashSet.h; sourceTree = "<group>"; };
 		37D1C360186A31130041671A /* DoubleKeyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleKeyMap.h; sourceTree = "<group>"; };
 		37D1C361186A31130041671A /* EqualityComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EqualityComparator.cpp; sourceTree = "<group>"; };
@@ -817,7 +815,6 @@
 			children = (
 				37D1C35B186A31130041671A /* AbstractEqualityComparator.cpp */,
 				37D1C35C186A31130041671A /* AbstractEqualityComparator.h */,
-				37D1C35D186A31130041671A /* Array2DHashSet.cpp */,
 				37D1C35E186A31130041671A /* Array2DHashSet.h */,
 				37D1C360186A31130041671A /* DoubleKeyMap.h */,
 				37D1C361186A31130041671A /* EqualityComparator.cpp */,
@@ -1215,7 +1212,6 @@
 				37D1C417186A31140041671A /* ATNState.cpp in Sources */,
 				37D1C50B186A31140041671A /* TerminalNodeImpl.cpp in Sources */,
 				37D1C4D1186A31140041671A /* TokenSource.cpp in Sources */,
-				37D1C48F186A31140041671A /* Array2DHashSet.cpp in Sources */,
 				37D1C41B186A31140041671A /* AtomTransition.cpp in Sources */,
 				37D1C44D186A31140041671A /* RuleTransition.cpp in Sources */,
 				37D1C407186A31140041671A /* ArrayPredictionContext.cpp in Sources */,

@@ -37,8 +37,8 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace misc {
-#ifdef TODO
-                    // This is problematic in C++
+
+                    
 
                     ObjectEqualityComparator *const ObjectEqualityComparator::INSTANCE = new ObjectEqualityComparator();
 
@@ -46,8 +46,12 @@ namespace org {
                         if (obj == nullptr) {
                             return 0;
                         }
-
+#ifdef TODO
+                        // This is problematic in C++
                         return obj->hashCode();
+#else
+                        throw new std::exception();
+#endif
                     }
 
                     bool ObjectEqualityComparator::equals(void *a, void *b) {
@@ -55,9 +59,14 @@ namespace org {
                             return b == nullptr;
                         }
 
+#ifdef TODO
                         return a->equals(b);
-                    }
+
+#else
+                        throw new std::exception();
 #endif
+                    }
+
                 }
             }
         }
