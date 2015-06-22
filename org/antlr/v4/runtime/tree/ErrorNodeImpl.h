@@ -71,7 +71,7 @@ namespace org {
                         
                         // From Parse Tree
                     public:
-                        ParseTree *getParent() override;
+                        ParseTree *getParent() override ;
                         ParseTree *getChild(int i) override;
                         std::wstring getText();
                         std::wstring toStringTree(Parser *parser);
