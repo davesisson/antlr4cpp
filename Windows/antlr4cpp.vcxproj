@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\antlrcpp\CPPUtils.cpp" />
+    <ClCompile Include="..\antlrcpp\UUID.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\ANTLRErrorListener.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\ANTLRErrorStrategy.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\ANTLRFileStream.cpp" />
@@ -216,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\antlrcpp\CPPUtils.h" />
+    <ClInclude Include="..\antlrcpp\UUID.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\ANTLRErrorListener.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\ANTLRErrorStrategy.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\ANTLRFileStream.h" />

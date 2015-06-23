@@ -423,6 +423,9 @@
     <ClCompile Include="..\antlrcpp\CPPUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\antlrcpp\UUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\org\antlr\v4\runtime\ANTLRErrorListener.h">
@@ -843,6 +846,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\antlrcpp\CPPUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\antlrcpp\UUID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
