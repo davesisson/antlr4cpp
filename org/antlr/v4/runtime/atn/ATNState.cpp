@@ -42,7 +42,8 @@ namespace org {
                     const int ATNState::INITIAL_NUM_TRANSITIONS;
                     
                     // constants for serialization
-                    const int ATNState::INVALID_TYPE;
+					// This causes a link error in Windows, TODO OS X
+                    //const int ATNState::ATN_INVALID_TYPE;
                     const int ATNState::BASIC;
                     const int ATNState::RULE_START;
                     const int ATNState::BLOCK_START;

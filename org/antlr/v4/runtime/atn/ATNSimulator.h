@@ -42,9 +42,7 @@ namespace org {
             namespace runtime {
                 namespace atn {
                     class ATNSimulator {
-                        /// @deprecated Use <seealso cref="ATNDeserializer#SERIALIZED_VERSION"/> instead. 
                     public:
-                        static const int SERIALIZED_VERSION = ATNDeserializer::SERIALIZED_VERSION;
 						
 						//Mutex to manage synchronized access for multithreading
 						std::mutex mtx;

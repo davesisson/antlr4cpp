@@ -111,7 +111,7 @@ namespace org {
                         static const int INITIAL_NUM_TRANSITIONS = 4;
 
                         // constants for serialization
-                        static const int INVALID_TYPE = 0;
+                        static const int ATN_INVALID_TYPE = 0;
                         static const int BASIC = 1;
                         static const int RULE_START = 2;
                         static const int BLOCK_START = 3;

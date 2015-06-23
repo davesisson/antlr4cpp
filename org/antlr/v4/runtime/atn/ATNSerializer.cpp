@@ -87,7 +87,7 @@ namespace org {
 						data->push_back(atn->states.size());
 						for (ATNState *s : atn->states) {
 							if (s == nullptr) {  // might be optimized away
-								data->push_back(ATNState::INVALID_TYPE);
+								data->push_back(ATNState::ATN_INVALID_TYPE);
 								continue;
 							}
 
@@ -360,7 +360,7 @@ namespace org {
 						int nstates = ATNDeserializer::toInt(data[p++]);
 						for (int i = 0; i < nstates; i++) {
 							int stype = ATNDeserializer::toInt(data[p++]);
-							if (stype == ATNState::INVALID_TYPE) {  // ignore bad type of states
+							if (stype == ATNState::ATN_INVALID_TYPE) {  // ignore bad type of states
 								continue;
 							}
 							int ruleIndex = ATNDeserializer::toInt(data[p++]);
