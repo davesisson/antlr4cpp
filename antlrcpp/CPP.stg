@@ -35,7 +35,7 @@ cppTypeInitMap ::= [
 	"bool":"false",
 	"short":"0",
 	"char":"0",
-	default:"null" // anything other than a primitive type is an object
+	default:"nullptr" // anything other than a primitive type is an object
 ]
 
 // args must be <object-model-object>, <fields-resulting-in-STs>
