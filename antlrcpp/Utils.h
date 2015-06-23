@@ -37,8 +37,8 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Utils {
 
+namespace antlrcpp {
     template<typename T1>
     class CopyOnWriteArrayList {
     public:
@@ -59,4 +59,5 @@ namespace Utils {
 	wchar_t* toCharArray(const std::vector<int> *data);
 
 	std::wstring toHexString(const int t);
+
 }

@@ -34,7 +34,7 @@
  */
 
 
-namespace Utils {
+namespace antlrcpp {
 #ifdef TODO
     Add the body
 #endif

@@ -81,13 +81,13 @@ namespace org {
 
                     std::wstring Trees::toStringTree(Tree *t, const std::vector<std::wstring> &ruleNames) {
                         std::wstring tmp = Trees::getNodeText(t, ruleNames);
-                        std::wstring s = Utils::escapeWhitespace(tmp, false);
+                        std::wstring s = antlrcpp::escapeWhitespace(tmp, false);
                         if (t->getChildCount() == 0) {
                             return s;
                         }
                         StringBuilder *buf = new StringBuilder();
                         buf->append(L"(");
-                        s = Utils::escapeWhitespace(getNodeText(t, ruleNames), false);
+                        s = antlrcpp::escapeWhitespace(getNodeText(t, ruleNames), false);
                         buf->append(s);
                         buf->append(L' ');
                         for (int i = 0; i < t->getChildCount(); i++) {
