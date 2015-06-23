@@ -78,8 +78,11 @@ namespace org {
 
                     int ParserATNSimulator::adaptivePredict(TokenStream *input, int decision, ParserRuleContext *outerContext) {
                         if (debug || debug_list_atn_decisions) {
+#ifdef TODO
+
                             std::wcout << L"adaptivePredict decision " << decision << L" exec LA(1)==" << getLookaheadName(input) << L" line " << input->LT(1)->getLine() << L":" << input->LT(1)->getCharPositionInLine() << std::endl;
-                        }
+#endif
+						}
 
                         _input = input;
                         _startIndex = input->index();
@@ -97,9 +100,10 @@ namespace org {
                                     outerContext = ParserRuleContext::EMPTY;
                                 }
                                 if (debug || debug_list_atn_decisions) {
-
+#ifdef TODO
                                     std::wcout << L"predictATN decision " << dfa.decision << L" exec LA(1)==" << getLookaheadName(input) << L", outerContext=" << outerContext->toString(parser) << std::endl;
-                                }
+#endif
+								}
                                 bool fullCtx = false;
                                 ATNConfigSet *s0_closure = computeStartState(dynamic_cast<ATNState*>(dfa.atnStartState),
                                                                              ParserRuleContext::EMPTY, fullCtx);
@@ -109,8 +113,10 @@ namespace org {
                             // We can start with an existing DFA.
                             int alt = execATN(&dfa, dfa.s0, input, index, outerContext);
                             if (debug) {
-
+#ifdef TODO
+								// Causing an unusual link error in Windows
                                 std::wcout << "DFA after predictATN: " << dfa.toString(parser->getTokenNames()) << std::endl;
+#endif
                             }
                             return alt;
                         }

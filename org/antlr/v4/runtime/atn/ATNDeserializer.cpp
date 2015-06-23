@@ -71,7 +71,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    const int ATNDeserializer::SERIALIZED_VERSION;
+				     //int const ATNDeserializer::SERIALIZED_VERSION;
 
                     /* This value should never change. Updates following this version are
                      * reflected as change in the unique ID SERIALIZED_UUID.
@@ -140,7 +140,7 @@ namespace org {
                         for (int i = 0; i < nstates; i++) {
                             int stype = toInt(data[p++]);
                             // ignore bad type of states
-                            if (stype == ATNState::INVALID_TYPE) {
+                            if (stype == ATNState::ATN_INVALID_TYPE) {
                                 atn->addState(nullptr);
                                 continue;
                             }
@@ -568,7 +568,7 @@ namespace org {
                     ATNState *ATNDeserializer::stateFactory(int type, int ruleIndex) {
                         ATNState *s;
                         switch (type) {
-                            case ATNState::INVALID_TYPE:
+                            case ATNState::ATN_INVALID_TYPE:
                                 return nullptr;
                             case ATNState::BASIC :
                                 s = new BasicState();

@@ -206,7 +206,7 @@ namespace org {
                         currentPrime += 4;
                         int newCapacity = (int)buckets.size() * 2;
                         std::vector<std::vector<T>> *newTable = createBuckets(newCapacity);
-                        int newBucketLengths[newTable->size()];
+						std::vector<int> newBucketLengths;
                         buckets = *newTable;
                         threshold = static_cast<int>(newCapacity * LOAD_FACTOR);
                         //		System.out.println("new size="+newCapacity+", thres="+threshold);
@@ -224,8 +224,6 @@ namespace org {
                                 
                                 int b = getBucket(o);
                                 int bucketLength = newBucketLengths[b];
-                                //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-                                //ORIGINAL LINE: T[] newBucket;
                                 std::vector<T> *newBucket;
                                 if (bucketLength == 0) {
                                     // new bucket

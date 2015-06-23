@@ -77,6 +77,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\antlrcpp\CPPUtils.cpp" />
+    <ClCompile Include="..\antlrcpp\Strings.cpp" />
+    <ClCompile Include="..\antlrcpp\UUID.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\ANTLRErrorListener.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\ANTLRErrorStrategy.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\ANTLRFileStream.cpp" />
@@ -152,7 +155,6 @@
     <ClCompile Include="..\org\antlr\v4\runtime\LexerNoViableAltException.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\ListTokenSource.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\AbstractEqualityComparator.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\Array2DHashSet.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\EqualityComparator.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\GraphicsSupport.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\misc\Interval.cpp" />
@@ -212,10 +214,12 @@
     <ClCompile Include="..\org\antlr\v4\runtime\tree\xpath\XPathWildcardAnywhereElement.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\tree\xpath\XPathWildcardElement.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\UnbufferedCharStream.cpp" />
-    <ClCompile Include="..\org\antlr\v4\runtime\UnbufferedTokenStream.cpp" />
     <ClCompile Include="..\org\antlr\v4\runtime\WritableToken.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\antlrcpp\CPPUtils.h" />
+    <ClInclude Include="..\antlrcpp\Strings.h" />
+    <ClInclude Include="..\antlrcpp\UUID.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\ANTLRErrorListener.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\ANTLRErrorStrategy.h" />
     <ClInclude Include="..\org\antlr\v4\runtime\ANTLRFileStream.h" />
