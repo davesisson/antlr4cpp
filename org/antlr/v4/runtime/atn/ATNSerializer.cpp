@@ -505,14 +505,14 @@ namespace org {
 							case L'\'':
 								return L"'\\''";
 							default:
-								std::wstring s_hex = Utils::toHexString(t);
+								std::wstring s_hex = antlrcpp::toHexString(t);
 								if (s_hex >= L"0" && s_hex <= L"7F" &&
 									!iscntrl(t)) {
 									return L"'" + std::to_wstring(t) + L"'";
 								}
 								// turn on the bit above max "\uFFFF" value so that we pad with zeros
 								// then only take last 4 digits
-								std::wstring hex = Utils::toHexString(t | 0x10000).substr(1, 4);
+								std::wstring hex = antlrcpp::toHexString(t | 0x10000).substr(1, 4);
 								std::wstring unicodeStr = std::wstring(L"'\\u") + hex + std::wstring(L"'");
 								return unicodeStr;
 							}
@@ -534,7 +534,7 @@ namespace org {
 					}
 
 					wchar_t *ATNSerializer::getSerializedAsChars(ATN *atn) {
-						return Utils::toCharArray(getSerialized(atn));
+						return antlrcpp::toCharArray(getSerialized(atn));
 					}
 
 					std::wstring ATNSerializer::getDecoded(ATN *atn,
@@ -545,7 +545,7 @@ namespace org {
 						// You will need to call 'delete[]' where appropriate:
 						// ORIGINAL LINE: char[] data =
 						// org.antlr.v4.runtime.misc.Utils.toCharArray(serialized);
-						wchar_t *data = Utils::toCharArray(serialized);
+						wchar_t *data = antlrcpp::toCharArray(serialized);
 						return (new ATNSerializer(atn, tokenNames))->decode(data);
 					}
 

@@ -14,7 +14,7 @@
 #include "StringBuilder.h"
 //#include "ProxyErrorListener.h" // Under a TODO These two are causing recursive loop includes
 #include "Strings.h"
-#include "Utils.h"
+#include "CPPUtils.h"
 #include "RecognitionException.h"
 
 /*

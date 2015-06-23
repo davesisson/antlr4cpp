@@ -1,4 +1,4 @@
-#include "Utils.h"
+#include "CPPUtils.h"
 #include <stdarg.h>  // for va_start, etc
 #include <memory>    // for std::unique_ptr
 #include <stdlib.h>
@@ -34,7 +34,7 @@
  */
 
 
-namespace Utils {
+namespace antlrcpp {
 #ifdef TODO
     Add the body
 #endif

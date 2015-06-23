@@ -1,7 +1,7 @@
 ﻿#include "LexerNoViableAltException.h"
 #include "RecognitionException.h"
 #include "Interval.h"
-#include "Utils.h"
+#include "CPPUtils.h"
 #include "CharStream.h"
 
 #include <stdio.h>
@@ -62,7 +62,7 @@ namespace org {
                     std::wstring symbol = L"";
                     if (startIndex >= 0 && startIndex < getInputStream()->size()) {
                         symbol = getInputStream()->getText(misc::Interval::of(startIndex,startIndex));
-                        symbol = Utils::escapeWhitespace(symbol, false);
+                        symbol = antlrcpp::escapeWhitespace(symbol, false);
                     }
                     std::wstring format = L"LexerNoViableAltException('" + symbol + L"')";
                     return format;

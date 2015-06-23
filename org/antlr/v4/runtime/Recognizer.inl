@@ -84,7 +84,7 @@ namespace org {
                         std::map<std::wstring, int> *result = _ruleIndexMapCache.at(ruleNames);
                     
                         if (result == nullptr) {
-                            result = Utils::toMap(ruleNames);
+                            result = antlrcpp::toMap(ruleNames);
 #ifdef TODO
                             _ruleIndexMapCache.insert(ruleNames, result);
 #endif
