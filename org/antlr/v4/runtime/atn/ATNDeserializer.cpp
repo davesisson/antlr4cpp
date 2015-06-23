@@ -71,7 +71,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    const int ATNDeserializer::SERIALIZED_VERSION;
+					const int ATNDeserializer::SERIALIZED_VERSION;
 
                     /* This value should never change. Updates following this version are
                      * reflected as change in the unique ID SERIALIZED_UUID.
