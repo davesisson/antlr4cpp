@@ -347,16 +347,16 @@ namespace org {
                         if (deserializationOptions->isGenerateRuleBypassTransitions() && atn->grammarType == ATNType::PARSER) {
                             atn->ruleToTokenType = new int[atn->ruleToStartState.size()];
                             for (std::vector<RuleStartState*>::size_type i = 0; i < atn->ruleToStartState.size(); i++) {
-                                atn->ruleToTokenType[i] = atn->maxTokenType + i + 1;
+                                atn->ruleToTokenType[i] = atn->maxTokenType + (int)i + 1;
                             }
 
                             for (std::vector<RuleStartState*>::size_type i = 0; i < atn->ruleToStartState.size(); i++) {
                                 BasicBlockStartState *bypassStart = new BasicBlockStartState();
-                                bypassStart->ruleIndex = i;
+                                bypassStart->ruleIndex = (int)i;
                                 atn->addState(bypassStart);
 
                                 BlockEndState *bypassStop = new BlockEndState();
-                                bypassStop->ruleIndex = i;
+                                bypassStop->ruleIndex = (int)i;
                                 atn->addState(bypassStop);
 
                                 bypassStart->endState = bypassStop;

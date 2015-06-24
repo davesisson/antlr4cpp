@@ -67,8 +67,8 @@ namespace org {
 						this->tokenNames = tokenNames;
 					}
 
-					std::vector<int>* ATNSerializer::serialize() {
-						std::vector<int>* data = new std::vector<int>();
+					std::vector<size_t>* ATNSerializer::serialize() {
+						std::vector<size_t>* data = new std::vector<size_t>();
 						data->push_back(ATNDeserializer::SERIALIZED_VERSION);
 						serializeUUID(data, ATNDeserializer::SERIALIZED_UUID);
 
@@ -389,11 +389,11 @@ namespace org {
 						}
 						int numNonGreedyStates = ATNDeserializer::toInt(data[p++]);
 						for (int i = 0; i < numNonGreedyStates; i++) {
-							int stateNumber = ATNDeserializer::toInt(data[p++]);
+							//int stateNumber = ATNDeserializer::toInt(data[p++]); // Unused?
 						}
 						int numPrecedenceStates = ATNDeserializer::toInt(data[p++]);
 						for (int i = 0; i < numPrecedenceStates; i++) {
-							int stateNumber = ATNDeserializer::toInt(data[p++]);
+							//int stateNumber = ATNDeserializer::toInt(data[p++]); // Unused?
 						}
 						int nrules = ATNDeserializer::toInt(data[p++]);
 						for (int i = 0; i < nrules; i++) {
@@ -529,7 +529,7 @@ namespace org {
 						return std::wstring(getSerializedAsChars(atn));
 					}
 
-					std::vector<int> *ATNSerializer::getSerialized(ATN *atn) {
+					std::vector<size_t> *ATNSerializer::getSerialized(ATN *atn) {
 						return (new ATNSerializer(atn))->serialize();
 					}
 
@@ -539,7 +539,7 @@ namespace org {
 
 					std::wstring ATNSerializer::getDecoded(ATN *atn,
 						std::vector<std::wstring> &tokenNames) {
-						std::vector<int> *serialized = getSerialized(atn);
+						std::vector<size_t> *serialized = getSerialized(atn);
 						// JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this
 						// declaration, Java to C++ Converter has converted this array to a pointer.
 						// You will need to call 'delete[]' where appropriate:
@@ -549,17 +549,17 @@ namespace org {
 						return (new ATNSerializer(atn, tokenNames))->decode(data);
 					}
 
-					void ATNSerializer::serializeUUID(std::vector<int> *data, UUID *uuid) {
+					void ATNSerializer::serializeUUID(std::vector<size_t> *data, UUID *uuid) {
 						serializeLong(data, uuid->getLeastSignificantBits());
 						serializeLong(data, uuid->getMostSignificantBits());
 					}
 
-					void ATNSerializer::serializeLong(std::vector<int> *data, long long value) {
+					void ATNSerializer::serializeLong(std::vector<size_t> *data, long long value) {
 						serializeInt(data, static_cast<int>(value));
 						serializeInt(data, static_cast<int>(value >> 32));
 					}
 
-					void ATNSerializer::serializeInt(std::vector<int> *data, int value) {
+					void ATNSerializer::serializeInt(std::vector<size_t> *data, int value) {
 						data->push_back(static_cast<wchar_t>(value));
 						data->push_back(static_cast<wchar_t>(value >> 16));
 					}

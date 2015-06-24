@@ -108,6 +108,8 @@ namespace org {
                     /// </summary>
                     class ATNState {
                     public:
+                        virtual ~ATNState();
+                        
                         static const int INITIAL_NUM_TRANSITIONS = 4;
                         
                         enum {

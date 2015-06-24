@@ -62,7 +62,7 @@ namespace org {
                     static const int _EOF = IntStream::_EOF;
  
                     // This isn't necessary
-//                    virtual ~Token() = 0;
+                    virtual ~Token() {};
 
                     /// <summary>
                     /// All tokens go to the parser (unless skip() is called in that rule)

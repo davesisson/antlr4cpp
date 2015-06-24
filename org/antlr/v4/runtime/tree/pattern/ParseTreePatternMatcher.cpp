@@ -179,7 +179,7 @@ namespace org {
                                 // (expr ...) and <expr>
                                 RuleTagToken *ruleTagToken = getRuleTagToken(r2);
                                 if (ruleTagToken != nullptr) {
-                                    ParseTreeMatch *m = nullptr;
+                                    //ParseTreeMatch *m = nullptr; // unused?
 									if (r1->RuleContext::getRuleContext()->getRuleIndex() == r2->RuleContext::getRuleContext()->getRuleIndex()) {
                                         // track label->list-of-nodes for both rule name and label (if any)
                                         labels->map(ruleTagToken->getRuleName(), tree);

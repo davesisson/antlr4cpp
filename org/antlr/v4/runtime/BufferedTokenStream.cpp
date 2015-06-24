@@ -94,7 +94,7 @@ namespace org {
                     size_t n = i - tokens.size() + 1; // how many more elements we need?
                     //System.out.println("sync("+i+") needs "+n);
                     if (n > 0) {
-                        size_t fetched = fetch(n);
+                        size_t fetched = fetch((int)n);
                         return fetched >= n;
                     }
 
@@ -109,7 +109,7 @@ namespace org {
                     for (int i = 0; i < n; i++) {
                         Token *t = tokenSource->nextToken();
                         if (dynamic_cast<WritableToken*>(t) != nullptr) {
-                            (static_cast<WritableToken*>(t))->setTokenIndex(tokens.size());
+                            (static_cast<WritableToken*>(t))->setTokenIndex((int)tokens.size());
                         }
                         tokens.push_back(t);
                         if (t->getType() == Token::_EOF) {
@@ -138,7 +138,7 @@ namespace org {
                     lazyInit();
                     std::vector<Token*> subset = std::vector<Token*>();
                     if (stop >= tokens.size()) {
-                        stop = tokens.size() - 1;
+                        stop = (int)tokens.size() - 1;
                     }
                     for (int i = start; i <= stop; i++) {
                         Token *t = tokens[i];
@@ -285,7 +285,7 @@ namespace org {
                     int from = tokenIndex + 1;
                     // if none onchannel to right, nextOnChannel=-1 so set to = last token
                     if (nextOnChannel == -1) {
-                        to = size() - 1;
+                        to = (int)size() - 1;
                     } else {
                         to = nextOnChannel;
                     }
@@ -351,7 +351,7 @@ namespace org {
                 std::wstring BufferedTokenStream::getText() {
                     lazyInit();
                     fill();
-                    return getText(misc::Interval::of(0,size() - 1));
+                    return getText(misc::Interval::of(0, (int)size() - 1));
                 }
 
                 std::wstring BufferedTokenStream::getText(misc::Interval *interval) {
@@ -362,7 +362,7 @@ namespace org {
                     }
                     lazyInit();
                     if (stop >= tokens.size()) {
-                        stop = tokens.size() - 1;
+                        stop = (int)tokens.size() - 1;
                     }
 
                     StringBuilder *buf = new StringBuilder();

@@ -81,7 +81,7 @@ namespace org {
 						///
 						///  Convenient to pack into unsigned shorts to make as Java string.
 						/// </summary>
-						virtual std::vector<int> *serialize();
+						virtual std::vector<size_t> *serialize();
 
 						virtual std::wstring decode(const std::wstring& data);
 
@@ -92,7 +92,7 @@ namespace org {
 						/// </summary>
 						static std::wstring getSerializedAsString(ATN *atn);
 
-						static std::vector<int> *getSerialized(ATN *atn);
+						static std::vector<size_t> *getSerialized(ATN *atn);
 
 						static wchar_t *getSerializedAsChars(ATN *atn);
 
@@ -100,11 +100,11 @@ namespace org {
 							std::vector<std::wstring> &tokenNames);
 
 					private:
-						void serializeUUID(std::vector<int> *data, UUID *uuid);
+						void serializeUUID(std::vector<size_t> *data, UUID *uuid);
 
-						void serializeLong(std::vector<int> *data, long long value);
+						void serializeLong(std::vector<size_t> *data, long long value);
 
-						void serializeInt(std::vector<int> *data, int value);
+						void serializeInt(std::vector<size_t> *data, int value);
 					};
 
 				}  // namespace org

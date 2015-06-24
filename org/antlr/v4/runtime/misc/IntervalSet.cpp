@@ -377,7 +377,7 @@ namespace org {
                             hash = MurmurHash::update(hash, I->b);
                         }
 
-                        hash = MurmurHash::finish(hash, intervals.size() * 2);
+                        hash = MurmurHash::finish(hash, (int)intervals.size() * 2);
                         return hash;
                     }
 

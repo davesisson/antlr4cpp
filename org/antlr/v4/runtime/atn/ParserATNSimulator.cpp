@@ -306,7 +306,7 @@ namespace org {
                         int nalts = decisionState->getNumberOfTransitions();
                         // Update DFA so reach becomes accept state with (predicate,alt)
                         // pairs if preds found for conflicting alts
-						BitSet *altsToCollectPredsFrom;
+						BitSet *altsToCollectPredsFrom = nullptr;
 						altsToCollectPredsFrom->data = getConflictingAltsOrUniqueAlt(dfaState->configs).data;
                         std::vector<SemanticContext*> altToPred = getPredsForAmbigAlts(altsToCollectPredsFrom, dfaState->configs, nalts);
                         if (!altToPred.empty()) {
@@ -687,7 +687,7 @@ namespace org {
                     }
 
                     int ParserATNSimulator::getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs) {
-                        misc::IntervalSet *alts;
+                        misc::IntervalSet *alts = nullptr;
                         for (auto c : *configs) {
                             if (c->reachesIntoOuterContext > 0 || (dynamic_cast<RuleStopState*>(c->state) != nullptr && c->context->hasEmptyPath())) {
                                 alts->add(c->alt);
@@ -1070,7 +1070,7 @@ namespace org {
                                 return existing;
                             }
 
-                            D->stateNumber = dfa->states->size();
+                            D->stateNumber = (int)dfa->states->size();
                             if (!D->configs->isReadonly()) {
                                 D->configs->optimizeConfigs(this);
                                 D->configs->setReadonly(true);

@@ -1176,7 +1176,7 @@
 		37D727A21867AF1E007B6D10 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Dan McLaughlin";
 			};
 			buildConfigurationList = 37D727A51867AF1E007B6D10 /* Build configuration list for PBXProject "antlrcpp" */;
@@ -1419,6 +1419,7 @@
 		37D727B81867AF1E007B6D10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1426,6 +1427,7 @@
 		37D727B91867AF1E007B6D10 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

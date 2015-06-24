@@ -82,9 +82,9 @@ namespace antlrcpp {
         return blank;
     }
 
-	wchar_t* toCharArray(const std::vector<int> *data){
+	wchar_t* toCharArray(const std::vector<size_t> *data){
 		if (data == nullptr) return nullptr;
-		wchar_t* cdata = new wchar_t(data->size());
+		wchar_t* cdata = new wchar_t[data->size()];
 
 		for (int i = 0; i < data->size(); i++){
 			cdata[i] = (char)data->at(i);

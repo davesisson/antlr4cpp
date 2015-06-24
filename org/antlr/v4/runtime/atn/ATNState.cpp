@@ -39,6 +39,9 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
+                    
+                    ATNState::~ATNState() {};
+                    
                     const int ATNState::INITIAL_NUM_TRANSITIONS;
                     
 
