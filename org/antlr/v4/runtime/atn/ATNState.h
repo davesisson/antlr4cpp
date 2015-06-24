@@ -109,22 +109,23 @@ namespace org {
                     class ATNState {
                     public:
                         static const int INITIAL_NUM_TRANSITIONS = 4;
-
-                        // constants for serialization
-                        static const int ATN_INVALID_TYPE = 0;
-                        static const int BASIC = 1;
-                        static const int RULE_START = 2;
-                        static const int BLOCK_START = 3;
-                        static const int PLUS_BLOCK_START = 4;
-                        static const int STAR_BLOCK_START = 5;
-                        static const int TOKEN_START = 6;
-                        static const int RULE_STOP = 7;
-                        static const int BLOCK_END = 8;
-                        static const int STAR_LOOP_BACK = 9;
-                        static const int STAR_LOOP_ENTRY = 10;
-                        static const int PLUS_LOOP_BACK = 11;
-                        static const int LOOP_END = 12;
-
+                        
+                        enum {
+                            ATN_INVALID_TYPE = 0,
+                            BASIC = 1,
+                            RULE_START = 2,
+                            BLOCK_START = 3,
+                            PLUS_BLOCK_START = 4,
+                            STAR_BLOCK_START = 5,
+                            TOKEN_START = 6,
+                            RULE_STOP = 7,
+                            BLOCK_END = 8,
+                            STAR_LOOP_BACK = 9,
+                            STAR_LOOP_ENTRY = 10,
+                            PLUS_LOOP_BACK = 11,
+                            LOOP_END = 12
+                        };
+                        
                         static const std::vector<std::wstring> serializationNames;
 
                         static const int INVALID_STATE_NUMBER = -1;

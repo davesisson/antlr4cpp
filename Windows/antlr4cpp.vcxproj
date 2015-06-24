@@ -53,6 +53,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ANTLR4CPP_EXPORTS;%(PreprocessorDefinitions);WINDOWS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\antlrcpp;$(ProjectDir)\..\org\antlr\v4\runtime;$(ProjectDir)\..\org\antlr\v4\runtime\atn;$(ProjectDir)\..\org\antlr\v4\runtime\dfa;$(ProjectDir)\..\org\antlr\v4\runtime\misc;$(ProjectDir)\..\org\antlr\v4\runtime\tree;$(ProjectDir)\..\org\antlr\v4\runtime\tree\xpath;$(ProjectDir)\..\org\antlr\v4\runtime\tree\pattern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

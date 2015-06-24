@@ -49,7 +49,7 @@ namespace org {
                     /// </summary>
                     class ATNDeserializer {
                     public:
-                        static const int SERIALIZED_VERSION = 3;
+						static const int SERIALIZED_VERSION;
                         //static ATNDeserializer();
 
                         /// <summary>

@@ -41,21 +41,6 @@ namespace org {
                 namespace atn {
                     const int ATNState::INITIAL_NUM_TRANSITIONS;
                     
-                    // constants for serialization
-					// This causes a link error in Windows, TODO OS X
-                    //const int ATNState::ATN_INVALID_TYPE;
-                    const int ATNState::BASIC;
-                    const int ATNState::RULE_START;
-                    const int ATNState::BLOCK_START;
-                    const int ATNState::PLUS_BLOCK_START;
-                    const int ATNState::STAR_BLOCK_START;
-                    const int ATNState::TOKEN_START;
-                    const int ATNState::RULE_STOP;
-                    const int ATNState::BLOCK_END;
-                    const int ATNState::STAR_LOOP_BACK;
-                    const int ATNState::STAR_LOOP_ENTRY;
-                    const int ATNState::PLUS_LOOP_BACK;
-                    const int ATNState::LOOP_END;
 
                     const std::vector<std::wstring> ATNState::serializationNames;
 #ifdef TODO
