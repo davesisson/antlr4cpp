@@ -19,9 +19,6 @@
 #include "PredictionMode.h"
 #include "Utils.h"
 
-// TODO: Assert is a really poor mans debugging, remove this and use exception 
-// handling instead. 
-#include <assert.h>
 
 // TODO: Using "wcout <<" for debug information is really lame, change out with 
 // some kind of listener 
@@ -78,10 +75,7 @@ namespace org {
 
                     int ParserATNSimulator::adaptivePredict(TokenStream *input, int decision, ParserRuleContext *outerContext) {
                         if (debug || debug_list_atn_decisions) {
-#ifdef TODO
-
                             std::wcout << L"adaptivePredict decision " << decision << L" exec LA(1)==" << getLookaheadName(input) << L" line " << input->LT(1)->getLine() << L":" << input->LT(1)->getCharPositionInLine() << std::endl;
-#endif
 						}
 
                         _input = input;
@@ -100,9 +94,7 @@ namespace org {
                                     outerContext = ParserRuleContext::EMPTY;
                                 }
                                 if (debug || debug_list_atn_decisions) {
-#ifdef TODO
                                     std::wcout << L"predictATN decision " << dfa.decision << L" exec LA(1)==" << getLookaheadName(input) << L", outerContext=" << outerContext->toString(parser) << std::endl;
-#endif
 								}
                                 bool fullCtx = false;
                                 ATNConfigSet *s0_closure = computeStartState(dynamic_cast<ATNState*>(dfa.atnStartState),
@@ -113,10 +105,7 @@ namespace org {
                             // We can start with an existing DFA.
                             int alt = execATN(&dfa, dfa.s0, input, index, outerContext);
                             if (debug) {
-#ifdef TODO
-								// Causing an unusual link error in Windows
                                 std::wcout << "DFA after predictATN: " << dfa.toString(parser->getTokenNames()) << std::endl;
-#endif
                             }
                             return alt;
                         }
@@ -463,7 +452,10 @@ namespace org {
                             }
 
                             if (dynamic_cast<RuleStopState*>(c->state) != nullptr) {
-                                assert(c->context->isEmpty());
+                                if (c->context->isEmpty()) {
+                                    // Converted assert, shouldn't happen
+                                    throw new std::exception();
+                                }
                                 if (fullCtx || t == IntStream::_EOF) {
                                     if (skippedStopStates.empty()) {
                                         skippedStopStates = std::vector<ATNConfig*>();
@@ -554,7 +546,10 @@ namespace org {
                          * multiple alternatives are viable.
                          */
 						if (skippedStopStates.size() > 0 && (!fullCtx || !PredictionModeClass::hasConfigInRuleStopState(reach))) {
-                            assert(!skippedStopStates.empty());
+                            if (!skippedStopStates.empty()) {
+                                // Shouldn't happen, converted assert
+                                throw new std::exception();
+                            }
                             for (auto c : skippedStopStates) {
                                 reach->add(c, mergeCache);
                             }
@@ -669,7 +664,10 @@ namespace org {
                             SemanticContext *pred = altToPred[i];
 
                             // unpredicted is indicated by SemanticContext.NONE
-                            assert(pred != nullptr);
+                            if(pred != nullptr) {
+                                // Converted assert, shouldn't happen
+                                throw new std::exception();
+                            }
 
                             if (ambigAlts != nullptr && ambigAlts->data.test(i)) {
                                 pairs.push_back(new dfa::DFAState::PredPrediction(pred, i));
@@ -732,7 +730,10 @@ namespace org {
                     void ParserATNSimulator::closure(ATNConfig *config, ATNConfigSet *configs, std::set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx) {
                         const int initialDepth = 0;
                         closureCheckingStopState(config, configs, closureBusy, collectPredicates, fullCtx, initialDepth);
-                        assert(!fullCtx || !configs->dipsIntoOuterContext);
+                        if (!fullCtx || !configs->dipsIntoOuterContext) {
+                            // Converted assert, shouldn't happen
+                            throw new std::exception();
+                        }
                     }
 
                     void ParserATNSimulator::closureCheckingStopState(ATNConfig *config, ATNConfigSet *configs, std::set<ATNConfig*> *closureBusy, bool collectPredicates, bool fullCtx, int depth) {
@@ -765,7 +766,10 @@ namespace org {
                                     // gotten that context AFTER having falling off a rule.
                                     // Make sure we track that we are now out of context.
                                     c->reachesIntoOuterContext = config->reachesIntoOuterContext;
-                                    assert(depth > INT_MIN);
+                                    if (depth > INT_MIN) {
+                                        // Converted assert, shouldn't happen
+                                        throw new std::exception();
+                                    }
                                     closureCheckingStopState(c, configs, closureBusy, collectPredicates, fullCtx, depth - 1);
                                 }
                                 return;
@@ -799,7 +803,10 @@ namespace org {
                             if (c != nullptr) {
                                 int newDepth = depth;
                                 if (dynamic_cast<RuleStopState*>(config->state) != nullptr) {
-                                    assert(!fullCtx);
+                                    if(!fullCtx) {
+                                        // Converted assert, shouldn't happen
+                                        throw new std::exception();
+                                    }
                                     // target fell off end of rule; mark resulting c as having dipped into outer context
                                     // We can't get here if incoming config was rule stop and we had context
                                     // track how far we dip into outer context.  Might
@@ -813,7 +820,10 @@ namespace org {
 
                                     c->reachesIntoOuterContext++;
                                     configs->dipsIntoOuterContext = true; // TODO: can remove? only care when we add to set per middle of this method
-									assert(newDepth > INT_MIN);
+                                    if(newDepth > INT_MIN) {
+                                        // Converted assert, shouldn't happen
+                                        throw new std::exception();
+                                    }
                                     newDepth--;
                                     if (debug) {
                                         std::wcout << L"dips into outer ctx: " << c << std::endl;
@@ -972,7 +982,6 @@ namespace org {
                             if (t >= tokensNames.size()) {
 								std::wcerr << t << L" type out of range: " << Arrays::ListToString(tokensNames, L", ");
 #ifdef TODO
-								These need to get converted to an error facility anyhow, using cerr is bush league
 								std::wcerr << dynamic_cast<CommonTokenStream*>(parser->getInputStream())->getTokens();
 #endif
                             } else {

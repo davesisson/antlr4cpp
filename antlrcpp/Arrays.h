@@ -29,7 +29,7 @@ class Arrays {
     {
     
         StringBuilder *sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++)//(std::wstring s in list)
+        for (size_t i = 0; i < list.size(); i++)//(std::wstring s in list)
         {
             sb->append(list[i]);
 			if (i + 1 < list.size()) sb->append(separator);

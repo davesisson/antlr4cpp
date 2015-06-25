@@ -178,24 +178,11 @@ namespace org {
                     return toStringTree(nullptr);
                 }
 
-                std::wstring RuleContext::toString() {
-                    std::vector<std::wstring> emptyList;
-                    return toString(emptyList, static_cast<RuleContext*>(nullptr));
-                }
-
-                template<typename T1, typename T2>
-                std::wstring RuleContext::toString(Recognizer<T1, T2> *recog) {
-                    return toString(recog, ParserRuleContext::EMPTY);
-                }
 
                 std::wstring RuleContext::toString(const std::vector<std::wstring> &ruleNames) {
                     return toString(ruleNames, static_cast<RuleContext*>(nullptr));
                 }
 
-                template<typename T1, typename T2>
-                std::wstring RuleContext::toString(Recognizer<T1, T2> *recog, RuleContext *stop) {
-                    return toString(recog->getRuleNames(), stop);
-                }
 
                 std::wstring RuleContext::toString(const std::vector<std::wstring> &ruleNames, RuleContext *stop) {
                     StringBuilder *buf = new StringBuilder();
@@ -224,6 +211,12 @@ namespace org {
     
                     return buf->toString();
                 }
+
+				std::wstring RuleContext::toString() {
+#ifdef TODO
+#endif
+					return L"";
+				};
 
                 void RuleContext::InitializeInstanceFields() {
                     invokingState = -1;

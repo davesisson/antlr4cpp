@@ -1,12 +1,13 @@
 ﻿#pragma once
 
+#include <string>
+#include <vector>
+
 #include "RuleNode.h"
 #include "ParseTreeVisitor.h"
 #include "Recognizer.h"
 #include "Declarations.h"
 
-#include <string>
-#include <vector>
 
 
 /*
@@ -107,7 +108,6 @@ namespace org {
 
                     virtual int getChildCount() override;
 
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ template equivalent to generic constraints:
                     template<typename T, typename T1>
                     T accept(tree::ParseTreeVisitor<T1> *visitor);
 
@@ -151,14 +151,25 @@ namespace org {
 
                     virtual std::wstring toString();
 
+                    
                     template<typename T1, typename T2>
-                    std::wstring toString(Recognizer<T1, T2> *recog);
+					std::wstring toString(Recognizer<T1, T2> *recog) {
+                        // Circular include issue, TODO
+						//return toString(recog, ParserRuleContext::EMPTY);
+                        return toString(recog, nullptr);
+					}
 
                     std::wstring toString(const std::vector<std::wstring> &ruleNames);
 
                     // recog null unless ParserRuleContext, in which case we use subclass toString(...)
                     template<typename T1, typename T2>
-                    std::wstring toString(Recognizer<T1, T2> *recog, RuleContext *stop);
+					std::wstring toString(Recognizer<T1, T2> *recog, RuleContext *stop) {
+						return toString(recog->getRuleNames(), stop);
+					}
+
+					std::wstring toString(Token *, atn::ParserATNSimulator *) {
+						return L"TODO";
+					}
 
                     virtual std::wstring toString(const std::vector<std::wstring> &ruleNames, RuleContext *stop);
 
