@@ -1,13 +1,13 @@
 ﻿#pragma once
 
-#include "Recognizer.h"
-#include "SemanticContext.h"
+
 #include <string>
 #include <vector>
 #include <set>
 
 #include "Declarations.h"
-
+#include "Recognizer.h"
+#include "SemanticContext.h"
 
 /*
  * [The "BSD license"]
