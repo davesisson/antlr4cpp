@@ -258,7 +258,6 @@ namespace org {
                         if (debug) {
 
                             std::vector<BitSet> altSubSets = PredictionModeClass::getConflictingAltSubsets(reach);
-							//std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
                             std::wstring altSubSetsStr = BitSet::subStringRepresentation(altSubSets.begin(), altSubSets.end());
                             std::wcout << L"SLL altSubSets=" << altSubSetsStr << L", configs="
                                 << reach << L", predict=" << predictedAlt << L", allSubsetsConflict="
@@ -347,11 +346,12 @@ namespace org {
                             }
 
                             std::vector<BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
-                            if (debug) {
-#ifdef TODO
-                                std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
-                                std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="  << PredictionModeClass::getUniqueAlt(altSubSets) << L", resolvesToJustOneViableAlt=" << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets) << std::endl;
-#endif
+                                std::wstring altSubSetsStr = BitSet::subStringRepresentation(altSubSets.begin(), altSubSets.end());
+                                std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="
+                                    << PredictionModeClass::getUniqueAlt(altSubSets)
+                                    << L", resolvesToJustOneViableAlt="
+                                    << PredictionModeClass::resolvesToJustOneViableAlt(altSubSets)
+                                    << std::endl;
                             }
 
                                         //			System.out.println("altSubSets: "+altSubSets);
