@@ -4,6 +4,7 @@
 #include <bitset>
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 /*
 * [The "BSD license"]
@@ -47,6 +48,10 @@ public:
 	static const int BITSET_SIZE = 1024;
 	std::bitset<BITSET_SIZE> data;
 
+    void assign(size_t count, const BitSet & value ) {
+        
+    }
+    
 	int nextSetBit(const int & pos) {
 		for (size_t i = pos; i < data.size(); i++){
 			if (data.test(i)) return (int)i;
@@ -71,9 +76,10 @@ public:
 		return data.size();
 	}
 
-	//Prints a list of every index for which the bitset contains a bit in true.
+	// Prints a list of every index for which the bitset contains a bit in true.
 	friend std::wostream& operator<<(std::wostream& os, const BitSet& obj)
 	{
+
 		os << L"{";
 		size_t total = obj.data.count();
 		for (size_t i = 0; i < obj.data.size(); i++){
@@ -90,6 +96,19 @@ public:
 		return os;
 	}
 
+    static std::wstring subStringRepresentation(const std::vector<BitSet>::iterator &begin,
+                                                const std::vector<BitSet>::iterator &end) {
+        std::wstring result;
+        std::vector<BitSet>::iterator vectorIterator;
+        
+        for (vectorIterator = begin; vectorIterator != end; vectorIterator++) {
+            result += vectorIterator->toString();
+        }
+        // Grab the end
+        result += end->toString();
+        
+        return result;
+    }
 	std::wstring toString(){
 		std::wstringstream stream;
 		stream << L"{";
