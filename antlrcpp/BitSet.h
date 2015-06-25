@@ -38,6 +38,12 @@
 class BitSet {
 
 public:
+    BitSet() {}
+    
+    BitSet(const BitSet &other) {
+        data = other.data;
+    }
+    
 	static const int BITSET_SIZE = 1024;
 	std::bitset<BITSET_SIZE> data;
 

@@ -256,7 +256,7 @@ namespace org {
                         int predictedAlt = getUniqueAlt(reach);
 
                         if (debug) {
-#ifdef TODO
+
                             std::vector<BitSet> altSubSets = PredictionModeClass::getConflictingAltSubsets(reach);
 							std::wstring altSubSetsStr(altSubSets.begin(), altSubSets.end());
                             std::wcout << L"SLL altSubSets=" << altSubSetsStr << L", configs=" << reach << L", predict=" << predictedAlt << L", allSubsetsConflict=" << PredictionModeClass::allSubsetsConflict(altSubSets) << L", conflictingAlts=" << getConflictingAlts(reach) << std::endl;
