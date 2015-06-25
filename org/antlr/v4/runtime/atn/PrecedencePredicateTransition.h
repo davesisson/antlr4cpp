@@ -1,9 +1,10 @@
 ﻿#pragma once
 
+#include <string>
+
 #include "AbstractPredicateTransition.h"
 #include "ATNState.h"
 #include "SemanticContext.h"
-#include <string>
 
 /*
  * [The "BSD license"]
@@ -62,9 +63,10 @@ namespace org {
                         SemanticContext::PrecedencePredicate *getPredicate();
 
                         virtual std::wstring toString();
-
+                        
                     };
-
+                    
+                    
                 }
             }
         }

@@ -58,7 +58,7 @@ namespace org {
                     public:
                         static SemanticContext *const NONE;
                         
-                        virtual int hashCode() ;
+                        virtual int hashCode() = 0;
                         
                         class Predicate;
                         class PrecedencePredicate;
@@ -67,7 +67,7 @@ namespace org {
                         
                         SemanticContext *parent;
 
-                        std::wstring toString();
+                        virtual std::wstring toString() = 0;
                         
                         virtual bool equals(void *obj);
                         
@@ -85,13 +85,13 @@ namespace org {
                         /// dependent predicate evaluation.
                         /// </summary>
                         
-                        
+                        // Abstract
                         template<typename T1, typename T2>
                         bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
-#ifdef TODO
-                            Do something here, what happened to this code?
-#endif
-                            return false;
+                            // In the original Java this is abstract, but
+                            // C++ complains with a link error, and we
+                            // cannot make a template function abstract
+                            throw new std::exception();
                         }
 
                         static SemanticContext *And(SemanticContext *a, SemanticContext *b);
@@ -101,10 +101,10 @@ namespace org {
                         static SemanticContext *Or(SemanticContext *a, SemanticContext *b);
 
                     private:
-                        template<typename T1> //where T1 : SemanticContext
-                        static std::vector<PrecedencePredicate*> filterPrecedencePredicates(std::set<T1> *collection) {
+                        template<typename T1> // where T1 : SemanticContext
+                        static std::vector<PrecedencePredicate*> filterPrecedencePredicates(std::vector<T1> *collection) {
                             std::vector<PrecedencePredicate*> result;
-                            for (std::set<SemanticContext*>::const_iterator iterator = collection->begin(); iterator != collection->end(); ++iterator) {
+                            for (std::vector<SemanticContext*>::const_iterator iterator = collection->begin(); iterator != collection->end(); ++iterator) {
                                 SemanticContext *context = *iterator;
                                 if ((PrecedencePredicate*)(context) != nullptr) {
                                     result.push_back((PrecedencePredicate*)context);
@@ -137,14 +137,14 @@ namespace org {
                             return parser->sempred(localctx, ruleIndex, predIndex);
                         }
 
-                        virtual int hashCode() ;
+                        virtual int hashCode() override;
                         
                         virtual bool equals(void *obj);
                         
                         virtual std::wstring toString() ;
                     };
                     
-                    class SemanticContext::PrecedencePredicate : public SemanticContext /*, public Comparable<PrecedencePredicate*>*/ {
+                    class SemanticContext::PrecedencePredicate : public SemanticContext {
                     public:
                         const int precedence;
                         
@@ -159,25 +159,33 @@ namespace org {
                             return parser->precpred(outerContext, precedence);
                         }
 
-                        
                         virtual int compareTo(PrecedencePredicate *o);
                         
-                        virtual int hashCode();
+                        virtual int hashCode() override;
                         
                         virtual bool equals(void *obj);
                         
                         virtual std::wstring toString();
+                        
+                        static bool lessThan(const PrecedencePredicate &a,
+                                             const PrecedencePredicate &b) {
+                            return a.precedence < b.precedence;
+                        }
+                        static bool greaterThan(const PrecedencePredicate &a,
+                                                const PrecedencePredicate &b) {
+                            return a.precedence > b.precedence;
+                        }
                     };
                     
                     class SemanticContext::AND : public SemanticContext {
                     public:
-                        const std::vector<SemanticContext*> opnds;
+                        std::vector<SemanticContext*> opnds;
                         
                         AND(SemanticContext *a, SemanticContext *b);
                         
                         virtual bool equals(void *obj);
                         
-                        virtual int hashCode();
+                        virtual int hashCode() override;
 
                         template<typename T1, typename T2>
                         bool eval(Recognizer<T1, T2> *parser, RuleContext *outerContext) {
@@ -190,12 +198,12 @@ namespace org {
                         }
 
                         
-                        virtual std::wstring toString();
+                        virtual std::wstring toString() override;
                     };
                     
                     class SemanticContext::OR : public SemanticContext {
                     public:
-                        const std::vector<SemanticContext*> opnds;
+                        std::vector<SemanticContext*> opnds;
                         
                         OR(SemanticContext *a, SemanticContext *b);
                         
@@ -213,7 +221,7 @@ namespace org {
                             return false;
                         }
 
-                        virtual std::wstring toString();
+                        virtual std::wstring toString() override;
                     };
 
                 }

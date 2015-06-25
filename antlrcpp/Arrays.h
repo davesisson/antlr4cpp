@@ -11,11 +11,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "StringBuilder.h"
 #include <list>
 #include <stdarg.h>
-#include "Declarations.h"
 
+#include "Declarations.h"
+#include "StringBuilder.h"
 /// <summary>
 /// Converts List to string with given separator.
 /// </summary>
@@ -61,6 +61,7 @@ class Arrays {
     
 
 #endif
+
     
     static std::vector<std::wstring> asList(const std::wstring *items)
     {
