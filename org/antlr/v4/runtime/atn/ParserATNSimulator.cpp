@@ -346,6 +346,7 @@ namespace org {
                             }
 
                             std::vector<BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
+                            if (debug) {
                                 std::wstring altSubSetsStr = BitSet::subStringRepresentation(altSubSets.begin(), altSubSets.end());
                                 std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="
                                     << PredictionModeClass::getUniqueAlt(altSubSets)
@@ -426,7 +427,7 @@ namespace org {
                         return predictedAlt;
                     }
 
-                    org::antlr::v4::runtime::atn::ATNConfigSet *ParserATNSimulator::computeReachSet(ATNConfigSet *closure, int t, bool fullCtx) {
+                    atn::ATNConfigSet *ParserATNSimulator::computeReachSet(ATNConfigSet *closure, int t, bool fullCtx) {
                         if (debug) {
                             std::wcout << L"in computeReachSet, starting closure: " << closure << std::endl;
                         }
@@ -985,9 +986,8 @@ namespace org {
                             std::vector<std::wstring> tokensNames = parser->getTokenNames();
                             if (t >= tokensNames.size()) {
 								std::wcerr << t << L" type out of range: " << Arrays::ListToString(tokensNames, L", ");
-#ifdef TODO
-								std::wcerr << dynamic_cast<CommonTokenStream*>(parser->getInputStream())->getTokens();
-#endif
+                                // TODO
+//								std::wcerr << ((CommonTokenStream*)parser->getInputStream())->getTokens();
                             } else {
                                 return tokensNames[t] + L"<" + std::to_wstring(t) + L">";
                             }
