@@ -59,5 +59,7 @@ namespace antlrcpp {
 	wchar_t* toCharArray(const std::vector<size_t> *data);
 
 	std::wstring toHexString(const int t);
+    
+    
 
 }

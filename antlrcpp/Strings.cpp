@@ -41,6 +41,15 @@
 	return converterX.to_bytes(wstr);
  }
 
+std::wstring s2ws(const std::string& str) {
+//    // TODO: not available on Linux
+//    typedef std::codecvt_utf8<wchar_t> convert_typeX;
+//    std::wstring_convert<convert_typeX, wchar_t> converterX;
+//    
+//    return converterX.to_bytes(wstr);
+    return nullptr;
+}
+
 void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to)
 {
     if(from.empty()) {
