@@ -60,6 +60,6 @@ namespace antlrcpp {
 
 	std::wstring toHexString(const int t);
     
-    
+    std::wstring arrayToString(const std::vector<std::wstring> &data);
 
 }

@@ -98,4 +98,12 @@ namespace antlrcpp {
 		stream << std::uppercase << std::hex << t;
 		return stream.str();
 	}
+    
+    std::wstring arrayToString(const std::vector<std::wstring> &data) {
+        std::wstring answer;
+        for (auto sub: data) {
+            answer += sub;
+        }
+        return answer;
+    }
 }
