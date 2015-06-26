@@ -312,7 +312,7 @@ namespace org {
                     template<typename U>
                     U *Array2DHashSet<T>::toArray(U a[]) {
                         if (sizeof(a) / sizeof(a[0]) < size()) {
-                            a = Arrays::copyOf(a, size());
+                            a = antlrcpp::Arrays::copyOf(a, size());
                         }
                         
                         int i = 0;

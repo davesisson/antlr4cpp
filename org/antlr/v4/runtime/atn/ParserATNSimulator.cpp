@@ -878,7 +878,7 @@ namespace org {
                         if (debug) {
                             std::wcout << L"PRED (collectPredicates=" << collectPredicates << L") " << pt->precedence << L">=_p" << L", ctx dependent=true" << std::endl;
                             if (parser != nullptr) {
-                                std::wcout << L"context surrounding pred is " << Arrays::ListToString( parser->getRuleInvocationStack(), L", ") << std::endl;
+                                std::wcout << L"context surrounding pred is " << antlrcpp::Arrays::ListToString( parser->getRuleInvocationStack(), L", ") << std::endl;
                             }
                         }
 
@@ -914,7 +914,7 @@ namespace org {
                         if (debug) {
                             std::wcout << L"PRED (collectPredicates=" << collectPredicates << L") " << pt->ruleIndex << L":" << pt->predIndex << L", ctx dependent=" << pt->isCtxDependent << std::endl;
                             if (parser != nullptr) {
-                                std::wcout << L"context surrounding pred is " << Arrays::ListToString(parser->getRuleInvocationStack(), L", ") << std::endl;
+                                std::wcout << L"context surrounding pred is " << antlrcpp::Arrays::ListToString(parser->getRuleInvocationStack(), L", ") << std::endl;
                             }
                         }
 
@@ -978,7 +978,7 @@ namespace org {
                         if (parser != nullptr) {
                             std::vector<std::wstring> tokensNames = parser->getTokenNames();
                             if (t >= tokensNames.size()) {
-								std::wcerr << t << L" type out of range: " << Arrays::ListToString(tokensNames, L", ");
+								std::wcerr << t << L" type out of range: " << antlrcpp::Arrays::ListToString(tokensNames, L", ");
                                 // TODO
 //								std::wcerr << ((CommonTokenStream*)parser->getInputStream())->getTokens();
                             } else {
