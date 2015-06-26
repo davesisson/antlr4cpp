@@ -319,7 +319,7 @@ namespace org {
                 }
 
                 std::wstring Lexer::getErrorDisplay(int c) {
-                    std::wstring s = StringConverterHelper::toString(static_cast<wchar_t>(c));
+                    std::wstring s = antlrcpp::StringConverterHelper::toString(static_cast<wchar_t>(c));
                     switch (c) {
                         case Token::_EOF :
                             s = L"<EOF>";

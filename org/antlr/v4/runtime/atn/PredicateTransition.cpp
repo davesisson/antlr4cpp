@@ -29,7 +29,7 @@ namespace org {
                     }
 
                     std::wstring PredicateTransition::toString() {
-                        return std::wstring(L"pred_") + StringConverterHelper::toString(ruleIndex) + std::wstring(L":") + StringConverterHelper::toString(predIndex);
+                        return std::wstring(L"pred_") + antlrcpp::StringConverterHelper::toString(ruleIndex) + std::wstring(L":") + antlrcpp::StringConverterHelper::toString(predIndex);
                     }
                 }
             }

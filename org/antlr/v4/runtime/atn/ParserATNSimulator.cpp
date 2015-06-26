@@ -985,7 +985,7 @@ namespace org {
                                 return tokensNames[t] + L"<" + std::to_wstring(t) + L">";
                             }
                         }
-                        return StringConverterHelper::toString(t);
+                        return antlrcpp::StringConverterHelper::toString(t);
                     }
 
                     std::wstring ParserATNSimulator::getLookaheadName(TokenStream *input) {

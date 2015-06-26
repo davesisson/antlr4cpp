@@ -66,7 +66,7 @@ namespace org {
                     }
                     
                     std::wstring ATNState::toString() {
-                        return StringConverterHelper::toString(stateNumber);
+                        return antlrcpp::StringConverterHelper::toString(stateNumber);
                     }
                     
                     Transition *ATNState::getTransitions() {

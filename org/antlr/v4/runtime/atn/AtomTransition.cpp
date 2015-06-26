@@ -54,7 +54,7 @@ namespace org {
                     }
 
                     std::wstring AtomTransition::toString() {
-                        return StringConverterHelper::toString(_label);
+                        return antlrcpp::StringConverterHelper::toString(_label);
                     }
                 }
             }

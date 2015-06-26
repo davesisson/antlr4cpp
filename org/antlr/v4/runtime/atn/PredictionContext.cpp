@@ -403,9 +403,9 @@ namespace org {
                         
                         for (auto current : nodes) {
                             if (dynamic_cast<SingletonPredictionContext*>(current) != nullptr) {
-                                std::wstring s = StringConverterHelper::toString(current->id);
+                                std::wstring s = antlrcpp::StringConverterHelper::toString(current->id);
                                 buf->append(L"  s").append(s);
-                                std::wstring returnState = StringConverterHelper::toString(current->getReturnState(0));
+                                std::wstring returnState = antlrcpp::StringConverterHelper::toString(current->getReturnState(0));
                                 if (dynamic_cast<EmptyPredictionContext*>(current) != nullptr) {
                                     returnState = L"$";
                                 }
@@ -440,13 +440,13 @@ namespace org {
                                 if (current->getParent(i) == nullptr) {
                                     continue;
                                 }
-                                std::wstring s = StringConverterHelper::toString(current->id);
+                                std::wstring s = antlrcpp::StringConverterHelper::toString(current->id);
                                 buf->append(L"  s").append(s);
                                 buf->append(L"->");
                                 buf->append(L"s");
                                 buf->append(current->getParent(i)->id);
                                 if (current->size() > 1) {
-                                    buf->append(std::wstring(L" [label=\"parent[") + StringConverterHelper::toString(i) + std::wstring(L"]\"];\n"));
+                                    buf->append(std::wstring(L" [label=\"parent[") + antlrcpp::StringConverterHelper::toString(i) + std::wstring(L"]\"];\n"));
                                 } else {
                                     buf->append(L";\n");
                                 }

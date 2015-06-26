@@ -86,12 +86,12 @@ namespace org {
                     
                     const std::vector<std::wstring>& ruleNames = recognizer->getRuleNames();
                     if (ruleIndex < 0 || ruleIndex >= ruleNames.size()) {
-                        return StringConverterHelper::toString(decision);
+                        return antlrcpp::StringConverterHelper::toString(decision);
                     }
                     
                     std::wstring ruleName = ruleNames[ruleIndex];
                     if (ruleName == L"" || ruleName.empty())  {
-                        return StringConverterHelper::toString(decision);
+                        return antlrcpp::StringConverterHelper::toString(decision);
                     }
                     
                     return std::to_wstring(decision) + L"(" + ruleName + L")";

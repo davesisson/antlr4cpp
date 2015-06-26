@@ -85,9 +85,9 @@ namespace org {
                             if (returnState == EMPTY_RETURN_STATE) {
                                 return L"$";
                             }
-                            return StringConverterHelper::toString(returnState);
+                            return antlrcpp::StringConverterHelper::toString(returnState);
                         }
-                        return StringConverterHelper::toString(returnState) + std::wstring(L" ") + up;
+                        return antlrcpp::StringConverterHelper::toString(returnState) + std::wstring(L" ") + up;
                     }
                 }
             }

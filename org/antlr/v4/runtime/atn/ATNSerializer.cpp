@@ -522,7 +522,7 @@ namespace org {
 							return tokenNames[t];
 						}
 
-						return StringConverterHelper::toString(t);
+						return antlrcpp::StringConverterHelper::toString(t);
 					}
 
 					std::wstring ATNSerializer::getSerializedAsString(ATN *atn) {

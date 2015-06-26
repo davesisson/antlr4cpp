@@ -80,7 +80,7 @@ namespace org {
                         if (!tokenNames_.empty()) {
                             label = tokenNames_[i - 1];
                         } else {
-                            label = StringConverterHelper::toString(i - 1);
+                            label = antlrcpp::StringConverterHelper::toString(i - 1);
                         }
                         return label;
                     }
