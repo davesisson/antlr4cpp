@@ -90,14 +90,14 @@ namespace org {
                         }
 
                         ArrayPredictionContext *a = static_cast<ArrayPredictionContext*>(o);
-                        return Arrays::equals(returnStates, a->returnStates) && Arrays::equals(&parents, &a->parents);
+                        return antlrcpp::Arrays::equals(returnStates, a->returnStates) && antlrcpp::Arrays::equals(&parents, &a->parents);
                     }
 
                     std::wstring ArrayPredictionContext::toString() {
                         if (isEmpty()) {
                             return L"[]";
                         }
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         buf->append(L"[");
                         for (std::vector<int>::size_type i = 0; i < returnStates.size(); i++) {
                             if (i > 0) {

@@ -131,7 +131,7 @@ namespace org {
                         /// outermost context is reached. This parameter has no effect if {@code ctx}
                         /// is {@code null}. </param>
                     protected:
-                        virtual void _LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::set<ATNConfig*> *lookBusy, BitSet *calledRuleStack, bool seeThruPreds, bool addEOF);
+                        virtual void _LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::set<ATNConfig*> *lookBusy, antlrcpp::BitSet *calledRuleStack, bool seeThruPreds, bool addEOF);
                     };
 
                 }

@@ -127,7 +127,7 @@ namespace org {
                         // TODO: can we track conflicts as they are added to save scanning configs later?
                         int uniqueAlt;
                   
-                        BitSet *conflictingAlts;
+                        antlrcpp::BitSet *conflictingAlts;
 
                         // Used in parser and lexer. In lexer, it indicates we hit a pred
                         // while computing a closure operation.  Don't make a DFA state from this.

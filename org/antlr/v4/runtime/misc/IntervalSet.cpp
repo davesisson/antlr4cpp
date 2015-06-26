@@ -394,7 +394,7 @@ namespace org {
                     }
 
                     std::wstring IntervalSet::toString(bool elemAreChar) {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         if (this->intervals.empty() || this->intervals.empty()) {
                             return L"{}";
                         }
@@ -433,7 +433,7 @@ namespace org {
                     }
 
                     std::wstring IntervalSet::toString(std::wstring tokenNames[]) {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         if (this->intervals.empty() || this->intervals.empty()) {
                             return L"{}";
                         }
@@ -467,7 +467,7 @@ namespace org {
                     }
                     
                     std::wstring IntervalSet::toString(std::vector<std::wstring> tokenNames) {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         if (this->intervals.empty() || this->intervals.empty()) {
                             return L"{}";
                         }

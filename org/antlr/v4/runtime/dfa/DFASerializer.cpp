@@ -49,7 +49,7 @@ namespace org {
                         if (dfa->s0 == nullptr) {
                             return L"";
                         }
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         std::vector<DFAState*> states = dfa->getStates();
                         for (auto s : states) {
                             int n = 0;
@@ -80,7 +80,7 @@ namespace org {
                         if (!tokenNames_.empty()) {
                             label = tokenNames_[i - 1];
                         } else {
-                            label = StringConverterHelper::toString(i - 1);
+                            label = antlrcpp::StringConverterHelper::toString(i - 1);
                         }
                         return label;
                     }

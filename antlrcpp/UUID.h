@@ -32,21 +32,23 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class UUID {
-public:
-    UUID(long mostSigBits, long leastSigBits);
-    UUID(const UUID &other);
-    ~UUID();
+namespace antlrcpp {
+    class UUID {
+    public:
+        UUID(long mostSigBits, long leastSigBits);
+        UUID(const UUID &other);
+        ~UUID();
+        
+        const UUID &operator=(const UUID &rhs);
+        bool operator==(const UUID &rhs) const;
+        bool equals(const UUID &rhs) const;
+        bool equals(const UUID *rhs) const;
+        
+        static UUID *fromString(const std::wstring &name);
+        std::wstring toString() const;
+        
+        long getLeastSignificantBits() const;
+        long getMostSignificantBits() const;
+    };
     
-    const UUID &operator=(const UUID &rhs);
-    bool operator==(const UUID &rhs) const;
-    bool equals(const UUID &rhs) const;
-    bool equals(const UUID *rhs) const;
-    
-    static UUID *fromString(const std::wstring &name);
-    std::wstring toString() const;
-    
-    long getLeastSignificantBits() const;
-    long getMostSignificantBits() const;
-};
-
+}

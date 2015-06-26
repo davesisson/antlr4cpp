@@ -100,7 +100,7 @@ namespace org {
                         return ATNDeserializer::toLong(data, offset);
                     }
 
-                    UUID *ATNSimulator::toUUID(wchar_t data[], int offset) {
+                    antlrcpp::UUID *ATNSimulator::toUUID(wchar_t data[], int offset) {
                         return ATNDeserializer::toUUID(data, offset);
                     }
 

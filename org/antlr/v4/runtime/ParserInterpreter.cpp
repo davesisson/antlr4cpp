@@ -58,7 +58,7 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, const std::vector<std::wstring>& tokenNames, const std::vector<std::wstring>& ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new BitSet()), _tokenNames(tokenNames), _ruleNames(ruleNames), sharedContextCache(new atn::PredictionContextCache()), _parentContextStack(new std::deque<std::pair<ParserRuleContext *, int>*>()) {
+                ParserInterpreter::ParserInterpreter(const std::wstring &grammarFileName, const std::vector<std::wstring>& tokenNames, const std::vector<std::wstring>& ruleNames, atn::ATN *atn, TokenStream *input) : Parser(_input), grammarFileName(grammarFileName), atn(atn), pushRecursionContextStates(new antlrcpp::BitSet()), _tokenNames(tokenNames), _ruleNames(ruleNames), sharedContextCache(new atn::PredictionContextCache()), _parentContextStack(new std::deque<std::pair<ParserRuleContext *, int>*>()) {
               
 
                     for (int i = 0; i < atn->getNumberOfDecisions(); i++) {

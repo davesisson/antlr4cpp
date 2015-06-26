@@ -160,7 +160,7 @@ namespace org {
 
                             if (D->requiresFullContext && mode != PredictionMode::SLL) {
                                 // IF PREDS, MIGHT RESOLVE TO SINGLE ALT => SLL (or syntax error)
-                                BitSet *conflictingAlts = nullptr;
+                                antlrcpp::BitSet *conflictingAlts = nullptr;
                                 if (D->predicates.size() != 0) {
                                     if (debug) {
                                         std::wcout << L"DFA state has preds in DFA sim LL failover" << std::endl;
@@ -202,7 +202,7 @@ namespace org {
 
                                 int stopIndex = input->index();
                                 input->seek(startIndex);
-								BitSet *alts = evalSemanticContext(D->predicates, outerContext, true);
+								antlrcpp::BitSet *alts = evalSemanticContext(D->predicates, outerContext, true);
                                 switch (alts->count()) {
                                 case 0:
                                     throw noViableAlt(input, outerContext, D->configs, startIndex);
@@ -250,8 +250,8 @@ namespace org {
 
                         if (debug) {
 
-                            std::vector<BitSet> altSubSets = PredictionModeClass::getConflictingAltSubsets(reach);
-                            std::wstring altSubSetsStr = BitSet::subStringRepresentation(altSubSets.begin(), altSubSets.end());
+                            std::vector<antlrcpp::BitSet> altSubSets = PredictionModeClass::getConflictingAltSubsets(reach);
+                            std::wstring altSubSetsStr = antlrcpp::BitSet::subStringRepresentation(altSubSets.begin(), altSubSets.end());
                             std::wcout << L"SLL altSubSets=" << altSubSetsStr << L", configs="
                                 << reach << L", predict=" << predictedAlt << L", allSubsetsConflict="
                                 << PredictionModeClass::allSubsetsConflict(altSubSets)
@@ -291,7 +291,7 @@ namespace org {
                         int nalts = decisionState->getNumberOfTransitions();
                         // Update DFA so reach becomes accept state with (predicate,alt)
                         // pairs if preds found for conflicting alts
-						BitSet *altsToCollectPredsFrom = nullptr;
+						antlrcpp::BitSet *altsToCollectPredsFrom = nullptr;
 						altsToCollectPredsFrom->data = getConflictingAltsOrUniqueAlt(dfaState->configs).data;
                         std::vector<SemanticContext*> altToPred = getPredsForAmbigAlts(altsToCollectPredsFrom, dfaState->configs, nalts);
                         if (!altToPred.empty()) {
@@ -338,9 +338,9 @@ namespace org {
                                 throw noViableAlt(input, outerContext, previous, startIndex);
                             }
 
-                            std::vector<BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
+                            std::vector<antlrcpp::BitSet> altSubSets =PredictionModeClass::getConflictingAltSubsets(reach);
                             if (debug) {
-                                std::wstring altSubSetsStr = BitSet::subStringRepresentation(altSubSets.begin(), altSubSets.end());
+                                std::wstring altSubSetsStr = antlrcpp::BitSet::subStringRepresentation(altSubSets.begin(), altSubSets.end());
                                 std::wcout << L"LL altSubSets=" << altSubSetsStr << L", predict="
                                     << PredictionModeClass::getUniqueAlt(altSubSets)
                                     << L", resolvesToJustOneViableAlt="
@@ -609,7 +609,7 @@ namespace org {
 
 					//
 					// Note that caller must memory manage the returned value from this function
-					std::vector<SemanticContext*> ParserATNSimulator::getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts) {
+					std::vector<SemanticContext*> ParserATNSimulator::getPredsForAmbigAlts(antlrcpp::BitSet *ambigAlts, ATNConfigSet *configs, int nalts) {
                         // REACH=[1|1|[]|0:0, 1|2|[]|0:1]
                         /* altToPred starts as an array of all null contexts. The entry at index i
                          * corresponds to alternative i. altToPred[i] may have one of three values:
@@ -655,7 +655,7 @@ namespace org {
                         return altToPred;
                     }
 
-                    std::vector<dfa::DFAState::PredPrediction *> ParserATNSimulator::getPredicatePredictions(BitSet *ambigAlts, std::vector<SemanticContext*> altToPred) {
+                    std::vector<dfa::DFAState::PredPrediction *> ParserATNSimulator::getPredicatePredictions(antlrcpp::BitSet *ambigAlts, std::vector<SemanticContext*> altToPred) {
                         std::vector<dfa::DFAState::PredPrediction*> pairs = std::vector<dfa::DFAState::PredPrediction*>();
                         bool containsPredicate = false;
                         for (int i = 1; i < altToPred.size(); i++) {
@@ -695,8 +695,8 @@ namespace org {
                         return alts->getMinElement();
                     }
 
-                    BitSet *ParserATNSimulator::evalSemanticContext(std::vector<dfa::DFAState::PredPrediction*> predPredictions, ParserRuleContext *outerContext, bool complete) {
-                        BitSet *predictions = new BitSet();
+                    antlrcpp::BitSet *ParserATNSimulator::evalSemanticContext(std::vector<dfa::DFAState::PredPrediction*> predPredictions, ParserRuleContext *outerContext, bool complete) {
+                        antlrcpp::BitSet *predictions = new antlrcpp::BitSet();
                         for (auto pair : predPredictions) {
                             if (pair->pred == SemanticContext::NONE) {
                                 predictions->set(pair->alt);
@@ -878,7 +878,7 @@ namespace org {
                         if (debug) {
                             std::wcout << L"PRED (collectPredicates=" << collectPredicates << L") " << pt->precedence << L">=_p" << L", ctx dependent=true" << std::endl;
                             if (parser != nullptr) {
-                                std::wcout << L"context surrounding pred is " << Arrays::ListToString( parser->getRuleInvocationStack(), L", ") << std::endl;
+                                std::wcout << L"context surrounding pred is " << antlrcpp::Arrays::ListToString( parser->getRuleInvocationStack(), L", ") << std::endl;
                             }
                         }
 
@@ -914,7 +914,7 @@ namespace org {
                         if (debug) {
                             std::wcout << L"PRED (collectPredicates=" << collectPredicates << L") " << pt->ruleIndex << L":" << pt->predIndex << L", ctx dependent=" << pt->isCtxDependent << std::endl;
                             if (parser != nullptr) {
-                                std::wcout << L"context surrounding pred is " << Arrays::ListToString(parser->getRuleInvocationStack(), L", ") << std::endl;
+                                std::wcout << L"context surrounding pred is " << antlrcpp::Arrays::ListToString(parser->getRuleInvocationStack(), L", ") << std::endl;
                             }
                         }
 
@@ -956,13 +956,13 @@ namespace org {
                         return new atn::ATNConfig(config, t->target, newContext);
                     }
 
-                    BitSet ParserATNSimulator::getConflictingAlts(ATNConfigSet *configs) {
-                        std::vector<BitSet> altsets = PredictionModeClass::getConflictingAltSubsets(configs);
+                    antlrcpp::BitSet ParserATNSimulator::getConflictingAlts(ATNConfigSet *configs) {
+                        std::vector<antlrcpp::BitSet> altsets = PredictionModeClass::getConflictingAltSubsets(configs);
                         return PredictionModeClass::getAlts(altsets);
                     }
 
-                    BitSet ParserATNSimulator::getConflictingAltsOrUniqueAlt(ATNConfigSet *configs) {
-                        BitSet conflictingAlts;
+                    antlrcpp::BitSet ParserATNSimulator::getConflictingAltsOrUniqueAlt(ATNConfigSet *configs) {
+                        antlrcpp::BitSet conflictingAlts;
                         if (configs->uniqueAlt != ATN::INVALID_ALT_NUMBER) {
                             conflictingAlts.set(configs->uniqueAlt);
                         } else {
@@ -978,14 +978,14 @@ namespace org {
                         if (parser != nullptr) {
                             std::vector<std::wstring> tokensNames = parser->getTokenNames();
                             if (t >= tokensNames.size()) {
-								std::wcerr << t << L" type out of range: " << Arrays::ListToString(tokensNames, L", ");
+								std::wcerr << t << L" type out of range: " << antlrcpp::Arrays::ListToString(tokensNames, L", ");
                                 // TODO
 //								std::wcerr << ((CommonTokenStream*)parser->getInputStream())->getTokens();
                             } else {
                                 return tokensNames[t] + L"<" + std::to_wstring(t) + L">";
                             }
                         }
-                        return StringConverterHelper::toString(t);
+                        return antlrcpp::StringConverterHelper::toString(t);
                     }
 
                     std::wstring ParserATNSimulator::getLookaheadName(TokenStream *input) {
@@ -1089,7 +1089,7 @@ namespace org {
                         }
                     }
 
-                    void ParserATNSimulator::reportAttemptingFullContext(dfa::DFA *dfa, BitSet *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex) {
+                    void ParserATNSimulator::reportAttemptingFullContext(dfa::DFA *dfa, antlrcpp::BitSet *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex) {
                         if (debug || retry_debug) {
 							misc::Interval *interval = misc::Interval::of(startIndex, stopIndex);
                             std::wcout << L"reportAttemptingFullContext decision=" << dfa->decision << L":" << configs << L", input=" << parser->getTokenStream()->getText(interval) << std::endl;
@@ -1109,7 +1109,7 @@ namespace org {
                         }
                     }
 
-                    void ParserATNSimulator::reportAmbiguity(dfa::DFA *dfa, dfa::DFAState *D, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, ATNConfigSet *configs) {
+                    void ParserATNSimulator::reportAmbiguity(dfa::DFA *dfa, dfa::DFAState *D, int startIndex, int stopIndex, bool exact, antlrcpp::BitSet *ambigAlts, ATNConfigSet *configs) {
                         if (debug || retry_debug) {
                                         //			ParserATNPathFinder finder = new ParserATNPathFinder(parser, atn);
                                         //			int i = 1;

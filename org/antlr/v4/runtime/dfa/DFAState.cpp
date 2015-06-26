@@ -106,7 +106,7 @@ namespace org {
                     }
 
                     std::wstring DFAState::toString() {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         buf->append(std::to_wstring(stateNumber)); buf->append(L":"); buf->append(configs->toString());
                         if (isAcceptState) {
                             buf->append(L"=>");

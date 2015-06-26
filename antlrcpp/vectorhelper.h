@@ -7,22 +7,25 @@
 //	This class is used to simulate list constructor calls which reserve the list size.
 //----------------------------------------------------------------------------------------
 #include <vector>
-
-class VectorHelper
-{
-public:
-	template<typename T>
-	static std::vector<T> VectorWithReservedSize(int size)
-	{
-		std::vector<T> vector;
-		vector.reserve(size);
-		return vector;
-	}
+namespace antlrcpp {
     
-    template<typename T>
-    static std::vector<T> VectorSublist(const std::vector<T>& vec, int start, int end)
+    class VectorHelper
     {
-        std::vector<T> vector(vec.begin() + start, vec.begin() + end);
-        return vector;
-    }
-};
+    public:
+        template<typename T>
+        static std::vector<T> VectorWithReservedSize(int size)
+        {
+            std::vector<T> vector;
+            vector.reserve(size);
+            return vector;
+        }
+        
+        template<typename T>
+        static std::vector<T> VectorSublist(const std::vector<T>& vec, int start, int end)
+        {
+            std::vector<T> vector(vec.begin() + start, vec.begin() + end);
+            return vector;
+        }
+    };
+    
+}

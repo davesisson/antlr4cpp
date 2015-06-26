@@ -90,7 +90,7 @@ namespace org {
                            do {
                                if (p + readChunkSize > data.length()) { // overflow?
                                    // System.out.println("### overflow p="+p+", data.length="+data.length);
-                                   data = Arrays::copyOf(data, (int)data.length() * 2);
+                                   data = antlrcpp::Arrays::copyOf(data, (int)data.length() * 2);
                                }
                                r->read(new wchar_t[100], p);
 

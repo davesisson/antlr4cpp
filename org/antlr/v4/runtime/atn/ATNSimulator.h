@@ -113,7 +113,7 @@ namespace org {
 
 
                         /// @deprecated Use <seealso cref="ATNDeserializer#toUUID"/> instead. 
-                        static UUID *toUUID(wchar_t data[], int offset);
+                        static antlrcpp::UUID *toUUID(wchar_t data[], int offset);
                         
                         /// @deprecated Use <seealso cref="ATNDeserializer#edgeFactory"/> instead. 
                         static Transition *edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets);

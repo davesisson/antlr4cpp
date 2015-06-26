@@ -94,9 +94,9 @@ namespace org {
                         // This is really bush league, I hate libraries that gratuitiously print
                         // stuff out
                         std::wcerr <<  std::wstring(L"unknown recognition error type: " +
-                                                    s2ws(typeid(e).name()));
+                                                    antlrcpp::s2ws(typeid(e).name()));
 
-                        recognizer->notifyErrorListeners(e->getOffendingToken(), s2ws(e->what()), e);
+                        recognizer->notifyErrorListeners(e->getOffendingToken(), antlrcpp::s2ws(e->what()), e);
 
                     }
                 }
@@ -334,9 +334,9 @@ namespace org {
 
                 std::wstring DefaultErrorStrategy::escapeWSAndQuote(std::wstring &s) {
                                 //		if ( s==null ) return s;
-                    replaceAll(s, L"\n", L"\\n");
-                    replaceAll(s, L"\r",L"\\r");
-                    replaceAll(s, L"\t",L"\\t");
+                    antlrcpp::replaceAll(s, L"\n", L"\\n");
+                    antlrcpp::replaceAll(s, L"\r",L"\\r");
+                    antlrcpp::replaceAll(s, L"\t",L"\\t");
                     return std::wstring(L"'") + s + std::wstring(L"'");
                 }
 
