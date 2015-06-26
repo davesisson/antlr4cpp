@@ -342,7 +342,7 @@ namespace org {
 							throw UnsupportedOperationException(L"ATN Serializer" + reason);
 						}
 
-						UUID *uuid = ATNDeserializer::toUUID(data, p);
+						antlrcpp::UUID *uuid = ATNDeserializer::toUUID(data, p);
 						p += 8;
 						if (!uuid->equals(ATNDeserializer::SERIALIZED_UUID)) {
 							std::wstring reason =
@@ -549,7 +549,7 @@ namespace org {
 						return (new ATNSerializer(atn, tokenNames))->decode(data);
 					}
 
-					void ATNSerializer::serializeUUID(std::vector<size_t> *data, UUID *uuid) {
+					void ATNSerializer::serializeUUID(std::vector<size_t> *data, antlrcpp::UUID *uuid) {
 						serializeLong(data, uuid->getLeastSignificantBits());
 						serializeLong(data, uuid->getMostSignificantBits());
 					}

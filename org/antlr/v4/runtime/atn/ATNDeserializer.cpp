@@ -76,10 +76,10 @@ namespace org {
                     /* This value should never change. Updates following this version are
                      * reflected as change in the unique ID SERIALIZED_UUID.
                      */
-                    UUID *const ATNDeserializer::BASE_SERIALIZED_UUID = UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");
-                    UUID *const ATNDeserializer::ADDED_PRECEDENCE_TRANSITIONS = UUID::fromString(L"1DA0C57D-6C06-438A-9B27-10BCB3CE0F61");
-                    const std::vector<UUID*> ATNDeserializer::SUPPORTED_UUIDS = supportedUUIDsInitializer();
-                    UUID *const ATNDeserializer::SERIALIZED_UUID = ADDED_PRECEDENCE_TRANSITIONS;
+                    antlrcpp::UUID *const ATNDeserializer::BASE_SERIALIZED_UUID = antlrcpp::UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");
+                    antlrcpp::UUID *const ATNDeserializer::ADDED_PRECEDENCE_TRANSITIONS = antlrcpp::UUID::fromString(L"1DA0C57D-6C06-438A-9B27-10BCB3CE0F61");
+                    const std::vector<antlrcpp::UUID*> ATNDeserializer::SUPPORTED_UUIDS = supportedUUIDsInitializer();
+                    antlrcpp::UUID *const ATNDeserializer::SERIALIZED_UUID = ADDED_PRECEDENCE_TRANSITIONS;
 
                     ATNDeserializer::ATNDeserializer(): deserializationOptions(deserializationOptionsInitializer(nullptr)) {
                     }
@@ -87,7 +87,7 @@ namespace org {
                     ATNDeserializer::ATNDeserializer(ATNDeserializationOptions *dso): deserializationOptions(deserializationOptionsInitializer(dso)) {
                     }
 
-                    bool ATNDeserializer::isFeatureSupported(UUID *feature, UUID *actualUuid) {
+                    bool ATNDeserializer::isFeatureSupported(antlrcpp::UUID *feature, antlrcpp::UUID *actualUuid) {
                         // TODO: should SUPPORTED_UUIDS be of type std::vector<UUID> instead?
                         /*int featureIndex = SUPPORTED_UUIDS.find(feature);
                         if (featureIndex < 0) {
@@ -116,7 +116,7 @@ namespace org {
                             throw UnsupportedOperationException(InvalidClassException(ATN::typeid::getName(), reason));*/
                         }
 
-                        UUID *uuid = toUUID(data, p);
+                        antlrcpp::UUID *uuid = toUUID(data, p);
                         p += 8;
                         if (!uuid->equals(SERIALIZED_UUID) && !uuid->equals(BASE_SERIALIZED_UUID)) {
                             // TODO: what is the apprpriate type of exception to throw here?
@@ -521,10 +521,10 @@ namespace org {
                         return lowOrder | (static_cast<long long>(toInt32(data, offset + 2)) << 32);
                     }
 
-                    UUID *ATNDeserializer::toUUID(const std::wstring& data, int offset) {
+                    antlrcpp::UUID *ATNDeserializer::toUUID(const std::wstring& data, int offset) {
                         long long leastSigBits = toLong(data, offset);
                         long long mostSigBits = toLong(data, offset + 4);
-                        return new UUID(mostSigBits, leastSigBits);
+                        return new antlrcpp::UUID(mostSigBits, leastSigBits);
                     }
 
                     Transition *ATNDeserializer::edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets) {
@@ -617,8 +617,8 @@ namespace org {
                         return s;
                     }
 
-                    std::vector<UUID*> ATNDeserializer::supportedUUIDsInitializer() {
-                        std::vector<UUID*> supportedUUIDs;
+                    std::vector<antlrcpp::UUID*> ATNDeserializer::supportedUUIDsInitializer() {
+                        std::vector<antlrcpp::UUID*> supportedUUIDs;
                         supportedUUIDs.push_back(BASE_SERIALIZED_UUID);
                         supportedUUIDs.push_back(ADDED_PRECEDENCE_TRANSITIONS);
 

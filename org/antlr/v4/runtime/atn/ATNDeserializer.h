@@ -56,23 +56,23 @@ namespace org {
                         /// This is the earliest supported serialized UUID.
                         /// </summary>
                     private:
-                        static UUID *const BASE_SERIALIZED_UUID; 
+                        static antlrcpp::UUID *const BASE_SERIALIZED_UUID;
                         /// <summary>
                         /// This UUID indicates an extension of <seealso cref="BASE_SERIALIZED_UUID"/> for the
                         /// addition of precedence predicates.
                         /// </summary>
-                        static UUID *const ADDED_PRECEDENCE_TRANSITIONS;
+                        static antlrcpp::UUID *const ADDED_PRECEDENCE_TRANSITIONS;
                         /// <summary>
                         /// This list contains all of the currently supported UUIDs, ordered by when
                         /// the feature first appeared in this branch.
                         /// </summary>
-                        static const std::vector<UUID*> SUPPORTED_UUIDS;
+                        static const std::vector<antlrcpp::UUID*> SUPPORTED_UUIDS;
 
                         /// <summary>
                         /// This is the current serialized UUID.
                         /// </summary>
                     public:
-                        static UUID *const SERIALIZED_UUID;
+                        static antlrcpp::UUID *const SERIALIZED_UUID;
 
                     private:
                         ATNDeserializationOptions *const deserializationOptions;
@@ -94,7 +94,7 @@ namespace org {
                         /// serialized ATN at or after the feature identified by {@code feature} was
                         /// introduced; otherwise, {@code false}. </returns>
                     protected:
-                        virtual bool isFeatureSupported(UUID *feature, UUID *actualUuid);
+                        virtual bool isFeatureSupported(antlrcpp::UUID *feature, antlrcpp::UUID *actualUuid);
 
                     public:
                         virtual ATN *deserialize(const std::wstring& data);
@@ -112,14 +112,14 @@ namespace org {
 
                         static long long toLong(const std::wstring& data, int offset);
 
-                        static UUID *toUUID(const std::wstring& data, int offset);
+                        static antlrcpp::UUID *toUUID(const std::wstring& data, int offset);
 
                         virtual Transition *edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets);
 
                         virtual ATNState *stateFactory(int type, int ruleIndex);
 
                     private:
-                        static std::vector<UUID*> supportedUUIDsInitializer();
+                        static std::vector<antlrcpp::UUID*> supportedUUIDsInitializer();
                         ATNDeserializationOptions *deserializationOptionsInitializer(ATNDeserializationOptions *dso);
 
                     };

@@ -100,7 +100,7 @@ namespace org {
 							std::vector<std::wstring> &tokenNames);
 
 					private:
-						void serializeUUID(std::vector<size_t> *data, UUID *uuid);
+						void serializeUUID(std::vector<size_t> *data, antlrcpp::UUID *uuid);
 
 						void serializeLong(std::vector<size_t> *data, long long value);
 
