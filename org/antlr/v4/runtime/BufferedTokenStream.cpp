@@ -400,7 +400,7 @@ namespace org {
                 }
 
                 void BufferedTokenStream::InitializeInstanceFields() {
-                    tokens = VectorHelper::VectorWithReservedSize<Token*>(100);
+                    tokens = antlrcpp::VectorHelper::VectorWithReservedSize<Token*>(100);
                     p = -1;
                     fetchedEOF = false;
                 }

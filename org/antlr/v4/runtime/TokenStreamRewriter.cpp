@@ -74,7 +74,7 @@ namespace org {
 				const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
 
 				TokenStreamRewriter::TokenStreamRewriter(TokenStream *tokens) : tokens(tokens), programs(new std::map<std::wstring, std::vector<RewriteOperation*>>()), lastRewriteTokenIndexes(new std::map<std::wstring, int>()) {
-					programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(DEFAULT_PROGRAM_NAME, VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE)));
+					programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(DEFAULT_PROGRAM_NAME, antlrcpp::VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE)));
 				}
 
 				org::antlr::v4::runtime::TokenStream *TokenStreamRewriter::getTokenStream() {
@@ -88,7 +88,7 @@ namespace org {
 				void TokenStreamRewriter::rollback(const std::wstring &programName, int instructionIndex) {
 					std::vector<RewriteOperation*> is = programs->at(programName);
 					if (is.size() > 0) {
-						programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*> >(programName, VectorHelper::VectorSublist(is, MIN_TOKEN_INDEX, instructionIndex)));
+						programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*> >(programName, antlrcpp::VectorHelper::VectorSublist(is, MIN_TOKEN_INDEX, instructionIndex)));
 					}
 				}
 
@@ -214,7 +214,7 @@ namespace org {
 				}
 
 				std::vector<TokenStreamRewriter::RewriteOperation*> TokenStreamRewriter::initializeProgram(const std::wstring &name) {
-					std::vector<TokenStreamRewriter::RewriteOperation*> is = VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE);
+					std::vector<TokenStreamRewriter::RewriteOperation*> is = antlrcpp::VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE);
 					programs->insert({ name, is });
 					return is;
 				}
