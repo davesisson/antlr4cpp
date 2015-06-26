@@ -21,7 +21,7 @@
 #include "RuleStartState.h"
 #include "StarLoopEntryState.h"
 #include "PredictionContextCache.h"
-
+#include "IntervalSet.h"
 
 /*
  * [The "BSD license"]
@@ -163,10 +163,7 @@ namespace org {
                         break;
 
                         case atn::Transition::ATOM:
-#ifdef TODO
-                            // Where is this function? Try on an OS other that OS X
-                            match(((atn::AtomTransition*)(transition))->label());
-#endif
+                            match(((atn::AtomTransition*)(transition))->_label);
                         break;
 
                         case atn::Transition::RANGE:
