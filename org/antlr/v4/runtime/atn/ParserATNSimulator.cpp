@@ -109,21 +109,14 @@ namespace org {
                             }
                             return alt;
                         }
-                        catch (void*) {
-#ifdef TODO
-                            C++ requires a catch block
-#endif
+                        catch (std::exception e) {
+                            // Do nothing, failed predict
                         }
-#ifdef TODO
-                        finally {
-#endif
-                            //JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
-                            delete mergeCache; // wack cache after each prediction
-                            input->seek(index);
-                            input->release(m);
-#ifdef TODO
-                        }
-#endif
+                        
+                        delete mergeCache; // wack cache after each prediction
+                        input->seek(index);
+                        input->release(m);
+
                         return 0;
                     }
 
