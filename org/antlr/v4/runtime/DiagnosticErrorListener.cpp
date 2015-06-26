@@ -53,20 +53,20 @@ namespace org {
                 DiagnosticErrorListener::DiagnosticErrorListener(bool exactOnly) : exactOnly(exactOnly) {
                 }
                 
-                void DiagnosticErrorListener::reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) {
+                void DiagnosticErrorListener::reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, antlrcpp::BitSet *ambigAlts, atn::ATNConfigSet *configs) {
                     if (exactOnly && !exact) {
                         return;
                     }
                     wchar_t buf[16];
                     std::wstring decision = getDecisionDescription(recognizer, dfa);
-                    BitSet *conflictingAlts = getConflictingAlts(ambigAlts, configs);
+                    antlrcpp::BitSet *conflictingAlts = getConflictingAlts(ambigAlts, configs);
                     std::wstring text = recognizer->getTokenStream()->getText(misc::Interval::of(startIndex, stopIndex));
                     std::wstring message = L"reportAmbiguity d=" + decision + L": ambigAlts=" + conflictingAlts->toString() + L", input='" + text + L"'";
                     swprintf(buf, sizeof(buf) / sizeof(*buf), L"%d", 5);
                     recognizer->notifyErrorListeners(message);
                 }
                 
-                void DiagnosticErrorListener::reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, atn::ATNConfigSet *configs) {
+                void DiagnosticErrorListener::reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, antlrcpp::BitSet *conflictingAlts, atn::ATNConfigSet *configs) {
                     std::wstring decision = getDecisionDescription(recognizer, dfa);
                     std::wstring text = recognizer->getTokenStream()->getText(misc::Interval::of(startIndex, stopIndex));
                     std::wstring message = L"reportAttemptingFullContext d=" + decision + L", input='" + text + L"'";
@@ -97,12 +97,12 @@ namespace org {
                     return std::to_wstring(decision) + L"(" + ruleName + L")";
                 }
                 
-                BitSet *DiagnosticErrorListener::getConflictingAlts(BitSet *reportedAlts, atn::ATNConfigSet *configs) {
+                antlrcpp::BitSet *DiagnosticErrorListener::getConflictingAlts(antlrcpp::BitSet *reportedAlts, atn::ATNConfigSet *configs) {
                     if (reportedAlts != nullptr) {
                         return reportedAlts;
                     }
                     
-                    BitSet *result = new BitSet();
+                    antlrcpp::BitSet *result = new antlrcpp::BitSet();
                     for (int i = 0; i < configs->size(); i++) {
                         atn::ATNConfig *config = configs->get(i);
                         result->set(config->alt);

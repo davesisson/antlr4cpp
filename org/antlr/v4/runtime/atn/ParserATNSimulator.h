@@ -396,9 +396,9 @@ namespace org {
 
                         virtual ATNState *getReachableTarget(Transition *trans, int ttype);
 
-						virtual std::vector<SemanticContext*> getPredsForAmbigAlts(BitSet *ambigAlts, ATNConfigSet *configs, int nalts);
+						virtual std::vector<SemanticContext*> getPredsForAmbigAlts(antlrcpp::BitSet *ambigAlts, ATNConfigSet *configs, int nalts);
 
-                        virtual std::vector<dfa::DFAState::PredPrediction*> getPredicatePredictions(BitSet *ambigAlts, std::vector<SemanticContext*> altToPred);
+                        virtual std::vector<dfa::DFAState::PredPrediction*> getPredicatePredictions(antlrcpp::BitSet *ambigAlts, std::vector<SemanticContext*> altToPred);
 
                         virtual int getAltThatFinishedDecisionEntryRule(ATNConfigSet *configs);
 
@@ -409,7 +409,7 @@ namespace org {
                         ///  then we stop at the first predicate that evaluates to true. This
                         ///  includes pairs with null predicates.
                         /// </summary>
-                        virtual BitSet *evalSemanticContext(std::vector<dfa::DFAState::PredPrediction*> predPredictions, ParserRuleContext *outerContext, bool complete);
+                        virtual antlrcpp::BitSet *evalSemanticContext(std::vector<dfa::DFAState::PredPrediction*> predPredictions, ParserRuleContext *outerContext, bool complete);
 
 
                         /* TODO: If we are doing predicates, there is no point in pursuing
@@ -443,7 +443,7 @@ namespace org {
 
                         virtual ATNConfig *ruleTransition(ATNConfig *config, RuleTransition *t);
 
-                        virtual BitSet getConflictingAlts(ATNConfigSet *configs);
+                        virtual antlrcpp::BitSet getConflictingAlts(ATNConfigSet *configs);
 
                         /// <summary>
                         /// Sam pointed out a problem with the previous definition, v3, of
@@ -482,7 +482,7 @@ namespace org {
                         /// that we still need to pursue.
                         /// </summary>
 
-                        virtual BitSet getConflictingAltsOrUniqueAlt(ATNConfigSet *configs);
+                        virtual antlrcpp::BitSet getConflictingAltsOrUniqueAlt(ATNConfigSet *configs);
 
                     public:
                         virtual std::wstring getTokenName(int t);
@@ -538,13 +538,13 @@ namespace org {
                         /// state was not already present. </returns>
                         virtual dfa::DFAState *addDFAState(dfa::DFA *dfa, dfa::DFAState *D);
 
-                        virtual void reportAttemptingFullContext(dfa::DFA *dfa, BitSet *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex);
+                        virtual void reportAttemptingFullContext(dfa::DFA *dfa, antlrcpp::BitSet *conflictingAlts, ATNConfigSet *configs, int startIndex, int stopIndex);
 
                         virtual void reportContextSensitivity(dfa::DFA *dfa, int prediction, ATNConfigSet *configs, int startIndex, int stopIndex);
 
                         /// <summary>
                         /// If context sensitive parsing, we know it's ambiguity not conflict </summary>
-                        virtual void reportAmbiguity(dfa::DFA *dfa, dfa::DFAState *D, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, ATNConfigSet *configs);
+                        virtual void reportAmbiguity(dfa::DFA *dfa, dfa::DFAState *D, int startIndex, int stopIndex, bool exact, antlrcpp::BitSet *ambigAlts, ATNConfigSet *configs);
 
                     public:
                         void setPredictionMode(PredictionMode mode);

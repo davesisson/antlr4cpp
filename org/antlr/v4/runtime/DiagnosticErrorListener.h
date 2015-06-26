@@ -86,9 +86,9 @@ namespace org {
                     /// {@code false} to report all ambiguities. </param>
                     DiagnosticErrorListener(bool exactOnly);
 
-                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, antlrcpp::BitSet *ambigAlts, atn::ATNConfigSet *configs) override;
 
-                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, atn::ATNConfigSet *configs) override;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, antlrcpp::BitSet *conflictingAlts, atn::ATNConfigSet *configs) override;
 
                     virtual void reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) override;
 
@@ -105,7 +105,7 @@ namespace org {
                     /// <param name="configs"> The conflicting or ambiguous configuration set. </param>
                     /// <returns> Returns {@code reportedAlts} if it is not {@code null}, otherwise
                     /// returns the set of alternatives represented in {@code configs}. </returns>
-                    virtual BitSet *getConflictingAlts(BitSet *reportedAlts, atn::ATNConfigSet *configs);
+                    virtual antlrcpp::BitSet *getConflictingAlts(antlrcpp::BitSet *reportedAlts, atn::ATNConfigSet *configs);
                 };
 
             }

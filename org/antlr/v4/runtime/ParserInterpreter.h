@@ -63,7 +63,7 @@ namespace org {
                     
                     const std::wstring grammarFileName;
                     atn::ATN *const atn;
-                    BitSet *const pushRecursionContextStates;
+                    antlrcpp::BitSet *const pushRecursionContextStates;
 
                     std::vector<dfa::DFA> _decisionToDFA; // not shared like it is for generated parsers
                     atn::PredictionContextCache *const sharedContextCache;
