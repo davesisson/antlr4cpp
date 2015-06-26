@@ -97,7 +97,7 @@ namespace org {
                         if (isEmpty()) {
                             return L"[]";
                         }
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         buf->append(L"[");
                         for (std::vector<int>::size_type i = 0; i < returnStates.size(); i++) {
                             if (i > 0) {

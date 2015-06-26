@@ -48,7 +48,7 @@ namespace org {
                     }
 
                     std::wstring LogManager::Record::toString() {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
 #ifdef TODO
                         buf->append((new SimpleDateFormat(L"yyyy-MM-dd HH:mm:ss:SSS"))->format(Date(timestamp)));
                         buf->append(L" ");

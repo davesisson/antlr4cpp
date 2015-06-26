@@ -304,7 +304,7 @@ namespace org {
                 }
 
                 std::wstring Lexer::getErrorDisplay(const std::wstring &s) {
-                    StringBuilder *buf = new StringBuilder();
+                    antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                     
                     for (int i = 0; i < s.length(); i++) {
                         char c = ((char*)s.c_str())[i];

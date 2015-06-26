@@ -365,7 +365,7 @@ namespace org {
                         stop = (int)tokens.size() - 1;
                     }
 
-                    StringBuilder *buf = new StringBuilder();
+                    antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                     for (int i = start; i <= stop; i++) {
                         Token *t = tokens[i];
                         if (t->getType() == Token::_EOF) {

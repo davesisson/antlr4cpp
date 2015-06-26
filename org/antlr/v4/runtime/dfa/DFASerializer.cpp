@@ -49,7 +49,7 @@ namespace org {
                         if (dfa->s0 == nullptr) {
                             return L"";
                         }
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         std::vector<DFAState*> states = dfa->getStates();
                         for (auto s : states) {
                             int n = 0;

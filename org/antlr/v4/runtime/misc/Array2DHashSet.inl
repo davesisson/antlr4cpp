@@ -1,4 +1,4 @@
-﻿
+
 #pragma once
 
 /*
@@ -478,7 +478,7 @@ namespace org {
                             return L"{}";
                         }
                         
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         buf->append(L"{");
                         bool first = true;
                         for (auto bucket : buckets) {
@@ -506,7 +506,7 @@ namespace org {
                     
                     template<typename T>
                     std::wstring Array2DHashSet<T>::toTableString() {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         for (auto bucket : buckets) {
                             if (bucket.size() == 0) {
                                 buf->append(L"null\n");

@@ -326,7 +326,7 @@ namespace org {
                                 bool last = true;
                                 PredictionContext *p = this;
                                 int stateNumber = currentState;
-                                StringBuilder *localBuffer = new StringBuilder();
+                                antlrcpp::StringBuilder *localBuffer = new antlrcpp::StringBuilder();
                                 localBuffer->append(L"[");
                                 while (!p->isEmpty() && p != stop) {
                                     int index = 0;

@@ -102,7 +102,7 @@ namespace org {
                         return L"";
                     }
 
-                    StringBuilder *builder = new StringBuilder();
+                    antlrcpp::StringBuilder *builder = new antlrcpp::StringBuilder();
                     for (int i = 0; i < getChildCount(); i++) {
                         builder->append(getChild(i)->getText());
                     }
@@ -114,7 +114,7 @@ namespace org {
                     return -1;
                 }
 
-                org::antlr::v4::runtime::tree::ParseTree *RuleContext::getChild(int i) {
+                tree::ParseTree *RuleContext::getChild(int i) {
                     return nullptr;
                 }
 
@@ -185,7 +185,7 @@ namespace org {
 
 
                 std::wstring RuleContext::toString(const std::vector<std::wstring> &ruleNames, RuleContext *stop) {
-                    StringBuilder *buf = new StringBuilder();
+                    antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                     RuleContext *p = this;
                     buf->append(L"[");
                     while (p != nullptr && p != stop) {

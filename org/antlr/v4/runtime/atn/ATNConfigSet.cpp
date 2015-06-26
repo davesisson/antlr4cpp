@@ -288,7 +288,7 @@ namespace org {
                     }
 
                     std::wstring ATNConfigSet::toString() {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         for (int i = 0; i < elements().size(); i++) {
                             buf->append(elements().at(i)->toString());
                         }

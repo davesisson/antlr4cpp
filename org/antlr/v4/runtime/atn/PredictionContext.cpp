@@ -394,7 +394,7 @@ namespace org {
                         if (context == nullptr) {
                             return L"";
                         }
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         buf->append(L"digraph G {\n");
                         buf->append(L"rankdir=LR;\n");
                         

@@ -85,7 +85,7 @@ namespace org {
                         if (t->getChildCount() == 0) {
                             return s;
                         }
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         buf->append(L"(");
                         s = antlrcpp::escapeWhitespace(getNodeText(t, ruleNames), false);
                         buf->append(s);
