@@ -178,11 +178,11 @@ namespace org {
                     std::wstring txt = getText();
                     if (txt != L"") {
                         
-                        replaceAll(txt, L"\n",L"\\n");
+                        antlrcpp::replaceAll(txt, L"\n",L"\\n");
 
-                        replaceAll(txt, L"\r",L"\\r");
+                        antlrcpp::replaceAll(txt, L"\r",L"\\r");
 
-                        replaceAll(txt, L"\t",L"\\t");
+                        antlrcpp::replaceAll(txt, L"\t",L"\\t");
                     } else {
                         txt = L"<no text>";
                     }

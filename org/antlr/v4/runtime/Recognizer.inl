@@ -133,11 +133,11 @@ namespace org {
                         }
                     }
                     
-                    replaceAll(s, L"\n", L"\\n");
+                    antlrcpp::replaceAll(s, L"\n", L"\\n");
                     
-                    replaceAll(s, L"\r",L"\\r");
+                    antlrcpp::replaceAll(s, L"\r",L"\\r");
 
-                    replaceAll(s, L"\t", L"\\t");
+                    antlrcpp::replaceAll(s, L"\t", L"\\t");
                     
                     return std::wstring(L"'") + s + std::wstring(L"'");
                 }

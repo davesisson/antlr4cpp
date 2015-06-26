@@ -67,15 +67,15 @@ namespace org {
 
                 void Parser::TraceListener::enterEveryRule(ParserRuleContext *ctx) {
                   std::cout << "enter   "
-                            << ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
-                            << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText())
+                            << antlrcpp::ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
+                            << ", LT(1)=" << antlrcpp::ws2s(outerInstance->_input->LT(1)->getText())
                             << std::endl;
                 }
 
                 void Parser::TraceListener::visitTerminal(tree::TerminalNode *node) {
                     std::cout << "consume "
                               << node->getSymbol() << " rule "
-                              << ws2s(outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()])
+                              << antlrcpp::ws2s(outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()])
                               << std::endl;
                 }
 
@@ -84,8 +84,8 @@ namespace org {
 
                 void Parser::TraceListener::exitEveryRule(ParserRuleContext *ctx) {
                   std::cout << "exit    "
-                            << ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
-                            << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText())
+                            << antlrcpp::ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
+                            << ", LT(1)=" << antlrcpp::ws2s(outerInstance->_input->LT(1)->getText())
                             << std::endl;
                 }
 
