@@ -215,7 +215,7 @@ namespace org {
 				std::wstring RuleContext::toString() {
 #ifdef TODO
 #endif
-					return L"";
+					return L"TODO";
 				};
 
                 void RuleContext::InitializeInstanceFields() {
