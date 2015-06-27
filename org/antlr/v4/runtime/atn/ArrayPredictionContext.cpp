@@ -41,7 +41,7 @@ namespace org {
                 namespace atn {
 #ifdef TODO
                     //the base class hash code is gettings set to 0 here, what do we want?
-                    stop
+                    stopffds
 #endif
                     ArrayPredictionContext::ArrayPredictionContext(SingletonPredictionContext *a) : PredictionContext(0) {
                     }
