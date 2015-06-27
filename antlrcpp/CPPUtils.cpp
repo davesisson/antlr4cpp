@@ -1,4 +1,4 @@
-#include "Utils.h"
+#include "CPPUtils.h"
 #include <stdarg.h>  // for va_start, etc
 #include <memory>    // for std::unique_ptr
 #include <stdlib.h>
@@ -34,7 +34,7 @@
  */
 
 
-namespace Utils {
+namespace antlrcpp {
 #ifdef TODO
     Add the body
 #endif
@@ -82,9 +82,9 @@ namespace Utils {
         return blank;
     }
 
-	wchar_t* toCharArray(const std::vector<int> *data){
+	wchar_t* toCharArray(const std::vector<size_t> *data){
 		if (data == nullptr) return nullptr;
-		wchar_t* cdata = new wchar_t(data->size());
+		wchar_t* cdata = new wchar_t[data->size()];
 
 		for (int i = 0; i < data->size(); i++){
 			cdata[i] = (char)data->at(i);
@@ -98,4 +98,12 @@ namespace Utils {
 		stream << std::uppercase << std::hex << t;
 		return stream.str();
 	}
+    
+    std::wstring arrayToString(const std::vector<std::wstring> &data) {
+        std::wstring answer;
+        for (auto sub: data) {
+            answer += sub;
+        }
+        return answer;
+    }
 }

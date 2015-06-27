@@ -229,10 +229,8 @@ namespace org {
                 std::wstring ParserRuleContext::toInfoString(Parser *recognizer) {
                     std::vector<std::wstring> rules = recognizer->getRuleInvocationStack(this);
                     std::reverse(rules.begin(), rules.end());
-#ifdef TODO
-                    FIX UP THIS STRING
-#endif
-                    return std::wstring(L"ParserRuleContext") /*+ rules*/ + std::wstring(L"{") + std::wstring(L"start=") + std::to_wstring(start->getTokenIndex())  + std::wstring(L", stop=") + std::to_wstring(stop->getTokenIndex()) + L'}';
+                    std::wstring rulesStr = antlrcpp::arrayToString(rules);
+                    return std::wstring(L"ParserRuleContext") + rulesStr + std::wstring(L"{") + std::wstring(L"start=") + std::to_wstring(start->getTokenIndex())  + std::wstring(L", stop=") + std::to_wstring(stop->getTokenIndex()) + L'}';
                 }
             }
         }

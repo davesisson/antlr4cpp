@@ -48,9 +48,10 @@ namespace org {
 
                 FailedPredicateException::FailedPredicateException(Parser *recognizer, const std::wstring &predicate, const std::wstring &message)
 #ifdef TODO
-                // This crud was added by the translater
+                // Huston, a problem. "trans" isn't defined until below
                 : RecognitionException(formatMessage(predicate, message), recognizer, recognizer->getInputStream(), recognizer->_ctx), ruleIndex((static_cast<atn::PredicateTransition*>(trans))->ruleIndex), predicateIndex((static_cast<atn::PredicateTransition*>(trans))->predIndex), predicate(predicate)
 #endif
+
                 {
                     atn::ATNState *s = recognizer->getInterpreter()->atn->states[recognizer->getState()];
 

@@ -5,7 +5,7 @@
 
 #include "ANTLRErrorListener.h"
 #include "Declarations.h"
-
+#include "Exceptions.h"
 
 /*
  * [The "BSD license"]
@@ -67,9 +67,9 @@ namespace org {
                         }
                     }
 
-                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) override;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, antlrcpp::BitSet *ambigAlts, atn::ATNConfigSet *configs) override;
 
-					virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, atn::ATNConfigSet *configs) override;
+					virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, antlrcpp::BitSet *conflictingAlts, atn::ATNConfigSet *configs) override;
 
                     virtual void reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) override;
                 };

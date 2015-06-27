@@ -1,5 +1,4 @@
-﻿// TODO "assert" is pure bush league
-#include <assert.h>
+﻿#include <algorithm>
 
 #include "PredictionContext.h"
 #include "EmptyPredictionContext.h"
@@ -122,12 +121,12 @@ namespace org {
                         return hash;
                     }
                     
-                    atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
-#ifdef TODO
-						I dislike using assert - if it hits then the application crashes hard with little diagnostic information. Change to an exception or the like when we have
-                        an idea of the policy appropriate for that
-#endif
-						assert(a != nullptr && b != nullptr); // must be empty context, never null
+                    atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b,
+                                                                     bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                        if (a != nullptr && b != nullptr) {
+                           // must be empty context, never null
+                            throw new std::exception();
+                        };
                         
                         // share same graph if both same
                         if (a == b || a->equals(b)) {
@@ -394,18 +393,20 @@ namespace org {
                         if (context == nullptr) {
                             return L"";
                         }
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         buf->append(L"digraph G {\n");
                         buf->append(L"rankdir=LR;\n");
                         
                         std::vector<PredictionContext*> nodes = getAllContextNodes(context);
-                        //TODO: Collections::sort(nodes, new ComparatorAnonymousInnerClassHelper());
+
+                        ComparatorAnonymousInnerClassHelper tmp;
+                        std::sort(nodes.begin(), nodes.end(), (tmp.compare));
                         
                         for (auto current : nodes) {
                             if (dynamic_cast<SingletonPredictionContext*>(current) != nullptr) {
-                                std::wstring s = StringConverterHelper::toString(current->id);
+                                std::wstring s = antlrcpp::StringConverterHelper::toString(current->id);
                                 buf->append(L"  s").append(s);
-                                std::wstring returnState = StringConverterHelper::toString(current->getReturnState(0));
+                                std::wstring returnState = antlrcpp::StringConverterHelper::toString(current->getReturnState(0));
                                 if (dynamic_cast<EmptyPredictionContext*>(current) != nullptr) {
                                     returnState = L"$";
                                 }
@@ -440,13 +441,13 @@ namespace org {
                                 if (current->getParent(i) == nullptr) {
                                     continue;
                                 }
-                                std::wstring s = StringConverterHelper::toString(current->id);
+                                std::wstring s = antlrcpp::StringConverterHelper::toString(current->id);
                                 buf->append(L"  s").append(s);
                                 buf->append(L"->");
                                 buf->append(L"s");
                                 buf->append(current->getParent(i)->id);
                                 if (current->size() > 1) {
-                                    buf->append(std::wstring(L" [label=\"parent[") + StringConverterHelper::toString(i) + std::wstring(L"]\"];\n"));
+                                    buf->append(std::wstring(L" [label=\"parent[") + antlrcpp::StringConverterHelper::toString(i) + std::wstring(L"]\"];\n"));
                                 } else {
                                     buf->append(L";\n");
                                 }
@@ -478,13 +479,9 @@ namespace org {
                         
                         existing = contextCache->get(context);
                         if (existing != nullptr) {
-#ifdef TODO
-                            // These used IdendityHashMap in Java, which isn't the
-                            // same as std::map, need to add a hash key function to
-                            // PredictionContext to achieve the same behavior, same
-                            // goes for all the insert functions below
-                            visited->insert(context, existing);
-#endif
+                            std::pair<PredictionContext*, PredictionContext*> thePair(context, existing);
+                            visited->insert(thePair);
+                            
                             return existing;
                         }
                         
@@ -510,9 +507,9 @@ namespace org {
                         
                         if (!changed) {
                             contextCache->add(context);
-#ifdef TODO
-                            visited->insert(context, context);
-#endif
+                            std::pair<PredictionContext*, PredictionContext*> thePair(context,context);
+                            visited->insert(thePair);
+
                             return context;
                         }
                         
@@ -528,10 +525,13 @@ namespace org {
                         }
                         
                         contextCache->add(updated);
-#ifdef TODO
-                        visited->insert(updated, updated);
-                        visited->insert(context, updated);
-#endif
+                        
+                        std::pair<PredictionContext*, PredictionContext*> thePair(updated, updated);
+                        visited->insert(thePair);
+                        
+                        std::pair<PredictionContext*, PredictionContext*> otherPair(context, updated);
+                        visited->insert(otherPair);
+                        
                         return updated;
                     }
                     
@@ -544,13 +544,16 @@ namespace org {
                     
 
                     void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, std::map<PredictionContext*, PredictionContext*> *visited) {
+                        
                         if (context == nullptr || visited->at(context)) {
                             return;
                         }
-#ifdef TODO
-                        visited->insert(context, context);
-#endif
+                        
+                        std::pair<PredictionContext*, PredictionContext*> thePair(context, context);
+                        visited->insert(thePair);
+
                         nodes.push_back(context);
+                        
                         for (int i = 0; i < context->size(); i++) {
                             getAllContextNodes_(context->getParent(i), nodes, visited);
                         }
@@ -559,7 +562,7 @@ namespace org {
                     std::wstring PredictionContext::toString() {
                         //TODO: what should this return?  (Return empty string
                         // for now.)
-                        return L"";
+                        return L"TODO PredictionContext::toString()";
                     }
                     
                     int PredictionContext::size() {

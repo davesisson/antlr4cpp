@@ -35,10 +35,10 @@ namespace org {
         namespace v4 {
             namespace runtime {
 
-                void BaseErrorListener::reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) {
+                void BaseErrorListener::reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, antlrcpp::BitSet *ambigAlts, atn::ATNConfigSet *configs) {
                 }
 				
-                void BaseErrorListener::reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, atn::ATNConfigSet *configs) {
+                void BaseErrorListener::reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, antlrcpp::BitSet *conflictingAlts, atn::ATNConfigSet *configs) {
                 }
 
                 void BaseErrorListener::reportContextSensitivity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, int prediction, atn::ATNConfigSet *configs) {

@@ -34,7 +34,7 @@ namespace org {
     namespace antlr {
         namespace v4 {
             namespace runtime {
-
+                TokenStream::~TokenStream() {}
             }
         }
     }

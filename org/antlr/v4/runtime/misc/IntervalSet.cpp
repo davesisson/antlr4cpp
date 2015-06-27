@@ -105,8 +105,6 @@ namespace org {
                             return;
                         }
                         // find position in list
-                        // Use iterators as we modify list in place
-//                        for (std::vector<Interval*>::const_iterator iter = intervals.begin(); iter != intervals.end(); ++iter) {
                         for (std::vector<Interval*>::iterator iter = intervals.begin(); iter != intervals.end(); ++iter) {
                             Interval *r = *iter;
                             if (addition->equals(r)) {
@@ -115,7 +113,6 @@ namespace org {
                             if (addition->adjacent(r) || !addition->disjoint(r)) {
                                 // next to each other, make a single larger interval
                                 Interval *bigger = addition->union_Renamed(r);
-//                                (*iter)->set(bigger);
                                 (*iter) = bigger;
                                 // make sure we didn't just create an interval that
                                 // should be merged with next interval in list
@@ -377,7 +374,7 @@ namespace org {
                             hash = MurmurHash::update(hash, I->b);
                         }
 
-                        hash = MurmurHash::finish(hash, intervals.size() * 2);
+                        hash = MurmurHash::finish(hash, (int)intervals.size() * 2);
                         return hash;
                     }
 
@@ -394,7 +391,7 @@ namespace org {
                     }
 
                     std::wstring IntervalSet::toString(bool elemAreChar) {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         if (this->intervals.empty() || this->intervals.empty()) {
                             return L"{}";
                         }
@@ -433,7 +430,7 @@ namespace org {
                     }
 
                     std::wstring IntervalSet::toString(std::wstring tokenNames[]) {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         if (this->intervals.empty() || this->intervals.empty()) {
                             return L"{}";
                         }
@@ -467,7 +464,7 @@ namespace org {
                     }
                     
                     std::wstring IntervalSet::toString(std::vector<std::wstring> tokenNames) {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         if (this->intervals.empty() || this->intervals.empty()) {
                             return L"{}";
                         }

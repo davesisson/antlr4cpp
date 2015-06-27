@@ -51,7 +51,7 @@ namespace org {
                     /// </summary>
                     /// <seealso cref= IntStream#LA </seealso>
                 public:
-//                    virtual ~TokenStream() = 0;
+                    virtual ~TokenStream();
 
                     virtual Token *LT(int k) = 0;
 

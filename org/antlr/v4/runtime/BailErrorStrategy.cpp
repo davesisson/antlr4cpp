@@ -3,6 +3,7 @@
 #include "ParserRuleContext.h"
 #include "Parser.h"
 #include "ParseCancellationException.h"
+#include "InputMismatchException.h"
 
 /*
  * [The "BSD license"]
@@ -44,30 +45,21 @@ namespace org {
                     for (ParserRuleContext *context = recognizer->getContext(); context != nullptr; context = context->getParent()) {
                         context->exception = e;
                     }
-#ifdef TODO
-                    // Getting incomplete type on this for some reason
+
                     throw new ParseCancellationException(e);
-#endif
                 }
 
                 runtime::Token *BailErrorStrategy::recoverInline(Parser *recognizer)  {
-#ifdef TODO
-                    InputMismatchException *e = new InputMismatchException(recognizer
-                                                                           );
-#endif
-                    
+
+                    InputMismatchException *e = new InputMismatchException(recognizer);
                     for (ParserRuleContext *context = recognizer->getContext();
                         context != nullptr;
                         context = context->getParent()) {
-#ifdef TODO
                             context->exception = e;
-#endif
                     }
-#ifdef TODO
+
                     throw new ParseCancellationException(e);
-#else
-                    return nullptr;
-#endif
+
                 }
 
                 void BailErrorStrategy::sync(Parser *recognizer) {

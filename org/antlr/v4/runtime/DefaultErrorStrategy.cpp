@@ -1,4 +1,8 @@
-﻿#include "DefaultErrorStrategy.h"
+﻿#include <locale>
+#include <codecvt>
+#include <string>
+
+#include "DefaultErrorStrategy.h"
 #include "NoViableAltException.h"
 #include "IntervalSet.h"
 #include "ParserATNSimulator.h"
@@ -63,9 +67,6 @@ namespace org {
 
                 void DefaultErrorStrategy::endErrorCondition(Parser *recognizer) {
                     errorRecoveryMode = false;
-#ifdef TODO
-               JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
-#endif
                     delete lastErrorStates;
                     lastErrorIndex = -1;
                 }
@@ -89,10 +90,14 @@ namespace org {
                     } else if (dynamic_cast<FailedPredicateException*>(e) != nullptr) {
                         reportFailedPredicate(recognizer, dynamic_cast<FailedPredicateException*>(e));
                     } else {
-#ifdef TODO
-                        System::err::println(std::wstring(L"unknown recognition error type: ") + e->getClass()->getName());
-                        recognizer->notifyErrorListeners(e->getOffendingToken(), e->what(), e);
-#endif
+
+                        // This is really bush league, I hate libraries that gratuitiously print
+                        // stuff out
+                        std::wcerr <<  std::wstring(L"unknown recognition error type: " +
+                                                    antlrcpp::s2ws(typeid(e).name()));
+
+                        recognizer->notifyErrorListeners(e->getOffendingToken(), antlrcpp::s2ws(e->what()), e);
+
                     }
                 }
 
@@ -329,9 +334,9 @@ namespace org {
 
                 std::wstring DefaultErrorStrategy::escapeWSAndQuote(std::wstring &s) {
                                 //		if ( s==null ) return s;
-                    replaceAll(s, L"\n", L"\\n");
-                    replaceAll(s, L"\r",L"\\r");
-                    replaceAll(s, L"\t",L"\\t");
+                    antlrcpp::replaceAll(s, L"\n", L"\\n");
+                    antlrcpp::replaceAll(s, L"\r",L"\\r");
+                    antlrcpp::replaceAll(s, L"\t",L"\\t");
                     return std::wstring(L"'") + s + std::wstring(L"'");
                 }
 

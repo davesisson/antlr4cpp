@@ -32,29 +32,39 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
- std::string ws2s(const std::wstring& wstr) {
- 	// TODO: not available on Linux
- 	typedef std::codecvt_utf8<wchar_t> convert_typeX;
- 	std::wstring_convert<convert_typeX, wchar_t> converterX;
-
-	return converterX.to_bytes(wstr);
- }
-
-void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to)
-{
-    if(from.empty()) {
-        return;
+namespace antlrcpp {
+    std::string ws2s(const std::wstring& wstr) {
+        // TODO: not available on Linux
+        typedef std::codecvt_utf8<wchar_t> convert_typeX;
+        std::wstring_convert<convert_typeX, wchar_t> converterX;
+        
+        return converterX.to_bytes(wstr);
     }
-    size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+    
+    std::wstring s2ws(const std::string& str) {
+        //    // TODO: not available on Linux
+        //    typedef std::codecvt_utf8<wchar_t> convert_typeX;
+        //    std::wstring_convert<convert_typeX, wchar_t> converterX;
+        //
+        //    return converterX.to_bytes(wstr);
+        return nullptr;
     }
-}
-
-StringReader::StringReader(std::wstring path) {
+    
+    void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to)
+    {
+        if(from.empty()) {
+            return;
+        }
+        size_t start_pos = 0;
+        while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+            str.replace(start_pos, from.length(), to);
+            start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+        }
+    }
+    
+    StringReader::StringReader(std::wstring path) {
 #ifdef TODO
-    Fill me out
+        Fill me out
 #endif
-};
+    };
+}

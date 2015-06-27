@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+
 #include "Declarations.h"
 
 /*
@@ -58,7 +59,6 @@ namespace org {
                         /// From which ATN state did we create this DFA? </summary>
                         atn::DecisionState *const atnStartState;
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         DFA(atn::DecisionState *atnStartState); //this(atnStartState, 0);
 
                         DFA(atn::DecisionState *atnStartState, int decision);
@@ -69,17 +69,16 @@ namespace org {
                         virtual std::vector<DFAState*> getStates();
 
                     private:
-#ifdef TODO
-                        class ComparatorAnonymousInnerClassHelper : public Comparator<DFAState*> {
+                        class ComparatorAnonymousInnerClassHelper {
                         private:
                             DFA *const outerInstance;
 
                         public:
                             ComparatorAnonymousInnerClassHelper(DFA *outerInstance);
 
-                            virtual int compare(DFAState *o1, DFAState *o2);
+                            static int compare(DFAState *o1, DFAState *o2);
                         };
-#endif
+
                     public:
                         virtual std::wstring toString();
 

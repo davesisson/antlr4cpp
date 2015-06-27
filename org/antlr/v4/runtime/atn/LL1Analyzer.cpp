@@ -63,7 +63,7 @@ namespace org {
                             look[alt] = new misc::IntervalSet(0);
                             std::set<ATNConfig*> *lookBusy = new std::set<ATNConfig*>();
                             bool seeThruPreds = false; // fail to get lookahead upon pred
-                            _LOOK(s->transition(alt)->target, nullptr, (PredictionContext*)PredictionContext::EMPTY, look[alt], lookBusy, new BitSet(), seeThruPreds, false);
+                            _LOOK(s->transition(alt)->target, nullptr, (PredictionContext*)PredictionContext::EMPTY, look[alt], lookBusy, new antlrcpp::BitSet(), seeThruPreds, false);
                             // Wipe out lookahead for this alternative if we found nothing
                             // or we had a predicate when we !seeThruPreds
                             if (look[alt]->size() == 0 || look[alt]->contains(HIT_PRED)) {
@@ -82,11 +82,11 @@ namespace org {
                            misc::IntervalSet *r = new misc::IntervalSet(0);
                         bool seeThruPreds = true; // ignore preds; get all lookahead
                         PredictionContext *lookContext = ctx != nullptr ? PredictionContext::fromRuleContext(s->atn, ctx) : nullptr;
-                           _LOOK(s, stopState, lookContext, r, new std::set<ATNConfig*>(), new BitSet(), seeThruPreds, true);
+                           _LOOK(s, stopState, lookContext, r, new std::set<ATNConfig*>(), new antlrcpp::BitSet(), seeThruPreds, true);
                            return r;
                     }
 
-                    void LL1Analyzer::_LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::set<ATNConfig*> *lookBusy,  BitSet *calledRuleStack, bool seeThruPreds, bool addEOF) {
+                    void LL1Analyzer::_LOOK(ATNState *s, ATNState *stopState, PredictionContext *ctx, misc::IntervalSet *look, std::set<ATNConfig*> *lookBusy,  antlrcpp::BitSet *calledRuleStack, bool seeThruPreds, bool addEOF) {
                                         //		System.out.println("_LOOK("+s.stateNumber+", ctx="+ctx);
                         ATNConfig *c = new ATNConfig(s, 0, ctx);
                         

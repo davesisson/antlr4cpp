@@ -76,7 +76,6 @@ namespace org {
                     public:
                         IntervalSet(std::vector<Interval*> &intervals);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         IntervalSet(IntervalSet *set); //this();
 
                         IntervalSet(int numArgs, ...);

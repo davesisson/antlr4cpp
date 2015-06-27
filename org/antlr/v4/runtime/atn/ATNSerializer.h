@@ -40,75 +40,75 @@
  */
 
 namespace org {
-namespace antlr {
-namespace v4 {
-namespace runtime {
-namespace atn {
+	namespace antlr {
+		namespace v4 {
+			namespace runtime {
+				namespace atn {
 
-class ATNSerializer {
- public:
-  ATN *atn;
+					class ATNSerializer {
+					public:
+						ATN *atn;
 
- private:
-  std::vector<std::wstring> tokenNames;
+					private:
+						std::vector<std::wstring> tokenNames;
 
- public:
-  ATNSerializer(ATN *atn);
+					public:
+						ATNSerializer(ATN *atn);
 
-  ATNSerializer(ATN *atn, const std::vector<std::wstring> &tokenNames);
+						ATNSerializer(ATN *atn, const std::vector<std::wstring> &tokenNames);
 
-  /// <summary>
-  /// Serialize state descriptors, edge descriptors, and decision->state map
-  ///  into list of ints:
-  ///
-  /// 		grammar-type, (ANTLRParser.LEXER, ...)
-  ///  	max token type,
-  ///  	num states,
-  ///  	state-0-type ruleIndex, state-1-type ruleIndex, ... state-i-type
-  ///  ruleIndex optional-arg ...
-  ///  	num rules,
-  ///  	rule-1-start-state rule-1-args, rule-2-start-state  rule-2-args, ...
-  ///  	(args are token type,actionIndex in lexer else 0,0)
-  ///      num modes,
-  ///      mode-0-start-state, mode-1-start-state, ... (parser has 0 modes)
-  ///      num sets
-  ///      set-0-interval-count intervals, set-1-interval-count intervals, ...
-  ///  	num total edges,
-  ///      src, trg, edge-type, edge arg1, optional edge arg2 (present always),
-  ///      ...
-  ///      num decisions,
-  ///      decision-0-start-state, decision-1-start-state, ...
-  ///
-  ///  Convenient to pack into unsigned shorts to make as Java string.
-  /// </summary>
-  virtual std::vector<int> *serialize();
+						/// <summary>
+						/// Serialize state descriptors, edge descriptors, and decision->state map
+						///  into list of ints:
+						///
+						/// 		grammar-type, (ANTLRParser.LEXER, ...)
+						///  	max token type,
+						///  	num states,
+						///  	state-0-type ruleIndex, state-1-type ruleIndex, ... state-i-type
+						///  ruleIndex optional-arg ...
+						///  	num rules,
+						///  	rule-1-start-state rule-1-args, rule-2-start-state  rule-2-args, ...
+						///  	(args are token type,actionIndex in lexer else 0,0)
+						///      num modes,
+						///      mode-0-start-state, mode-1-start-state, ... (parser has 0 modes)
+						///      num sets
+						///      set-0-interval-count intervals, set-1-interval-count intervals, ...
+						///  	num total edges,
+						///      src, trg, edge-type, edge arg1, optional edge arg2 (present always),
+						///      ...
+						///      num decisions,
+						///      decision-0-start-state, decision-1-start-state, ...
+						///
+						///  Convenient to pack into unsigned shorts to make as Java string.
+						/// </summary>
+						virtual std::vector<size_t> *serialize();
 
-  virtual std::wstring decode(const std::wstring& data);
+						virtual std::wstring decode(const std::wstring& data);
 
-  virtual std::wstring getTokenName(int t);
+						virtual std::wstring getTokenName(int t);
 
-  /// <summary>
-  /// Used by Java target to encode short/int array as chars in string.
-  /// </summary>
-  static std::wstring getSerializedAsString(ATN *atn);
+						/// <summary>
+						/// Used by Java target to encode short/int array as chars in string.
+						/// </summary>
+						static std::wstring getSerializedAsString(ATN *atn);
 
-  static std::vector<int> *getSerialized(ATN *atn);
+						static std::vector<size_t> *getSerialized(ATN *atn);
 
-  static wchar_t *getSerializedAsChars(ATN *atn);
+						static wchar_t *getSerializedAsChars(ATN *atn);
 
-  static std::wstring getDecoded(ATN *atn,
-                                 std::vector<std::wstring> &tokenNames);
+						static std::wstring getDecoded(ATN *atn,
+							std::vector<std::wstring> &tokenNames);
 
- private:
-  void serializeUUID(std::vector<int> *data, UUID *uuid);
+					private:
+						void serializeUUID(std::vector<size_t> *data, antlrcpp::UUID *uuid);
 
-  void serializeLong(std::vector<int> *data, long long value);
+						void serializeLong(std::vector<size_t> *data, long long value);
 
-  void serializeInt(std::vector<int> *data, int value);
-};
+						void serializeInt(std::vector<size_t> *data, int value);
+					};
 
-}  // namespace org
-}  // namespace antlr
-}  // namespace v4
-}  // namespace runtime
+				}  // namespace org
+			}  // namespace antlr
+		}  // namespace v4
+	}  // namespace runtime
 }  // namespace atn

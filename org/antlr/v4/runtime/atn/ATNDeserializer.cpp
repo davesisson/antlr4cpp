@@ -71,15 +71,15 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
-                    const int ATNDeserializer::SERIALIZED_VERSION;
+					const int ATNDeserializer::SERIALIZED_VERSION = 3;
 
                     /* This value should never change. Updates following this version are
                      * reflected as change in the unique ID SERIALIZED_UUID.
                      */
-                    UUID *const ATNDeserializer::BASE_SERIALIZED_UUID = UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");
-                    UUID *const ATNDeserializer::ADDED_PRECEDENCE_TRANSITIONS = UUID::fromString(L"1DA0C57D-6C06-438A-9B27-10BCB3CE0F61");
-                    const std::vector<UUID*> ATNDeserializer::SUPPORTED_UUIDS = supportedUUIDsInitializer();
-                    UUID *const ATNDeserializer::SERIALIZED_UUID = ADDED_PRECEDENCE_TRANSITIONS;
+                    antlrcpp::UUID *const ATNDeserializer::BASE_SERIALIZED_UUID = antlrcpp::UUID::fromString(L"33761B2D-78BB-4A43-8B0B-4F5BEE8AACF3");
+                    antlrcpp::UUID *const ATNDeserializer::ADDED_PRECEDENCE_TRANSITIONS = antlrcpp::UUID::fromString(L"1DA0C57D-6C06-438A-9B27-10BCB3CE0F61");
+                    const std::vector<antlrcpp::UUID*> ATNDeserializer::SUPPORTED_UUIDS = supportedUUIDsInitializer();
+                    antlrcpp::UUID *const ATNDeserializer::SERIALIZED_UUID = ADDED_PRECEDENCE_TRANSITIONS;
 
                     ATNDeserializer::ATNDeserializer(): deserializationOptions(deserializationOptionsInitializer(nullptr)) {
                     }
@@ -87,7 +87,7 @@ namespace org {
                     ATNDeserializer::ATNDeserializer(ATNDeserializationOptions *dso): deserializationOptions(deserializationOptionsInitializer(dso)) {
                     }
 
-                    bool ATNDeserializer::isFeatureSupported(UUID *feature, UUID *actualUuid) {
+                    bool ATNDeserializer::isFeatureSupported(antlrcpp::UUID *feature, antlrcpp::UUID *actualUuid) {
                         // TODO: should SUPPORTED_UUIDS be of type std::vector<UUID> instead?
                         /*int featureIndex = SUPPORTED_UUIDS.find(feature);
                         if (featureIndex < 0) {
@@ -116,7 +116,7 @@ namespace org {
                             throw UnsupportedOperationException(InvalidClassException(ATN::typeid::getName(), reason));*/
                         }
 
-                        UUID *uuid = toUUID(data, p);
+                        antlrcpp::UUID *uuid = toUUID(data, p);
                         p += 8;
                         if (!uuid->equals(SERIALIZED_UUID) && !uuid->equals(BASE_SERIALIZED_UUID)) {
                             // TODO: what is the apprpriate type of exception to throw here?
@@ -140,7 +140,7 @@ namespace org {
                         for (int i = 0; i < nstates; i++) {
                             int stype = toInt(data[p++]);
                             // ignore bad type of states
-                            if (stype == ATNState::INVALID_TYPE) {
+                            if (stype == ATNState::ATN_INVALID_TYPE) {
                                 atn->addState(nullptr);
                                 continue;
                             }
@@ -347,16 +347,16 @@ namespace org {
                         if (deserializationOptions->isGenerateRuleBypassTransitions() && atn->grammarType == ATNType::PARSER) {
                             atn->ruleToTokenType = new int[atn->ruleToStartState.size()];
                             for (std::vector<RuleStartState*>::size_type i = 0; i < atn->ruleToStartState.size(); i++) {
-                                atn->ruleToTokenType[i] = atn->maxTokenType + i + 1;
+                                atn->ruleToTokenType[i] = atn->maxTokenType + (int)i + 1;
                             }
 
                             for (std::vector<RuleStartState*>::size_type i = 0; i < atn->ruleToStartState.size(); i++) {
                                 BasicBlockStartState *bypassStart = new BasicBlockStartState();
-                                bypassStart->ruleIndex = i;
+                                bypassStart->ruleIndex = (int)i;
                                 atn->addState(bypassStart);
 
                                 BlockEndState *bypassStop = new BlockEndState();
-                                bypassStop->ruleIndex = i;
+                                bypassStop->ruleIndex = (int)i;
                                 atn->addState(bypassStop);
 
                                 bypassStart->endState = bypassStop;
@@ -401,7 +401,7 @@ namespace org {
 
                                 // all non-excluded transitions that currently target end state need to target blockEnd instead
                                 for (ATNState *state : atn->states) {
-                                    for (Transition *transition : state->transitions) {
+                                    for (Transition *transition : state->getTransitions()) {
                                         if (transition == excludeTransition) {
                                             continue;
                                         }
@@ -521,10 +521,10 @@ namespace org {
                         return lowOrder | (static_cast<long long>(toInt32(data, offset + 2)) << 32);
                     }
 
-                    UUID *ATNDeserializer::toUUID(const std::wstring& data, int offset) {
+                    antlrcpp::UUID *ATNDeserializer::toUUID(const std::wstring& data, int offset) {
                         long long leastSigBits = toLong(data, offset);
                         long long mostSigBits = toLong(data, offset + 4);
-                        return new UUID(mostSigBits, leastSigBits);
+                        return new antlrcpp::UUID(mostSigBits, leastSigBits);
                     }
 
                     Transition *ATNDeserializer::edgeFactory(ATN *atn, int type, int src, int trg, int arg1, int arg2, int arg3, std::vector<misc::IntervalSet*> &sets) {
@@ -568,7 +568,7 @@ namespace org {
                     ATNState *ATNDeserializer::stateFactory(int type, int ruleIndex) {
                         ATNState *s;
                         switch (type) {
-                            case ATNState::INVALID_TYPE:
+                            case ATNState::ATN_INVALID_TYPE:
                                 return nullptr;
                             case ATNState::BASIC :
                                 s = new BasicState();
@@ -617,8 +617,8 @@ namespace org {
                         return s;
                     }
 
-                    std::vector<UUID*> ATNDeserializer::supportedUUIDsInitializer() {
-                        std::vector<UUID*> supportedUUIDs;
+                    std::vector<antlrcpp::UUID*> ATNDeserializer::supportedUUIDsInitializer() {
+                        std::vector<antlrcpp::UUID*> supportedUUIDs;
                         supportedUUIDs.push_back(BASE_SERIALIZED_UUID);
                         supportedUUIDs.push_back(ADDED_PRECEDENCE_TRANSITIONS);
 

@@ -67,15 +67,15 @@ namespace org {
 
                 void Parser::TraceListener::enterEveryRule(ParserRuleContext *ctx) {
                   std::cout << "enter   "
-                            << ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
-                            << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText())
+                            << antlrcpp::ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
+                            << ", LT(1)=" << antlrcpp::ws2s(outerInstance->_input->LT(1)->getText())
                             << std::endl;
                 }
 
                 void Parser::TraceListener::visitTerminal(tree::TerminalNode *node) {
                     std::cout << "consume "
                               << node->getSymbol() << " rule "
-                              << ws2s(outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()])
+                              << antlrcpp::ws2s(outerInstance->getRuleNames()[outerInstance->_ctx->getRuleIndex()])
                               << std::endl;
                 }
 
@@ -84,8 +84,8 @@ namespace org {
 
                 void Parser::TraceListener::exitEveryRule(ParserRuleContext *ctx) {
                   std::cout << "exit    "
-                            << ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
-                            << ", LT(1)=" << ws2s(outerInstance->_input->LT(1)->getText())
+                            << antlrcpp::ws2s(outerInstance->getRuleNames()[ctx->getRuleIndex()])
+                            << ", LT(1)=" << antlrcpp::ws2s(outerInstance->_input->LT(1)->getText())
                             << std::endl;
                 }
 
@@ -125,7 +125,7 @@ namespace org {
                         getInputStream()->seek(0);
                     }
                     _errHandler->reset(this);
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+
                     delete _ctx;
                     _syntaxErrors = 0;
                     setTrace(false);
@@ -311,7 +311,6 @@ namespace org {
                 }
 
                 void Parser::setTokenStream(TokenStream *input) {
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                     delete this->_input;
                     reset();
                     this->_input = input;

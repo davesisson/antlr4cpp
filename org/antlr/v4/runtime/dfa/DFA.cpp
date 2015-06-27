@@ -1,7 +1,11 @@
-﻿#include "DFA.h"
+﻿#include <map>
+#include <algorithm>
+
+#include "DFA.h"
+#include "DFAState.h"
 #include "DFASerializer.h"
 #include "LexerDFASerializer.h"
-#include <map>
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -37,7 +41,6 @@ namespace org {
             namespace runtime {
                 namespace dfa {
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                     DFA::DFA(atn::DecisionState *atnStartState) : states(new std::map<DFAState*, DFAState*>()), atnStartState(atnStartState), decision(0) {
                     }
 
@@ -51,25 +54,24 @@ namespace org {
                         for(auto imap: mapints) {
                             vints.push_back(imap.first);
                         }
-                        return vints;
-#ifdef TODO
-                        // Do I need to sort these?
-//                        std::vector<DFAState*> result = std::vector<DFAState*>(states->);
-//                        Collections::sort(result, new ComparatorAnonymousInnerClassHelper(this));
 
-//                        return result;
-#endif
+                        // This ComparatorAnonymousInnerClassHelper isn't doing much, it
+                        // could be accomplished simply with a local comparator function
+                        std::vector<DFAState*> result = std::vector<DFAState*>(vints);
+                        ComparatorAnonymousInnerClassHelper tmp(this);
+                        std::sort(result.begin(), result.end(), (tmp.compare));
+                        
+                        return result;
                     }
 
-#ifdef TODO
-                    DFA::ComparatorAnonymousInnerClassHelper::ComparatorAnonymousInnerClassHelper(DFA *outerInstance) {
-                        this->outerInstance = outerInstance;
+
+                    DFA::ComparatorAnonymousInnerClassHelper::ComparatorAnonymousInnerClassHelper(DFA *outerInstance) : outerInstance(outerInstance) {
                     }
 
                     int DFA::ComparatorAnonymousInnerClassHelper::compare(DFAState *o1, DFAState *o2) {
                         return o1->stateNumber - o2->stateNumber;
                     }
-#endif
+
                     std::wstring DFA::toString() {
                         std::vector<std::wstring> tokenNames;
                         return toString(tokenNames);
@@ -80,7 +82,7 @@ namespace org {
                             return L"";
                         }
                         DFASerializer *serializer = new DFASerializer(this, tokenNames);
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+
                         return serializer->toString();
                     }
 
@@ -89,7 +91,7 @@ namespace org {
                             return L"";
                         }
                         DFASerializer *serializer = new LexerDFASerializer(this);
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
+
                         return serializer->toString();
                     }
                 }

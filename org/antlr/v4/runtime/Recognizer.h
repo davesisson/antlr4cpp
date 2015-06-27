@@ -14,8 +14,8 @@
 #include "StringBuilder.h"
 //#include "ProxyErrorListener.h" // Under a TODO These two are causing recursive loop includes
 #include "Strings.h"
-#include "Utils.h"
-#include "RecognitionException.h"
+#include "CPPUtils.h"
+//#include "RecognitionException.h"
 
 /*
  * [The "BSD license"]
@@ -85,9 +85,13 @@ namespace org {
                     ///  that overrides this to point to their String[] tokenNames.
                     /// </summary>
                 public:
-                    virtual const std::vector<std::wstring>& getTokenNames() = 0;
+                    virtual const std::vector<std::wstring>& getTokenNames(){
+                        throw new std::exception();
+                    };// = 0;
 
-                    virtual const std::vector<std::wstring>& getRuleNames() = 0;
+                    virtual const std::vector<std::wstring>& getRuleNames() {
+                        throw new std::exception();
+                    };// = 0;
 
                     /// <summary>
                     /// Get a map from token names to token types.
@@ -193,11 +197,17 @@ namespace org {
                     /// </summary>
                     void setState(int atnState);
 
-                    virtual IntStream *getInputStream() = 0;
+                    virtual IntStream *getInputStream(){
+                        throw new std::exception();
+                    };// = 0;
 
-                    virtual void setInputStream(IntStream *input) = 0;
+                    virtual void setInputStream(IntStream *input){
+                        throw new std::exception();
+                    };// = 0;
 
-                    virtual TokenFactory<CommonToken *> *getTokenFactory() = 0;
+                    virtual TokenFactory<CommonToken *> *getTokenFactory(){
+                        throw new std::exception();
+                    };// = 0;
 
                     template<typename T1>
                     void setTokenFactory(TokenFactory<T1> *input);

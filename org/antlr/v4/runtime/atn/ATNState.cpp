@@ -39,27 +39,16 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 namespace atn {
+                    
+                    ATNState::~ATNState() {};
+                    
                     const int ATNState::INITIAL_NUM_TRANSITIONS;
                     
-                    // constants for serialization
-                    const int ATNState::INVALID_TYPE;
-                    const int ATNState::BASIC;
-                    const int ATNState::RULE_START;
-                    const int ATNState::BLOCK_START;
-                    const int ATNState::PLUS_BLOCK_START;
-                    const int ATNState::STAR_BLOCK_START;
-                    const int ATNState::TOKEN_START;
-                    const int ATNState::RULE_STOP;
-                    const int ATNState::BLOCK_END;
-                    const int ATNState::STAR_LOOP_BACK;
-                    const int ATNState::STAR_LOOP_ENTRY;
-                    const int ATNState::PLUS_LOOP_BACK;
-                    const int ATNState::LOOP_END;
 
-                    const std::vector<std::wstring> ATNState::serializationNames;
-#ifdef TODO
-                    = (L"INVALID", L"BASIC", L"RULE_START", L"BLOCK_START", L"PLUS_BLOCK_START", L"STAR_BLOCK_START", L"TOKEN_START", L"RULE_STOP", L"BLOCK_END", L"STAR_LOOP_BACK", L"STAR_LOOP_ENTRY", L"PLUS_LOOP_BACK", L"LOOP_END");
-#endif
+                    const wchar_t * ATNState::serializationNames[] =  {L"INVALID", L"BASIC", L"RULE_START", L"BLOCK_START",
+                        L"PLUS_BLOCK_START", L"STAR_BLOCK_START", L"TOKEN_START", L"RULE_STOP",
+                        L"BLOCK_END", L"STAR_LOOP_BACK", L"STAR_LOOP_ENTRY", L"PLUS_LOOP_BACK", L"LOOP_END"};
+                    
                     int ATNState::hashCode() {
                         return stateNumber;
                     }
@@ -77,16 +66,13 @@ namespace org {
                     }
                     
                     std::wstring ATNState::toString() {
-                        return StringConverterHelper::toString(stateNumber);
+                        return antlrcpp::StringConverterHelper::toString(stateNumber);
                     }
                     
-                    Transition *ATNState::getTransitions() {
-#ifdef TODO
-                        Transition *arr = new Transition[transitions.size()];
-                        //Transition* arr = (Transition*)&transitions[0];
-                        return transitions.toArray(new Transition[transitions.size()]);
-#endif
-                        return nullptr;
+                    std::vector<Transition*> ATNState::getTransitions() {
+                        std::vector<Transition*> arr(transitions);
+
+                        return arr;
                     }
                     
                     int ATNState::getNumberOfTransitions() {
@@ -118,9 +104,6 @@ namespace org {
                     
                     atn::Transition *ATNState::removeTransition(int index) {
                         transitions.erase(transitions.begin() + index);
-#ifdef TODO
-                        // WHat does the Java version return?
-#endif
                         return nullptr;
                     }
                     

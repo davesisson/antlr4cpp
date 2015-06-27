@@ -107,7 +107,7 @@ namespace org {
                     /// <param name="ambigAlts"> the potentially ambiguous alternatives </param>
                     /// <param name="configs"> the ATN configuration set where the ambiguity was
                     /// determined </param>
-                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, BitSet *ambigAlts, atn::ATNConfigSet *configs) = 0;
+                    virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, antlrcpp::BitSet *ambigAlts, atn::ATNConfigSet *configs) = 0;
 
                     /// <summary>
                     /// This method is called when an SLL conflict occurs and the parser is about
@@ -129,7 +129,7 @@ namespace org {
                     /// represented in {@code configs}. </param>
                     /// <param name="configs"> the ATN configuration set where the SLL conflict was
                     /// detected </param>
-                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, BitSet *conflictingAlts, atn::ATNConfigSet *configs) = 0;
+                    virtual void reportAttemptingFullContext(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, antlrcpp::BitSet *conflictingAlts, atn::ATNConfigSet *configs) = 0;
 
                     /// <summary>
                     /// This method is called by the parser when a full-context prediction has a

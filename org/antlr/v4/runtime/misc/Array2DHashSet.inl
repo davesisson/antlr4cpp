@@ -1,4 +1,4 @@
-﻿
+
 #pragma once
 
 /*
@@ -206,7 +206,7 @@ namespace org {
                         currentPrime += 4;
                         int newCapacity = (int)buckets.size() * 2;
                         std::vector<std::vector<T>> *newTable = createBuckets(newCapacity);
-                        int newBucketLengths[newTable->size()];
+						std::vector<int> newBucketLengths;
                         buckets = *newTable;
                         threshold = static_cast<int>(newCapacity * LOAD_FACTOR);
                         //		System.out.println("new size="+newCapacity+", thres="+threshold);
@@ -224,8 +224,6 @@ namespace org {
                                 
                                 int b = getBucket(o);
                                 int bucketLength = newBucketLengths[b];
-                                //JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-                                //ORIGINAL LINE: T[] newBucket;
                                 std::vector<T> *newBucket;
                                 if (bucketLength == 0) {
                                     // new bucket
@@ -314,7 +312,7 @@ namespace org {
                     template<typename U>
                     U *Array2DHashSet<T>::toArray(U a[]) {
                         if (sizeof(a) / sizeof(a[0]) < size()) {
-                            a = Arrays::copyOf(a, size());
+                            a = antlrcpp::Arrays::copyOf(a, size());
                         }
                         
                         int i = 0;
@@ -480,7 +478,7 @@ namespace org {
                             return L"{}";
                         }
                         
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         buf->append(L"{");
                         bool first = true;
                         for (auto bucket : buckets) {
@@ -508,7 +506,7 @@ namespace org {
                     
                     template<typename T>
                     std::wstring Array2DHashSet<T>::toTableString() {
-                        StringBuilder *buf = new StringBuilder();
+                        antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                         for (auto bucket : buckets) {
                             if (bucket.size() == 0) {
                                 buf->append(L"null\n");

@@ -179,7 +179,7 @@ namespace org {
                                 // (expr ...) and <expr>
                                 RuleTagToken *ruleTagToken = getRuleTagToken(r2);
                                 if (ruleTagToken != nullptr) {
-                                    ParseTreeMatch *m = nullptr;
+                                    //ParseTreeMatch *m = nullptr; // unused?
 									if (r1->RuleContext::getRuleContext()->getRuleIndex() == r2->RuleContext::getRuleContext()->getRuleIndex()) {
                                         // track label->list-of-nodes for both rule name and label (if any)
                                         labels->map(ruleTagToken->getRuleName(), tree);
@@ -277,7 +277,7 @@ namespace org {
                         }
                         
                         std::vector<Chunk*> ParseTreePatternMatcher::split(const std::wstring &pattern) {
-                            int p = 0;
+                            size_t p = 0;
                             size_t n = pattern.length();
                             std::vector<Chunk*> chunks = std::vector<Chunk*>();
                             // find all start and stop indexes first, then collect
@@ -289,10 +289,10 @@ namespace org {
                                 } else if (p == pattern.find(escape + stop,p)) {
                                     p += escape.length() + stop.length();
                                 } else if (p == pattern.find(start,p)) {
-                                    starts.push_back(p);
+                                    starts.push_back((int)p);
                                     p += start.length();
                                 } else if (p == pattern.find(stop,p)) {
-                                    stops.push_back(p);
+                                    stops.push_back((int)p);
                                     p += stop.length();
                                 } else {
                                     p++;
@@ -311,7 +311,7 @@ namespace org {
                             }
 
                             size_t ntags = starts.size();
-                            for (int i = 0; i < ntags; i++) {
+                            for (size_t i = 0; i < ntags; i++) {
                                 if (starts[i] >= stops[i]) {
                                     throw IllegalArgumentException(std::wstring(L"tag delimiters out of order in pattern: ") + pattern);
                                 }
@@ -327,7 +327,7 @@ namespace org {
                                 std::wstring text = pattern.substr(0, starts[0]);
                                 chunks.push_back(new TextChunk(text));
                             }
-                            for (int i = 0; i < ntags; i++) {
+                            for (size_t i = 0; i < ntags; i++) {
                                 // copy inside of <tag>
                                 std::wstring tag = pattern.substr(starts[i] + start.length(), stops[i] - (starts[i] + start.length()));
                                 std::wstring ruleOrToken = tag;

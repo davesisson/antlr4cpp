@@ -123,9 +123,6 @@
     <ClCompile Include="..\org\antlr\v4\runtime\UnbufferedCharStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\UnbufferedTokenStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\WritableToken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -285,9 +282,6 @@
     <ClCompile Include="..\org\antlr\v4\runtime\misc\AbstractEqualityComparator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\org\antlr\v4\runtime\misc\Array2DHashSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\misc\EqualityComparator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -425,6 +419,18 @@
     </ClCompile>
     <ClCompile Include="..\org\antlr\v4\runtime\tree\xpath\XPathWildcardElement.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\antlrcpp\CPPUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\antlrcpp\UUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\antlrcpp\Strings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\antlrcpp\StringBuilder.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -843,6 +849,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\org\antlr\v4\runtime\tree\xpath\XPathWildcardElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\antlrcpp\CPPUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\antlrcpp\UUID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\antlrcpp\Strings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\antlrcpp\StringBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

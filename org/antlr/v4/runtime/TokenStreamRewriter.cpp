@@ -30,7 +30,7 @@ namespace org {
 					std::wstring opName = L"TokenStreamRewriter";
 					size_t index = opName.find(L'$');
 					opName = opName.substr(index + 1, opName.length() - (index + 1));
-					return L"<" + opName + L"@" + outerInstance->tokens->get(index)->getText() + L":\"" + text + L"\">";
+					return L"<" + opName + L"@" + outerInstance->tokens->get((int)index)->getText() + L":\"" + text + L"\">";
 				}
 
 				void TokenStreamRewriter::RewriteOperation::InitializeInstanceFields() {
@@ -74,7 +74,7 @@ namespace org {
 				const std::wstring TokenStreamRewriter::DEFAULT_PROGRAM_NAME = L"default";
 
 				TokenStreamRewriter::TokenStreamRewriter(TokenStream *tokens) : tokens(tokens), programs(new std::map<std::wstring, std::vector<RewriteOperation*>>()), lastRewriteTokenIndexes(new std::map<std::wstring, int>()) {
-					programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(DEFAULT_PROGRAM_NAME, VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE)));
+					programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(DEFAULT_PROGRAM_NAME, antlrcpp::VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE)));
 				}
 
 				org::antlr::v4::runtime::TokenStream *TokenStreamRewriter::getTokenStream() {
@@ -88,7 +88,7 @@ namespace org {
 				void TokenStreamRewriter::rollback(const std::wstring &programName, int instructionIndex) {
 					std::vector<RewriteOperation*> is = programs->at(programName);
 					if (is.size() > 0) {
-						programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*> >(programName, VectorHelper::VectorSublist(is, MIN_TOKEN_INDEX, instructionIndex)));
+						programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*> >(programName, antlrcpp::VectorHelper::VectorSublist(is, MIN_TOKEN_INDEX, instructionIndex)));
 					}
 				}
 
@@ -132,7 +132,7 @@ namespace org {
 				void TokenStreamRewriter::insertBefore(const std::wstring &programName, int index, const std::wstring& text) {
 					RewriteOperation *op = new InsertBeforeOp(this, index, text);
 					std::vector<RewriteOperation*> rewrites = getProgram(programName);
-					op->instructionIndex = rewrites.size();
+					op->instructionIndex = (int)rewrites.size();
 					rewrites.push_back(op);
 				}
 
@@ -158,7 +158,7 @@ namespace org {
 					}
 					RewriteOperation *op = new ReplaceOp(this, from, to, text);
 					std::vector<RewriteOperation*> rewrites = getProgram(programName);
-					op->instructionIndex = rewrites.size();
+					op->instructionIndex = (int)rewrites.size();
 					rewrites.push_back(op);
 				}
 
@@ -214,13 +214,13 @@ namespace org {
 				}
 
 				std::vector<TokenStreamRewriter::RewriteOperation*> TokenStreamRewriter::initializeProgram(const std::wstring &name) {
-					std::vector<TokenStreamRewriter::RewriteOperation*> is = VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE);
+					std::vector<TokenStreamRewriter::RewriteOperation*> is = antlrcpp::VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE);
 					programs->insert({ name, is });
 					return is;
 				}
 
 				std::wstring TokenStreamRewriter::getText() {
-					return getText(DEFAULT_PROGRAM_NAME, Interval::of(0, tokens->size() - 1));
+					return getText(DEFAULT_PROGRAM_NAME, Interval::of(0, (int)tokens->size() - 1));
 				}
 
 				std::wstring TokenStreamRewriter::getText(Interval *interval) {
@@ -234,7 +234,7 @@ namespace org {
 
 					// ensure start/end are in range
 					if (stop > tokens->size() - 1) {
-						stop = tokens->size() - 1;
+						stop = (int)tokens->size() - 1;
 					}
 					if (start < 0) {
 						start = 0;
@@ -295,7 +295,7 @@ namespace org {
 						}
 						ReplaceOp *rop = static_cast<ReplaceOp*>(op);
 						// Wipe prior inserts within range
-						InsertBeforeOp* type;
+						InsertBeforeOp* type = nullptr;
 						std::vector<InsertBeforeOp*> inserts = getKindOfOps(rewrites, type, i);
 						for (auto iop : inserts) {
 							if (iop->index == rop->index) {
@@ -313,7 +313,7 @@ namespace org {
 							}
 						}
 						// Drop any prior replaces contained within
-						ReplaceOp* type2;
+						ReplaceOp* type2 = nullptr;
 						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type2, i);
 						for (auto prevRop : prevReplaces) {
 							if (prevRop->index >= rop->index && prevRop->lastIndex <= rop->lastIndex) {
@@ -365,7 +365,7 @@ namespace org {
 							}
 						}
 						// look for replaces where iop.index is in range; error
-						ReplaceOp *type;
+						ReplaceOp *type = nullptr;
 						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type, i);
 						for (auto rop : prevReplaces) {
 							if (iop->index == rop->index) {

@@ -548,7 +548,7 @@ namespace org {
 
                             dfa::DFAState *newState = proposed;
 
-                            newState->stateNumber = dfa->states->size();
+                            newState->stateNumber = (int)dfa->states->size();
                             configs->setReadonly(true);
                             newState->configs = configs;
                             dfa->states->emplace(newState, newState);

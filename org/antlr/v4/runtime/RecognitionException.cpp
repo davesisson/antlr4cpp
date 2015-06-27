@@ -46,11 +46,12 @@ namespace org {
                 }
 
                 misc::IntervalSet *RecognitionException::getExpectedTokens() {
-#ifdef TODO
+                    // Terence and Sam used some fancy Java wildcard generics which
+                    // cause us trouble here. TODO - can a Recognizer<void*, void*>
+                    // substitute for any other type of recognizer?
                     if (recognizer != nullptr) {
-                        return recognizer->getATN()->getExpectedTokens(offendingState, ctx);
+                        return ((Recognizer<void*, void*>*)recognizer)->getATN()->getExpectedTokens(offendingState, ctx);
                     }
-#endif
                     return nullptr;
                 }
 
@@ -69,11 +70,14 @@ namespace org {
                 void RecognitionException::setOffendingToken(Token *offendingToken) {
                     this->offendingToken = offendingToken;
                 }
-#ifdef TODO
+                
                 Recognizer<void*, void*> *RecognitionException::getRecognizer() {
-                    return recognizer;
+                    // Terence and Sam used some fancy Java wildcard generics which
+                    // cause us trouble here. TODO - can a Recognizer<void*, void*>
+                    // substitute for any other type of recognizer?
+                    return (Recognizer<void*, void*> *)recognizer;
                 }
-#endif
+
                 void RecognitionException::InitializeInstanceFields() {
                     offendingState = -1;
                 }

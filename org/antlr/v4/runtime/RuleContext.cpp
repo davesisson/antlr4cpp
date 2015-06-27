@@ -102,7 +102,7 @@ namespace org {
                         return L"";
                     }
 
-                    StringBuilder *builder = new StringBuilder();
+                    antlrcpp::StringBuilder *builder = new antlrcpp::StringBuilder();
                     for (int i = 0; i < getChildCount(); i++) {
                         builder->append(getChild(i)->getText());
                     }
@@ -114,7 +114,7 @@ namespace org {
                     return -1;
                 }
 
-                org::antlr::v4::runtime::tree::ParseTree *RuleContext::getChild(int i) {
+                tree::ParseTree *RuleContext::getChild(int i) {
                     return nullptr;
                 }
 
@@ -178,27 +178,14 @@ namespace org {
                     return toStringTree(nullptr);
                 }
 
-                std::wstring RuleContext::toString() {
-                    std::vector<std::wstring> emptyList;
-                    return toString(emptyList, static_cast<RuleContext*>(nullptr));
-                }
-
-                template<typename T1, typename T2>
-                std::wstring RuleContext::toString(Recognizer<T1, T2> *recog) {
-                    return toString(recog, ParserRuleContext::EMPTY);
-                }
 
                 std::wstring RuleContext::toString(const std::vector<std::wstring> &ruleNames) {
                     return toString(ruleNames, static_cast<RuleContext*>(nullptr));
                 }
 
-                template<typename T1, typename T2>
-                std::wstring RuleContext::toString(Recognizer<T1, T2> *recog, RuleContext *stop) {
-                    return toString(recog->getRuleNames(), stop);
-                }
 
                 std::wstring RuleContext::toString(const std::vector<std::wstring> &ruleNames, RuleContext *stop) {
-                    StringBuilder *buf = new StringBuilder();
+                    antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                     RuleContext *p = this;
                     buf->append(L"[");
                     while (p != nullptr && p != stop) {
@@ -224,6 +211,12 @@ namespace org {
     
                     return buf->toString();
                 }
+
+				std::wstring RuleContext::toString() {
+#ifdef TODO
+#endif
+					return L"TODO";
+				};
 
                 void RuleContext::InitializeInstanceFields() {
                     invokingState = -1;

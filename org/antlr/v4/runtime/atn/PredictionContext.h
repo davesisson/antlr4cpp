@@ -1,4 +1,9 @@
 ﻿#pragma once
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <limits.h>
+#include <stdint.h>
 
 #include "DoubleKeyMap.h"
 #include "Recognizer.h"
@@ -7,11 +12,6 @@
 #include "ATN.h"
 #include "ATNState.h"
 
-#include <string>
-#include <unordered_map>
-#include <vector>
-#include <limits.h>
-#include <stdint.h>
 
 /*
  * [The "BSD license"]
@@ -269,7 +269,7 @@ namespace org {
                         public:
                             ComparatorAnonymousInnerClassHelper();
 
-                            virtual int compare(PredictionContext *o1, PredictionContext *o2);
+                            static int compare(PredictionContext *o1, PredictionContext *o2);
                         };
  
                         // From Sam
@@ -326,7 +326,7 @@ namespace org {
                                 bool last = true;
                                 PredictionContext *p = this;
                                 int stateNumber = currentState;
-                                StringBuilder *localBuffer = new StringBuilder();
+                                antlrcpp::StringBuilder *localBuffer = new antlrcpp::StringBuilder();
                                 localBuffer->append(L"[");
                                 while (!p->isEmpty() && p != stop) {
                                     int index = 0;

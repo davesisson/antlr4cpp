@@ -1,11 +1,12 @@
 ﻿#pragma once
 
-#include "RuleContext.h"
-#include "Declarations.h"
-
 #include <string>
 #include <vector>
 #include <algorithm>
+
+#include "RuleContext.h"
+#include "Declarations.h"
+
 
 
 /*

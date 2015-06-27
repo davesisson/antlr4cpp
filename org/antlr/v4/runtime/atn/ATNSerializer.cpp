@@ -67,8 +67,8 @@ namespace org {
 						this->tokenNames = tokenNames;
 					}
 
-					std::vector<int>* ATNSerializer::serialize() {
-						std::vector<int>* data = new std::vector<int>();
+					std::vector<size_t>* ATNSerializer::serialize() {
+						std::vector<size_t>* data = new std::vector<size_t>();
 						data->push_back(ATNDeserializer::SERIALIZED_VERSION);
 						serializeUUID(data, ATNDeserializer::SERIALIZED_UUID);
 
@@ -87,7 +87,7 @@ namespace org {
 						data->push_back(atn->states.size());
 						for (ATNState *s : atn->states) {
 							if (s == nullptr) {  // might be optimized away
-								data->push_back(ATNState::INVALID_TYPE);
+								data->push_back(ATNState::ATN_INVALID_TYPE);
 								continue;
 							}
 
@@ -342,7 +342,7 @@ namespace org {
 							throw UnsupportedOperationException(L"ATN Serializer" + reason);
 						}
 
-						UUID *uuid = ATNDeserializer::toUUID(data, p);
+						antlrcpp::UUID *uuid = ATNDeserializer::toUUID(data, p);
 						p += 8;
 						if (!uuid->equals(ATNDeserializer::SERIALIZED_UUID)) {
 							std::wstring reason =
@@ -360,7 +360,7 @@ namespace org {
 						int nstates = ATNDeserializer::toInt(data[p++]);
 						for (int i = 0; i < nstates; i++) {
 							int stype = ATNDeserializer::toInt(data[p++]);
-							if (stype == ATNState::INVALID_TYPE) {  // ignore bad type of states
+							if (stype == ATNState::ATN_INVALID_TYPE) {  // ignore bad type of states
 								continue;
 							}
 							int ruleIndex = ATNDeserializer::toInt(data[p++]);
@@ -389,11 +389,11 @@ namespace org {
 						}
 						int numNonGreedyStates = ATNDeserializer::toInt(data[p++]);
 						for (int i = 0; i < numNonGreedyStates; i++) {
-							int stateNumber = ATNDeserializer::toInt(data[p++]);
+							//int stateNumber = ATNDeserializer::toInt(data[p++]); // Unused?
 						}
 						int numPrecedenceStates = ATNDeserializer::toInt(data[p++]);
 						for (int i = 0; i < numPrecedenceStates; i++) {
-							int stateNumber = ATNDeserializer::toInt(data[p++]);
+							//int stateNumber = ATNDeserializer::toInt(data[p++]); // Unused?
 						}
 						int nrules = ATNDeserializer::toInt(data[p++]);
 						for (int i = 0; i < nrules; i++) {
@@ -505,14 +505,14 @@ namespace org {
 							case L'\'':
 								return L"'\\''";
 							default:
-								std::wstring s_hex = Utils::toHexString(t);
+								std::wstring s_hex = antlrcpp::toHexString(t);
 								if (s_hex >= L"0" && s_hex <= L"7F" &&
 									!iscntrl(t)) {
 									return L"'" + std::to_wstring(t) + L"'";
 								}
 								// turn on the bit above max "\uFFFF" value so that we pad with zeros
 								// then only take last 4 digits
-								std::wstring hex = Utils::toHexString(t | 0x10000).substr(1, 4);
+								std::wstring hex = antlrcpp::toHexString(t | 0x10000).substr(1, 4);
 								std::wstring unicodeStr = std::wstring(L"'\\u") + hex + std::wstring(L"'");
 								return unicodeStr;
 							}
@@ -522,44 +522,44 @@ namespace org {
 							return tokenNames[t];
 						}
 
-						return StringConverterHelper::toString(t);
+						return antlrcpp::StringConverterHelper::toString(t);
 					}
 
 					std::wstring ATNSerializer::getSerializedAsString(ATN *atn) {
 						return std::wstring(getSerializedAsChars(atn));
 					}
 
-					std::vector<int> *ATNSerializer::getSerialized(ATN *atn) {
+					std::vector<size_t> *ATNSerializer::getSerialized(ATN *atn) {
 						return (new ATNSerializer(atn))->serialize();
 					}
 
 					wchar_t *ATNSerializer::getSerializedAsChars(ATN *atn) {
-						return Utils::toCharArray(getSerialized(atn));
+						return antlrcpp::toCharArray(getSerialized(atn));
 					}
 
 					std::wstring ATNSerializer::getDecoded(ATN *atn,
 						std::vector<std::wstring> &tokenNames) {
-						std::vector<int> *serialized = getSerialized(atn);
+						std::vector<size_t> *serialized = getSerialized(atn);
 						// JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this
 						// declaration, Java to C++ Converter has converted this array to a pointer.
 						// You will need to call 'delete[]' where appropriate:
 						// ORIGINAL LINE: char[] data =
 						// org.antlr.v4.runtime.misc.Utils.toCharArray(serialized);
-						wchar_t *data = Utils::toCharArray(serialized);
+						wchar_t *data = antlrcpp::toCharArray(serialized);
 						return (new ATNSerializer(atn, tokenNames))->decode(data);
 					}
 
-					void ATNSerializer::serializeUUID(std::vector<int> *data, UUID *uuid) {
+					void ATNSerializer::serializeUUID(std::vector<size_t> *data, antlrcpp::UUID *uuid) {
 						serializeLong(data, uuid->getLeastSignificantBits());
 						serializeLong(data, uuid->getMostSignificantBits());
 					}
 
-					void ATNSerializer::serializeLong(std::vector<int> *data, long long value) {
+					void ATNSerializer::serializeLong(std::vector<size_t> *data, long long value) {
 						serializeInt(data, static_cast<int>(value));
 						serializeInt(data, static_cast<int>(value >> 32));
 					}
 
-					void ATNSerializer::serializeInt(std::vector<int> *data, int value) {
+					void ATNSerializer::serializeInt(std::vector<size_t> *data, int value) {
 						data->push_back(static_cast<wchar_t>(value));
 						data->push_back(static_cast<wchar_t>(value >> 16));
 					}

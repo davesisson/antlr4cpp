@@ -94,7 +94,7 @@ namespace org {
                     size_t n = i - tokens.size() + 1; // how many more elements we need?
                     //System.out.println("sync("+i+") needs "+n);
                     if (n > 0) {
-                        size_t fetched = fetch(n);
+                        size_t fetched = fetch((int)n);
                         return fetched >= n;
                     }
 
@@ -109,7 +109,7 @@ namespace org {
                     for (int i = 0; i < n; i++) {
                         Token *t = tokenSource->nextToken();
                         if (dynamic_cast<WritableToken*>(t) != nullptr) {
-                            (static_cast<WritableToken*>(t))->setTokenIndex(tokens.size());
+                            (static_cast<WritableToken*>(t))->setTokenIndex((int)tokens.size());
                         }
                         tokens.push_back(t);
                         if (t->getType() == Token::_EOF) {
@@ -122,7 +122,7 @@ namespace org {
                 }
 
                 Token *BufferedTokenStream::get(int i) {
-                    if (i < 0 || i >= tokens.size()) {
+                    if (i < 0 || i >= (int)tokens.size()) {
                         throw IndexOutOfBoundsException(std::wstring(L"token index ") +
                                                         std::to_wstring(i) +
                                                         std::wstring(L" out of range 0..") +
@@ -137,8 +137,8 @@ namespace org {
                     }
                     lazyInit();
                     std::vector<Token*> subset = std::vector<Token*>();
-                    if (stop >= tokens.size()) {
-                        stop = tokens.size() - 1;
+                    if (stop >= (int)tokens.size()) {
+                        stop = (int)tokens.size() - 1;
                     }
                     for (int i = start; i <= stop; i++) {
                         Token *t = tokens[i];
@@ -172,7 +172,7 @@ namespace org {
 
                     int i = p + k - 1;
                     sync(i);
-                    if (i >= tokens.size()) { // return EOF token
+                    if (i >= (int)tokens.size()) { // return EOF token
                         // EOF must be last token
                         return tokens[tokens.size() - 1];
                     }
@@ -211,7 +211,7 @@ namespace org {
 
                 std::vector<Token*> BufferedTokenStream::getTokens(int start, int stop, std::vector<int> *types) {
                     lazyInit();
-                    if (start < 0 || stop >= tokens.size() || stop < 0 || start >= tokens.size()) {
+					if (start < 0 || stop >= (int)tokens.size() || stop < 0 || (int)start >= tokens.size()) {
                         throw new IndexOutOfBoundsException(std::wstring(L"start ") +
                                                             std::to_wstring(start) +
                                                             std::wstring(L" or stop ") +
@@ -251,7 +251,7 @@ namespace org {
                 int BufferedTokenStream::nextTokenOnChannel(int i, int channel) {
                     sync(i);
                     Token *token = tokens[i];
-                    if (i >= size()) {
+					if (i >= (int)size()) {
                         return -1;
                     }
                     while (token->getChannel() != channel) {
@@ -274,7 +274,7 @@ namespace org {
 
                 std::vector<Token*> BufferedTokenStream::getHiddenTokensToRight(int tokenIndex, int channel) {
                     lazyInit();
-                    if (tokenIndex < 0 || tokenIndex >= tokens.size()) {
+					if (tokenIndex < 0 || tokenIndex >= (int)tokens.size()) {
                         throw new IndexOutOfBoundsException(std::to_wstring(tokenIndex) +
                                                             std::wstring(L" not in 0..") +
                                                             std::to_wstring(tokens.size() - 1));
@@ -285,7 +285,7 @@ namespace org {
                     int from = tokenIndex + 1;
                     // if none onchannel to right, nextOnChannel=-1 so set to = last token
                     if (nextOnChannel == -1) {
-                        to = size() - 1;
+                        to = (int)size() - 1;
                     } else {
                         to = nextOnChannel;
                     }
@@ -299,7 +299,7 @@ namespace org {
 
                 std::vector<Token*> BufferedTokenStream::getHiddenTokensToLeft(int tokenIndex, int channel) {
                     lazyInit();
-                    if (tokenIndex < 0 || tokenIndex >= tokens.size()) {
+					if (tokenIndex < 0 || tokenIndex >= (int)tokens.size()) {
                         throw new IndexOutOfBoundsException(std::to_wstring(tokenIndex) +
                                                             std::wstring(L" not in 0..") +
                                                             std::to_wstring(tokens.size() - 1));
@@ -351,7 +351,7 @@ namespace org {
                 std::wstring BufferedTokenStream::getText() {
                     lazyInit();
                     fill();
-                    return getText(misc::Interval::of(0,size() - 1));
+                    return getText(misc::Interval::of(0, (int)size() - 1));
                 }
 
                 std::wstring BufferedTokenStream::getText(misc::Interval *interval) {
@@ -361,11 +361,11 @@ namespace org {
                         return L"";
                     }
                     lazyInit();
-                    if (stop >= tokens.size()) {
-                        stop = tokens.size() - 1;
+					if (stop >= (int)tokens.size()) {
+                        stop = (int)tokens.size() - 1;
                     }
 
-                    StringBuilder *buf = new StringBuilder();
+                    antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                     for (int i = start; i <= stop; i++) {
                         Token *t = tokens[i];
                         if (t->getType() == Token::_EOF) {
@@ -400,7 +400,7 @@ namespace org {
                 }
 
                 void BufferedTokenStream::InitializeInstanceFields() {
-                    tokens = VectorHelper::VectorWithReservedSize<Token*>(100);
+                    tokens = antlrcpp::VectorHelper::VectorWithReservedSize<Token*>(100);
                     p = -1;
                     fetchedEOF = false;
                 }

@@ -39,7 +39,7 @@ namespace org {
             namespace runtime {
                 namespace atn {
                     
-                    const std::vector<std::wstring> Transition::serializationNames = *new std::vector<std::wstring>(Arrays::asList(11, L"INVALID", L"EPSILON", L"RANGE", L"RULE", L"PREDICATE", L"ATOM", L"ACTION", L"SET", L"NOT_SET", L"WILDCARD", L"PRECEDENCE"));
+                    const std::vector<std::wstring> Transition::serializationNames = *new std::vector<std::wstring>(antlrcpp::Arrays::asList(11, L"INVALID", L"EPSILON", L"RANGE", L"RULE", L"PREDICATE", L"ATOM", L"ACTION", L"SET", L"NOT_SET", L"WILDCARD", L"PRECEDENCE"));
                                         
                     Transition::Transition(ATNState *target) {
                         if (target == nullptr) {
