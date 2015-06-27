@@ -125,7 +125,7 @@ namespace org {
                         getInputStream()->seek(0);
                     }
                     _errHandler->reset(this);
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+
                     delete _ctx;
                     _syntaxErrors = 0;
                     setTrace(false);

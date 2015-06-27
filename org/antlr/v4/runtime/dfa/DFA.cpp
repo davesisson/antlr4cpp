@@ -1,4 +1,5 @@
 ﻿#include <map>
+#include <algorithm>
 
 #include "DFA.h"
 #include "DFAState.h"
@@ -58,7 +59,7 @@ namespace org {
                         // could be accomplished simply with a local comparator function
                         std::vector<DFAState*> result = std::vector<DFAState*>(vints);
                         ComparatorAnonymousInnerClassHelper tmp(this);
-                        std::sort(result.begin(), result.end(), (*tmp.compare));
+                        std::sort(result.begin(), result.end(), (tmp.compare));
                         
                         return result;
                     }

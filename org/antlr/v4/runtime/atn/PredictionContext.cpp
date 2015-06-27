@@ -1,4 +1,6 @@
-﻿#include "PredictionContext.h"
+﻿#include <algorithm>
+
+#include "PredictionContext.h"
 #include "EmptyPredictionContext.h"
 #include "MurmurHash.h"
 #include "ArrayPredictionContext.h"
@@ -398,7 +400,7 @@ namespace org {
                         std::vector<PredictionContext*> nodes = getAllContextNodes(context);
 
                         ComparatorAnonymousInnerClassHelper tmp;
-                        std::sort(nodes.begin(), nodes.end(), (*tmp.compare));
+                        std::sort(nodes.begin(), nodes.end(), (tmp.compare));
                         
                         for (auto current : nodes) {
                             if (dynamic_cast<SingletonPredictionContext*>(current) != nullptr) {
