@@ -45,10 +45,10 @@ namespace org {
                     const int ATNState::INITIAL_NUM_TRANSITIONS;
                     
 
-                    const std::vector<std::wstring> ATNState::serializationNames;
-#ifdef TODO
-                    = (L"INVALID", L"BASIC", L"RULE_START", L"BLOCK_START", L"PLUS_BLOCK_START", L"STAR_BLOCK_START", L"TOKEN_START", L"RULE_STOP", L"BLOCK_END", L"STAR_LOOP_BACK", L"STAR_LOOP_ENTRY", L"PLUS_LOOP_BACK", L"LOOP_END");
-#endif
+                    const wchar_t * ATNState::serializationNames[] =  {L"INVALID", L"BASIC", L"RULE_START", L"BLOCK_START",
+                        L"PLUS_BLOCK_START", L"STAR_BLOCK_START", L"TOKEN_START", L"RULE_STOP",
+                        L"BLOCK_END", L"STAR_LOOP_BACK", L"STAR_LOOP_ENTRY", L"PLUS_LOOP_BACK", L"LOOP_END"};
+                    
                     int ATNState::hashCode() {
                         return stateNumber;
                     }
@@ -69,13 +69,10 @@ namespace org {
                         return antlrcpp::StringConverterHelper::toString(stateNumber);
                     }
                     
-                    Transition *ATNState::getTransitions() {
-#ifdef TODO
-                        Transition *arr = new Transition[transitions.size()];
-                        //Transition* arr = (Transition*)&transitions[0];
-                        return transitions.toArray(new Transition[transitions.size()]);
-#endif
-                        return nullptr;
+                    std::vector<Transition*> ATNState::getTransitions() {
+                        std::vector<Transition*> arr(transitions);
+
+                        return arr;
                     }
                     
                     int ATNState::getNumberOfTransitions() {
@@ -107,9 +104,6 @@ namespace org {
                     
                     atn::Transition *ATNState::removeTransition(int index) {
                         transitions.erase(transitions.begin() + index);
-#ifdef TODO
-                        // WHat does the Java version return?
-#endif
                         return nullptr;
                     }
                     

@@ -107,10 +107,7 @@ namespace org {
 					}
 					
 					std::wstring ATNConfig::toString() {
-#ifdef TODO
-						return toString(nullptr, true);
-#endif
-						return L"";
+						return toString<void*,void*>(nullptr, true);
 					}
 
 

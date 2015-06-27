@@ -53,6 +53,16 @@ namespace antlrcpp {
         }
         
         StringBuilder & append(const org::antlr::v4::runtime::atn::ATNState* const state) {
+#ifdef TODO
+            d o i t
+#endif
+            return *this;
+        }
+        
+        StringBuilder & append(const org::antlr::v4::runtime::atn::SemanticContext* const state) {
+#ifdef TODO
+            d o i t
+#endif
             return *this;
         }
         

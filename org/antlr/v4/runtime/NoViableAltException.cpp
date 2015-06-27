@@ -45,10 +45,7 @@ namespace org {
                 NoViableAltException::NoViableAltException(Parser *recognizer) :deadEndConfigs(nullptr), startToken(nullptr) {
                 }
 
-                NoViableAltException::NoViableAltException(Parser *recognizer, TokenStream *input, Token *startToken, Token *offendingToken, ATNConfigSet *deadEndConfigs, ParserRuleContext *ctx) :
-#ifdef TODO         // Fix this with the TODO fixes in RecognitionException
-                    RecognitionException(recognizer, input, ctx),
-#endif
+                NoViableAltException::NoViableAltException(Parser *recognizer, TokenStream *input, Token *startToken, Token *offendingToken, ATNConfigSet *deadEndConfigs, ParserRuleContext *ctx) : RecognitionException(recognizer, input, ctx),
                     deadEndConfigs(deadEndConfigs), startToken(startToken) {
                     this->setOffendingToken(offendingToken);
                 }

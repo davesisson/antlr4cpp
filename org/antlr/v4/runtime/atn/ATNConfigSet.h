@@ -197,7 +197,7 @@ namespace org {
 
                         virtual bool containsFast(ATNConfig *obj);
 
-                        virtual std::iterator<std::forward_iterator_tag, ATNConfig*> const *iterator();
+                        virtual std::vector<ATNConfig*>::iterator const iterator();
 
                         virtual void clear();
 

@@ -1,9 +1,8 @@
 ﻿#pragma once
 
-#include "Declarations.h"
-
 #include <string>
 
+#include "Declarations.h"
 #include "ATNState.h"
 #include "PredictionContext.h"
 #include "SemanticContext.h"
@@ -131,8 +130,7 @@ namespace org {
 
                         template<typename T1, typename T2>
                         std::wstring toString(Recognizer<T1, T2> *recog, bool showAlt) {
-#ifdef TODO
-                            StringBuilder *buf = new StringBuilder();
+                            antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
                             //		if ( state.ruleIndex>=0 ) {
                             //			if ( recog!=null ) buf.append(recog.getRuleNames()[state.ruleIndex]+":");
                             //			else buf.append(state.ruleIndex+":");
@@ -154,14 +152,12 @@ namespace org {
                                 buf->append(semanticContext);
                             }
                             if (reachesIntoOuterContext > 0) {
-                                buf->append(L",up=")->append(reachesIntoOuterContext);
+                                buf->append(L",up=").append(reachesIntoOuterContext);
                             }
                             buf->append(L')');
                             
                             return buf->toString();
-#else
-                            return std::wstring(L"");
-#endif
+
                         }
 
                     private:

@@ -122,12 +122,12 @@ namespace org {
                         return hash;
                     }
                     
-                    atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b, bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
-#ifdef TODO
-						I dislike using assert - if it hits then the application crashes hard with little diagnostic information. Change to an exception or the like when we have
-                        an idea of the policy appropriate for that
-#endif
-						assert(a != nullptr && b != nullptr); // must be empty context, never null
+                    atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b,
+                                                                     bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
+                        if (a != nullptr && b != nullptr) {
+                           // must be empty context, never null
+                            throw new std::exception();
+                        };
                         
                         // share same graph if both same
                         if (a == b || a->equals(b)) {
@@ -478,13 +478,9 @@ namespace org {
                         
                         existing = contextCache->get(context);
                         if (existing != nullptr) {
-#ifdef TODO
-                            // These used IdendityHashMap in Java, which isn't the
-                            // same as std::map, need to add a hash key function to
-                            // PredictionContext to achieve the same behavior, same
-                            // goes for all the insert functions below
-                            visited->insert(context, existing);
-#endif
+                            std::pair<PredictionContext*, PredictionContext*> thePair(context, existing);
+                            visited->insert(thePair);
+                            
                             return existing;
                         }
                         
@@ -510,9 +506,9 @@ namespace org {
                         
                         if (!changed) {
                             contextCache->add(context);
-#ifdef TODO
-                            visited->insert(context, context);
-#endif
+                            std::pair<PredictionContext*, PredictionContext*> thePair(context,context);
+                            visited->insert(thePair);
+
                             return context;
                         }
                         
@@ -528,10 +524,13 @@ namespace org {
                         }
                         
                         contextCache->add(updated);
-#ifdef TODO
-                        visited->insert(updated, updated);
-                        visited->insert(context, updated);
-#endif
+                        
+                        std::pair<PredictionContext*, PredictionContext*> thePair(updated, updated);
+                        visited->insert(thePair);
+                        
+                        std::pair<PredictionContext*, PredictionContext*> otherPair(context, updated);
+                        visited->insert(otherPair);
+                        
                         return updated;
                     }
                     
@@ -544,13 +543,16 @@ namespace org {
                     
 
                     void PredictionContext::getAllContextNodes_(PredictionContext *context, std::vector<PredictionContext*> &nodes, std::map<PredictionContext*, PredictionContext*> *visited) {
+                        
                         if (context == nullptr || visited->at(context)) {
                             return;
                         }
-#ifdef TODO
-                        visited->insert(context, context);
-#endif
+                        
+                        std::pair<PredictionContext*, PredictionContext*> thePair(context, context);
+                        visited->insert(thePair);
+
                         nodes.push_back(context);
+                        
                         for (int i = 0; i < context->size(); i++) {
                             getAllContextNodes_(context->getParent(i), nodes, visited);
                         }
@@ -559,7 +561,7 @@ namespace org {
                     std::wstring PredictionContext::toString() {
                         //TODO: what should this return?  (Return empty string
                         // for now.)
-                        return L"";
+                        return L"TODO PredictionContext::toString()";
                     }
                     
                     int PredictionContext::size() {

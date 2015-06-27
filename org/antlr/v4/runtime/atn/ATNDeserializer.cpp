@@ -401,7 +401,7 @@ namespace org {
 
                                 // all non-excluded transitions that currently target end state need to target blockEnd instead
                                 for (ATNState *state : atn->states) {
-                                    for (Transition *transition : state->transitions) {
+                                    for (Transition *transition : state->getTransitions()) {
                                         if (transition == excludeTransition) {
                                             continue;
                                         }
