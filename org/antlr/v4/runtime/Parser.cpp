@@ -311,7 +311,6 @@ namespace org {
                 }
 
                 void Parser::setTokenStream(TokenStream *input) {
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
                     delete this->_input;
                     reset();
                     this->_input = input;

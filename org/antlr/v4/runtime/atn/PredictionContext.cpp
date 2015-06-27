@@ -1,7 +1,4 @@
-﻿// TODO "assert" is pure bush league
-#include <assert.h>
-
-#include "PredictionContext.h"
+﻿#include "PredictionContext.h"
 #include "EmptyPredictionContext.h"
 #include "MurmurHash.h"
 #include "ArrayPredictionContext.h"
@@ -399,7 +396,9 @@ namespace org {
                         buf->append(L"rankdir=LR;\n");
                         
                         std::vector<PredictionContext*> nodes = getAllContextNodes(context);
-                        //TODO: Collections::sort(nodes, new ComparatorAnonymousInnerClassHelper());
+
+                        ComparatorAnonymousInnerClassHelper tmp;
+                        std::sort(nodes.begin(), nodes.end(), (*tmp.compare));
                         
                         for (auto current : nodes) {
                             if (dynamic_cast<SingletonPredictionContext*>(current) != nullptr) {
