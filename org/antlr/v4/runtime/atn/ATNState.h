@@ -128,8 +128,8 @@ namespace org {
                             LOOP_END = 12
                         };
                         
-                        static const std::vector<std::wstring> serializationNames;
-
+                        static const wchar_t * serializationNames[];
+                        
                         static const int INVALID_STATE_NUMBER = -1;
 
                         /// <summary>
@@ -144,7 +144,7 @@ namespace org {
 
                         /// <summary>
                         /// Track the transitions emanating from this ATN state. </summary>
-                    // TODO protected:???  It's being accessed directly in ATNDeserializer
+                    protected:
                         std::vector<Transition*> transitions;
 
                         /// <summary>
@@ -159,7 +159,7 @@ namespace org {
 
                         virtual std::wstring toString();
 
-                        virtual Transition *getTransitions();
+                        virtual  std::vector<Transition*> getTransitions();
 
                         virtual int getNumberOfTransitions();
 
