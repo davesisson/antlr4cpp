@@ -269,7 +269,7 @@ namespace org {
                         public:
                             ComparatorAnonymousInnerClassHelper();
 
-                            virtual int compare(PredictionContext *o1, PredictionContext *o2);
+                            static int compare(PredictionContext *o1, PredictionContext *o2);
                         };
  
                         // From Sam
