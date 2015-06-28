@@ -1,5 +1,6 @@
 #include <codecvt>
 #include <locale>
+#include <string>
 
 #include "Strings.h"
 
@@ -34,20 +35,15 @@
 
 namespace antlrcpp {
     std::string ws2s(const std::wstring& wstr) {
-        // TODO: not available on Linux
-        typedef std::codecvt_utf8<wchar_t> convert_typeX;
-        std::wstring_convert<convert_typeX, wchar_t> converterX;
-        
-        return converterX.to_bytes(wstr);
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+        std::string narrow = converter.to_bytes(wstr);
+        return narrow;
     }
     
     std::wstring s2ws(const std::string& str) {
-        //    // TODO: not available on Linux
-        //    typedef std::codecvt_utf8<wchar_t> convert_typeX;
-        //    std::wstring_convert<convert_typeX, wchar_t> converterX;
-        //
-        //    return converterX.to_bytes(wstr);
-        return nullptr;
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+        std::wstring wide = converter.from_bytes(str);
+        return wide;
     }
     
     void replaceAll(std::wstring& str, const std::wstring& from, const std::wstring& to)
