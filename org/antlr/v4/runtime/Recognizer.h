@@ -57,8 +57,8 @@ namespace org {
                     static const int _EOF = -1;
 
                 private:
-                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const _tokenTypeMapCache;
-                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const _ruleIndexMapCache;
+                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*>  _tokenTypeMapCache;
+                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> _ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;
                     //Mutex to manage synchronized access for multithreading
