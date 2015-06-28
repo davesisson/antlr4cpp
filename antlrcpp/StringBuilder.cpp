@@ -1,4 +1,6 @@
 #include <iostream>
+#include <memory>
+#include <cstdarg>
 
 #include "StringBuilder.h"
 #include "ATNState.h"

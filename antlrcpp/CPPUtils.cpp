@@ -35,9 +35,6 @@
 
 
 namespace antlrcpp {
-#ifdef TODO
-    Add the body
-#endif
     std::wstring join(std::vector<std::wstring> strings, const std::wstring &separator) {
         std::wstring str;
         bool firstItem = true;
@@ -52,10 +49,8 @@ namespace antlrcpp {
         return str;
     }
     
-    std::map<std::wstring, int>* toMap(std::wstring *) {
-#ifdef TODO
-        Add the body
-#endif
+    std::map<std::wstring, int>* toMap(std::wstring * string) {
+
         return nullptr;
     }
     
