@@ -47,7 +47,7 @@ namespace org {
                     SemanticContext::Predicate::Predicate(int ruleIndex, int predIndex, bool isCtxDependent) : ruleIndex(ruleIndex), predIndex(predIndex), isCtxDependent(isCtxDependent) {
                     }
 
-                    std::wstring SemanticContext::toString() {
+                    std::wstring SemanticContext::toString() const {
                         // This is a pure virtual function, why does it need an impl?
                         throw new std::exception();
                     }
@@ -83,7 +83,7 @@ namespace org {
                         return this->ruleIndex == p->ruleIndex && this->predIndex == p->predIndex && this->isCtxDependent == p->isCtxDependent;
                     }
 
-                    std::wstring SemanticContext::Predicate::toString() {
+                    std::wstring SemanticContext::Predicate::toString() const {
                         return std::wstring(L"{") + std::to_wstring(ruleIndex) + std::wstring(L":") + std::to_wstring(predIndex) + std::wstring(L"}?");
                     }
 
@@ -117,7 +117,7 @@ namespace org {
                         return this->precedence == other->precedence;
                     }
 
-                    std::wstring SemanticContext::PrecedencePredicate::toString() {
+                    std::wstring SemanticContext::PrecedencePredicate::toString() const {
                         return SemanticContext::toString();
                     }
 
@@ -177,7 +177,7 @@ namespace org {
 
                 
 
-                    std::wstring SemanticContext::AND::toString() {
+                    std::wstring SemanticContext::AND::toString() const {
                         std::wstring tmp;
                         for(auto var : opnds) {
                             tmp += var->toString() + L"&&";
@@ -239,7 +239,7 @@ namespace org {
                     }
 
 
-                    std::wstring SemanticContext::OR::toString() {
+                    std::wstring SemanticContext::OR::toString() const {
                         std::wstring tmp;
                         for(auto var : opnds) {
                             tmp += var->toString() + L"||";

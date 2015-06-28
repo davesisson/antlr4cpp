@@ -2,8 +2,6 @@
 
 #include "Declarations.h"
 
-#include <iostream>
-
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Dan McLaughlin

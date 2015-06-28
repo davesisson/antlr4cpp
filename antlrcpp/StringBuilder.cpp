@@ -1,3 +1,10 @@
+#include <iostream>
+
+#include "StringBuilder.h"
+#include "ATNState.h"
+#include "SemanticContext.h"
+#include "Strings.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Dan McLaughlin
@@ -27,7 +34,6 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "StringBuilder.h"
 
 namespace antlrcpp {
     StringBuilder & StringBuilder::append(const std::wstring & str) {
@@ -41,27 +47,22 @@ namespace antlrcpp {
     
     
     StringBuilder & StringBuilder::append(const org::antlr::v4::runtime::atn::ATNState* const state) {
-#ifdef TODO
-        d o i t
-#endif
+        main = main + state->toString();
         return *this;
     }
     
     StringBuilder & StringBuilder::append(const org::antlr::v4::runtime::atn::SemanticContext* const state) {
-#ifdef TODO
-        d o i t
-#endif
+        main = main + state->toString();
         return *this;
     }
     
     StringBuilder & StringBuilder::append(const wchar_t & str) {
-#ifdef TODO
-        scratch.append(str);
+        scratch.append(wchar2wstring(str));
         if (scratch.size() > ScratchSize) {
             main.append(scratch);
             scratch.resize(0);
         }
-#endif
+        
         return *this;
     }
     
