@@ -49,11 +49,6 @@ namespace antlrcpp {
         return str;
     }
     
-    std::map<std::wstring, int>* toMap(std::wstring * string) {
-
-        return nullptr;
-    }
-    
     std::map<std::wstring, int>* toMap(const std::vector<std::wstring> &keys) {
         std::map<std::wstring, int>* m = new std::map<std::wstring, int>();
         for (int i = 0; i < keys.size(); ++i) {
@@ -63,10 +58,10 @@ namespace antlrcpp {
     }
     
     std::wstring escapeWhitespace(std::wstring str, bool TODO) {
-#ifdef TODO
-        
-#endif
-        return nullptr;
+        // TODO - David, what is this boolean for, and what did you want to esacpe
+        // whitespace with?
+        std::wstring returnAnswer = str.replace(str.begin(), str.end(), L' ', L'\\');
+        return returnAnswer;
     }
     
     std::wstring stringFormat(const std::wstring fmt_str, ...)
