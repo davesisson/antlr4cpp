@@ -62,6 +62,13 @@ namespace antlrcpp {
         }
     }
     
+    
+    std::wstring wchar2wstring(const wchar_t & str) {
+        std::wstring returnAnswer(&str);
+        
+        return returnAnswer;
+    }
+    
     StringReader::StringReader(std::wstring path) {
 #ifdef TODO
         Fill me out

@@ -157,7 +157,7 @@ namespace org {
 
                         virtual bool isNonGreedyExitState();
 
-                        virtual std::wstring toString();
+                        virtual std::wstring toString() const;
 
                         virtual  std::vector<Transition*> getTransitions();
 
