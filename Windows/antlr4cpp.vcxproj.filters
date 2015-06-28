@@ -432,6 +432,9 @@
     <ClCompile Include="..\antlrcpp\StringBuilder.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\antlrcpp\Arrays.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\org\antlr\v4\runtime\ANTLRErrorListener.h">
@@ -861,6 +864,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\antlrcpp\StringBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\antlrcpp\Arrays.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
