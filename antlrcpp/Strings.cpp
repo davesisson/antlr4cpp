@@ -69,9 +69,4 @@ namespace antlrcpp {
         return returnAnswer;
     }
     
-    StringReader::StringReader(std::wstring path) {
-#ifdef TODO
-        Fill me out
-#endif
-    };
 }

@@ -40,9 +40,4 @@ namespace antlrcpp {
     
     std::wstring wchar2wstring(const wchar_t & str);
     
-    class StringReader {
-    public:
-        StringReader(std::wstring path);
-        
-    };
 }
