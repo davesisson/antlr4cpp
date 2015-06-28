@@ -43,53 +43,19 @@ namespace antlrcpp {
         const std::wstring::size_type ScratchSize = 1024;  // or some other arbitrary number
         
     public:
-        StringBuilder & append(const std::wstring & str) {
-            scratch.append(str);
-            if (scratch.size() > ScratchSize) {
-                main.append(scratch);
-                scratch.resize(0);
-            }
-            return *this;
-        }
+        StringBuilder & append(const std::wstring & str);
         
-        StringBuilder & append(const org::antlr::v4::runtime::atn::ATNState* const state) {
-#ifdef TODO
-            d o i t
-#endif
-            return *this;
-        }
+        StringBuilder & append(const org::antlr::v4::runtime::atn::ATNState* const state);
         
-        StringBuilder & append(const org::antlr::v4::runtime::atn::SemanticContext* const state) {
-#ifdef TODO
-            d o i t
-#endif
-            return *this;
-        }
+        StringBuilder & append(const org::antlr::v4::runtime::atn::SemanticContext* const state);
         
-        StringBuilder & append(const wchar_t & str) {
-#ifdef TODO
-            scratch.append(str);
-            if (scratch.size() > ScratchSize) {
-                main.append(scratch);
-                scratch.resize(0);
-            }
-#endif
-            return *this;
-        }
-        const std::wstring & str() {
-            if (scratch.size() > 0) {
-                main.append(scratch);
-                scratch.resize(0);
-            }
-            return main;
-        }
-        const std::wstring & toString() {
-            return str();
-        }
+        StringBuilder & append(const wchar_t & str);
         
-        std::wstring::size_type length() {
-            return str().size();
-        }
+        const std::wstring & str();
+        
+        const std::wstring & toString();
+        
+        std::wstring::size_type length();
         
         // Utility function to provide "format" capability
         /* Problems with this
@@ -115,47 +81,13 @@ namespace antlrcpp {
          static std::wstring format(const std::wstring fmt_str, ...) {
          }
          */
-        static std::wstring stringToWstring( std::string str )
-        {
-            std::wstring wStr( str.length(), L' ' );
-            std::copy( str.begin(), str.end(), wStr.begin() );
-            return wStr;
-        }
+        static std::wstring stringToWstring( std::string str );
         
-        static std::string WstringTostring( std::wstring wStr )
-        {
-            std::string str( wStr.length(), ' ' );
-            std::copy( wStr.begin(), wStr.end(), str.begin() );
-            return str;
-        }
+        static std::string WstringTostring( std::wstring wStr );
         
-        static std::string string_replace(std::string src, std::string const& target, std::string const& repl)
-        {
-            // handle error situations/trivial cases
-            
-            if (target.length() == 0) {
-                // searching for a match to the empty string will result in
-                //  an infinite loop
-                //  it might make sense to throw an exception for this case
-                return src;
-            }
-            
-            if (src.length() == 0) {
-                return src;  // nothing to match against
-            }
-            
-            size_t idx = 0;
-            
-            for (;;) {
-                idx = src.find( target, idx);
-                if (idx == std::string::npos)  break;
-                
-                src.replace( idx, target.length(), repl);
-                idx += repl.length();
-            }
-            
-            return src;
-        }
+        static std::string string_replace(std::string src,
+                                          std::string const& target,
+                                          std::string const& repl);
     };
     
 }
