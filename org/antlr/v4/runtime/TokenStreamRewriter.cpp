@@ -77,7 +77,7 @@ namespace org {
 					programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(DEFAULT_PROGRAM_NAME, antlrcpp::VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE)));
 				}
 
-				org::antlr::v4::runtime::TokenStream *TokenStreamRewriter::getTokenStream() {
+				TokenStream *TokenStreamRewriter::getTokenStream() {
 					return tokens;
 				}
 
@@ -303,7 +303,6 @@ namespace org {
 								// text to include insert before, kill insert
 								//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
 								delete rewrites[iop->instructionIndex];
-								//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
 								rop->text = iop->text + (!rop->text.empty() ? rop->text : L"");
 							}
 							else if (iop->index > rop->index && iop->index <= rop->lastIndex) {
