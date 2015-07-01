@@ -165,7 +165,22 @@ namespace org {
                     };
 
                 }
+
             }
         }
     }
+}
+
+// Hash function for ATNConfig, used in the MurmurHash::update function
+
+namespace std {
+    using org::antlr::v4::runtime::atn::ATNConfig;
+    
+    template <> struct hash<ATNConfig>
+    {
+        size_t operator()( ATNConfig & x) const
+        {
+            return x.hashCode();
+        }
+    };
 }

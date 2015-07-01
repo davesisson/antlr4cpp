@@ -167,12 +167,13 @@ namespace org {
                             return false;
                         }
                         AND *other = static_cast<AND*>(obj);
-                        return (this->opnds == other->opnds);//Arrays::equals(this->opnds, other->opnds);
+                        return (this->opnds == other->opnds);
                     }
 
                     
                     int SemanticContext::AND::hashCode() {
-                        return misc::MurmurHash::hashCode(opnds.data(), (int)typeid(AND).hash_code());
+                        return misc::MurmurHash::hashCode(opnds.data(),
+                                                          opnds.size(), (int)typeid(AND).hash_code());
                     }
 
                 
@@ -235,7 +236,7 @@ namespace org {
                     }
 
                     int SemanticContext::OR::hashCode() {
-                        return misc::MurmurHash::hashCode(opnds.data(), (int)typeid(OR).hash_code());
+                        return misc::MurmurHash::hashCode(opnds.data(), opnds.size(), (int)typeid(OR).hash_code());
                     }
 
 

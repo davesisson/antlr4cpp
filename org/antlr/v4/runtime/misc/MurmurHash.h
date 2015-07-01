@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <functional>
+#include <vector>
 
 /*
  * [The "BSD license"]
@@ -99,20 +100,16 @@ namespace org {
                         /// <param name="data"> the array data </param>
                         /// <param name="seed"> the seed for the MurmurHash algorithm </param>
                         /// <returns> the hash code of the data </returns>
-                        template<typename T>
-                        static int hashCode(T data, int seed) {
-#ifdef TODO
-                            // This code isn't being presently used anyhow
+
+                        template<typename T> // where T is C array type
+                        static int hashCode(const T*data, std::size_t size, int seed) {
                             int hash = initialize(seed);
-                            for (auto value : data) {
-                                hash = update(hash, value);
+                            for(int i = 0; i < size; i++) {
+                                hash = update(hash, data[i]);
                             }
                             
-                            hash = finish(hash, sizeof(data) / sizeof(data[0]));
+                            hash = finish(hash, (int)size);
                             return hash;
-#else
-                            return 0;
-#endif
                         }
 
 

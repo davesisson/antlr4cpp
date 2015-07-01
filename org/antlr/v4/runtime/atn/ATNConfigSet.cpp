@@ -214,7 +214,7 @@ namespace org {
 
                     int ATNConfigSet::hashCode() {
                         // TODO - revisit and check this usage, including the seed
-                        int hash = misc::MurmurHash::hashCode<std::vector<ATNConfig*>>(configs, 123456);
+                        int hash = misc::MurmurHash::hashCode(configs.data(), configs.size(), 123456);
                         if (isReadonly()) {
                             if (cachedHashCode == -1) {
                                 cachedHashCode = hash;
