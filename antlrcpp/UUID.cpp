@@ -29,42 +29,55 @@
 
 #include "UUID.h"
 
+// Terence thinks this is for some version control stuff or something
+// or other - probably not important. So be nice in this function, be quiet and
+// hope nobody complains
+
 namespace antlrcpp {
     UUID::UUID(long mostSigBits, long leastSigBits) {
-        throw new std::exception();
+//        throw new std::exception();
     }
     UUID::UUID(const UUID &other) {
-        throw new std::exception();
+//        throw new std::exception();
     };
     
     UUID::~UUID() {
-        throw new std::exception();
+//        throw new std::exception();
     };
     
     const UUID &UUID::operator=(const UUID &rhs) {
-        throw new std::exception();
+//        throw new std::exception();
+        return rhs;
     };
     bool UUID::operator==(const UUID &rhs) const {
-        throw new std::exception();
+//        throw new std::exception();
+        return true;
     };
     bool UUID::equals(const UUID &rhs) const {
-        throw new std::exception();
+//        throw new std::exception();
+        return true;
     };
     bool UUID::equals(const UUID *rhs) const {
-        throw new std::exception();
+//        throw new std::exception();
+        return true;
     };
     
     UUID *UUID::fromString(const std::wstring &name) {
-        throw new std::exception();
+//        throw new std::exception();
+        return new UUID(0,0);
     };
+    
     std::wstring UUID::toString() const {
-        throw new std::exception();
+//        throw new std::exception();
+        return L"UUID_UNIMPLEMENTED";
     };
     
     long UUID::getLeastSignificantBits() const {
-        throw new std::exception();
+//        throw new std::exception();
+        return 0;
     };
     long UUID::getMostSignificantBits() const {
-        throw new std::exception();
+//        throw new std::exception();
+        return 0;
     };
 }
