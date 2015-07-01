@@ -5,6 +5,7 @@
 #include <map>
 #include <list>
 #include <mutex>
+#include <algorithm> 
 
 #include "TokenFactory.h"
 #include "ATNSimulator.h"
