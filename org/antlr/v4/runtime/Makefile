@@ -7,7 +7,7 @@ OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=foo.out
 
 all: $(SOURCES) $(EXECUTABLE)
-    
+
 $(EXECUTABLE): $(OBJECTS) 
 	$(CC) $(LDFLAGS) $(OBJECTS) -o $@ 
 
