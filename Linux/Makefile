@@ -1,18 +1,101 @@
-# WIP for an all-in-one Makefile
-CC=g++
-CFLAGS=-c -Wall -std=c++11
-LDFLAGS=
-SR=../org/antlr/v4/runtime/
-IFLAGS=-I.. -I. -I$(SR)atn -I$(SR)dfa -I$(SR)misc -I$(SR)tree -I$(SR)tree/pattern -I$(SR)tree/xpath 
-#SOURCES= ANTLRErrorListener.cpp ANTLRErrorStrategy.cpp ANTLRFileStream.cpp ANTLRInputStream.cpp BailErrorStrategy.cpp BaseErrorListener.cpp BufferedTokenStream.cpp CharStream.cpp CommonToken.cpp CommonTokenFactory.cpp CommonTokenStream.cpp ConsoleErrorListener.cpp DefaultErrorStrategy.cpp DiagnosticErrorListener.cpp Exceptions.cpp FailedPredicateException.cpp InputMismatchException.cpp InterpreterRuleContext.cpp IntStream.cpp Lexer.cpp LexerInterpreter.cpp LexerNoViableAltException.cpp ListTokenSource.cpp NoViableAltException.cpp Parser.cpp ParserInterpreter.cpp ParserRuleContext.cpp ProxyErrorListener.cpp RecognitionException.cpp Recognizer.cpp RuleContext.cpp Token.cpp TokenFactory.cpp TokenSource.cpp TokenStream.cpp TokenStreamRewriter.cpp UnbufferedCharStream.cpp UnbufferedTokenStream.cpp WritableToken.cpp
-SOURCES=$(SR)ANTLRErrorListener.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=foo.out
+# [The "BSD license"]
+#  Copyright (c) 2015 Dan McLaughlin
+#  All rights reserved.
+#
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions
+#  are met:
+#
+#  1. Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+#  2. Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+#  3. The name of the author may not be used to endorse or promote products
+#     derived from this software without specific prior written permission.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+#  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+#  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+#  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+#  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+#  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+#  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+#  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+#  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+#  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-all: $(SOURCES) $(EXECUTABLE)
-    
-$(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o out/$@
+LINUXROT:= 
+RUNTIME := ../org/antlr/v4/runtime
+OBJDIR  := obj
 
-.cpp.o:
-	$(CC) $(IFLAGS) $(CFLAGS) $< -o out/$@
+CC      := ./g++
+CFLAGS  := -fPIC -shared -g -O3 -Wall -std=c++11
+LDFLAGS :=
+IFLAGS  :=-I../antlrcpp -I. -I $(RUNTIME) -I $(RUNTIME)/atn -I $(RUNTIME)/dfa \
+	  -I $(RUNTIME)/misc -I $(RUNTIME)/tree -I $(RUNTIME)/tree/pattern \
+          -I $(RUNTIME)/tree/xpath 
+NAME    := ANTLR4
+MAJOR   := 0
+MINOR   := 1
+VERSION := $(MAJOR).$(MINOR)
+
+DFA     := $(RUNTIME)/dfa
+MISC    := $(RUNTIME)/misc
+TREE    := $(RUNTIME)/tree
+TREEPAT := $(TREE)/pattern
+XPATH   := $(TREE)/xpath
+
+RUNTIMESRC := $(wildcard $(RUNTIME)/*.cpp)
+RUNTIMEOBJ := $(patsubst %.cpp,%.o,$(RUNTIMESRC))
+DFASRC     := $(wildcard $(DFA)/*.cpp)
+DFAOBJ     := $(patsubst %.cpp,%.o,$(DFASRC))
+MISCSRC    := $(wildcard $(MISC)/*.cpp)
+MISCOBJ    := $(patsubst %.cpp,%.o,$(MISCSRC))
+TREESRC    := $(wildcard $(TREE)/*.cpp)
+TREEOBJ    := $(patsubst %.cpp,%.o,$(TREESRC))
+TREEPATSRC := $(wildcard $(TREEPAT)/*.cpp)
+TREEPATOBJ := $(patsubst %.cpp,%.o,$(TREEPATSRC))
+XPATHSRC   := $(wildcard $(XPATH)/*.cpp)
+XPATHOBJ   := $(patsubst %.cpp,%.o,$(XPATHSRC))
+
+OBJS       := $(notdir $(RUNTIMEOBJ) $(DFAOBJ) $(MISCOBJ) $(TREEOBJ) \
+                       $(TREEPATOBJ) $(XPATHOBJ) )
+
+OBJECTS    := $(addprefix $(OBJDIR)/,$(OBJS))
+
+SOURCES := $(RUNTIMESRC) $(DFASRC) $(MISCSRC) $(TREESRC) $(TREEPATSRC) $(XPATHSRC) 
+
+LIB     := lib$(NAME).so
+
+all: $(OBJECTS)
+	$(
+# TODO: Is there a way to collapse all these into one line? It doesn't 
+# work if I do so
+$(OBJDIR)/%.o : $(RUNTIME)/%.cpp 
+	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+
+$(OBJDIR)/%.o : $(DFA)/%.cpp 
+	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+
+$(OBJDIR)/%.o : $(MISC)/%.cpp 
+	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+
+$(OBJDIR)/%.o : $(TREE)/%.cpp
+	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+
+$(OBJDIR)/%.o : $(TREEPATSRC)/%.cpp
+	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+
+$(OBJDIR)/%.o : $(XPATHSRC)/%.cpp
+	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+
+$(OBJECTS): | $(OBJDIR)/
+
+$(OBJDIR): FORCE
+	mkdir -p $(OBJDIR)
+
+FORCE:
+
+clean:
+	$(RM) $(NAME)_test *.so* -fr obj

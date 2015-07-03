@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#ifdef TODO
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -55,3 +55,4 @@ namespace org {
         }
     }
 }
+#endif
