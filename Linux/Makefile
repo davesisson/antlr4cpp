@@ -29,8 +29,14 @@ LINUXROT:=
 RUNTIME := ../org/antlr/v4/runtime
 OBJDIR  := obj
 
+# Stop on any error or warning, comment out if you want to blast through
+NUMERRORS := -Werror
+
+# Another possibility
+# NUMERRORS := -fmax-errors=5 
+
 CC      := ./g++
-CFLAGS  := -fPIC -shared -g -O3 -Wall -std=c++11
+CFLAGS  := -fPIC -shared -g -O3 -Wall -std=c++11 $(NUMERRORS)
 LDFLAGS :=
 IFLAGS  :=-I../antlrcpp -I. -I $(RUNTIME) -I $(RUNTIME)/atn -I $(RUNTIME)/dfa \
 	  -I $(RUNTIME)/misc -I $(RUNTIME)/tree -I $(RUNTIME)/tree/pattern \
