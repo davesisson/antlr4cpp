@@ -66,10 +66,13 @@ OBJECTS    := $(addprefix $(OBJDIR)/,$(OBJS))
 
 SOURCES := $(RUNTIMESRC) $(DFASRC) $(MISCSRC) $(TREESRC) $(TREEPATSRC) $(XPATHSRC) 
 
-LIB     := lib$(NAME).so
+LIB     := lib$(NAME).so.$(VERSION)
 
-all: $(OBJECTS)
-	$(
+all: $(LIB)
+
+$(LIB): $(OBJECTS)
+	$(CC) -shared -Wl,-soname,lib$(NAME).so.$(MAJOR) $^ -o $@
+
 # TODO: Is there a way to collapse all these into one line? It doesn't 
 # work if I do so
 $(OBJDIR)/%.o : $(RUNTIME)/%.cpp 
@@ -84,10 +87,10 @@ $(OBJDIR)/%.o : $(MISC)/%.cpp
 $(OBJDIR)/%.o : $(TREE)/%.cpp
 	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
-$(OBJDIR)/%.o : $(TREEPATSRC)/%.cpp
+$(OBJDIR)/%.o : $(TREEPAT)/%.cpp
 	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
-$(OBJDIR)/%.o : $(XPATHSRC)/%.cpp
+$(OBJDIR)/%.o : $(XPATH)/%.cpp
 	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
 $(OBJECTS): | $(OBJDIR)/
