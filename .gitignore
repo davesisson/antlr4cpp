@@ -4,6 +4,7 @@
 *.tlog
 *.lastbuildstate
 *.idb
+*.so.*
 *.suo
 antlrcpp/antlr4_cpp/antlr4_cpp.opensdf
 antlrcpp/antlr4_cpp/antlr4_cpp.sdf
