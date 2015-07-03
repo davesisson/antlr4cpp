@@ -62,15 +62,16 @@ namespace org {
                     static const int DEFAULT_BITSET_SIZE = 1024; // atn->states.size() ideally
                     
                     const std::wstring grammarFileName;
+                    std::vector<std::wstring> _tokenNames;
                     atn::ATN *const atn;
+
+                    std::vector<std::wstring> _ruleNames;
                     antlrcpp::BitSet *const pushRecursionContextStates;
 
                     std::vector<dfa::DFA> _decisionToDFA; // not shared like it is for generated parsers
                     atn::PredictionContextCache *const sharedContextCache;
 
 
-                    std::vector<std::wstring> _tokenNames;
-                    std::vector<std::wstring> _ruleNames;
 
                     std::deque<std::pair<ParserRuleContext*, int>*> *const _parentContextStack;
 

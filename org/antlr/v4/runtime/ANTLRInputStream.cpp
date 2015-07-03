@@ -88,7 +88,7 @@ namespace org {
                            int numRead = 0;
                            int p = 0;
                            do {
-                               if (p + readChunkSize > data.length()) { // overflow?
+			      if (p + readChunkSize > (int)data.length()) { // overflow?
                                    // System.out.println("### overflow p="+p+", data.length="+data.length);
                                    data = antlrcpp::Arrays::copyOf(data, (int)data.length() * 2);
                                }

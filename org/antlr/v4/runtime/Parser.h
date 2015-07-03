@@ -61,6 +61,7 @@ namespace org {
 
                         public:
                         TraceListener(Parser *outerInstance);
+			virtual ~TraceListener() {};
 
                         virtual void enterEveryRule(ParserRuleContext *ctx) override;
 

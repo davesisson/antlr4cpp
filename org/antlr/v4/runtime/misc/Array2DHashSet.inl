@@ -393,7 +393,7 @@ namespace org {
                             }
                         } else {
 #ifdef TODO
-                            barf ... this function isn't even being used
+                            // barf ... this function isn't even being used
                             for (auto o : collection) {
                                 if (!this->containsFast(asElementType(o))) {
                                     return false;

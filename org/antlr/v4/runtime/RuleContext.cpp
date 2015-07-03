@@ -196,7 +196,7 @@ namespace org {
                         } else {
                             int ruleIndex = p->getRuleIndex();
 
-                            std::wstring ruleName = ruleIndex >= 0 && ruleIndex < ruleNames.size() ? ruleNames[ruleIndex] : std::to_wstring(ruleIndex);
+                            std::wstring ruleName = ruleIndex >= 0 && ruleIndex < (int)ruleNames.size() ? ruleNames[ruleIndex] : std::to_wstring(ruleIndex);
                             buf->append(ruleName);
                         }
 

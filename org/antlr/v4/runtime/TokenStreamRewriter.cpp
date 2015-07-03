@@ -183,7 +183,7 @@ namespace org {
 				}
 
 				void TokenStreamRewriter::replace(const std::wstring &programName, int from, int to, const std::wstring& text) {
-					if (from > to || from < 0 || to < 0 || to >= tokens->size()) {
+				        if (from > to || from < 0 || to < 0 || to >= (int)tokens->size()) {
 						throw IllegalArgumentException(L"replace: range invalid: " + std::to_wstring(from) + L".." + std::to_wstring(to) + L"(size=" + std::to_wstring(tokens->size()) + L")");
 					}
 					RewriteOperation *op = new ReplaceOp(this, from, to, text);
@@ -263,7 +263,7 @@ namespace org {
 					int stop = interval->b;
 
 					// ensure start/end are in range
-					if (stop > tokens->size() - 1) {
+					if (stop > (int)tokens->size() - 1) {
 						stop = (int)tokens->size() - 1;
 					}
 					if (start < 0) {
@@ -279,8 +279,8 @@ namespace org {
 					std::unordered_map<int, TokenStreamRewriter::RewriteOperation*> *indexToOp = reduceToSingleOperationPerIndex(rewrites);
 
 					// Walk buffer, executing instructions and emitting tokens
-					int i = start;
-					while (i <= stop && i < tokens->size()) {
+					size_t i = (size_t)start;
+					while (i <= (size_t)stop && i < tokens->size()) {
 						RewriteOperation *op = indexToOp->at(i);
 						indexToOp->erase(i); // remove so any left have index size-1
 						Token *t = tokens->get(i);
@@ -299,11 +299,11 @@ namespace org {
 					// include stuff after end if it's last index in buffer
 					// So, if they did an insertAfter(lastValidIndex, "foo"), include
 					// foo if end==lastValidIndex.
-					if (stop == tokens->size() - 1) {
+					if (stop == (int)tokens->size() - 1) {
 						// Scan any remaining operations after last token
 						// should be included (they will be inserts).
 						for (auto op : *indexToOp) {
-							if (op.second->index >= tokens->size() - 1) {
+							if (op.second->index >= (int)tokens->size() - 1) {
 								buf.append(op.second->text);
 							}
 						}
@@ -315,7 +315,7 @@ namespace org {
 					//		System.out.println("rewrites="+rewrites);
 
 					// WALK REPLACES
-					for (int i = 0; i < rewrites.size(); ++i) {
+					for (size_t i = 0; i < rewrites.size(); ++i) {
 						TokenStreamRewriter::RewriteOperation *op = rewrites[i];
 						if (op == nullptr) {
 							continue;
@@ -371,7 +371,7 @@ namespace org {
 					}
 
 					// WALK INSERTS
-					for (int i = 0; i < rewrites.size(); i++) {
+					for (size_t i = 0; i < rewrites.size(); i++) {
 						RewriteOperation *op = rewrites[i];
 						if (op == nullptr) {
 							continue;

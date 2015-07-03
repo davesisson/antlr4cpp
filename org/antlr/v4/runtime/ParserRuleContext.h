@@ -109,6 +109,7 @@ namespace org {
                     RecognitionException *exception;
 
                     ParserRuleContext();
+		    virtual ~ParserRuleContext() {}
 
                     /// <summary>
                     /// COPY a ctx (I'm deliberately not copy constructor) </summary>

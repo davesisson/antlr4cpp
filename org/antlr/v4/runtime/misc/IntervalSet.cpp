@@ -176,7 +176,7 @@ namespace org {
                         return this->complement(IntervalSet::of(minElement,maxElement));
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::complement(IntSet *vocabulary) {
+                    misc::IntervalSet *IntervalSet::complement(IntSet *vocabulary) {
                         if (vocabulary == nullptr) {
                             return nullptr; // nothing in common with null set
                         }
@@ -198,7 +198,7 @@ namespace org {
                             IntervalSet *a = s->And(vocabularyIS);
                             compliment->addAll(a);
                         }
-                        for (int i = 1; i < n; i++) { // from 2nd interval .. nth
+                        for (size_t i = 1; i < n; i++) { // from 2nd interval .. nth
                             Interval *previous = intervals[i - 1];
                             Interval *current = intervals[i];
                             IntervalSet *s = IntervalSet::of(previous->b + 1, current->a - 1);
@@ -215,7 +215,7 @@ namespace org {
                         return compliment;
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::subtract(IntSet *other) {
+                    misc::IntervalSet *IntervalSet::subtract(IntSet *other) {
                         // assume the whole unicode range here for the complement
                         // because it doesn't matter.  Anything beyond the max of this' set
                         // will be ignored since we are doing this & ~other.  The intersection
@@ -225,14 +225,14 @@ namespace org {
                         return this->And((static_cast<IntervalSet*>(other))->complement(COMPLETE_CHAR_SET));
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::Or(IntSet *a) {
+                    misc::IntervalSet *IntervalSet::Or(IntSet *a) {
                         IntervalSet *o = new IntervalSet(0);
                         o->addAll(this);
                         o->addAll(a);
                         return o;
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *IntervalSet::And(IntSet *other) {
+                    misc::IntervalSet *IntervalSet::And(IntSet *other) {
                         if (other == nullptr) { //|| !(other instanceof IntervalSet) ) {
                             return nullptr; // nothing in common with null set
                         }
@@ -242,8 +242,8 @@ namespace org {
                         IntervalSet *intersection = nullptr;
                         size_t mySize = myIntervals.size();
                         size_t theirSize = theirIntervals.size();
-                        int i = 0;
-                        int j = 0;
+                        size_t i = 0;
+                        size_t j = 0;
                         // iterate down both interval lists looking for nondisjoint intervals
                         while (i < mySize && j < theirSize) {
                             Interval *mine = myIntervals[i];
@@ -297,7 +297,7 @@ namespace org {
 
                     bool IntervalSet::contains(int el) {
                         size_t n = intervals.size();
-                        for (int i = 0; i < n; i++) {
+                        for (size_t i = 0; i < n; i++) {
                             Interval *I = intervals[i];
                             int a = I->a;
                             int b = I->b;
@@ -350,7 +350,7 @@ namespace org {
                             return Token::INVALID_TYPE;
                         }
                         size_t n = intervals.size();
-                        for (int i = 0; i < n; i++) {
+                        for (size_t i = 0; i < n; i++) {
                             Interval *I = intervals[i];
                             int a = I->a;
                             int b = I->b;
@@ -520,13 +520,13 @@ namespace org {
                     }
 
                     int IntervalSet::size() {
-                        int n = 0;
+                        size_t n = 0;
                         size_t numIntervals = intervals.size();
                         if (numIntervals == 1) {
                             Interval *firstInterval = this->intervals[0];
                             return firstInterval->b - firstInterval->a + 1;
                         }
-                        for (int i = 0; i < numIntervals; i++) {
+                        for (size_t i = 0; i < numIntervals; i++) {
                             Interval *I = intervals[i];
                             n += (I->b - I->a + 1);
                         }
@@ -536,11 +536,11 @@ namespace org {
                     std::vector<int> IntervalSet::toList() {
                         std::vector<int> values = std::vector<int>();
                         size_t n = intervals.size();
-                        for (int i = 0; i < n; i++) {
+                        for (size_t i = 0; i < n; i++) {
                             Interval *I = intervals[i];
-                            int a = I->a;
-                            int b = I->b;
-                            for (int v = a; v <= b; v++) {
+                            size_t a = I->a;
+                            size_t b = I->b;
+                            for (size_t v = a; v <= b; v++) {
                                 values.push_back(v);
                             }
                         }
@@ -550,9 +550,9 @@ namespace org {
                     std::set<int> *IntervalSet::toSet() {
                         std::set<int> *s = new std::set<int>();
                         for (auto I : intervals) {
-                            int a = I->a;
-                            int b = I->b;
-                            for (int v = a; v <= b; v++) {
+                            size_t a = I->a;
+                            size_t b = I->b;
+                            for (size_t v = a; v <= b; v++) {
                                 s->insert(v);
                             }
                         }
@@ -561,13 +561,13 @@ namespace org {
 
                     int IntervalSet::get(int i) {
                         size_t n = intervals.size();
-                        int index = 0;
-                        for (int j = 0; j < n; j++) {
+                        size_t index = 0;
+                        for (size_t j = 0; j < n; j++) {
                             Interval *I = intervals[j];
-                            int a = I->a;
-                            int b = I->b;
-                            for (int v = a; v <= b; v++) {
-                                if (index == i) {
+                            size_t a = I->a;
+                            size_t b = I->b;
+                            for (size_t v = a; v <= b; v++) {
+			        if (index == (size_t)i) {
                                     return v;
                                 }
                                 index++;
@@ -580,32 +580,33 @@ namespace org {
                         if (readonly) {
                             throw IllegalStateException(L"can't alter readonly IntervalSet");
                         }
+		
                         size_t n = intervals.size();
-                        for (int i = 0; i < n; i++) {
+                        for (size_t i = 0; i < n; i++) {
                             Interval *I = intervals[i];
-                            int a = I->a;
-                            int b = I->b;
-                            if (el < a) {
+                            size_t a = I->a;
+                            size_t b = I->b;
+                            if ((size_t)el < a) {
                                 break; // list is sorted and el is before this interval; not here
                             }
                             // if whole interval x..x, rm
-                            if (el == a && el == b) {
+                            if ((size_t)el == a && (size_t)el == b) {
                                 intervals.erase(intervals.begin() + i);
                                 break;
                             }
                             // if on left edge x..b, adjust left
-                            if (el == a) {
+                            if ((size_t)el == a) {
                                 I->a++;
                                 break;
                             }
                             // if on right edge a..x, adjust right
-                            if (el == b) {
+                            if ((size_t)el == b) {
                                 I->b--;
                                 break;
                             }
                             // if in middle a..x..b, split interval
-                            if (el > a && el < b) { // found in this interval
-                                int oldb = I->b;
+                            if ((size_t)el > a && (size_t)el < b) { // found in this interval
+                                size_t oldb = I->b;
                                 I->b = el - 1; // [a..x-1]
                                 add(el + 1, oldb); // add [x+1..b]
                             }

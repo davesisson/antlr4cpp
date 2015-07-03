@@ -94,7 +94,7 @@ namespace org {
                 int CommonTokenStream::getNumberOfOnChannelTokens() {
                     int n = 0;
                     fill();
-                    for (int i = 0; i < tokens.size(); i++) {
+                    for (size_t i = 0; i < tokens.size(); i++) {
                         Token *t = tokens[i];
                         if (t->getChannel() == channel) {
                             n++;

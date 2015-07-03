@@ -49,7 +49,7 @@ namespace org {
                         if (tokenText != L"") {
                             int lastNewLine = (int)tokenText.rfind(L'\n');
                             if (lastNewLine >= 0) {
-                                return (int)tokenText.length() - lastNewLine - 1;
+                                return tokenText.length() - lastNewLine - 1;
                             }
                         }
 
@@ -101,7 +101,7 @@ namespace org {
 
                         std::wstring tokenText = lastToken->getText();
                         if (tokenText != L"") {
-                            for (int i = 0; i < tokenText.length(); i++) {
+                            for (size_t i = 0; i < tokenText.length(); i++) {
                                 if (tokenText[i] == L'\n') {
                                     line++;
                                 }

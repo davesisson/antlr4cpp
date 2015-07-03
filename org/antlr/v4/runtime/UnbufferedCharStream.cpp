@@ -106,7 +106,7 @@ namespace org {
                 }
 
                 void UnbufferedCharStream::add(int c) {
-                    if (n >= data.size()) {
+                    if (n >= (int)data.size()) {
                         data.reserve(data.size()*2);
                     }
                     data[n++] = static_cast<wchar_t>(c);

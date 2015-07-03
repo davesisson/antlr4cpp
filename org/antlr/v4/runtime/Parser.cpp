@@ -563,7 +563,7 @@ namespace org {
 					if (!_interp->_decisionToDFA.empty()) {
 						std::lock_guard<std::mutex> lck(mtx);
                         std::vector<std::wstring> s = std::vector<std::wstring>();
-                        for (int d = 0; d < _interp->_decisionToDFA.size(); d++) {
+                        for (size_t d = 0; d < _interp->_decisionToDFA.size(); d++) {
                             dfa::DFA *dfa = &_interp->_decisionToDFA[d];
                             s.push_back(dfa->toString(getTokenNames()));
                         }
@@ -577,7 +577,7 @@ namespace org {
 					if (!_interp->_decisionToDFA.empty()) {
 						std::lock_guard<std::mutex> lck(mtx);
                         bool seenOne = false;
-                        for (int d = 0; d < _interp->_decisionToDFA.size(); d++) {
+                        for (size_t d = 0; d < _interp->_decisionToDFA.size(); d++) {
                             dfa::DFA *dfa = &_interp->_decisionToDFA[d];
                             if (!dfa->states->empty()) {
                                 if (seenOne) {

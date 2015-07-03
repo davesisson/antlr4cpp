@@ -62,9 +62,8 @@ namespace org {
                     // Hairy wildcard generics from Java, attempt to fix with a raw void*
                     // Recognizer<void*, void*> *const recognizer;
                     void * recognizer;
-                    RuleContext *const ctx;
-
                     IntStream *const input;
+                    RuleContext *const ctx;
 
                     /// <summary>
                     /// The current <seealso cref="Token"/> when an error occurred. Since not all streams
@@ -94,7 +93,7 @@ namespace org {
                         }
                     }
                
-                    RecognitionException() : ctx(nullptr), recognizer(nullptr), input(nullptr) {}
+		    RecognitionException() : recognizer(nullptr), input(nullptr), ctx(nullptr), offendingToken(nullptr) {}
 
                     /// <summary>
                     /// Get the ATN state number the parser was in at the time the error

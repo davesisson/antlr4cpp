@@ -119,6 +119,7 @@ namespace org {
 						/// <summary>
 						/// What index into rewrites List are we? </summary>			
 					public:
+						virtual ~RewriteOperation() {};
 						/// <summary>
 						/// Token buffer index. </summary>
 						int index;
@@ -197,6 +198,7 @@ namespace org {
 
 				public:
 					TokenStreamRewriter(TokenStream *tokens);
+					virtual ~TokenStreamRewriter() {};
 
 					TokenStream *getTokenStream();
 

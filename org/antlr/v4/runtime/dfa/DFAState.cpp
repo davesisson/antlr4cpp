@@ -71,7 +71,7 @@ namespace org {
                     std::set<int> *DFAState::getAltSet() {
                         std::set<int> *alts = new std::set<int>();
                         if (configs != nullptr) {
-                            for (int i = 0; i < configs->size(); i++) {
+                            for (size_t i = 0; i < configs->size(); i++) {
                                 alts->insert(configs->get(i)->alt);
                             }
                         }
@@ -112,7 +112,7 @@ namespace org {
                             buf->append(L"=>");
                             if (predicates.size() != 0) {
                                 std::wstring tmp;
-                                for (int i = 0; i < predicates.size(); i++) {
+                                for (size_t i = 0; i < predicates.size(); i++) {
                                     tmp.append(predicates[i]->toString());
                                 }
                                 buf->append(tmp);

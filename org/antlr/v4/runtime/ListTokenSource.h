@@ -74,7 +74,7 @@ namespace org {
                     /// being greater than or equal to the number of items in <seealso cref="#tokens"/>.
                     /// </summary>
                 protected:
-                    int i;
+                    size_t i;
 
                     /// <summary>
                     /// This field caches the EOF token for the token source.

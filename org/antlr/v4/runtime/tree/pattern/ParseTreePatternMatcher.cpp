@@ -353,7 +353,7 @@ namespace org {
                             }
 
                             // strip out all backslashes from text chunks but not tags
-                            for (int i = 0; i < chunks.size(); i++) {
+                            for (size_t i = 0; i < chunks.size(); i++) {
                                 Chunk *c = chunks[i];
                                 if (dynamic_cast<TextChunk*>(c) != nullptr) {
                                     TextChunk *tc = static_cast<TextChunk*>(c);

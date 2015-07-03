@@ -60,7 +60,7 @@ namespace org {
 
                 std::wstring LexerNoViableAltException::toString() {
                     std::wstring symbol = L"";
-                    if (startIndex >= 0 && startIndex < getInputStream()->size()) {
+                    if (startIndex >= 0 && startIndex < (int)getInputStream()->size()) {
                         symbol = getInputStream()->getText(misc::Interval::of(startIndex,startIndex));
                         symbol = antlrcpp::escapeWhitespace(symbol, false);
                     }

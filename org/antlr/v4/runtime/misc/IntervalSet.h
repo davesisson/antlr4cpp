@@ -80,6 +80,8 @@ namespace org {
 
                         IntervalSet(int numArgs, ...);
 
+			virtual ~IntervalSet() {}
+
                         /// <summary>
                         /// Create a set with a single element, el. </summary>
                         static IntervalSet *of(int a);

@@ -79,7 +79,7 @@ namespace org {
                 }
 
                 void ParserRuleContext::removeLastChild() {
-                    if (children.size() > 0) {
+  		    if (children.size() > 0) {
                         children.pop_back();
                     }
                 }
@@ -106,12 +106,13 @@ namespace org {
                 }
 
                 tree::ParseTree *ParserRuleContext::getChild(int i) {
-                    return children.size() > 0 && i >= 0 && i < children.size() ? children[i] : nullptr;
+		    // TODO: i should really be size_t
+		    return children.size() > 0 && i >= 0 && i < (int)children.size() ? children[i] : nullptr;
                 }
 
                 template<typename T>
                 T ParserRuleContext::getChild(void *ctxType, int i) {
-                    if (children.empty() || i < 0 || i >= children.size()) {
+		    if (children.empty() || i < 0 || i >= (int) children.size()) {
                         return nullptr;
                     }
 
@@ -128,7 +129,7 @@ namespace org {
                 }
 
                 tree::TerminalNode *ParserRuleContext::getToken(int ttype, int i) {
-                    if (children.empty() || i < 0 || i >= children.size()) {
+                    if (children.empty() || i < 0 || i >= (int)children.size()) {
                         return nullptr;
                     }
 
