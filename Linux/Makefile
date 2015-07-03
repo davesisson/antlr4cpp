@@ -25,7 +25,7 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-LINUXROT:= 
+LINUXROT:= `pwd` # doh
 RUNTIME := ../org/antlr/v4/runtime
 OBJDIR  := obj
 
@@ -76,28 +76,36 @@ LIB     := lib$(NAME).so.$(VERSION)
 
 all: $(LIB)
 
-$(LIB): $(OBJECTS)
+$(LIB): $(OBJECTS) 
 	$(CC) -shared -Wl,-soname,lib$(NAME).so.$(MAJOR) $^ -o $@
+
+depend: .depend
+
+.depend: $(SOURCES)
+	rm -f ./.depend
+	$(CC) $(IFLAGS) $(CFLAGS) -MM $^ -MF  ./.depend;
+
+include ./.depend
 
 # TODO: Is there a way to collapse all these into one line? It doesn't 
 # work if I do so
 $(OBJDIR)/%.o : $(RUNTIME)/%.cpp 
-	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
 $(OBJDIR)/%.o : $(DFA)/%.cpp 
-	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
 $(OBJDIR)/%.o : $(MISC)/%.cpp 
-	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
 $(OBJDIR)/%.o : $(TREE)/%.cpp
-	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
 $(OBJDIR)/%.o : $(TREEPAT)/%.cpp
-	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
 $(OBJDIR)/%.o : $(XPATH)/%.cpp
-	./g++ $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 
 $(OBJECTS): | $(OBJDIR)/
 
@@ -107,4 +115,4 @@ $(OBJDIR): FORCE
 FORCE:
 
 clean:
-	$(RM) $(NAME)_test *.so* -fr obj
+	$(RM) $(NAME)_test *.so* .depend -fr obj
