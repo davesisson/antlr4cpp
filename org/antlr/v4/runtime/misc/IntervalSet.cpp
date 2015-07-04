@@ -2,7 +2,7 @@
 #include "Token.h"
 #include "MurmurHash.h"
 #include "Exceptions.h"
-#include "interval.h"
+#include "Interval.h"
 #include "Lexer.h"
 #include "StringBuilder.h"
 
