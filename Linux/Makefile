@@ -79,33 +79,42 @@ all: $(LIB)
 $(LIB): $(OBJECTS) 
 	$(CC) -shared -Wl,-soname,lib$(NAME).so.$(MAJOR) $^ -o $@
 
-depend: .depend
 
-.depend: $(SOURCES)
-	rm -f ./.depend
-	$(CC) $(IFLAGS) $(CFLAGS) -MM $^ -MF  ./.depend;
+# TODO
+#%.d: %.c
+#	@set -e; rm -f $@; \
+#	$(CC) -M $(CPPFLAGS) $< > $@.$$$$; \
+#	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+#	rm -f $@.$$$$
 
-include ./.depend
+# pull in dependency info for *existing* .o files
+-include $(OBJECTS:.o=.d)
 
 # TODO: Is there a way to collapse all these into one line? It doesn't 
 # work if I do so
-$(OBJDIR)/%.o : $(RUNTIME)/%.cpp 
-	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+$(OBJDIR)/%.o : $(RUNTIME)/%.cpp #$(DFA)/%.cpp $(MISC)/%.cpp $(TREE)/%.cpp $(TREEPAT)/%.cpp $(XPATH)/%.cpp
+	$(CC) $(IFLAGS) $(CFLAGS) -o $@   -c  $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 
 $(OBJDIR)/%.o : $(DFA)/%.cpp 
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 
 $(OBJDIR)/%.o : $(MISC)/%.cpp 
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 
 $(OBJDIR)/%.o : $(TREE)/%.cpp
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 
 $(OBJDIR)/%.o : $(TREEPAT)/%.cpp
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 
 $(OBJDIR)/%.o : $(XPATH)/%.cpp
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
+	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 
 $(OBJECTS): | $(OBJDIR)/
 
@@ -115,4 +124,4 @@ $(OBJDIR): FORCE
 FORCE:
 
 clean:
-	$(RM) $(NAME)_test *.so* .depend -fr obj
+	$(RM) $(NAME)_test *.so* -fr obj
