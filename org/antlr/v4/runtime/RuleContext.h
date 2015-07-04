@@ -109,7 +109,9 @@ namespace org {
                     virtual int getChildCount() override;
 
                     template<typename T, typename T1>
-                    T accept(tree::ParseTreeVisitor<T1> *visitor);
+                    T accept(tree::ParseTreeVisitor<T1> *visitor)  {
+                        return visitor->visitChildren(this);
+                    }
 
                     /// <summary>
                     /// Call this method to view a parse tree in a dialog box visually. </summary>

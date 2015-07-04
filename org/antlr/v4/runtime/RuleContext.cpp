@@ -122,11 +122,6 @@ namespace org {
                     return 0;
                 }
 
-                template<typename T, typename T1>
-                T RuleContext::accept(tree::ParseTreeVisitor<T1> *visitor) {
-                    return visitor->visitChildren(this);
-                }
-
 #ifdef TODO
                 Future<JDialog*> *RuleContext::inspect(Parser *parser) {
                     return inspect(parser->getRuleNames());
