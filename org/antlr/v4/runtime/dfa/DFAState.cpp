@@ -72,7 +72,7 @@ namespace org {
                         std::set<int> *alts = new std::set<int>();
                         if (configs != nullptr) {
                             for (size_t i = 0; i < configs->size(); i++) {
-                                alts->insert(configs->get(i)->alt);
+                                alts->insert(configs->get((int)i)->alt);
                             }
                         }
                         if (alts->size() == 0) {

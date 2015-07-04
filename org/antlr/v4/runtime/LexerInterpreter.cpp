@@ -47,7 +47,7 @@ namespace org {
                     }
 
 
-                    for (size_t i = 0; i < _decisionToDFA.size(); i++) {
+                    for (int i = 0; i < (int)_decisionToDFA.size(); i++) {
                         _decisionToDFA[i] = new dfa::DFA(atn->getDecisionState(i), i);
                     }
                     this->_interp = new atn::LexerATNSimulator(atn,_decisionToDFA,_sharedContextCache);

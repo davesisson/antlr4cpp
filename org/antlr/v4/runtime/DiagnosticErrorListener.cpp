@@ -82,10 +82,10 @@ namespace org {
                 
                 std::wstring DiagnosticErrorListener::getDecisionDescription(Parser *recognizer, dfa::DFA *dfa) {
                     int decision = dfa->decision;
-                    size_t ruleIndex = ((atn::ATNState*)dfa->atnStartState)->ruleIndex;
+                    int ruleIndex = ((atn::ATNState*)dfa->atnStartState)->ruleIndex;
                     
                     const std::vector<std::wstring>& ruleNames = recognizer->getRuleNames();
-                    if (ruleIndex < 0 || ruleIndex >= ruleNames.size()) {
+                    if (ruleIndex < 0 || ruleIndex >= (int)ruleNames.size()) {
                         return antlrcpp::StringConverterHelper::toString(decision);
                     }
                     
@@ -104,7 +104,7 @@ namespace org {
                     
                     antlrcpp::BitSet *result = new antlrcpp::BitSet();
                     for (size_t i = 0; i < configs->size(); i++) {
-                        atn::ATNConfig *config = configs->get(i);
+                        atn::ATNConfig *config = configs->get((int)i);
                         result->set(config->alt);
                     }
                     

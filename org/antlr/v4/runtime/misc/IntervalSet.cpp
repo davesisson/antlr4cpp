@@ -530,7 +530,7 @@ namespace org {
                             Interval *I = intervals[i];
                             n += (I->b - I->a + 1);
                         }
-                        return n;
+                        return (int)n;
                     }
 
                     std::vector<int> IntervalSet::toList() {
@@ -541,7 +541,7 @@ namespace org {
                             size_t a = I->a;
                             size_t b = I->b;
                             for (size_t v = a; v <= b; v++) {
-                                values.push_back(v);
+                                values.push_back((int)v);
                             }
                         }
                         return values;
@@ -553,7 +553,7 @@ namespace org {
                             size_t a = I->a;
                             size_t b = I->b;
                             for (size_t v = a; v <= b; v++) {
-                                s->insert(v);
+                                s->insert((int)v);
                             }
                         }
                         return s;
@@ -568,7 +568,7 @@ namespace org {
                             size_t b = I->b;
                             for (size_t v = a; v <= b; v++) {
 			        if (index == (size_t)i) {
-                                    return v;
+                                    return (int)v;
                                 }
                                 index++;
                             }
@@ -608,7 +608,7 @@ namespace org {
                             if ((size_t)el > a && (size_t)el < b) { // found in this interval
                                 size_t oldb = I->b;
                                 I->b = el - 1; // [a..x-1]
-                                add(el + 1, oldb); // add [x+1..b]
+                                add(el + 1, (int)oldb); // add [x+1..b]
                             }
                         }
                     }

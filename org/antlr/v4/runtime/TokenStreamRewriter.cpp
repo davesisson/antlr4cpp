@@ -281,9 +281,9 @@ namespace org {
 					// Walk buffer, executing instructions and emitting tokens
 					size_t i = (size_t)start;
 					while (i <= (size_t)stop && i < tokens->size()) {
-						RewriteOperation *op = indexToOp->at(i);
-						indexToOp->erase(i); // remove so any left have index size-1
-						Token *t = tokens->get(i);
+						RewriteOperation *op = indexToOp->at((int)i);
+						indexToOp->erase((int)i); // remove so any left have index size-1
+						Token *t = tokens->get((int)i);
 						if (op == nullptr) {
 							// no operation at that index, just dump token
 							if (t->getType() != Token::_EOF) {
@@ -326,7 +326,7 @@ namespace org {
 						ReplaceOp *rop = static_cast<ReplaceOp*>(op);
 						// Wipe prior inserts within range
 						InsertBeforeOp* type = nullptr;
-						std::vector<InsertBeforeOp*> inserts = getKindOfOps(rewrites, type, i);
+						std::vector<InsertBeforeOp*> inserts = getKindOfOps(rewrites, type, (int)i);
 						for (auto iop : inserts) {
 							if (iop->index == rop->index) {
 								// E.g., insert before 2, delete 2..2; update replace
@@ -343,7 +343,7 @@ namespace org {
 						}
 						// Drop any prior replaces contained within
 						ReplaceOp* type2 = nullptr;
-						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type2, i);
+						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type2, (int)i);
 						for (auto prevRop : prevReplaces) {
 							if (prevRop->index >= rop->index && prevRop->lastIndex <= rop->lastIndex) {
 								// delete replace as it's a no-op.
@@ -382,7 +382,7 @@ namespace org {
 						InsertBeforeOp *iop = static_cast<InsertBeforeOp*>(rewrites[i]);
 						// combine current insert with prior if any at same index
 
-						std::vector<InsertBeforeOp*> prevInserts = getKindOfOps(rewrites, iop, i);
+						std::vector<InsertBeforeOp*> prevInserts = getKindOfOps(rewrites, iop, (int)i);
 						for (auto prevIop : prevInserts) {
 							if (prevIop->index == iop->index) { // combine objects
 								// convert to strings...we're in process of toString'ing
@@ -395,7 +395,7 @@ namespace org {
 						}
 						// look for replaces where iop.index is in range; error
 						ReplaceOp *type = nullptr;
-						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type, i);
+						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type, (int)i);
 						for (auto rop : prevReplaces) {
 							if (iop->index == rop->index) {
 								rop->text = catOpText(&iop->text, &rop->text);

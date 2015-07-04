@@ -49,7 +49,7 @@ namespace org {
                         if (tokenText != L"") {
                             int lastNewLine = (int)tokenText.rfind(L'\n');
                             if (lastNewLine >= 0) {
-                                return tokenText.length() - lastNewLine - 1;
+                                return (int)tokenText.length() - lastNewLine - 1;
                             }
                         }
 
