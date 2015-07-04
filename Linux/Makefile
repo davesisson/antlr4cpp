@@ -79,49 +79,56 @@ all: $(LIB)
 $(LIB): $(OBJECTS) 
 	$(CC) -shared -Wl,-soname,lib$(NAME).so.$(MAJOR) $^ -o $@
 
-
-# TODO
-#%.d: %.c
-#	@set -e; rm -f $@; \
-#	$(CC) -M $(CPPFLAGS) $< > $@.$$$$; \
-#	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-#	rm -f $@.$$$$
-
 # pull in dependency info for *existing* .o files
 -include $(OBJECTS:.o=.d)
 
 # TODO: Is there a way to collapse all these into one line? It doesn't 
 # work if I do so
-$(OBJDIR)/%.o : $(RUNTIME)/%.cpp #$(DFA)/%.cpp $(MISC)/%.cpp $(TREE)/%.cpp $(TREEPAT)/%.cpp $(XPATH)/%.cpp
-	$(CC) $(IFLAGS) $(CFLAGS) -o $@   -c  $<	
+$(OBJDIR)/%.o : $(RUNTIME)/%.cpp 
+	@set -e; rm -f $@; \
+	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c  $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
-
+#       This is the GNU makefile canonical way of adding the dependency file generation 
+#       to include regenerating when any of the dependencies change. However in our
+#       solution the dependency is always generated whenever a compilation occurs (as it should)
+#       so this is un-necessary
+#	sed -i 's,\($*\)\.o[ :]*,\1.o $(subst .o,.d,$@) : ,g' $(subst .o,.d,$@) 
 
 $(OBJDIR)/%.o : $(DFA)/%.cpp 
+	@set -e; rm -f $@; \
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
+#	sed -i 's,\($*\)\.o[ :]*,\1.o $(subst .o,.d,$@) : ,g' $(subst .o,.d,$@) 
 
 $(OBJDIR)/%.o : $(MISC)/%.cpp 
+	@set -e; rm -f $@; \
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
+#	sed -i 's,\($*\)\.o[ :]*,\1.o $(subst .o,.d,$@) : ,g' $(subst .o,.d,$@) 
 
 $(OBJDIR)/%.o : $(TREE)/%.cpp
+	@set -e; rm -f $@; \
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
+#	sed -i 's,\($*\)\.o[ :]*,\1.o $(subst .o,.d,$@) : ,g' $(subst .o,.d,$@) 
 
 $(OBJDIR)/%.o : $(TREEPAT)/%.cpp
+	@set -e; rm -f $@; \
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
+#	sed -i 's,\($*\)\.o[ :]*,\1.o $(subst .o,.d,$@) : ,g' $(subst .o,.d,$@) 
 
 $(OBJDIR)/%.o : $(XPATH)/%.cpp
+	@set -e; rm -f $@; \
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
 	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
+#	sed -i 's,\($*\)\.o[ :]*,\1.o $(subst .o,.d,$@) : ,g' $(subst .o,.d,$@) 
 
 $(OBJECTS): | $(OBJDIR)/
 
