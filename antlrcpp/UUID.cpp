@@ -34,7 +34,7 @@
 // hope nobody complains
 
 namespace antlrcpp {
-    UUID::UUID(long mostSigBits, long leastSigBits) {
+    UUID::UUID(long long mostSigBits, long long leastSigBits) {
 //        throw new std::exception();
     }
     UUID::UUID(const UUID &other) {

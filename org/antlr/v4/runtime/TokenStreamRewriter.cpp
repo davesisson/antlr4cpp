@@ -439,7 +439,7 @@ namespace org {
 				template<typename T, typename T1>
 				std::vector<T*> TokenStreamRewriter::getKindOfOps(std::vector<T1*> rewrites, T *kind, int before) {
 					std::vector<T*> ops = std::vector<T*>();
-					for (int i = 0; i < before && i < rewrites.size(); i++) {
+					for (int i = 0; i < before && i < (int)rewrites.size(); i++) {
 						TokenStreamRewriter::RewriteOperation *op = dynamic_cast<RewriteOperation*>(rewrites[i]);
 						if (op == nullptr) { // ignore deleted
 							continue;

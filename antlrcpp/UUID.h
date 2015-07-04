@@ -35,7 +35,7 @@
 namespace antlrcpp {
     class UUID {
     public:
-        UUID(long mostSigBits, long leastSigBits);
+        UUID(long long mostSigBits, long long leastSigBits);
         UUID(const UUID &other);
         ~UUID();
         

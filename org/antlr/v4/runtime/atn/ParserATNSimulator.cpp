@@ -229,7 +229,7 @@ namespace org {
 
                     dfa::DFAState *ParserATNSimulator::getExistingTargetState(dfa::DFAState *previousD, int t) {
                         std::vector<dfa::DFAState *>edges = previousD->edges;
-                        if (edges.size() == 0 || t + 1 < 0 || t + 1 >= edges.size()) {
+                        if (edges.size() == 0 || t + 1 < 0 || t + 1 >= (int)edges.size()) {
                             return nullptr;
                         }
 
@@ -658,7 +658,7 @@ namespace org {
                     std::vector<dfa::DFAState::PredPrediction *> ParserATNSimulator::getPredicatePredictions(antlrcpp::BitSet *ambigAlts, std::vector<SemanticContext*> altToPred) {
                         std::vector<dfa::DFAState::PredPrediction*> pairs = std::vector<dfa::DFAState::PredPrediction*>();
                         bool containsPredicate = false;
-                        for (int i = 1; i < altToPred.size(); i++) {
+                        for (int i = 1; i < (int)altToPred.size(); i++) {
                             SemanticContext *pred = altToPred[i];
 
                             // unpredicted is indicated by SemanticContext.NONE
@@ -977,7 +977,7 @@ namespace org {
                         }
                         if (parser != nullptr) {
                             std::vector<std::wstring> tokensNames = parser->getTokenNames();
-                            if (t >= tokensNames.size()) {
+                            if (t >= (int)tokensNames.size()) {
 								std::wcerr << t << L" type out of range: " << antlrcpp::Arrays::ListToString(tokensNames, L", ");
                                 // TODO
 //								std::wcerr << ((CommonTokenStream*)parser->getInputStream())->getTokens();

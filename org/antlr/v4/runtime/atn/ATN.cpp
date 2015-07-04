@@ -93,8 +93,8 @@ namespace org {
                         return (int)decisionToState.size();
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *ATN::getExpectedTokens(int stateNumber, RuleContext *context) {
-                        if (stateNumber < 0 || stateNumber >= states.size()) {
+                    misc::IntervalSet *ATN::getExpectedTokens(int stateNumber, RuleContext *context) {
+                        if (stateNumber < 0 || stateNumber >= (int)states.size()) {
                             throw new IllegalArgumentException(L"Invalid state number.");
                         }
 

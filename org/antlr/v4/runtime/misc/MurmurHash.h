@@ -104,7 +104,7 @@ namespace org {
                         template<typename T> // where T is C array type
                         static int hashCode(const T*data, std::size_t size, int seed) {
                             int hash = initialize(seed);
-                            for(int i = 0; i < size; i++) {
+                            for(int i = 0; i < (int)size; i++) {
                                 hash = update(hash, data[i]);
                             }
                             
