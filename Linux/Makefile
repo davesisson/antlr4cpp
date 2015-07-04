@@ -101,22 +101,27 @@ $(OBJDIR)/%.o : $(RUNTIME)/%.cpp #$(DFA)/%.cpp $(MISC)/%.cpp $(TREE)/%.cpp $(TRE
 $(OBJDIR)/%.o : $(DFA)/%.cpp 
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
+	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
 
 $(OBJDIR)/%.o : $(MISC)/%.cpp 
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
+	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
 
 $(OBJDIR)/%.o : $(TREE)/%.cpp
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
+	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
 
 $(OBJDIR)/%.o : $(TREEPAT)/%.cpp
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
+	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
 
 $(OBJDIR)/%.o : $(XPATH)/%.cpp
 	$(CC) $(IFLAGS) $(CFLAGS) -o $@ -c $<	
 	$(CC) $(IFLAGS) $(CFLAGS) -o $(subst .o,.d,$@) -MM $<
+	sed -i '1s/^/obj\//' $(subst .o,.d,$@)
 
 $(OBJECTS): | $(OBJDIR)/
 
