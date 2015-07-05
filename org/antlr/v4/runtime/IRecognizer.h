@@ -40,7 +40,6 @@ namespace org {
                 class IRecognizer {
                 public:
                     
-                    IRecognizer() {}
                     virtual int getState() = 0;
                     
                 };
