@@ -60,7 +60,7 @@ namespace org {
                     }
 
                     template<typename T1, typename T2>
-                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {
+                    void syntaxError(IRecognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {
                         
                         for (auto listener : *delegates) {
                             listener->syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);

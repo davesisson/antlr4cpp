@@ -163,12 +163,7 @@ namespace org {
                 
                 template<typename T1, typename T2>
                 ANTLRErrorListener *Recognizer<T1, T2>::getErrorListenerDispatch() {
-                    // Cross include dependency issue, WIP
-#ifdef TODO
                     return (ANTLRErrorListener *)new ProxyErrorListener(getErrorListeners());
-#else
-                    return nullptr;
-#endif
                 }
                 
                 template<typename T1, typename T2>
