@@ -3,7 +3,7 @@
 #include <string>
 #include <stdexcept>
 
-#include "Recognizer.h" 
+#include "IRecognizer.h"
 #include "Declarations.h"
 #include "Exceptions.h"
 
@@ -76,7 +76,7 @@ namespace org {
 
                 public:
                     template<typename T1, typename T2>
-                    RecognitionException(Recognizer<T1, T2> *recognizer, IntStream *input,
+                    RecognitionException(IRecognizer<T1, T2> *recognizer, IntStream *input,
                                          ParserRuleContext * const ctx)
                     : recognizer(recognizer), input(input), ctx((RuleContext*)ctx) {
                         InitializeInstanceFields();
@@ -86,14 +86,14 @@ namespace org {
                     }
 
                     template<typename T1, typename T2>
-                    RecognitionException(const std::wstring &message, Recognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx){
+                    RecognitionException(const std::wstring &message, IRecognizer<T1, T2> *recognizer, IntStream *input, ParserRuleContext *ctx){
                         InitializeInstanceFields();
                         if (recognizer != nullptr) {
                             this->offendingState = recognizer->getState();
                         }
                     }
                
-		    RecognitionException() : recognizer(nullptr), input(nullptr), ctx(nullptr), offendingToken(nullptr) {}
+		             RecognitionException() : recognizer(nullptr), input(nullptr), ctx(nullptr), offendingToken(nullptr) {}
 
                     /// <summary>
                     /// Get the ATN state number the parser was in at the time the error
@@ -154,7 +154,7 @@ namespace org {
                     /// <returns> The recognizer where this exception occurred, or {@code null} if
                     /// the recognizer is not available. </returns>
                 public:
-                    virtual Recognizer<void*, void*> *getRecognizer();
+                    virtual IRecognizer<void*, void*> *getRecognizer();
 
                 private:
                     void InitializeInstanceFields();

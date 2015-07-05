@@ -4,7 +4,7 @@
 
 #include "BaseErrorListener.h"
 #include "RecognitionException.h"
-#include "Recognizer.h"
+#include "IRecognizer.h"
 
 /*
  * [The "BSD license"]
@@ -50,7 +50,7 @@ namespace org {
                     static ConsoleErrorListener *const INSTANCE;
                     
                     template <typename T1, typename T2>
-                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol,
+                    void syntaxError(IRecognizer<T1, T2> *recognizer, void *offendingSymbol,
                                      int line, int charPositionInLine, const std::wstring &msg,
                                      RecognitionException *e)  {
                             std::wcerr << L"line " << line << L":" << charPositionInLine << L" " << msg;

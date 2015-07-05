@@ -296,6 +296,8 @@
 		37D727B41867AF1E007B6D10 /* antlrcpp.cp in Sources */ = {isa = PBXBuildFile; fileRef = 37D727B31867AF1E007B6D10 /* antlrcpp.cp */; };
 		37DEDC1E1B30E71800A6FC5F /* BaseErrorListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37DEDC1D1B30E71800A6FC5F /* BaseErrorListener.cpp */; };
 		37DEDC201B384AE500A6FC5F /* UUID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37DEDC1F1B384AE500A6FC5F /* UUID.cpp */; };
+		37F1355F1B49631900E0CACF /* IErrorListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 37F1355E1B49631900E0CACF /* IErrorListener.h */; };
+		37F135631B49644000E0CACF /* IRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 37F135621B49644000E0CACF /* IRecognizer.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -595,6 +597,8 @@
 		37D727B31867AF1E007B6D10 /* antlrcpp.cp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = antlrcpp.cp; sourceTree = "<group>"; };
 		37DEDC1D1B30E71800A6FC5F /* BaseErrorListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseErrorListener.cpp; sourceTree = "<group>"; };
 		37DEDC1F1B384AE500A6FC5F /* UUID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UUID.cpp; path = ../antlrcpp/UUID.cpp; sourceTree = "<group>"; };
+		37F1355E1B49631900E0CACF /* IErrorListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IErrorListener.h; sourceTree = "<group>"; };
+		37F135621B49644000E0CACF /* IRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRecognizer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -611,6 +615,8 @@
 		37D1C2C5186A31130041671A /* runtime */ = {
 			isa = PBXGroup;
 			children = (
+				37F135621B49644000E0CACF /* IRecognizer.h */,
+				37F1355E1B49631900E0CACF /* IErrorListener.h */,
 				37BED8C2187304740043FB28 /* Exceptions.cpp */,
 				37BED8C3187304740043FB28 /* Exceptions.h */,
 				37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */,
@@ -1029,10 +1035,12 @@
 				37D1C41A186A31140041671A /* ATNType.h in Headers */,
 				37D1C42A186A31140041671A /* EpsilonTransition.h in Headers */,
 				37D1C51A186A31140041671A /* XPathRuleElement.h in Headers */,
+				37F135631B49644000E0CACF /* IRecognizer.h in Headers */,
 				37D1C464186A31140041671A /* BaseErrorListener.h in Headers */,
 				37D1C466186A31140041671A /* BufferedTokenStream.h in Headers */,
 				37D1C488186A31140041671A /* LexerInterpreter.h in Headers */,
 				37D1C480186A31140041671A /* InputMismatchException.h in Headers */,
+				37F1355F1B49631900E0CACF /* IErrorListener.h in Headers */,
 				37D1C3FE186A31140041671A /* ANTLRErrorStrategy.h in Headers */,
 				37D1C440186A31140041671A /* PredicateTransition.h in Headers */,
 				37D1C522186A31140041671A /* XPathWildcardElement.h in Headers */,

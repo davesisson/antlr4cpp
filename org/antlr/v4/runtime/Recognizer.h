@@ -10,13 +10,14 @@
 #include "TokenFactory.h"
 #include "ATNSimulator.h"
 #include "Declarations.h"
-//#include "ConsoleErrorListener.h" // Under a TODO
+#include "ConsoleErrorListener.h" // Under a TODO
 #include "Token.h"
 #include "StringBuilder.h"
-//#include "ProxyErrorListener.h" // Under a TODO These two are causing recursive loop includes
+#include "ProxyErrorListener.h"
 #include "Strings.h"
 #include "CPPUtils.h"
-//#include "RecognitionException.h"
+#include "RecognitionException.h"
+#include "IRecognizer.h"
 
 /*
  * [The "BSD license"]
@@ -53,12 +54,12 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 template<typename Symbol, typename ATNInterpreter>
-                class Recognizer {
+                class Recognizer : public IRecognizer<Symbol, ATNInterpreter> {
                 public:
                     static const int _EOF = -1;
 
                 private:
-                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*>  _tokenTypeMapCache;
+                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> _tokenTypeMapCache;
                     static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> _ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;
@@ -172,8 +173,8 @@ namespace org {
 
                     virtual void removeErrorListeners();
 
-                    virtual std::vector<ANTLRErrorListener *> getErrorListeners() {
-                        return _listeners;
+                    virtual std::vector<ANTLRErrorListener *> *getErrorListeners() {
+                        return &_listeners;
                     }
 
                     virtual ANTLRErrorListener *getErrorListenerDispatch();

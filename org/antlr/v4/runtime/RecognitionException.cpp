@@ -71,11 +71,11 @@ namespace org {
                     this->offendingToken = offendingToken;
                 }
                 
-                Recognizer<void*, void*> *RecognitionException::getRecognizer() {
+                IRecognizer<void*, void*> *RecognitionException::getRecognizer() {
                     // Terence and Sam used some fancy Java wildcard generics which
                     // cause us trouble here. TODO - can a Recognizer<void*, void*>
                     // substitute for any other type of recognizer?
-                    return (Recognizer<void*, void*> *)recognizer;
+                    return (IRecognizer<void*, void*> *)recognizer;
                 }
 
                 void RecognitionException::InitializeInstanceFields() {
