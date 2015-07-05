@@ -10,13 +10,13 @@
 #include "TokenFactory.h"
 #include "ATNSimulator.h"
 #include "Declarations.h"
-//#include "ConsoleErrorListener.h" // Under a TODO
+#include "ConsoleErrorListener.h" // Under a TODO
 #include "Token.h"
 #include "StringBuilder.h"
 #include "ProxyErrorListener.h"
 #include "Strings.h"
 #include "CPPUtils.h"
-//#include "RecognitionException.h"
+#include "RecognitionException.h"
 #include "IRecognizer.h"
 
 /*

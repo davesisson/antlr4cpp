@@ -41,6 +41,7 @@ namespace org {
                 public:
                     
                     IRecognizer() {}
+                    virtual int getState() = 0;
                     
                 };
                 
