@@ -58,8 +58,8 @@ std::vector<std::wstring> antlrcpp::Arrays::asList(int nArgs, ...)
     va_start(ap, nArgs);
     
     for (int i = 0; i < nArgs; i++) {
-        // TODO, is this funcction being used?
-        throw new org::antlr::v4::runtime::TODOException(L"antlrcpp::Arrays::asList");
+        std::wstring * tmp = va_arg(ap, std::wstring *);
+        returnAnswer.insert(returnAnswer.end(), *tmp);
     }
     
     return returnAnswer;
