@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
+#include "ParserATNSimulator.h"
+#include "DFA.h"
+
+#include <vector>
 
 @interface antlrcpp_Tests : XCTestCase
 
@@ -26,7 +30,15 @@
 }
 
 - (void)testExample {
-    // This is an example of a functional test case.
+    try {
+        std::vector<org::antlr::v4::runtime::dfa::DFA> decisionToDFA;
+        
+        org::antlr::v4::runtime::atn::ParserATNSimulator foo(nullptr, decisionToDFA, nullptr);
+    }
+    catch (std::exception e) {
+        
+        XCTAssert(NO, @"Fail");
+    }
     XCTAssert(YES, @"Pass");
 }
 

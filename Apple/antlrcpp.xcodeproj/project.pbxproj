@@ -298,7 +298,7 @@
 		37DEDC201B384AE500A6FC5F /* UUID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37DEDC1F1B384AE500A6FC5F /* UUID.cpp */; };
 		37F1355F1B49631900E0CACF /* IErrorListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 37F1355E1B49631900E0CACF /* IErrorListener.h */; };
 		37F135631B49644000E0CACF /* IRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 37F135621B49644000E0CACF /* IRecognizer.h */; };
-		37F1356D1B4AC02800E0CACF /* antlrcpp_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 37F1356C1B4AC02800E0CACF /* antlrcpp_Tests.m */; };
+		37F1356D1B4AC02800E0CACF /* antlrcpp_Tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37F1356C1B4AC02800E0CACF /* antlrcpp_Tests.mm */; };
 		37F1356E1B4AC02800E0CACF /* antlrcpp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D727AA1867AF1E007B6D10 /* antlrcpp.dylib */; };
 /* End PBXBuildFile section */
 
@@ -613,7 +613,7 @@
 		37F135621B49644000E0CACF /* IRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRecognizer.h; sourceTree = "<group>"; };
 		37F135681B4AC02800E0CACF /* antlrcpp Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "antlrcpp Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37F1356B1B4AC02800E0CACF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		37F1356C1B4AC02800E0CACF /* antlrcpp_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = antlrcpp_Tests.m; sourceTree = "<group>"; };
+		37F1356C1B4AC02800E0CACF /* antlrcpp_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = antlrcpp_Tests.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1026,7 +1026,7 @@
 		37F135691B4AC02800E0CACF /* antlrcpp Tests */ = {
 			isa = PBXGroup;
 			children = (
-				37F1356C1B4AC02800E0CACF /* antlrcpp_Tests.m */,
+				37F1356C1B4AC02800E0CACF /* antlrcpp_Tests.mm */,
 				37F1356A1B4AC02800E0CACF /* Supporting Files */,
 			);
 			path = "antlrcpp Tests";
@@ -1433,7 +1433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37F1356D1B4AC02800E0CACF /* antlrcpp_Tests.m in Sources */,
+				37F1356D1B4AC02800E0CACF /* antlrcpp_Tests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1608,6 +1608,7 @@
 				37F135721B4AC02800E0CACF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
