@@ -1,19 +1,19 @@
 //
-//  InitialWack.m
-//  
+//  antlrcpp_Tests.m
+//  antlrcpp Tests
 //
-//  Created by Dan on 6/27/15.
-//
+//  Created by Dan on 7/6/15.
+//  Copyright (c) 2015 Dan McLaughlin. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
 
-@interface InitialWack : XCTestCase
+@interface antlrcpp_Tests : XCTestCase
 
 @end
 
-@implementation InitialWack
+@implementation antlrcpp_Tests
 
 - (void)setUp {
     [super setUp];
