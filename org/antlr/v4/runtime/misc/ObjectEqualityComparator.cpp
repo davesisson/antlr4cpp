@@ -50,7 +50,7 @@ namespace org {
                         // This is problematic in C++
                         return obj->hashCode();
 #else
-                        throw new std::exception();
+                        throw new TODOException(L"ObjectEqualityComparator::hashCode");
 #endif
                     }
 
@@ -63,7 +63,7 @@ namespace org {
                         return a->equals(b);
 
 #else
-                        throw new std::exception();
+                        throw new TODOException(L"ObjectEqualityComparator::equals");
 #endif
                     }
 
