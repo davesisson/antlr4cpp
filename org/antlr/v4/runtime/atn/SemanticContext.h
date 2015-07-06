@@ -91,7 +91,7 @@ namespace org {
                             // In the original Java this is abstract, but
                             // C++ complains with a link error, and we
                             // cannot make a template function abstract
-                            throw new std::exception();
+                            throw new ASSERTException(L"SemanticContext::eval", L"Should never be called, abstract class");
                         }
 
                         static SemanticContext *And(SemanticContext *a, SemanticContext *b);

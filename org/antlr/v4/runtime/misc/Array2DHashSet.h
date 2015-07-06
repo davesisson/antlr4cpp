@@ -107,15 +107,12 @@ namespace org {
                         Array2DHashSet() : comparator(nullptr) {
                             //this(nullptr, INITAL_CAPACITY, INITAL_BUCKET_CAPACITY);
                         }
-
                         template<typename T1>
                         Array2DHashSet(AbstractEqualityComparator<T1> *comparator);
                         
                         template<typename T1>
-                        Array2DHashSet(AbstractEqualityComparator<T1> *comparator, int initialCapacity, int initialBucketCapacity);
-#ifdef TODO
-                        : comparator(ObjectEqualityComparator::INSTANCE);
-#endif
+                        Array2DHashSet(AbstractEqualityComparator<T1> *comparator,
+                                       int initialCapacity, int initialBucketCapacity);
 
                         /// <summary>
                         /// Add {@code o} to set if not there; return existing value if already
@@ -195,7 +192,7 @@ namespace org {
                         /// {@code null}. </returns>
                     protected:
                         virtual T asElementType(void *o) {
-                            throw new std::exception();
+                            throw new TODOException(L"Array2DHashSet::asElementType");
                         };
 
                         /// <summary>

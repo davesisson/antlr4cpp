@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <exception>
+#include "Exceptions.h"
 
 /*
  * [The "BSD license"]
@@ -56,7 +56,7 @@ namespace org {
                         /// <returns> The hash code for {@code obj}. </returns>
                     public:
                         virtual int hashCode(T obj) {
-                            throw new std::exception();
+                            throw new TODOException(L"EqualityComparator::hashCode");
                             return 0;
                         }
 
@@ -67,7 +67,7 @@ namespace org {
                         /// <param name="b"> The second object to compare. </param>
                         /// <returns> {@code true} if {@code a} equals {@code b}, otherwise {@code false}. </returns>
                         virtual bool equals(T a, T b) {
-                            throw new std::exception();
+                            new TODOException(L"EqualityComparator::equals");
                             return false;
                         }
 

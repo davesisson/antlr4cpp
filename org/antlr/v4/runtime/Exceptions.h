@@ -79,6 +79,19 @@ namespace org {
                     IOException(const std::wstring msg)  : ANTLRException(msg) {};
                     IOException(){};
                 };
+                class TODOException : public ANTLRException {
+                public:
+                    TODOException(const std::wstring msg)  : ANTLRException(msg) {};
+                    TODOException();
+                };
+                class ASSERTException : public ANTLRException {
+                public:
+                    ASSERTException(const std::wstring location,
+                                    const std::wstring condition)
+                                    : ANTLRException(location + L" condition= " + condition) {};
+                    ASSERTException();
+                };
+
                 
             }
         }

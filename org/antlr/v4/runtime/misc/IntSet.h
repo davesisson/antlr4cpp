@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <vector>
 #include <string>
+#include "Exceptions.h"
+
 /*
  * [The "BSD license"]
  *  Copyright (c) 2013 Terence Parr
@@ -74,9 +76,7 @@ namespace org {
 
                         virtual bool isNil() = 0;
 
-                        virtual bool equals(void *obj) {
-                            throw new std::exception();
-                        };
+                        virtual bool equals(void *obj) = 0;
 
                         virtual int getSingleElement() = 0;
 
@@ -88,9 +88,7 @@ namespace org {
 
                         virtual std::vector<int> toList() = 0;
 
-                        virtual std::wstring toString() {
-                            throw new std::exception();
-                        };
+                        virtual std::wstring toString() = 0;
                     };
 
                 }

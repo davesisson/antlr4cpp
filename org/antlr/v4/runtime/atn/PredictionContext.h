@@ -120,7 +120,10 @@ namespace org {
                         virtual int hashCode()  final;
 
                         virtual bool equals(void *obj){ // = 0;
-                            throw new std::exception();
+                            // This should be abstract but we need to create arrays of it, which will point to
+                            // daughters in reality
+                            throw new ASSERTException(L"PredictionContext", L"equal should never be called, abstract class");
+                            
                         }
 
                     protected:

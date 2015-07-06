@@ -109,20 +109,19 @@ namespace org {
                         int p = 0;
                         int version = toInt(data[p++]);
                         if (version != SERIALIZED_VERSION) {
-                            throw std::exception();
-
-                            // TODO: what is the apprpriate type of exception to throw here?
-                            /*std::wstring reason = std::wstring::format(Locale::getDefault(), L"Could not deserialize ATN with version %d (expected %d).", version, SERIALIZED_VERSION);
-                            throw UnsupportedOperationException(InvalidClassException(ATN::typeid::getName(), reason));*/
+                            std::wstring reason = L"Could not deserialize ATN with version" + std::to_wstring(version) + L"(expected " + std::to_wstring(SERIALIZED_VERSION) + L").";
+                            
+                            throw UnsupportedOperationException(reason);
                         }
 
                         antlrcpp::UUID *uuid = toUUID(data, p);
                         p += 8;
                         if (!uuid->equals(SERIALIZED_UUID) && !uuid->equals(BASE_SERIALIZED_UUID)) {
-                            // TODO: what is the apprpriate type of exception to throw here?
-                            throw std::exception();
-                            /*std::wstring reason = std::wstring::format(Locale::getDefault(), L"Could not deserialize ATN with UUID %s (expected %s or a legacy UUID).", uuid, SERIALIZED_UUID);
-                            throw UnsupportedOperationException(InvalidClassException(ATN::typeid::getName(), reason));*/
+                            std::wstring reason = L"Could not deserialize ATN with UUID " +
+                            uuid->toString() + L" (expected " + SERIALIZED_UUID->toString() +
+                            L" or a legacy UUID).";
+                            
+                            throw UnsupportedOperationException(reason);
                         }
 
                         bool supportsPrecedencePredicates = isFeatureSupported(ADDED_PRECEDENCE_TRANSITIONS, uuid);
@@ -296,14 +295,13 @@ namespace org {
                             if (dynamic_cast<BlockStartState*>(state) != nullptr) {
                                 // we need to know the end state to set its start state
                                 if ((static_cast<BlockStartState*>(state))->endState == nullptr) {
-                                    // TODO: throw IllegalStateException();
-                                    throw std::exception();
+                                    throw new IllegalStateException();
                                 }
 
                                 // block end states can only be associated to a single block start state
                                 if ((static_cast<BlockStartState*>(state))->endState->startState != nullptr) {
-                                    // TODO: throw IllegalStateException();
-                                    throw std::exception();
+                                    throw new IllegalStateException();
+                                    
                                 }
 
                                 (static_cast<BlockStartState*>(state))->endState->startState = static_cast<BlockStartState*>(state);
@@ -390,8 +388,8 @@ namespace org {
                                     }
 
                                     if (endState == nullptr) {
-                                        // TODO: throw UnsupportedOperationException(L"Couldn't identify final state of the precedence rule prefix section.");
-                                        throw std::exception();
+                                        throw UnsupportedOperationException(L"Couldn't identify final state of the precedence rule prefix section.");
+
                                     }
 
                                     excludeTransition = (static_cast<StarLoopEntryState*>(endState))->loopBackState->transition(0);
@@ -462,8 +460,8 @@ namespace org {
                                     checkCondition(dynamic_cast<StarBlockStartState*>(starLoopEntryState->transition(1)->target) != nullptr);
                                     checkCondition(starLoopEntryState->nonGreedy);
                                 } else {
-                                    // TODO: throw IllegalStateException();
-                                    throw std::exception();
+                                    throw new IllegalStateException();
+
                                 }
                             }
 
@@ -560,9 +558,7 @@ namespace org {
                                 return new WildcardTransition(target);
                         }
 
-                        // TODO: incomplete type IllegalArgumentException
-                        // throw IllegalArgumentException(L"The specified transition type is not valid.");
-                        throw std::exception();
+                        throw IllegalArgumentException(L"The specified transition type is not valid.");
                     }
 
                     ATNState *ATNDeserializer::stateFactory(int type, int ruleIndex) {
@@ -607,10 +603,9 @@ namespace org {
                                 s = new LoopEndState();
                                 break;
                             default :
-                                // TODO: incomplete type IllegalArgumentException
-                                /*std::wstring message = std::wstring::format(Locale::getDefault(), L"The specified state type %d is not valid.", type);
-                                throw IllegalArgumentException(message);*/
-                                throw std::exception();
+                                std::wstring message = L"The specified state type " +
+                                                       std::to_wstring(type) + L" is not valid.";
+                                throw IllegalArgumentException(message);
                         }
 
                         s->ruleIndex = ruleIndex;

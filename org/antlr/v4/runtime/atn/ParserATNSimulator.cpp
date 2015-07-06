@@ -452,7 +452,8 @@ namespace org {
                             if (dynamic_cast<RuleStopState*>(c->state) != nullptr) {
                                 if (c->context->isEmpty()) {
                                     // Converted assert, shouldn't happen
-                                    throw new std::exception();
+                                    throw new ASSERTException(L"ParserATNSimulator::computeReachSet",
+                                                              L"c->context->isEmpty()");
                                 }
                                 if (fullCtx || t == IntStream::_EOF) {
                                     if (skippedStopStates.empty()) {
@@ -546,7 +547,8 @@ namespace org {
 						if (skippedStopStates.size() > 0 && (!fullCtx || !PredictionModeClass::hasConfigInRuleStopState(reach))) {
                             if (!skippedStopStates.empty()) {
                                 // Shouldn't happen, converted assert
-                                throw new std::exception();
+                                throw new ASSERTException(L"ParserATNSimulator::computeReachSet",
+                                                          L"skippedStopStates.size() > 0 && (!fullCtx || !PredictionModeClass::hasConfigInRuleStopState(reach)))");
                             }
                             for (auto c : skippedStopStates) {
                                 reach->add(c, mergeCache);
@@ -664,7 +666,8 @@ namespace org {
                             // unpredicted is indicated by SemanticContext.NONE
                             if(pred != nullptr) {
                                 // Converted assert, shouldn't happen
-                                throw new std::exception();
+                                throw new ASSERTException(L"arserATNSimulator::getPredicatePredictions",
+                                                          L"pred != nullptr");
                             }
 
                             if (ambigAlts != nullptr && ambigAlts->data.test(i)) {
@@ -730,7 +733,8 @@ namespace org {
                         closureCheckingStopState(config, configs, closureBusy, collectPredicates, fullCtx, initialDepth);
                         if (!fullCtx || !configs->dipsIntoOuterContext) {
                             // Converted assert, shouldn't happen
-                            throw new std::exception();
+                            throw new ASSERTException(L"ParserATNSimulator::closure",
+                                                      L"!fullCtx || !configs->dipsIntoOuterContext");
                         }
                     }
 
@@ -766,7 +770,8 @@ namespace org {
                                     c->reachesIntoOuterContext = config->reachesIntoOuterContext;
                                     if (depth > INT_MIN) {
                                         // Converted assert, shouldn't happen
-                                        throw new std::exception();
+                                        throw new ASSERTException(L"ParserATNSimulator::closureCheckingStopState",
+                                                                  L"depth > INT_MIN");
                                     }
                                     closureCheckingStopState(c, configs, closureBusy, collectPredicates, fullCtx, depth - 1);
                                 }
@@ -803,7 +808,8 @@ namespace org {
                                 if (dynamic_cast<RuleStopState*>(config->state) != nullptr) {
                                     if(!fullCtx) {
                                         // Converted assert, shouldn't happen
-                                        throw new std::exception();
+                                        throw new ASSERTException(L"ParserATNSimulator::closure_",
+                                                                  L"!fullCtx");
                                     }
                                     // target fell off end of rule; mark resulting c as having dipped into outer context
                                     // We can't get here if incoming config was rule stop and we had context
@@ -820,7 +826,8 @@ namespace org {
                                     configs->dipsIntoOuterContext = true; // TODO: can remove? only care when we add to set per middle of this method
                                     if(newDepth > INT_MIN) {
                                         // Converted assert, shouldn't happen
-                                        throw new std::exception();
+                                        throw new ASSERTException(L"ParserATNSimulator::closure_",
+                                                                  L"newDepth > INT_MIN");
                                     }
                                     newDepth--;
                                     if (debug) {

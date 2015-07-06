@@ -1,5 +1,5 @@
 ﻿#include "Utils.h"
-#include <exception>
+#include "Exceptions.h"
 
 /*
  * [The "BSD license"]
@@ -38,7 +38,7 @@ namespace org {
                 namespace misc {
 
                     std::wstring Utils::escapeWhitespace(const std::wstring &s, bool escapeSpaces) {
-                        throw new std::exception();
+                        throw new TODOException(L"Utils::escapeWhitespace");
                     }
                     wchar_t *Utils::toCharArray(const std::vector<int> *data) {
 #ifdef TODO
@@ -51,7 +51,7 @@ namespace org {
                         }
                         return cdata;
 #else
-                        throw new std::exception();
+                        throw new TODOException(L"Utils::toCharArray");
 #endif
                     }
                     // TODO:  Come back to this after the base runtime works.

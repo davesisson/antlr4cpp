@@ -1,4 +1,5 @@
 #include "Arrays.h"
+#include "Exceptions.h"
 
 /*
  * [The "BSD license"]
@@ -58,6 +59,7 @@ std::vector<std::wstring> antlrcpp::Arrays::asList(int nArgs, ...)
     
     for (int i = 0; i < nArgs; i++) {
         // TODO, is this funcction being used?
+        throw new org::antlr::v4::runtime::TODOException(L"antlrcpp::Arrays::asList");
     }
     
     return returnAnswer;
@@ -77,7 +79,7 @@ bool antlrcpp::Arrays::equals(std::vector<int> a, std::vector<int> b)
 
 bool antlrcpp::Arrays::equals(void *a, void* b)
 {
-    throw new std::exception();
+    throw new org::antlr::v4::runtime::TODOException(L"antlrcpp::Arrays::equals");
     return false;
 }
 
@@ -85,7 +87,7 @@ std::list<std::wstring> antlrcpp::Arrays::copyOf(void * obj, int num)
 {
     std::list<std::wstring> returnAnswer;
     // What ?
-    throw new std::exception();
+    throw new org::antlr::v4::runtime::TODOException(L"antlrcpp::Arrays::copyOf(void*,int)");
     
     return returnAnswer;
 }
@@ -93,13 +95,13 @@ std::list<std::wstring> antlrcpp::Arrays::copyOf(void * obj, int num)
 std::wstring antlrcpp::Arrays::copyOf(std::wstring obj, int num)
 {
     std::wstring foo;
-        throw new std::exception();
+    throw new org::antlr::v4::runtime::TODOException(L"antlrcpp::Arrays::copyOf(wstring, int)");
     return foo;
 }
 
 void antlrcpp::Arrays::arraycopy(void * arrayA, void * arrayB, int num)
 {
-    throw new std::exception();
+    throw new org::antlr::v4::runtime::TODOException(L"antlrcpp::Arrays::arraycopy");
 }
 
 std::list<std::wstring> antlrcpp::Arrays::StringToStringList(std::wstring items, char separator)
@@ -116,5 +118,5 @@ std::list<std::wstring> antlrcpp::Arrays::StringToStringList(std::wstring items,
     } else {
         return null;
     }*/
-    throw new std::exception();
+    throw  new org::antlr::v4::runtime::TODOException(L"antlrcpp::Arrays::StringToStringList");
 }

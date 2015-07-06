@@ -49,17 +49,17 @@ namespace org {
 
                     std::wstring SemanticContext::toString() const {
                         // This is a pure virtual function, why does it need an impl?
-                        throw new std::exception();
+                        throw new ASSERTException(L"SemanticContext::toString", L"Should never be called, abstract class");
                     }
                     
                     int SemanticContext::hashCode() {
                         // This is a pure virtual function, why does it need an impl?
-                        throw new std::exception();
+                        throw new ASSERTException(L"SemanticContext::hashCode", L"Should never be called, abstract class");
                     }
                     
                     bool SemanticContext::equals(void *obj) {
                         // "SemanticContext::equals should have been called on a daughter class"
-                        throw new std::exception();
+                        throw new ASSERTException(L"SemanticContext::equals", L"Should never be called, abstract class");
                     }
                     
 

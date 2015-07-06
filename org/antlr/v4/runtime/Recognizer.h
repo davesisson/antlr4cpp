@@ -88,11 +88,11 @@ namespace org {
                     /// </summary>
                 public:
                     virtual const std::vector<std::wstring>& getTokenNames(){
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer", L"getTokenNames should never be called, abstract class");
                     };// = 0;
 
                     virtual const std::vector<std::wstring>& getRuleNames() {
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer", L"getRuleNames should never be called, abstract class");
                     };// = 0;
 
                     /// <summary>
@@ -200,15 +200,16 @@ namespace org {
                     void setState(int atnState);
 
                     virtual IntStream *getInputStream(){
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer::getInputStream", L"Should never be called, abstract class");
+
                     };// = 0;
 
                     virtual void setInputStream(IntStream *input){
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer::setInputStream", L"Should never be called, abstract class");
                     };// = 0;
 
                     virtual TokenFactory<CommonToken *> *getTokenFactory(){
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer::getTokenFactory", L"Should never be called, abstract class");
                     };// = 0;
 
                     template<typename T1>

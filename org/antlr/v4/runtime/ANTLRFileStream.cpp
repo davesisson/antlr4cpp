@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "ANTLRFileStream.h"
+#include "Exceptions.h"
 
 /*
  * [The "BSD license"]
@@ -67,12 +68,11 @@ namespace org {
                     ss<<f.rdbuf();
                     
                     std::string const &s = ss.str();
-                    if (s.size()%sizeof(wchar_t) != 0)
+                    if (s.size() % sizeof(wchar_t) != 0)
                     {
-                        std::cerr << "file not the right size\n"; // must be even, two bytes per code unit
-                        // TODO - error handle
-                        exit(1);
+                        throw new IOException(L"file not the right size");
                     }
+                    
                     std::wstring ws;
                     ws.resize(s.size()/sizeof(wchar_t));
                     std::memcpy(&ws[0],s.c_str(),s.size()); // copy data into wstring

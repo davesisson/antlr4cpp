@@ -1,6 +1,5 @@
-﻿
-
-#include "ErrorNodeImpl.h"
+﻿#include "ErrorNodeImpl.h"
+#include "Exceptions.h"
 
 
 /*
@@ -43,39 +42,39 @@ namespace org {
                     
                     // From Terminal Node
                     Token *ErrorNodeImpl::getSymbol() {
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::getSymbol");
                     };
                     
                     // From Parse Tree
                     ParseTree *ErrorNodeImpl::getParent(){
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::getSymbol");
                     };
                     ParseTree *ErrorNodeImpl::getChild(int i){
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::getChild");
                     };
                     std::wstring ErrorNodeImpl::getText() {
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::getText");
                     };
                     std::wstring ErrorNodeImpl::toStringTree(Parser *parser){
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::toStringTree");
                     };;
                     
                     // From SyntaxTree
                     misc::Interval *ErrorNodeImpl::getSourceInterval(){
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::getSourceInterval");
                     };;
                     
                     
                     void *ErrorNodeImpl::getPayload(){
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::getPayload");
                     };
 
                     int ErrorNodeImpl::getChildCount(){
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::getChildCount");
                     };;
 
                     std::wstring ErrorNodeImpl::toStringTree() {
-                        throw new std::exception();
+                        throw new TODOException(L"ErrorNodeImpl::toStringTree");
                     };
                     
                 }
