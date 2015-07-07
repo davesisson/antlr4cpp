@@ -55,7 +55,7 @@ namespace org {
                 class ANTLRFileStream;
                 class ANTLRInputStream;
                 class BailErrorStrategy;
-//                class BaseErrorListener;
+                class BaseErrorListener;
                 class BufferedTokenStream;
                 class CharStream;
                 class CommonToken;
@@ -68,6 +68,8 @@ namespace org {
                 class InputMismatchException;
                 class IntStream;
                 class InterpreterRuleContext;
+                class IErrorListener;
+                template<typename Symbol, typename ATNInterpreter> class IRecognizer;
                 class Lexer;
                 class LexerInterpreter;
                 class LexerNoViableAltException;
@@ -78,15 +80,15 @@ namespace org {
                 class ParserRuleContext;
                 class ProxyErrorListener;
                 class RecognitionException;
-//                template<typename T1, typename T2> class Recognizer;
+                template<typename T1, typename T2> class Recognizer;
                 class RuleContext;
                 class Token;
-//                template<typename Symbol> class TokenFactory;
+                template<typename Symbol> class TokenFactory;
                 class TokenSource;
                 class TokenStream;
                 class TokenStreamRewriter;
                 class UnbufferedCharStream;
-//                template<typename T> class UnbufferedTokenStream;
+                template<typename T> class UnbufferedTokenStream;
                 class WritableToken;
                 
                 namespace misc {
@@ -104,7 +106,6 @@ namespace org {
                     template<typename K, typename V> class MultiMap;
                     class MurmurHash;
                     class NotNull;
-//                    template<typename t> class ObjectEqualityComparator;
                     class ObjectEqualityComparator;
                     template<typename T> class OrderedHashSet;
                     class ParseCancellationException;
