@@ -5,7 +5,7 @@
 /*
  * [The "BSD license"]
  * Copyright (c) 2013 Terence Parr
- * Copyright (c) 2013 Sam Harwell
+ * Copyright (c) 2013 Dan McLaughlin
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,6 +31,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 namespace org {
     namespace antlr {
         namespace v4 {

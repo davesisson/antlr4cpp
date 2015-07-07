@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#include "IntSet.h"
-#include "vectorhelper.h"
-#include "Declarations.h"
-
 #include <string>
 #include <vector>
 #include <set>
+
+#include "IntSet.h"
+#include "vectorhelper.h"
+#include "Declarations.h"
 
 
 /*

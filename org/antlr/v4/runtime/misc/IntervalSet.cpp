@@ -1,4 +1,8 @@
-﻿#include "IntervalSet.h"
+﻿#include <algorithm>
+#include <vector>
+#include <stdarg.h>
+
+#include "IntervalSet.h"
 #include "Token.h"
 #include "MurmurHash.h"
 #include "Exceptions.h"
@@ -6,9 +10,6 @@
 #include "Lexer.h"
 #include "StringBuilder.h"
 
-#include <algorithm>
-#include <vector>
-#include <stdarg.h>
 
 /*
  * [The "BSD license"]

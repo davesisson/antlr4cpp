@@ -128,7 +128,7 @@ namespace org {
                     }
                     catch(...) {
 #ifdef TODO
-                        Do something intelligent here for once
+                        // Do something intelligent here for once
 #endif
                     }
                     
