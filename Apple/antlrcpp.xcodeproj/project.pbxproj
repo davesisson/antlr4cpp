@@ -329,6 +329,7 @@
 		37C068481916709700B4D312 /* UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UUID.h; path = antlrcpp/UUID.h; sourceTree = SOURCE_ROOT; };
 		37C0684A191E636C00B4D312 /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		37C0684C1920EF8300B4D312 /* Strings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Strings.cpp; sourceTree = "<group>"; };
+		37C147171B4D5A04008EDDDB /* libantlrcpp_static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libantlrcpp_static.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorListener.cpp; sourceTree = "<group>"; };
 		37D1C2C7186A31130041671A /* ANTLRErrorListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANTLRErrorListener.h; sourceTree = "<group>"; };
 		37D1C2C8186A31130041671A /* ANTLRErrorStrategy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ANTLRErrorStrategy.cpp; sourceTree = "<group>"; };
@@ -617,6 +618,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		37C147141B4D5A04008EDDDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		37D727A71867AF1E007B6D10 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -983,6 +991,7 @@
 			children = (
 				37D727AA1867AF1E007B6D10 /* antlrcpp.dylib */,
 				37F135681B4AC02800E0CACF /* antlrcpp Tests.xctest */,
+				37C147171B4D5A04008EDDDB /* libantlrcpp_static.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1043,6 +1052,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		37C147151B4D5A04008EDDDB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		37D727A81867AF1E007B6D10 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1203,6 +1219,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		37C147161B4D5A04008EDDDB /* antlrcpp_static */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37C147211B4D5A04008EDDDB /* Build configuration list for PBXNativeTarget "antlrcpp_static" */;
+			buildPhases = (
+				37C147131B4D5A04008EDDDB /* Sources */,
+				37C147141B4D5A04008EDDDB /* Frameworks */,
+				37C147151B4D5A04008EDDDB /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = antlrcpp_static;
+			productName = antlrcpp_static;
+			productReference = 37C147171B4D5A04008EDDDB /* libantlrcpp_static.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		37D727A91867AF1E007B6D10 /* antlrcpp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 37D727B71867AF1E007B6D10 /* Build configuration list for PBXNativeTarget "antlrcpp" */;
@@ -1247,6 +1280,9 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Dan McLaughlin";
 				TargetAttributes = {
+					37C147161B4D5A04008EDDDB = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
 					37F135671B4AC02800E0CACF = {
 						CreatedOnToolsVersion = 6.3.2;
 					};
@@ -1266,6 +1302,7 @@
 			targets = (
 				37D727A91867AF1E007B6D10 /* antlrcpp */,
 				37F135671B4AC02800E0CACF /* antlrcpp Tests */,
+				37C147161B4D5A04008EDDDB /* antlrcpp_static */,
 			);
 		};
 /* End PBXProject section */
@@ -1281,6 +1318,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		37C147131B4D5A04008EDDDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		37D727A61867AF1E007B6D10 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1448,6 +1492,48 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		37C1471F1B4D5A04008EDDDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		37C147201B4D5A04008EDDDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		37D727B51867AF1E007B6D10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1583,6 +1669,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		37C147211B4D5A04008EDDDB /* Build configuration list for PBXNativeTarget "antlrcpp_static" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37C1471F1B4D5A04008EDDDB /* Debug */,
+				37C147201B4D5A04008EDDDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		37D727A51867AF1E007B6D10 /* Build configuration list for PBXProject "antlrcpp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
