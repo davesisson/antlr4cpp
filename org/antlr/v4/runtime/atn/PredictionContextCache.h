@@ -38,42 +38,42 @@
 #include "PredictionContext.h"
 
 namespace org {
-namespace antlr {
-namespace v4 {
-namespace runtime {
-namespace atn {
-
-/// <summary>
-/// Used to cache <seealso cref="PredictionContext"/> objects. Its used for the
-/// shared
-///  context cash associated with contexts in DFA states. This cache
-///  can be used for both lexers and parsers.
-/// </summary>
-class PredictionContextCache {
- protected:
-  std::map<PredictionContext *, PredictionContext *> *cache;
-
-  /// <summary>
-  /// Add a context to the cache and return it. If the context already exists,
-  ///  return that one instead and do not add a new context to the cache.
-  ///  Protect shared cache from unsafe thread access.
-  /// </summary>
- public:
-  virtual PredictionContext *add(PredictionContext *ctx);
-
-  virtual PredictionContext *get(PredictionContext *ctx);
-
-  virtual size_t size();
-
- private:
-  void InitializeInstanceFields();
-
- public:
-  PredictionContextCache() { InitializeInstanceFields(); }
-};
-
-}  // namespace atn
-}  // namespace runtime
-}  // namespace v4
-}  // namespace antlr
+    namespace antlr {
+        namespace v4 {
+            namespace runtime {
+                namespace atn {
+                    
+                    /// <summary>
+                    /// Used to cache <seealso cref="PredictionContext"/> objects. Its used for the
+                    /// shared
+                    ///  context cash associated with contexts in DFA states. This cache
+                    ///  can be used for both lexers and parsers.
+                    /// </summary>
+                    class PredictionContextCache {
+                    protected:
+                        std::map<PredictionContext *, PredictionContext *> *cache;
+                        
+                        /// <summary>
+                        /// Add a context to the cache and return it. If the context already exists,
+                        ///  return that one instead and do not add a new context to the cache.
+                        ///  Protect shared cache from unsafe thread access.
+                        /// </summary>
+                    public:
+                        virtual PredictionContext *add(PredictionContext *ctx);
+                        
+                        virtual PredictionContext *get(PredictionContext *ctx);
+                        
+                        virtual size_t size();
+                        
+                    private:
+                        void InitializeInstanceFields();
+                        
+                    public:
+                        PredictionContextCache() { InitializeInstanceFields(); }
+                    };
+                    
+                }  // namespace atn
+            }  // namespace runtime
+        }  // namespace v4
+    }  // namespace antlr
 }  // namespace org

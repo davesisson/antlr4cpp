@@ -49,7 +49,7 @@ namespace org {
                     private:
                         void InitializeInstanceFields();
 
-public:
+                    public:
                         RuleStartState() {
                             InitializeInstanceFields();
                         }

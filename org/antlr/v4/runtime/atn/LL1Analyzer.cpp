@@ -67,7 +67,7 @@ namespace org {
                             // Wipe out lookahead for this alternative if we found nothing
                             // or we had a predicate when we !seeThruPreds
                             if (look[alt]->size() == 0 || look[alt]->contains(HIT_PRED)) {
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+                                // TODO: memory managment, delete
                                 delete look[alt];
                             }
                         }

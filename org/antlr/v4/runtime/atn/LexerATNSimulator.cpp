@@ -62,7 +62,7 @@ namespace org {
                         index = -1;
                         line = 0;
                         charPos = -1;
-//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
+                        // TODO: Memory Management - delete
                         delete dfaState;
                     }
 
@@ -304,7 +304,7 @@ namespace org {
                         }
                     }
 
-                    org::antlr::v4::runtime::atn::ATNState *LexerATNSimulator::getReachableTarget(Transition *trans, int t) {
+                    atn::ATNState *LexerATNSimulator::getReachableTarget(Transition *trans, int t) {
                         if (trans->matches(t, WCHAR_MIN, WCHAR_MAX)) {
                             return trans->target;
                         }
@@ -312,7 +312,7 @@ namespace org {
                         return nullptr;
                     }
 
-                    org::antlr::v4::runtime::atn::ATNConfigSet *LexerATNSimulator::computeStartState(CharStream *input, ATNState *p) {
+                    atn::ATNConfigSet *LexerATNSimulator::computeStartState(CharStream *input, ATNState *p) {
                         EmptyPredictionContext * initialContext  = PredictionContext::EMPTY;
                         ATNConfigSet *configs = new OrderedATNConfigSet();
                         for (int i = 0; i < p->getNumberOfTransitions(); i++) {
@@ -380,7 +380,7 @@ namespace org {
                         return currentAltReachedAcceptState;
                     }
 
-                    org::antlr::v4::runtime::atn::LexerATNConfig *LexerATNSimulator::getEpsilonTarget(CharStream *input, LexerATNConfig *config, Transition *t, ATNConfigSet *configs, bool speculative) {
+                    atn::LexerATNConfig *LexerATNSimulator::getEpsilonTarget(CharStream *input, LexerATNConfig *config, Transition *t, ATNConfigSet *configs, bool speculative) {
                         LexerATNConfig *c = nullptr;
                         switch (t->getSerializationType()) {
                             case Transition::RULE: {
@@ -515,7 +515,7 @@ namespace org {
                         }
                     }
 
-                    org::antlr::v4::runtime::dfa::DFAState *LexerATNSimulator::addDFAState(ATNConfigSet *configs) {
+                    dfa::DFAState *LexerATNSimulator::addDFAState(ATNConfigSet *configs) {
                         /* the lexer evaluates predicates on-the-fly; by this point configs
                          * should not contain any configurations with unevaluated predicates.
                          */
@@ -556,7 +556,7 @@ namespace org {
                         }                       
                     }
 
-                    org::antlr::v4::runtime::dfa::DFA *LexerATNSimulator::getDFA(int mode) {
+                    dfa::DFA *LexerATNSimulator::getDFA(int mode) {
                         return decisionToDFA[mode];
                     }
 

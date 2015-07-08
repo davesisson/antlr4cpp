@@ -38,8 +38,6 @@ namespace org {
                 namespace tree {
                     namespace pattern {
 
-
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
                         TagChunk::TagChunk(const std::wstring &tag) {
                         }
 
