@@ -19,7 +19,6 @@
 		3789F50A1872F5C2003E0A30 /* XPathLexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3789F5081872F5C2003E0A30 /* XPathLexer.h */; };
 		37BED8C4187304740043FB28 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37BED8C2187304740043FB28 /* Exceptions.cpp */; };
 		37BED8C5187304740043FB28 /* Exceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 37BED8C3187304740043FB28 /* Exceptions.h */; };
-		37C068491916709700B4D312 /* UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 37C068481916709700B4D312 /* UUID.h */; };
 		37C0684B191E636C00B4D312 /* Strings.h in Headers */ = {isa = PBXBuildFile; fileRef = 37C0684A191E636C00B4D312 /* Strings.h */; };
 		37C0684D1920EF8300B4D312 /* Strings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37C0684C1920EF8300B4D312 /* Strings.cpp */; };
 		37D1C3FB186A31140041671A /* ANTLRErrorListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D1C2C6186A31130041671A /* ANTLRErrorListener.cpp */; };
@@ -326,7 +325,6 @@
 		3789F5081872F5C2003E0A30 /* XPathLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathLexer.h; sourceTree = "<group>"; };
 		37BED8C2187304740043FB28 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exceptions.cpp; sourceTree = "<group>"; };
 		37BED8C3187304740043FB28 /* Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exceptions.h; sourceTree = "<group>"; };
-		37C068481916709700B4D312 /* UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UUID.h; path = antlrcpp/UUID.h; sourceTree = SOURCE_ROOT; };
 		37C0684A191E636C00B4D312 /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		37C0684C1920EF8300B4D312 /* Strings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Strings.cpp; sourceTree = "<group>"; };
 		37C147171B4D5A04008EDDDB /* libantlrcpp_static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libantlrcpp_static.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1026,7 +1024,6 @@
 		37D727AD1867AF1E007B6D10 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				37C068481916709700B4D312 /* UUID.h */,
 				37D727AE1867AF1E007B6D10 /* antlrcpp-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -1118,7 +1115,6 @@
 				37D1C444186A31140041671A /* PredictionContextCache.h in Headers */,
 				37D1C52B186A4B5B0041671A /* stringconverter.h in Headers */,
 				37D1C50E186A31140041671A /* Tree.h in Headers */,
-				37C068491916709700B4D312 /* UUID.h in Headers */,
 				37D1C4AA186A31140041671A /* MurmurHash.h in Headers */,
 				37D1C4F4186A31140041671A /* ParseTreeWalker.h in Headers */,
 				37D1C474186A31140041671A /* DFA.h in Headers */,
@@ -1676,6 +1672,7 @@
 				37C147201B4D5A04008EDDDB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		37D727A51867AF1E007B6D10 /* Build configuration list for PBXProject "antlrcpp" */ = {
 			isa = XCConfigurationList;
