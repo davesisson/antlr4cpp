@@ -607,7 +607,7 @@
 		37D727B21867AF1E007B6D10 /* antlrcppPriv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = antlrcppPriv.h; sourceTree = "<group>"; };
 		37D727B31867AF1E007B6D10 /* antlrcpp.cp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = antlrcpp.cp; sourceTree = "<group>"; };
 		37DEDC1D1B30E71800A6FC5F /* BaseErrorListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseErrorListener.cpp; sourceTree = "<group>"; };
-		37DEDC1F1B384AE500A6FC5F /* UUID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UUID.cpp; path = ../antlrcpp/UUID.cpp; sourceTree = "<group>"; };
+		37DEDC1F1B384AE500A6FC5F /* UUID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UUID.cpp; sourceTree = "<group>"; };
 		37F1355E1B49631900E0CACF /* IErrorListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IErrorListener.h; sourceTree = "<group>"; };
 		37F135621B49644000E0CACF /* IRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRecognizer.h; sourceTree = "<group>"; };
 		37F135681B4AC02800E0CACF /* antlrcpp Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "antlrcpp Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -976,7 +976,6 @@
 		37D727A11867AF1E007B6D10 = {
 			isa = PBXGroup;
 			children = (
-				37DEDC1F1B384AE500A6FC5F /* UUID.cpp */,
 				37D727AC1867AF1E007B6D10 /* antlrcpp */,
 				37D1C2C5186A31130041671A /* runtime */,
 				37F135691B4AC02800E0CACF /* antlrcpp Tests */,
@@ -997,6 +996,7 @@
 		37D727AC1867AF1E007B6D10 /* antlrcpp */ = {
 			isa = PBXGroup;
 			children = (
+				37DEDC1F1B384AE500A6FC5F /* UUID.cpp */,
 				37725BA31B39B09000BDA484 /* CPPUtils.cpp */,
 				37725BA41B39B09000BDA484 /* CPPUtils.h */,
 				16F9451B1B23CB250049275C /* BitSet.h */,
