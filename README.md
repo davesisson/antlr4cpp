@@ -10,7 +10,8 @@ ANTLR 4 is the result of substantial effort of the following people:
   ANTLR project lead and supreme dictator for life
   [University of San Francisco](http://www.usfca.edu/)
 
-* [Sam Harwell](http://tunnelvisionlabs.com/) (Tool co-author, Java and C# target)
+* [Sam Harwell] (http://tunnelvisionlabs.com/) 
+  Tool co-author, Java and C# target)
 
 The C++ target has been the work of the following people:
 
@@ -19,3 +20,15 @@ The C++ target has been the work of the following people:
 
 * David Sisson, dsisson@google.com
 
+
+Project Status
+--------------------------------------------------------------------------------
+
+ o Building on OS X, Windows, and Linux (Ubuntu)
+ o No errors and warnings
+ o Library linking
+ o Simple running (e.g. heap objects initialize properly)
+ o Simple testing  (creating significiant objects)
+
+
+ 

@@ -86,13 +86,13 @@ namespace org {
                     }
 
                     std::wstring DFASerializer::getStateString(DFAState *s) {
-                        int n = s->stateNumber;
+		        size_t n = (size_t)s->stateNumber;
                         
                         const std::wstring baseStateStr = (s->isAcceptState ? L":" : L"") + std::wstring(L"s") + std::to_wstring(n) + (s->requiresFullContext ? L"^" : L"");
                         if (s->isAcceptState) {
                             if (s->predicates.size() != 0) {
                                 std::wstring buf;
-                                for (int i = 0; i < s->predicates.size(); i++) {
+                                for (size_t i = 0; i < s->predicates.size(); i++) {
                                     buf.append(s->predicates[i]->toString());
                                 }
                                 return baseStateStr + std::wstring(L"=>") + buf;

@@ -47,7 +47,7 @@ namespace org {
                         public:
                             // I don't think we require a specific type of recognizer here and can drop the template.  If there's a need to have a specific type of recognizer, the caller can simply cast the type to the correct type themselves.
                             template<typename T1, typename T2>
-                            virtual void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) override;
+                            virtual void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) override {};
                         };
 
                     }

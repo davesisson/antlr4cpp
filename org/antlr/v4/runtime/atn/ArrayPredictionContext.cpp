@@ -56,9 +56,8 @@ namespace org {
                                         //		System.err.println("CREATE ARRAY: "+Arrays.toString(parents)+", "+Arrays.toString(returnStates));
                     }
                     ArrayPredictionContext::ArrayPredictionContext(std::vector<PredictionContext *>parents,
-                                                                   const std::vector<int> returnStates) : PredictionContext(0){
-                        // todo
-                        throw new std::exception();
+                                                                   const std::vector<int> returnStates) : PredictionContext(0) {
+                        throw new TODOException(L"ArrayPredictionContext::ArrayPredictionContext");
                     }
                     bool ArrayPredictionContext::isEmpty() {
                         // since EMPTY_RETURN_STATE can only appear in the last position, we
@@ -110,17 +109,12 @@ namespace org {
                             buf->append(std::to_wstring(returnStates.at(i)));
                             if (parents->at(i) != nullptr) {
                                 buf->append(L" ");
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
-#ifdef TODO
-                                ARG
-#endif
-                                buf->append(L"TODO ***"/*parents->at(i)->toString()*/);
+                                buf->append(parents->at(i)->toString());
                             } else {
                                 buf->append(L"null");
                             }
                         }
                         buf->append(L"]");
-//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
                         return buf->toString();
                     }
                 }

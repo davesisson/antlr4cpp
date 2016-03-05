@@ -73,11 +73,11 @@ namespace org {
                         bool SLL;
 
                     public:
-                        TestRig(std::wstring args[]) throw(std::exception);
+                        TestRig(std::wstring args[]);
 
-                        static void main(std::wstring args[]) throw(std::exception);
+                        static void main(std::wstring args[]);
 
-                        virtual void process() throw(std::exception);
+                        virtual void process();
 
                     protected:
 #ifdef TODO

@@ -139,19 +139,19 @@ namespace org {
 
 						// non-greedy states
 						data->push_back(nonGreedyStates.size());
-						for (int i = 0; i < nonGreedyStates.size(); i++) {
+						for (int i = 0; i < (int)nonGreedyStates.size(); i++) {
 							data->push_back(nonGreedyStates.at(i));
 						}
 
 						// precedence states
 						data->push_back(precedenceStates.size());
-						for (int i = 0; i < precedenceStates.size(); i++) {
+						for (int i = 0; i < (int)precedenceStates.size(); i++) {
 							data->push_back(precedenceStates.at(i));
 						}
 
 						size_t nrules = atn->ruleToStartState.size();
 						data->push_back(nrules);
-						for (int r = 0; r < nrules; r++) {
+						for (int r = 0; r < (int)nrules; r++) {
 							ATNState *ruleStartState = atn->ruleToStartState[r];
 							data->push_back(ruleStartState->stateNumber);
 							if (atn->grammarType == ATNType::LEXER) {
@@ -309,7 +309,7 @@ namespace org {
 						}
 
 						// don't adjust the first value since that's the version number
-						for (int i = 1; i < data->size(); i++) {
+						for (int i = 1; i < (int)data->size(); i++) {
 							if (data->at(i) < WCHAR_MIN || data->at(i) > WCHAR_MAX) {
 								throw UnsupportedOperationException(
 									L"Serialized ATN data element out of range.");
@@ -325,7 +325,7 @@ namespace org {
 					std::wstring ATNSerializer::decode(const std::wstring& inpdata) {
 						std::wstring data = inpdata;
 						// don't adjust the first value since that's the version number
-						for (int i = 1; i < data.size(); i++) {
+						for (int i = 1; i < (int)data.size(); i++) {
 							data[i] = static_cast<wchar_t>(data[i] - 2);
 						}
 
@@ -518,7 +518,7 @@ namespace org {
 							}
 						}
 
-						if (tokenNames.size() > 0 && t >= 0 && t < tokenNames.size()) {
+						if (tokenNames.size() > 0 && t >= 0 && t < (int)tokenNames.size()) {
 							return tokenNames[t];
 						}
 

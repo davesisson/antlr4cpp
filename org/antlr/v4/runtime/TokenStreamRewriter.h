@@ -39,6 +39,7 @@
 *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
 namespace org {
 	namespace antlr {
 		namespace v4 {
@@ -118,6 +119,7 @@ namespace org {
 						/// <summary>
 						/// What index into rewrites List are we? </summary>			
 					public:
+						virtual ~RewriteOperation() {};
 						/// <summary>
 						/// Token buffer index. </summary>
 						int index;
@@ -196,6 +198,7 @@ namespace org {
 
 				public:
 					TokenStreamRewriter(TokenStream *tokens);
+					virtual ~TokenStreamRewriter() {};
 
 					TokenStream *getTokenStream();
 
@@ -345,7 +348,19 @@ namespace org {
 					/// <summary>
 					/// Get all operations before an index of a particular kind </summary>
 					template <typename T, typename T1>
-					std::vector<T*> getKindOfOps(std::vector<T1*> rewrites, T *kind, int before);
+                    std::vector<T*> getKindOfOps(std::vector<T1*> rewrites, T *kind, int before) {
+                        std::vector<T*> ops = std::vector<T*>();
+                        for (int i = 0; i < before && i < (int)rewrites.size(); i++) {
+                            TokenStreamRewriter::RewriteOperation *op = dynamic_cast<RewriteOperation*>(rewrites[i]);
+                            if (op == nullptr) { // ignore deleted
+                                continue;
+                            }
+                            if (op != nullptr) {  
+                                ops.push_back(dynamic_cast<T*>(op));
+                            }
+                        }
+                        return ops;
+                    }
 
 				};
 

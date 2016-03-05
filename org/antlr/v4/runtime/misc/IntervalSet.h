@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#include "IntSet.h"
-#include "vectorhelper.h"
-#include "Declarations.h"
-
 #include <string>
 #include <vector>
 #include <set>
+
+#include "IntSet.h"
+#include "vectorhelper.h"
+#include "Declarations.h"
 
 
 /*
@@ -79,6 +79,8 @@ namespace org {
                         IntervalSet(IntervalSet *set); //this();
 
                         IntervalSet(int numArgs, ...);
+
+			virtual ~IntervalSet() {}
 
                         /// <summary>
                         /// Create a set with a single element, el. </summary>

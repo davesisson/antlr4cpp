@@ -65,7 +65,7 @@ namespace org {
                         return false;
                     }
                     
-                    std::wstring ATNState::toString() {
+                    std::wstring ATNState::toString() const {
                         return antlrcpp::StringConverterHelper::toString(stateNumber);
                     }
                     

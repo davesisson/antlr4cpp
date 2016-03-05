@@ -43,25 +43,25 @@ namespace org {
                 
                 ParserRuleContext::ParserRuleContext() {
                 }
-
+                
                 void ParserRuleContext::copyFrom(ParserRuleContext *ctx) {
                     // from RuleContext
                     this->parent = ctx->parent;
                     this->invokingState = ctx->invokingState;
-
+                    
                     this->start = ctx->start;
                     this->stop = ctx->stop;
                 }
-
+                
                 ParserRuleContext::ParserRuleContext(ParserRuleContext *parent, int invokingStateNumber) : RuleContext(parent, invokingStateNumber) {
                 }
-
+                
                 void ParserRuleContext::enterRule(tree::ParseTreeListener *listener) {
                 }
-
+                
                 void ParserRuleContext::exitRule(tree::ParseTreeListener *listener) {
                 }
-
+                
                 tree::TerminalNode *ParserRuleContext::addChild(tree::TerminalNode *t) {
                     if (children.empty()) {
                         children = std::vector<ParseTree*>();
@@ -69,7 +69,7 @@ namespace org {
                     children.push_back(t);
                     return t;
                 }
-
+                
                 RuleContext *ParserRuleContext::addChild(RuleContext *ruleInvocation) {
                     if (children.empty()) {
                         children = std::vector<ParseTree*>();
@@ -77,61 +77,46 @@ namespace org {
                     children.push_back(ruleInvocation);
                     return ruleInvocation;
                 }
-
+                
                 void ParserRuleContext::removeLastChild() {
                     if (children.size() > 0) {
                         children.pop_back();
                     }
                 }
-
+                
                 tree::TerminalNode *ParserRuleContext::addChild(Token *matchedToken) {
                     tree::TerminalNodeImpl *t = new tree::TerminalNodeImpl(matchedToken);
                     addChild(t);
                     t->parent = this;
                     return t;
                 }
-
+                
                 tree::ErrorNode *ParserRuleContext::addErrorNode(Token *badToken) {
                     tree::ErrorNodeImpl *t = new tree::ErrorNodeImpl(badToken);
                     addChild(t);
                     t->parent = this;
                     return t;
                 }
-
+                
                 /// <summary>
                 /// Override to make type more specific </summary>
                 ParserRuleContext *ParserRuleContext::getParent()
                 {
                     return static_cast<ParserRuleContext*>(RuleContext::getParent());
                 }
-
+                
                 tree::ParseTree *ParserRuleContext::getChild(int i) {
-                    return children.size() > 0 && i >= 0 && i < children.size() ? children[i] : nullptr;
+                    // TODO: i should really be size_t
+                    return children.size() > 0 && i >= 0 && i < (int)children.size() ? children[i] : nullptr;
                 }
-
-                template<typename T>
-                T ParserRuleContext::getChild(void *ctxType, int i) {
-                    if (children.empty() || i < 0 || i >= children.size()) {
-                        return nullptr;
-                    }
-
-                    int j = -1; // what element have we found with ctxType?
-                    for (auto o : children) {
-                        if (typeid(ctxType) == typeid(o)) {
-                            j++;
-                            if (j == i) {
-                                return dynamic_cast<T>(o);
-                            }
-                        }
-                    }
-                    return nullptr;
-                }
-
+                
+                
+                
                 tree::TerminalNode *ParserRuleContext::getToken(int ttype, int i) {
-                    if (children.empty() || i < 0 || i >= children.size()) {
+                    if (children.empty() || i < 0 || i >= (int)children.size()) {
                         return nullptr;
                     }
-
+                    
                     int j = -1; // what token with ttype have we found?
                     for (auto o : children) {
                         if (dynamic_cast<tree::TerminalNode*>(o) != nullptr) {
@@ -145,16 +130,16 @@ namespace org {
                             }
                         }
                     }
-
+                    
                     return nullptr;
                 }
-
+                
                 // I think this should be changed to a pointer?
                 std::vector<tree::TerminalNode*> ParserRuleContext::getTokens(int ttype) {
                     if (children.empty()) {
                         return std::vector<tree::TerminalNode*>();
                     }
-
+                    
                     std::vector<tree::TerminalNode*> tokens;
                     for (auto o : children) {
                         if (dynamic_cast<tree::TerminalNode*>(o) != nullptr) {
@@ -168,64 +153,35 @@ namespace org {
                             }
                         }
                     }
-
+                    
                     if (tokens.empty()) {
                         return std::vector<tree::TerminalNode*>();
                     }
-
+                    
                     return tokens;
                 }
-
-
-                template<typename T>
-                T ParserRuleContext::getRuleContext(void *ctxType, int i) {
-                    return getChild<T>(ctxType, i);
-                }
-
-
-                template<typename T>
-                std::vector<T> ParserRuleContext::getRuleContexts(void *ctxType) {
-                    if (children.empty()) {
-                        return std::vector<T>();
-                    }
-
-                    std::vector<T> contexts;
-                    for (auto o : children) {
-                        if (typeid(ctxType) == typeid(o)) {
-                            if (contexts.empty()) {
-                                contexts = std::vector<T>();
-                            }
-
-                            contexts.push_back((ParserRuleContext*)(o));
-                        }
-                    }
-
-                    if (contexts.empty()) {
-                        return std::vector<T>();
-                    }
-
-                    return contexts;
-                }
-
+                
+                
+                
                 int ParserRuleContext::getChildCount() {
                     return (int)children.size() > 0 ? (int)children.size() : 0;
                 }
-
+                
                 misc::Interval *ParserRuleContext::getSourceInterval() {
                     if (start == nullptr || stop == nullptr) {
                         return misc::Interval::INVALID;
                     }
                     return misc::Interval::of(start->getTokenIndex(), stop->getTokenIndex());
                 }
-
+                
                 Token *ParserRuleContext::getStart() {
                     return start;
                 }
-
+                
                 Token *ParserRuleContext::getStop() {
                     return stop;
                 }
-
+                
                 std::wstring ParserRuleContext::toInfoString(Parser *recognizer) {
                     std::vector<std::wstring> rules = recognizer->getRuleInvocationStack(this);
                     std::reverse(rules.begin(), rules.end());

@@ -62,6 +62,7 @@ namespace antlrcpp {
         
         static std::vector<char> asList(const std::wstring *items);
         
+        // Arguments must be of type wchar_t!
         static std::vector<std::wstring> asList(int nArgs, ...);
 
         static bool equals(std::vector<int> a, std::vector<int> b);

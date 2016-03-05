@@ -50,14 +50,12 @@ namespace org {
                         ///  (<seealso cref="Set"/> only allows you to see if it's there).
                         /// </summary>
                     public:
-                        std::map<DFAState*, DFAState*> *const states;
-                        DFAState *s0;
-
-                        const int decision;
-
                         /// <summary>
                         /// From which ATN state did we create this DFA? </summary>
                         atn::DecisionState *const atnStartState;
+                        std::map<DFAState*, DFAState*> *const states;
+                        DFAState *s0;
+                        const int decision;
 
                         DFA(atn::DecisionState *atnStartState); //this(atnStartState, 0);
 

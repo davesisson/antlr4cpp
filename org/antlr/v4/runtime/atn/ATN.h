@@ -68,8 +68,7 @@ namespace org {
                         /// <summary>
                         /// Maps from rule index to stop state number.
                         /// </summary>
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: public RuleStopState[] ruleToStopState;
+                        // TODO: Memory Management
                         RuleStopState **ruleToStopState;
 
                         std::map<std::wstring, TokensStartState*> *const modeNameToStartState;
@@ -91,8 +90,7 @@ namespace org {
                         /// <seealso cref="ATNDeserializationOptions#isGenerateRuleBypassTransitions"/>
                         /// deserialization option was specified; otherwise, this is {@code null}.
                         /// </summary>
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: public int[] ruleToTokenType;
+                        // TODO: Memory Management
                         int *ruleToTokenType;
 
                         /// <summary>
@@ -101,8 +99,7 @@ namespace org {
                         /// <p/>
                         /// This is {@code null} for parser ATNs.
                         /// </summary>
-//JAVA TO C++ CONVERTER WARNING: Since the array size is not known in this declaration, Java to C++ Converter has converted this array to a pointer.  You will need to call 'delete[]' where appropriate:
-//ORIGINAL LINE: public int[] ruleToActionIndex;
+                        // TODO: Memory Management
                         int *ruleToActionIndex;
 
                         const std::vector<TokensStartState*> * modeToStartState;

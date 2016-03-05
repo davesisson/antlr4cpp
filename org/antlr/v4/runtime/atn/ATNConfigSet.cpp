@@ -192,8 +192,8 @@ namespace org {
                         bool configEquals = true;
                         
                         if (configs.size() == other->configs.size()) {
-                            for (int i = 0; i < configs.size(); i++) {
-                                if (other->configs.size() < i) {
+                            for (int i = 0; i < (int)configs.size(); i++) {
+                                if ((int)other->configs.size() < i) {
                                     configEquals = false;
                                     break;
                                 }
@@ -214,7 +214,7 @@ namespace org {
 
                     int ATNConfigSet::hashCode() {
                         // TODO - revisit and check this usage, including the seed
-                        int hash = misc::MurmurHash::hashCode<std::vector<ATNConfig*>>(configs, 123456);
+                        int hash = misc::MurmurHash::hashCode(configs.data(), configs.size(), 123456);
                         if (isReadonly()) {
                             if (cachedHashCode == -1) {
                                 cachedHashCode = hash;
@@ -275,7 +275,7 @@ namespace org {
 
                     std::wstring ATNConfigSet::toString() {
                         antlrcpp::StringBuilder *buf = new antlrcpp::StringBuilder();
-                        for (int i = 0; i < elements().size(); i++) {
+                        for (int i = 0; i < (int)elements().size(); i++) {
                             buf->append(elements().at(i)->toString());
                         }
                         

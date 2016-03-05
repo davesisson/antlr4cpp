@@ -102,11 +102,9 @@ namespace org {
 
                 void Parser::TrimToSizeListener::exitEveryRule(ParserRuleContext *ctx) {
                     // TODO: Need to figure out what type this is going to be.  In Java we expect it to be set by the generator.
-                    if (dynamic_cast<std::vector<tree::ParseTree*>*>(&ctx->children) != nullptr) {
-#ifdef TODO
-						THIS is meant to cleanup the array by deleting unused space, not sure how to do this in STL
-                        //(dynamic_cast<std::vector<tree::ParseTree*>*>(&ctx->children))->trimToSize();
-#endif
+                    std::vector<tree::ParseTree*>* tmp = dynamic_cast<std::vector<tree::ParseTree*>*>(&ctx->children);
+                    if (tmp != nullptr) {
+                        tmp->shrink_to_fit();
                     }
                 }
 
@@ -565,7 +563,7 @@ namespace org {
 					if (!_interp->_decisionToDFA.empty()) {
 						std::lock_guard<std::mutex> lck(mtx);
                         std::vector<std::wstring> s = std::vector<std::wstring>();
-                        for (int d = 0; d < _interp->_decisionToDFA.size(); d++) {
+                        for (size_t d = 0; d < _interp->_decisionToDFA.size(); d++) {
                             dfa::DFA *dfa = &_interp->_decisionToDFA[d];
                             s.push_back(dfa->toString(getTokenNames()));
                         }
@@ -579,7 +577,7 @@ namespace org {
 					if (!_interp->_decisionToDFA.empty()) {
 						std::lock_guard<std::mutex> lck(mtx);
                         bool seenOne = false;
-                        for (int d = 0; d < _interp->_decisionToDFA.size(); d++) {
+                        for (size_t d = 0; d < _interp->_decisionToDFA.size(); d++) {
                             dfa::DFA *dfa = &_interp->_decisionToDFA[d];
                             if (!dfa->states->empty()) {
                                 if (seenOne) {

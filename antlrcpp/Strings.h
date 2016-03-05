@@ -38,9 +38,6 @@ namespace antlrcpp {
     
     std::wstring s2ws(const std::string & str);
     
-    class StringReader {
-    public:
-        StringReader(std::wstring path);
-        
-    };
+    std::wstring wchar2wstring(const wchar_t & str);
+    
 }

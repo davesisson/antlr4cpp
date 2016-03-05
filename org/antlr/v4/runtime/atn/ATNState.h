@@ -157,7 +157,7 @@ namespace org {
 
                         virtual bool isNonGreedyExitState();
 
-                        virtual std::wstring toString();
+                        virtual std::wstring toString() const;
 
                         virtual  std::vector<Transition*> getTransitions();
 
@@ -179,8 +179,6 @@ namespace org {
 
                         virtual void setRuleIndex(int ruleIndex);
                         
-                        // TODO I don't think a virtual destructor is necessary here but check
-//                        virtual ~ATNState() = 0;
 
                     private:
                         void InitializeInstanceFields();

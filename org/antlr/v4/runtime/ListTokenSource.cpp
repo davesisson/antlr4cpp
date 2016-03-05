@@ -101,7 +101,7 @@ namespace org {
 
                         std::wstring tokenText = lastToken->getText();
                         if (tokenText != L"") {
-                            for (int i = 0; i < tokenText.length(); i++) {
+                            for (size_t i = 0; i < tokenText.length(); i++) {
                                 if (tokenText[i] == L'\n') {
                                     line++;
                                 }

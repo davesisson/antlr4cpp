@@ -124,8 +124,8 @@ namespace org {
                     atn::PredictionContext *PredictionContext::merge(PredictionContext *a, PredictionContext *b,
                                                                      bool rootIsWildcard, misc::DoubleKeyMap<PredictionContext*, PredictionContext*, PredictionContext*> *mergeCache) {
                         if (a != nullptr && b != nullptr) {
-                           // must be empty context, never null
-                            throw new std::exception();
+                            throw new ASSERTException(L"PredictionContext::merge",
+                                                      L"a != nullptr && b != nullptr");
                         };
                         
                         // share same graph if both same

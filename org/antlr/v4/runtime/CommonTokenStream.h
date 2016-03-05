@@ -65,8 +65,7 @@ namespace org {
                 public:
                     CommonTokenStream(TokenSource *tokenSource);
 
-//JAVA TO C++ CONVERTER TODO TASK: Calls to same-class constructors are not supported in C++ prior to C++11:
-                    CommonTokenStream(TokenSource *tokenSource, int channel); //this(tokenSource);
+                    CommonTokenStream(TokenSource *tokenSource, int channel); 
 
                 protected:
                     virtual int adjustSeekIndex(int i) override;

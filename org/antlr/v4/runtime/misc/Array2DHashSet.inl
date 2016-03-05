@@ -115,7 +115,7 @@ namespace org {
                         }
                         
                         // LOOK FOR IT IN BUCKET
-                        for (int i = 0; i < bucket->size(); i++) {
+                        for (int i = 0; i < (int)bucket->size(); i++) {
                             T existing = (*bucket)[i];
                             if (existing == nullptr) { // empty slot; not there, add.
                                 (*bucket)[i] = o;
@@ -351,7 +351,7 @@ namespace org {
                             return false;
                         }
                         
-                        for (int i = 0; i < bucket.size(); i++) {
+                        for (int i = 0; i < (int)bucket.size(); i++) {
                             T e = bucket[i];
                             if (e == nullptr) {
                                 // empty slot; not there
@@ -361,7 +361,7 @@ namespace org {
                             if (comparator->equals(e, obj)) { // found it
                                 // shift all elements to the right down one
                                 //System::arraycopy(bucket, i + 1, bucket, i, bucket->length - i - 1);
-                                for (int j = i; j < bucket.size() - i - 1; j++) {
+                                for (int j = i; j < (int)bucket.size() - i - 1; j++) {
                                     bucket[j] = bucket[j + 1];
                                 }
                                 bucket[bucket.size() - 1] = nullptr;
@@ -393,7 +393,7 @@ namespace org {
                             }
                         } else {
 #ifdef TODO
-                            barf ... this function isn't even being used
+                            // barf ... this function isn't even being used
                             for (auto o : collection) {
                                 if (!this->containsFast(asElementType(o))) {
                                     return false;

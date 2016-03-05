@@ -85,7 +85,7 @@ namespace org {
                     int ruleIndex = ((atn::ATNState*)dfa->atnStartState)->ruleIndex;
                     
                     const std::vector<std::wstring>& ruleNames = recognizer->getRuleNames();
-                    if (ruleIndex < 0 || ruleIndex >= ruleNames.size()) {
+                    if (ruleIndex < 0 || ruleIndex >= (int)ruleNames.size()) {
                         return antlrcpp::StringConverterHelper::toString(decision);
                     }
                     
@@ -103,8 +103,8 @@ namespace org {
                     }
                     
                     antlrcpp::BitSet *result = new antlrcpp::BitSet();
-                    for (int i = 0; i < configs->size(); i++) {
-                        atn::ATNConfig *config = configs->get(i);
+                    for (size_t i = 0; i < configs->size(); i++) {
+                        atn::ATNConfig *config = configs->get((int)i);
                         result->set(config->alt);
                     }
                     

@@ -3,8 +3,7 @@
 #include <string>
 
 #include "ANTLRErrorListener.h"
-// #include "Declarations.h"
-#include "Recognizer.h"
+#include "IRecognizer.h"
 
 /*
  * [The "BSD license"]
@@ -46,7 +45,7 @@ namespace org {
                 class BaseErrorListener : public ANTLRErrorListener {
                                 
                     template<typename T1, typename T2>
-                    void syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) { }
+                    void syntaxError(IRecognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) { }
 
                     virtual void reportAmbiguity(Parser *recognizer, dfa::DFA *dfa, int startIndex, int stopIndex, bool exact, antlrcpp::BitSet *ambigAlts, atn::ATNConfigSet *configs) override;
 

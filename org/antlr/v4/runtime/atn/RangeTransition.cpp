@@ -45,7 +45,7 @@ namespace org {
                         return RANGE;
                     }
 
-                    org::antlr::v4::runtime::misc::IntervalSet *RangeTransition::label() {
+                    misc::IntervalSet *RangeTransition::label() {
                         return misc::IntervalSet::of(from, to);
                     }
 

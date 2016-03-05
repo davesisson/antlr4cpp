@@ -122,11 +122,6 @@ namespace org {
                     return 0;
                 }
 
-                template<typename T, typename T1>
-                T RuleContext::accept(tree::ParseTreeVisitor<T1> *visitor) {
-                    return visitor->visitChildren(this);
-                }
-
 #ifdef TODO
                 Future<JDialog*> *RuleContext::inspect(Parser *parser) {
                     return inspect(parser->getRuleNames());
@@ -196,7 +191,7 @@ namespace org {
                         } else {
                             int ruleIndex = p->getRuleIndex();
 
-                            std::wstring ruleName = ruleIndex >= 0 && ruleIndex < ruleNames.size() ? ruleNames[ruleIndex] : std::to_wstring(ruleIndex);
+                            std::wstring ruleName = ruleIndex >= 0 && ruleIndex < (int)ruleNames.size() ? ruleNames[ruleIndex] : std::to_wstring(ruleIndex);
                             buf->append(ruleName);
                         }
 

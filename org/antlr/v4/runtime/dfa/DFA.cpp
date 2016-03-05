@@ -41,10 +41,10 @@ namespace org {
             namespace runtime {
                 namespace dfa {
 
-                    DFA::DFA(atn::DecisionState *atnStartState) : states(new std::map<DFAState*, DFAState*>()), atnStartState(atnStartState), decision(0) {
+                    DFA::DFA(atn::DecisionState *atnStartState) : atnStartState(atnStartState), states(new std::map<DFAState*, DFAState*>()), decision(0) {
                     }
 
-                    DFA::DFA(atn::DecisionState *atnStartState, int decision) : decision(decision), atnStartState(atnStartState), states(new std::map<DFAState*, DFAState*>()) {
+		    DFA::DFA(atn::DecisionState *atnStartState, int decision) : atnStartState(atnStartState), states(new std::map<DFAState*, DFAState*>()), decision(decision) {
                     }
 
                     std::vector<DFAState*> DFA::getStates() {

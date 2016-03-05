@@ -47,7 +47,7 @@ namespace org {
                     }
 
 
-                    for (int i = 0; i < _decisionToDFA.size(); i++) {
+                    for (int i = 0; i < (int)_decisionToDFA.size(); i++) {
                         _decisionToDFA[i] = new dfa::DFA(atn->getDecisionState(i), i);
                     }
                     this->_interp = new atn::LexerATNSimulator(atn,_decisionToDFA,_sharedContextCache);
@@ -61,7 +61,7 @@ namespace org {
                         _modeNames = *modeNames;
                     }
                 }
-                org::antlr::v4::runtime::atn::ATN *LexerInterpreter::getATN() {
+                atn::ATN *LexerInterpreter::getATN() {
                     return atn;
                 }
 

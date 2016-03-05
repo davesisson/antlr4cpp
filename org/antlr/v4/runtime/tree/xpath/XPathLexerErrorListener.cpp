@@ -38,10 +38,6 @@ namespace org {
                 namespace tree {
                     namespace xpath {
 
-
-                        template<typename T1, typename T2>
-                        void XPathLexerErrorListener::syntaxError(Recognizer<T1, T2> *recognizer, void *offendingSymbol, int line, int charPositionInLine, const std::wstring &msg, RecognitionException *e) {
-                        }
                     }
                 }
             }

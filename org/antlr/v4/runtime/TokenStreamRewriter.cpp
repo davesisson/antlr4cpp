@@ -3,6 +3,36 @@
 #include "vectorhelper.h"
 #include "Exceptions.h"
 
+/*
+ * [The "BSD license"]
+ *  Copyright (c) 2013 Terence Parr
+ *  Copyright (c) 2013 Dan McLaughlin
+ *  All rights reserved.
+ *
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *  3. The name of the author may not be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ *  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ *  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ *  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 namespace org {
 	namespace antlr {
 		namespace v4 {
@@ -77,7 +107,7 @@ namespace org {
 					programs->insert(std::pair<std::wstring, std::vector<RewriteOperation*>>(DEFAULT_PROGRAM_NAME, antlrcpp::VectorHelper::VectorWithReservedSize<RewriteOperation*>(PROGRAM_INIT_SIZE)));
 				}
 
-				org::antlr::v4::runtime::TokenStream *TokenStreamRewriter::getTokenStream() {
+				TokenStream *TokenStreamRewriter::getTokenStream() {
 					return tokens;
 				}
 
@@ -153,7 +183,7 @@ namespace org {
 				}
 
 				void TokenStreamRewriter::replace(const std::wstring &programName, int from, int to, const std::wstring& text) {
-					if (from > to || from < 0 || to < 0 || to >= tokens->size()) {
+				        if (from > to || from < 0 || to < 0 || to >= (int)tokens->size()) {
 						throw IllegalArgumentException(L"replace: range invalid: " + std::to_wstring(from) + L".." + std::to_wstring(to) + L"(size=" + std::to_wstring(tokens->size()) + L")");
 					}
 					RewriteOperation *op = new ReplaceOp(this, from, to, text);
@@ -233,7 +263,7 @@ namespace org {
 					int stop = interval->b;
 
 					// ensure start/end are in range
-					if (stop > tokens->size() - 1) {
+					if (stop > (int)tokens->size() - 1) {
 						stop = (int)tokens->size() - 1;
 					}
 					if (start < 0) {
@@ -249,11 +279,11 @@ namespace org {
 					std::unordered_map<int, TokenStreamRewriter::RewriteOperation*> *indexToOp = reduceToSingleOperationPerIndex(rewrites);
 
 					// Walk buffer, executing instructions and emitting tokens
-					int i = start;
-					while (i <= stop && i < tokens->size()) {
-						RewriteOperation *op = indexToOp->at(i);
-						indexToOp->erase(i); // remove so any left have index size-1
-						Token *t = tokens->get(i);
+					size_t i = (size_t)start;
+					while (i <= (size_t)stop && i < tokens->size()) {
+						RewriteOperation *op = indexToOp->at((int)i);
+						indexToOp->erase((int)i); // remove so any left have index size-1
+						Token *t = tokens->get((int)i);
 						if (op == nullptr) {
 							// no operation at that index, just dump token
 							if (t->getType() != Token::_EOF) {
@@ -269,11 +299,11 @@ namespace org {
 					// include stuff after end if it's last index in buffer
 					// So, if they did an insertAfter(lastValidIndex, "foo"), include
 					// foo if end==lastValidIndex.
-					if (stop == tokens->size() - 1) {
+					if (stop == (int)tokens->size() - 1) {
 						// Scan any remaining operations after last token
 						// should be included (they will be inserts).
 						for (auto op : *indexToOp) {
-							if (op.second->index >= tokens->size() - 1) {
+							if (op.second->index >= (int)tokens->size() - 1) {
 								buf.append(op.second->text);
 							}
 						}
@@ -285,7 +315,7 @@ namespace org {
 					//		System.out.println("rewrites="+rewrites);
 
 					// WALK REPLACES
-					for (int i = 0; i < rewrites.size(); ++i) {
+					for (size_t i = 0; i < rewrites.size(); ++i) {
 						TokenStreamRewriter::RewriteOperation *op = rewrites[i];
 						if (op == nullptr) {
 							continue;
@@ -296,14 +326,13 @@ namespace org {
 						ReplaceOp *rop = static_cast<ReplaceOp*>(op);
 						// Wipe prior inserts within range
 						InsertBeforeOp* type = nullptr;
-						std::vector<InsertBeforeOp*> inserts = getKindOfOps(rewrites, type, i);
+						std::vector<InsertBeforeOp*> inserts = getKindOfOps(rewrites, type, (int)i);
 						for (auto iop : inserts) {
 							if (iop->index == rop->index) {
 								// E.g., insert before 2, delete 2..2; update replace
 								// text to include insert before, kill insert
 								//JAVA TO C++ CONVERTER WARNING: Java to C++ Converter converted the original 'null' assignment to a call to 'delete', but you should review memory allocation of all pointer variables in the converted code:
 								delete rewrites[iop->instructionIndex];
-								//JAVA TO C++ CONVERTER TODO TASK: There is no native C++ equivalent to 'toString':
 								rop->text = iop->text + (!rop->text.empty() ? rop->text : L"");
 							}
 							else if (iop->index > rop->index && iop->index <= rop->lastIndex) {
@@ -314,7 +343,7 @@ namespace org {
 						}
 						// Drop any prior replaces contained within
 						ReplaceOp* type2 = nullptr;
-						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type2, i);
+						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type2, (int)i);
 						for (auto prevRop : prevReplaces) {
 							if (prevRop->index >= rop->index && prevRop->lastIndex <= rop->lastIndex) {
 								// delete replace as it's a no-op.
@@ -342,7 +371,7 @@ namespace org {
 					}
 
 					// WALK INSERTS
-					for (int i = 0; i < rewrites.size(); i++) {
+					for (size_t i = 0; i < rewrites.size(); i++) {
 						RewriteOperation *op = rewrites[i];
 						if (op == nullptr) {
 							continue;
@@ -353,7 +382,7 @@ namespace org {
 						InsertBeforeOp *iop = static_cast<InsertBeforeOp*>(rewrites[i]);
 						// combine current insert with prior if any at same index
 
-						std::vector<InsertBeforeOp*> prevInserts = getKindOfOps(rewrites, iop, i);
+						std::vector<InsertBeforeOp*> prevInserts = getKindOfOps(rewrites, iop, (int)i);
 						for (auto prevIop : prevInserts) {
 							if (prevIop->index == iop->index) { // combine objects
 								// convert to strings...we're in process of toString'ing
@@ -366,7 +395,7 @@ namespace org {
 						}
 						// look for replaces where iop.index is in range; error
 						ReplaceOp *type = nullptr;
-						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type, i);
+						std::vector<ReplaceOp*> prevReplaces = getKindOfOps(rewrites, type, (int)i);
 						for (auto rop : prevReplaces) {
 							if (iop->index == rop->index) {
 								rop->text = catOpText(&iop->text, &rop->text);
@@ -407,20 +436,6 @@ namespace org {
 					return x + y;
 				}
 
-				template<typename T, typename T1>
-				std::vector<T*> TokenStreamRewriter::getKindOfOps(std::vector<T1*> rewrites, T *kind, int before) {
-					std::vector<T*> ops = std::vector<T*>();
-					for (int i = 0; i < before && i < rewrites.size(); i++) {
-						TokenStreamRewriter::RewriteOperation *op = dynamic_cast<RewriteOperation*>(rewrites[i]);
-						if (op == nullptr) { // ignore deleted
-							continue;
-						}
-						if (op != nullptr) {  
-							ops.push_back(dynamic_cast<T*>(op));
-						}
-					}
-					return ops;
-				}
 			}
 		}
 	}

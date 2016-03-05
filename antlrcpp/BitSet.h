@@ -1,5 +1,4 @@
-#ifndef __antlrcpp__BitSet__
-#define __antlrcpp__BitSet__
+#pragma once
 
 #include <bitset>
 #include <iostream>
@@ -130,4 +129,3 @@ namespace antlrcpp {
         
     };
 }
-#endif /* defined(__antlrcpp__BitSet__) */

@@ -67,7 +67,7 @@ namespace org {
                         
                         SemanticContext *parent;
 
-                        virtual std::wstring toString() = 0;
+                        virtual std::wstring toString() const = 0;
                         
                         virtual bool equals(void *obj);
                         
@@ -91,7 +91,7 @@ namespace org {
                             // In the original Java this is abstract, but
                             // C++ complains with a link error, and we
                             // cannot make a template function abstract
-                            throw new std::exception();
+                            throw new ASSERTException(L"SemanticContext::eval", L"Should never be called, abstract class");
                         }
 
                         static SemanticContext *And(SemanticContext *a, SemanticContext *b);
@@ -141,7 +141,7 @@ namespace org {
                         
                         virtual bool equals(void *obj);
                         
-                        virtual std::wstring toString() ;
+                        virtual std::wstring toString() const override;
                     };
                     
                     class SemanticContext::PrecedencePredicate : public SemanticContext {
@@ -165,7 +165,7 @@ namespace org {
                         
                         virtual bool equals(void *obj);
                         
-                        virtual std::wstring toString();
+                        virtual std::wstring toString() const override;
                         
                         static bool lessThan(const PrecedencePredicate &a,
                                              const PrecedencePredicate &b) {
@@ -198,7 +198,7 @@ namespace org {
                         }
 
                         
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString()  const override;
                     };
                     
                     class SemanticContext::OR : public SemanticContext {
@@ -221,7 +221,7 @@ namespace org {
                             return false;
                         }
 
-                        virtual std::wstring toString() override;
+                        virtual std::wstring toString() const override;
                     };
 
                 }

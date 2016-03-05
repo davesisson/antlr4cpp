@@ -109,6 +109,7 @@ namespace org {
                     RecognitionException *exception;
 
                     ParserRuleContext();
+                    virtual ~ParserRuleContext() {}
 
                     /// <summary>
                     /// COPY a ctx (I'm deliberately not copy constructor) </summary>
@@ -143,17 +144,55 @@ namespace org {
                     virtual ParseTree *getChild(int i) override;
 
                     template<typename T>
-                    T getChild(void *ctxType, int i);
+                    T getChild(void *ctxType, int i) {
+                        if (children.empty() || i < 0 || i >= (int) children.size()) {
+                            return nullptr;
+                        }
+                        
+                        int j = -1; // what element have we found with ctxType?
+                        for (auto o : children) {
+                            if (typeid(ctxType) == typeid(o)) {
+                                j++;
+                                if (j == i) {
+                                    return dynamic_cast<T>(o);
+                                }
+                            }
+                        }
+                        return nullptr;
+                    }
 
                     virtual tree::TerminalNode *getToken(int ttype, int i);
 
                     virtual std::vector<tree::TerminalNode*> getTokens(int ttype);
 
                     template<typename T>
-                    T getRuleContext(void *ctxType, int i);
+                    T getRuleContext(void *ctxType, int i) {
+                        return getChild<T>(ctxType, i);
+                    }
 
                     template<typename T>
-                    std::vector<T> getRuleContexts(void *ctxType);
+                    std::vector<T> getRuleContexts(void *ctxType) {
+                        if (children.empty()) {
+                            return std::vector<T>();
+                        }
+                        
+                        std::vector<T> contexts;
+                        for (auto o : children) {
+                            if (typeid(ctxType) == typeid(o)) {
+                                if (contexts.empty()) {
+                                    contexts = std::vector<T>();
+                                }
+                                
+                                contexts.push_back((ParserRuleContext*)(o));
+                            }
+                        }
+                        
+                        if (contexts.empty()) {
+                            return std::vector<T>();
+                        }
+                        
+                        return contexts;
+                    }
 
                     virtual int getChildCount() override;
                     virtual misc::Interval *getSourceInterval() override;

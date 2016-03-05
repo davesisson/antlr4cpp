@@ -39,8 +39,8 @@ namespace org {
 
                     ATNDeserializationOptions * const ATNDeserializationOptions::defaultOptions = new ATNDeserializationOptions();
 
-                    ATNDeserializationOptions::ATNDeserializationOptions() {
-                        defaultOptions->makeReadOnly();
+                    ATNDeserializationOptions::ATNDeserializationOptions()
+                    : readOnly(true)  {
                     }
 
                     ATNDeserializationOptions::ATNDeserializationOptions(ATNDeserializationOptions *options) {

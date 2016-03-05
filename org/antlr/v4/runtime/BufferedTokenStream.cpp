@@ -211,7 +211,7 @@ namespace org {
 
                 std::vector<Token*> BufferedTokenStream::getTokens(int start, int stop, std::vector<int> *types) {
                     lazyInit();
-					if (start < 0 || stop >= (int)tokens.size() || stop < 0 || (int)start >= tokens.size()) {
+		        if (start < 0 || stop >= (int)tokens.size() || stop < 0 || (int)start >= (int)tokens.size()) {
                         throw new IndexOutOfBoundsException(std::wstring(L"start ") +
                                                             std::to_wstring(start) +
                                                             std::wstring(L" or stop ") +

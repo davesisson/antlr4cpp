@@ -5,17 +5,19 @@
 #include <map>
 #include <list>
 #include <mutex>
+#include <algorithm> 
 
 #include "TokenFactory.h"
 #include "ATNSimulator.h"
 #include "Declarations.h"
-//#include "ConsoleErrorListener.h" // Under a TODO
+#include "ConsoleErrorListener.h"
 #include "Token.h"
 #include "StringBuilder.h"
-//#include "ProxyErrorListener.h" // Under a TODO These two are causing recursive loop includes
+#include "ProxyErrorListener.h"
 #include "Strings.h"
 #include "CPPUtils.h"
-//#include "RecognitionException.h"
+#include "RecognitionException.h"
+#include "IRecognizer.h"
 
 /*
  * [The "BSD license"]
@@ -52,13 +54,13 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 template<typename Symbol, typename ATNInterpreter>
-                class Recognizer {
+                class Recognizer : public IRecognizer<Symbol, ATNInterpreter> {
                 public:
                     static const int _EOF = -1;
 
                 private:
-                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const _tokenTypeMapCache;
-                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const _ruleIndexMapCache;
+                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> _tokenTypeMapCache;
+                    static std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> _ruleIndexMapCache;
 
                     std::vector<ANTLRErrorListener*> _listeners;
                     //Mutex to manage synchronized access for multithreading
@@ -86,11 +88,11 @@ namespace org {
                     /// </summary>
                 public:
                     virtual const std::vector<std::wstring>& getTokenNames(){
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer", L"getTokenNames should never be called, abstract class");
                     };// = 0;
 
                     virtual const std::vector<std::wstring>& getRuleNames() {
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer", L"getRuleNames should never be called, abstract class");
                     };// = 0;
 
                     /// <summary>
@@ -171,8 +173,8 @@ namespace org {
 
                     virtual void removeErrorListeners();
 
-                    virtual std::vector<ANTLRErrorListener *> getErrorListeners() {
-                        return _listeners;
+                    virtual std::vector<ANTLRErrorListener *> *getErrorListeners() {
+                        return &_listeners;
                     }
 
                     virtual ANTLRErrorListener *getErrorListenerDispatch();
@@ -198,15 +200,16 @@ namespace org {
                     void setState(int atnState);
 
                     virtual IntStream *getInputStream(){
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer::getInputStream", L"Should never be called, abstract class");
+
                     };// = 0;
 
                     virtual void setInputStream(IntStream *input){
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer::setInputStream", L"Should never be called, abstract class");
                     };// = 0;
 
                     virtual TokenFactory<CommonToken *> *getTokenFactory(){
-                        throw new std::exception();
+                        throw new ASSERTException(L"Recognizer::getTokenFactory", L"Should never be called, abstract class");
                     };// = 0;
 
                     template<typename T1>

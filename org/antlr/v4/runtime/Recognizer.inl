@@ -1,7 +1,4 @@
 #pragma once
-// #ifndef _recognizer_
-// #define _recognizer_ 1
-
 
 /*
  * [The "BSD license"]
@@ -39,11 +36,11 @@ namespace org {
         namespace v4 {
             namespace runtime {
                 template<typename T1, typename T2>
-                std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const
+                std::map<std::vector<std::wstring>, std::map<std::wstring, int>*>
                 Recognizer<T1, T2>::_tokenTypeMapCache;
                 
                 template<typename T1, typename T2>
-                std::map<std::vector<std::wstring>, std::map<std::wstring, int>*> const
+                std::map<std::vector<std::wstring>, std::map<std::wstring, int>*>
                 Recognizer<T1, T2>::_ruleIndexMapCache;
                 
                 template<typename T1, typename T2>
@@ -60,11 +57,11 @@ namespace org {
                         if (result == nullptr) {
                             // From Java - why ? result = misc::Utils::toMap(tokenNames);
                             (*result)[L"EOF"] = Token::_EOF;
+                            
+                            // TODO
                             // From Java - why ? result = std::vector::unmodifiableMap(result);
-#ifdef TODO
-                            // I'm truly stuck on this - FIXME SOON
                             _tokenTypeMapCache[tokenNames] = result;
-#endif
+
                         }
 
                         return result;
@@ -85,9 +82,8 @@ namespace org {
                     
                         if (result == nullptr) {
                             result = antlrcpp::toMap(ruleNames);
-#ifdef TODO
-                            _ruleIndexMapCache.insert(ruleNames, result);
-#endif
+                            std::pair<std::vector<std::wstring>, std::map<std::wstring, int>*> tmp (ruleNames, result);
+                            _ruleIndexMapCache.insert(_ruleIndexMapCache.begin(), tmp);
                         }
                         return result;
                     }
@@ -96,26 +92,23 @@ namespace org {
 
                 template<typename T1, typename T2>
                 int Recognizer<T1, T2>::getTokenType(const std::wstring &tokenName) {
-#ifdef TODO
-                    int ttype = getTokenTypeMap()->get(tokenName);
+
+                    std::map<std::wstring, int> * map = getTokenTypeMap();
+                    int ttype = map->at(tokenName);
+                    
                     if (ttype != Token::INVALID_TYPE) {
                         return ttype;
                     }
-#endif
                     return Token::INVALID_TYPE;
                 }
                 
                 template<typename T1, typename T2>
                 std::wstring Recognizer<T1, T2>::getErrorHeader(RecognitionException *e) {
-#ifdef TODO 
                     // We're having issues with cross header dependencies, these two classes will need to be
                     // rewritten to remove that. 
                     int line = e->getOffendingToken()->getLine();
                     int charPositionInLine = e->getOffendingToken()->getCharPositionInLine();
                     return std::wstring(L"line ") + std::to_wstring(line) + std::wstring(L":") + std::to_wstring(charPositionInLine);
-#else
-                    return std::wstring(L"");
-#endif
                     
                 }
                 
@@ -166,12 +159,7 @@ namespace org {
                 
                 template<typename T1, typename T2>
                 ANTLRErrorListener *Recognizer<T1, T2>::getErrorListenerDispatch() {
-                    // TODO: This is odd, why do we have to cast here? I think it's a template issue, but it _shouldn't_ matter
-#ifdef TODO
                     return (ANTLRErrorListener *)new ProxyErrorListener(getErrorListeners());
-#else
-                    return nullptr;
-#endif
                 }
                 
                 template<typename T1, typename T2>
@@ -228,5 +216,3 @@ namespace org {
     }
  
 }
-
-// #endif

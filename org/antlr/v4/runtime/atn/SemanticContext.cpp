@@ -47,19 +47,19 @@ namespace org {
                     SemanticContext::Predicate::Predicate(int ruleIndex, int predIndex, bool isCtxDependent) : ruleIndex(ruleIndex), predIndex(predIndex), isCtxDependent(isCtxDependent) {
                     }
 
-                    std::wstring SemanticContext::toString() {
+                    std::wstring SemanticContext::toString() const {
                         // This is a pure virtual function, why does it need an impl?
-                        throw new std::exception();
+                        throw new ASSERTException(L"SemanticContext::toString", L"Should never be called, abstract class");
                     }
                     
                     int SemanticContext::hashCode() {
                         // This is a pure virtual function, why does it need an impl?
-                        throw new std::exception();
+                        throw new ASSERTException(L"SemanticContext::hashCode", L"Should never be called, abstract class");
                     }
                     
                     bool SemanticContext::equals(void *obj) {
                         // "SemanticContext::equals should have been called on a daughter class"
-                        throw new std::exception();
+                        throw new ASSERTException(L"SemanticContext::equals", L"Should never be called, abstract class");
                     }
                     
 
@@ -83,7 +83,7 @@ namespace org {
                         return this->ruleIndex == p->ruleIndex && this->predIndex == p->predIndex && this->isCtxDependent == p->isCtxDependent;
                     }
 
-                    std::wstring SemanticContext::Predicate::toString() {
+                    std::wstring SemanticContext::Predicate::toString() const {
                         return std::wstring(L"{") + std::to_wstring(ruleIndex) + std::wstring(L":") + std::to_wstring(predIndex) + std::wstring(L"}?");
                     }
 
@@ -117,7 +117,7 @@ namespace org {
                         return this->precedence == other->precedence;
                     }
 
-                    std::wstring SemanticContext::PrecedencePredicate::toString() {
+                    std::wstring SemanticContext::PrecedencePredicate::toString() const {
                         return SemanticContext::toString();
                     }
 
@@ -167,17 +167,18 @@ namespace org {
                             return false;
                         }
                         AND *other = static_cast<AND*>(obj);
-                        return (this->opnds == other->opnds);//Arrays::equals(this->opnds, other->opnds);
+                        return (this->opnds == other->opnds);
                     }
 
                     
                     int SemanticContext::AND::hashCode() {
-                        return misc::MurmurHash::hashCode(opnds.data(), (int)typeid(AND).hash_code());
+                        return misc::MurmurHash::hashCode(opnds.data(),
+                                                          opnds.size(), (int)typeid(AND).hash_code());
                     }
 
                 
 
-                    std::wstring SemanticContext::AND::toString() {
+                    std::wstring SemanticContext::AND::toString() const {
                         std::wstring tmp;
                         for(auto var : opnds) {
                             tmp += var->toString() + L"&&";
@@ -235,11 +236,11 @@ namespace org {
                     }
 
                     int SemanticContext::OR::hashCode() {
-                        return misc::MurmurHash::hashCode(opnds.data(), (int)typeid(OR).hash_code());
+                        return misc::MurmurHash::hashCode(opnds.data(), opnds.size(), (int)typeid(OR).hash_code());
                     }
 
 
-                    std::wstring SemanticContext::OR::toString() {
+                    std::wstring SemanticContext::OR::toString() const {
                         std::wstring tmp;
                         for(auto var : opnds) {
                             tmp += var->toString() + L"||";

@@ -1,5 +1,5 @@
 ﻿#include "TerminalNodeImpl.h"
-#include "interval.h"
+#include "Interval.h"
 #include "Token.h"
 /*
  * [The "BSD license"]
